@@ -2,12 +2,14 @@ plugins {
     kotlin("multiplatform") version "1.5.10"
 }
 
-group = "me.michael"
+group = "klogger"
 version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
 }
+
+val kotestVersion: String by project
 
 kotlin {
     jvm {
@@ -15,7 +17,7 @@ kotlin {
             kotlinOptions.jvmTarget = "1.8"
         }
         testRuns["test"].executionTask.configure {
-            useJUnit()
+            useJUnitPlatform()
         }
     }
     js(LEGACY) {
@@ -40,6 +42,7 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                implementation("io.kotest:kotest-runner-junit5:$kotestVersion")
             }
         }
         val jvmMain by getting

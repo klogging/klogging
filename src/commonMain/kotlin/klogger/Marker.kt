@@ -1,0 +1,3 @@
+package klogger
+
+interface Marker
