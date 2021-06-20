@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform") version "1.5.10"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.5.10"
 }
 
 group = "klogger"
@@ -9,6 +10,7 @@ repositories {
     mavenCentral()
 }
 
+val kotlinSerialisationJsonVersion: String by project
 val kotestVersion: String by project
 
 kotlin {
@@ -38,7 +40,11 @@ kotlin {
 
     
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerialisationJsonVersion")
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
