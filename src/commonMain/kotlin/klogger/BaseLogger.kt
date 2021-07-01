@@ -7,16 +7,12 @@ class BaseLogger(
     private val name: String,
 ) : Klogger {
 
-    companion object {
-        val events: ArrayDeque<Event> = ArrayDeque(100)
-    }
-
     // Starting point for now.
     override fun minLevel(): Level = Level.INFO
 
     override suspend fun log(level: Level, message: String) {
         val contextItems = coroutineContext[LogContext]?.getAll()
-        events.addLast(
+        Logging.events.addLast(
             Event(
                 id = newId(),
                 timestamp = now(),
@@ -24,8 +20,9 @@ class BaseLogger(
                 level = level,
                 template = message,
                 marker = null,
-                objects = contextItems ?: mapOf()
+                items = contextItems ?: mapOf()
             )
         )
+        Logging.sendEvents()
     }
 }

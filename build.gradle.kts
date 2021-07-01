@@ -10,6 +10,7 @@ repositories {
     mavenCentral()
 }
 
+val kotlinCoroutinesVersion: String by project
 val kotlinSerialisationJsonVersion: String by project
 val kotestVersion: String by project
 
@@ -42,6 +43,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerialisationJsonVersion")
             }
         }
