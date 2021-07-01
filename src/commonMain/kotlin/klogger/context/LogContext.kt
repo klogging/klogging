@@ -12,13 +12,13 @@ class LogContext internal constructor(
 
     fun get(key: String) = items[key]
 
-    fun getAll() = items.toMutableMap()
+    fun getAll() = items.toMap()
 
-    fun putAll(newItems: Array<out Pair<String, Any>>) {
+    internal fun putItems(newItems: Array<out Pair<String, Any>>) {
         items.putAll(newItems)
     }
 
-    fun remove(keys: Array<out String>) {
+    internal fun removeItem(keys: Array<out String>) {
         keys.forEach { items.remove(it) }
     }
 
@@ -26,15 +26,17 @@ class LogContext internal constructor(
 }
 
 suspend fun logContext(vararg items: Pair<String, Any>): CoroutineContext {
-    val allItems = coroutineContext[LogContext]?.getAll() ?: mutableMapOf()
+    val allItems = coroutineContext[LogContext]
+        ?.getAll()?.toMutableMap()
+        ?: mutableMapOf()
     allItems.putAll(items)
     return LogContext(allItems)
 }
 
 suspend fun addToContext(vararg items: Pair<String, Any>) {
-    coroutineContext[LogContext]?.putAll(items)
+    coroutineContext[LogContext]?.putItems(items)
 }
 
 suspend fun removeFromContext(vararg keys: String) {
-    coroutineContext[LogContext]?.remove(keys)
+    coroutineContext[LogContext]?.removeItem(keys)
 }

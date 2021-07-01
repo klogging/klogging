@@ -7,7 +7,6 @@ import klogger.context.LogContext
 import klogger.context.addToContext
 import klogger.context.logContext
 import klogger.context.removeFromContext
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LogContextTest : DescribeSpec({
