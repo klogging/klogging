@@ -5,22 +5,22 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.coroutineContext
 
 class LogContext internal constructor(
-    private val objects: Map<String, Any>
+    private val items: Map<String, Any>
 ) : AbstractCoroutineContextElement(LogContext) {
 
     companion object Key : CoroutineContext.Key<LogContext>
 
-    fun get(name: String) = objects[name]
+    fun get(key: String) = items[key]
 
-    fun getAll() = objects.toMap()
+    fun getAll() = items.toMap()
 
-    override fun toString() = "LogContext [${objects.size}]"
+    override fun toString() = "LogContext [${items.size}]"
 }
 
-suspend fun logContext(vararg objects: Pair<String, Any>): CoroutineContext =
+suspend fun logContext(vararg items: Pair<String, Any>): CoroutineContext =
     LogContext(
         coroutineContext[LogContext]?.let {
-            it.getAll() + objects.toMap()
-        } ?: objects.toMap()
+            it.getAll() + items.toMap()
+        } ?: items.toMap()
     )
 
