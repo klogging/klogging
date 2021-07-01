@@ -11,6 +11,8 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.encoding.encodeStructure
 
+expect fun now(): Timestamp
+
 @Serializable(with = TimestampSerialiser::class)
 data class Timestamp(val epochSeconds: Long, val nanos: Int) {
     override fun toString(): String {

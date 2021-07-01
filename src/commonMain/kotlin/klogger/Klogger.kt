@@ -11,22 +11,22 @@ interface Klogger {
     fun isDebugEnabled() = minLevel() <= Level.DEBUG
     fun isInfoEnabled() = minLevel() <= Level.INFO
 
-    fun log(level: Level, message: String)
-    fun trace(message: String) = log(Level.TRACE, message)
-    fun debug(message: String) = log(Level.DEBUG, message)
-    fun info(message: String) = log(Level.INFO, message)
-    fun warn(message: String) = log(Level.WARN, message)
-    fun error(message: String) = log(Level.ERROR, message)
-    fun fatal(message: String) = log(Level.FATAL, message)
+    suspend fun log(level: Level, message: String)
+    suspend fun trace(message: String) = log(Level.TRACE, message)
+    suspend fun debug(message: String) = log(Level.DEBUG, message)
+    suspend fun info(message: String) = log(Level.INFO, message)
+    suspend fun warn(message: String) = log(Level.WARN, message)
+    suspend fun error(message: String) = log(Level.ERROR, message)
+    suspend fun fatal(message: String) = log(Level.FATAL, message)
 
-    fun log(level: Level, message: () -> String) {
+    suspend fun log(level: Level, message: () -> String) {
         if (isLevelEnabled(level)) log(level, message())
     }
 
-    fun trace(message: () -> String) = log(Level.TRACE, message)
-    fun debug(message: () -> String) = log(Level.DEBUG, message)
-    fun info(message: () -> String) = log(Level.INFO, message)
-    fun warn(message: () -> String) = log(Level.WARN, message)
-    fun error(message: () -> String) = log(Level.ERROR, message)
-    fun fatal(message: () -> String) = log(Level.FATAL, message)
+    suspend fun trace(message: () -> String) = log(Level.TRACE, message)
+    suspend fun debug(message: () -> String) = log(Level.DEBUG, message)
+    suspend fun info(message: () -> String) = log(Level.INFO, message)
+    suspend fun warn(message: () -> String) = log(Level.WARN, message)
+    suspend fun error(message: () -> String) = log(Level.ERROR, message)
+    suspend fun fatal(message: () -> String) = log(Level.FATAL, message)
 }

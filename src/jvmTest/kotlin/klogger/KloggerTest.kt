@@ -9,7 +9,7 @@ fun testLogger(
 
     override fun minLevel() = level
 
-    override fun log(level: Level, message: String) {
+    override suspend fun log(level: Level, message: String) {
         TODO("Not yet implemented")
     }
 
