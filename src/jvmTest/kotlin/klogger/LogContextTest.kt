@@ -4,7 +4,10 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import klogger.context.LogContext
+import klogger.context.addToContext
 import klogger.context.logContext
+import klogger.context.removeFromContext
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LogContextTest : DescribeSpec({
@@ -43,6 +46,33 @@ class LogContextTest : DescribeSpec({
                     }
                     coroutineContext[LogContext]?.get("scope") shouldBe "outer"
                     coroutineContext[LogContext]?.get("colour") shouldBe null
+                }
+            }
+        }
+        describe("inside coroutine scope") {
+            it("items can be added after a coroutine has started") {
+                launch(logContext()) {
+                    val context = coroutineContext[LogContext]
+                    context shouldNotBe null
+                    context?.get("colour") shouldBe null
+
+                    addToContext("colour" to "black")
+                    context?.get("colour") shouldBe "black"
+                }
+                coroutineContext[LogContext] shouldBe null
+            }
+            it("items can be removed after a coroutine has started") {
+                launch(logContext("colour" to "yellow")) {
+                    val context = coroutineContext[LogContext]
+                    context shouldNotBe null
+                    context?.get("colour") shouldBe "yellow"
+
+                    removeFromContext("colour")
+                    context?.get("colour") shouldBe null
+
+                    addToContext("animal" to "cat")
+                    removeFromContext("animal")
+                    context?.get("animal") shouldBe null
                 }
             }
         }
