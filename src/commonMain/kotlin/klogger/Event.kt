@@ -6,6 +6,6 @@ data class Event(
     val level: Level,
     val template: String,
     val marker: Marker?,
-    val objects: Map<String, Any?>,
+    val objects: Map<String, Any>,
 )
 

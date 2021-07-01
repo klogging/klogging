@@ -1,12 +1,8 @@
-package klogger
+package klogger.context
 
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import klogger.context.LogContext
-import klogger.context.addToContext
-import klogger.context.logContext
-import klogger.context.removeFromContext
 import kotlinx.coroutines.launch
 
 class LogContextTest : DescribeSpec({
