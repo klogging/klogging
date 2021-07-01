@@ -27,7 +27,7 @@ class LogContextTest : DescribeSpec({
             }
         }
         describe("nested coroutine scopes") {
-            it("a LogContext is available after an inner coroutine scope has finished") {
+            it("an outer scope LogContext is available after an inner scope has finished") {
                 launch(logContext("scope" to "outer")) {
                     coroutineContext[LogContext]?.get("scope") shouldBe "outer"
                     launch(logContext("scope" to "inner")) {
@@ -39,6 +39,7 @@ class LogContextTest : DescribeSpec({
             it("a LogContext in an inner coroutine scope contains items from a LogContext in an enclosing scope") {
                 launch(logContext("scope" to "outer")) {
                     coroutineContext[LogContext]?.get("scope") shouldBe "outer"
+                    coroutineContext[LogContext]?.get("colour") shouldBe null
                     launch(logContext("colour" to "green")) {
                         coroutineContext[LogContext]?.get("scope") shouldBe "outer"
                         coroutineContext[LogContext]?.get("colour") shouldBe "green"
