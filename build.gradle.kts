@@ -1,6 +1,6 @@
 plugins {
     kotlin("multiplatform") version "1.5.20"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.5.20"
+    kotlin("plugin.serialization") version "1.5.20"
 }
 
 group = "klogger"
