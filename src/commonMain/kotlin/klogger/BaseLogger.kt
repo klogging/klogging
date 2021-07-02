@@ -19,7 +19,6 @@ class BaseLogger(
                 name = name,
                 level = level,
                 template = message,
-                marker = null,
                 items = contextItems ?: mapOf()
             )
         )

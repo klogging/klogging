@@ -5,7 +5,7 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.coroutineContext
 
 class LogContext internal constructor(
-    private val items: MutableMap<String, Any>
+    private val items: MutableMap<String, String>
 ) : AbstractCoroutineContextElement(LogContext) {
 
     companion object Key : CoroutineContext.Key<LogContext>
@@ -14,7 +14,7 @@ class LogContext internal constructor(
 
     fun getAll() = items.toMap()
 
-    internal fun putItems(vararg newItems: Pair<String, Any>) {
+    internal fun putItems(vararg newItems: Pair<String, String>) {
         items.putAll(newItems)
     }
 
@@ -25,7 +25,7 @@ class LogContext internal constructor(
     override fun toString() = "LogContext [${items.size}]"
 }
 
-suspend fun logContext(vararg items: Pair<String, Any>): CoroutineContext {
+suspend fun logContext(vararg items: Pair<String, String>): CoroutineContext {
     val allItems = coroutineContext[LogContext]
         ?.getAll()?.toMutableMap()
         ?: mutableMapOf()
@@ -33,7 +33,7 @@ suspend fun logContext(vararg items: Pair<String, Any>): CoroutineContext {
     return LogContext(allItems)
 }
 
-suspend fun addToContext(vararg items: Pair<String, Any>) {
+suspend fun addToContext(vararg items: Pair<String, String>) {
     coroutineContext[LogContext]?.putItems(*items)
 }
 
