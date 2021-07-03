@@ -1,22 +1,30 @@
 package klogger
 
 import klogger.events.LogEvent
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.launch
+import kotlin.coroutines.EmptyCoroutineContext
 
 class Logging {
     companion object {
-        internal val LOG_EVENTS: ArrayDeque<LogEvent> = ArrayDeque(100)
-        suspend fun sendEvents() {
-            coroutineScope { launch { sendAllEvents() } }
-        }
+        private val logEvents = Channel<LogEvent>()
 
-        private fun sendAllEvents() {
-            while (LOG_EVENTS.isNotEmpty()) {
-                val evt = LOG_EVENTS.removeFirst()
-                eventSender(evt)
+        private val dispatcher = EventDispatcher(logEvents).start()
+
+        suspend fun dispatch(event: LogEvent) = logEvents.send(event)
+    }
+}
+
+class EventDispatcher(private val channel: ReceiveChannel<LogEvent>) {
+    fun start(): String {
+        CoroutineScope(EmptyCoroutineContext).launch {
+            for (logEvent in channel) {
+                eventSender(logEvent)
             }
         }
+        return "Started"
     }
 }
 

@@ -6,6 +6,7 @@ import io.kotest.matchers.shouldBe
 import klogger.BaseLogger
 import klogger.context.logContext
 import klogger.eventSender
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 fun savedEvents(): MutableList<LogEvent> {
@@ -21,6 +22,7 @@ class LogEventTest : DescribeSpec({
                 val saved = savedEvents()
                 val logger = BaseLogger("EventTest")
                 logger.info("Test message")
+                delay(50) // Wait for event through channel
                 saved.first().items.size shouldBe 0
             }
             it("includes any items from the coroutine log context") {
@@ -28,6 +30,7 @@ class LogEventTest : DescribeSpec({
                     val saved = savedEvents()
                     val logger = BaseLogger("EventTest")
                     logger.info("Test message")
+                    delay(50) // Wait for event through channel
                     saved.first().items shouldContain ("colour" to "white")
                 }
             }
