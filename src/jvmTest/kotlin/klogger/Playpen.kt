@@ -10,9 +10,8 @@ import java.util.UUID
 
 fun main() = runBlocking {
 
-    eventSender = { e ->
+    Logging.addSender { e ->
         val message = clef(e)
-        println(message)
         sendClef(message)
     }
 
