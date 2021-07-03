@@ -19,8 +19,8 @@ use coroutines, such as the [Ktor](https://ktor.io) asynchronous service framewo
 
 * Ability to add information to the coroutine context for logging purposes.
 
-* Option to add markers to log events.
-
 * All log output is asynchronous using coroutines.
 
-* Output to different channels in different formats.
+* Output to different channels in different formats, such as
+  [GELF](https://www.graylog.org/features/gelf) and
+  [CLEF](https://docs.datalust.co/docs/posting-raw-events#compact-json-format).

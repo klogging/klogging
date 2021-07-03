@@ -5,15 +5,15 @@ import kotlin.coroutines.coroutineContext
 
 class BaseLogger(
     private val name: String,
+    private val minLevel: Level = Level.INFO,
 ) : Klogger {
 
-    // Starting point for now.
-    override fun minLevel(): Level = Level.INFO
+    override fun minLevel() = minLevel
 
     override suspend fun log(level: Level, message: String) {
         val contextItems = coroutineContext[LogContext]?.getAll()
-        Logging.events.addLast(
-            Event(
+        Logging.LOG_EVENTS.addLast(
+            LogEvent(
                 id = newId(),
                 timestamp = now(),
                 name = name,

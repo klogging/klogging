@@ -1,7 +1,7 @@
 package klogger.gelf
 
-import klogger.Event
+import klogger.LogEvent
 
-actual fun gelf(event: Event): String {
+actual fun gelf(logEvent: LogEvent): String {
     TODO("Not yet implemented")
 }

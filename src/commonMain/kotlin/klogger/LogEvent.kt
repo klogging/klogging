@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 expect fun newId(): String
 
 @Serializable
-data class Event(
+data class LogEvent(
     val id: String,
     val timestamp: Timestamp,
     val name: String,

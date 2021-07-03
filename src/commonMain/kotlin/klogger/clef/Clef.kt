@@ -1,5 +1,5 @@
 package klogger.clef
 
-import klogger.Event
+import klogger.LogEvent
 
-expect fun clef(event: Event): String
+expect fun clef(logEvent: LogEvent): String

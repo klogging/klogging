@@ -1,21 +1,21 @@
 package klogger.gelf
 
-import klogger.Event
+import klogger.LogEvent
 
 const val GELF_HOST = "Local"
 const val GELF_TEMPLATE = """{"version":"1.1","host":"%s","short_message":"%s","timestamp":%s,"level":%d,%s}"""
 
-actual fun gelf(event: Event): String {
+actual fun gelf(logEvent: LogEvent): String {
 
-    val itemsJson = (event.items + mapOf("logger" to event.name))
+    val itemsJson = (logEvent.items + mapOf("logger" to logEvent.name))
         .map { (k, v) -> """"_$k":"$v"""" }
         .joinToString(",")
 
     return GELF_TEMPLATE.format(
         GELF_HOST,
-        event.message,
-        event.timestamp.toString(),
-        graylogLevel(event.level),
+        logEvent.message,
+        logEvent.timestamp.toString(),
+        graylogLevel(logEvent.level),
         itemsJson,
     )
 }

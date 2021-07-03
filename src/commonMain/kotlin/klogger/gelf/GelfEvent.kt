@@ -1,9 +1,9 @@
 package klogger.gelf
 
-import klogger.Event
+import klogger.LogEvent
 import klogger.Level
 
-expect fun gelf(event: Event): String
+expect fun gelf(logEvent: LogEvent): String
 
 /**
  * Map [Level]s to syslog levels used by Graylog:

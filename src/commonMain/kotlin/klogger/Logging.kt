@@ -5,21 +5,21 @@ import kotlinx.coroutines.launch
 
 class Logging {
     companion object {
-        internal val events: ArrayDeque<Event> = ArrayDeque(100)
+        internal val LOG_EVENTS: ArrayDeque<LogEvent> = ArrayDeque(100)
         suspend fun sendEvents() {
             coroutineScope { launch { sendAllEvents() } }
         }
 
         private fun sendAllEvents() {
-            while (events.isNotEmpty()) {
-                val evt = events.removeFirst()
+            while (LOG_EVENTS.isNotEmpty()) {
+                val evt = LOG_EVENTS.removeFirst()
                 eventSender(evt)
             }
         }
     }
 }
 
-typealias SendEvent = (Event) -> Unit
+typealias SendEvent = (LogEvent) -> Unit
 
 var eventSender: SendEvent = { e ->
     println("${e.timestamp} [${e.level}] ${e.items} ${e.name} ${e.message}")

@@ -1,7 +1,7 @@
 package klogger.clef
 
-import klogger.Event
+import klogger.LogEvent
 
-actual fun clef(event: Event): String {
+actual fun clef(logEvent: LogEvent): String {
     TODO("Not yet implemented")
 }

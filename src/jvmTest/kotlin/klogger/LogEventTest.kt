@@ -6,13 +6,13 @@ import io.kotest.matchers.shouldBe
 import klogger.context.logContext
 import kotlinx.coroutines.launch
 
-fun savedEvents(): MutableList<Event> {
-    val saved = mutableListOf<Event>()
+fun savedEvents(): MutableList<LogEvent> {
+    val saved = mutableListOf<LogEvent>()
     eventSender = { e -> saved.add(e) }
     return saved
 }
 
-class EventTest : DescribeSpec({
+class LogEventTest : DescribeSpec({
     describe("Constructing logging events") {
         describe("with context items") {
             it("does not include context items if there are none") {
