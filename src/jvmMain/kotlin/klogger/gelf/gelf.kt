@@ -13,7 +13,7 @@ actual fun gelf(event: Event): String {
 
     return GELF_TEMPLATE.format(
         GELF_HOST,
-        event.template,
+        event.message,
         event.timestamp.toString(),
         graylogLevel(event.level),
         itemsJson,

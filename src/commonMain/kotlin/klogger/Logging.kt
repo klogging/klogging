@@ -22,5 +22,5 @@ class Logging {
 typealias SendEvent = (Event) -> Unit
 
 var eventSender: SendEvent = { e ->
-    println("${e.timestamp} [${e.level}] ${e.items} ${e.name} ${e.template}")
+    println("${e.timestamp} [${e.level}] ${e.items} ${e.name} ${e.message}")
 }

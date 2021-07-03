@@ -13,7 +13,7 @@ actual fun clef(event: Event): String {
 
     return CLEF_TEMPLATE.format(
         Instant.ofEpochSecond(event.timestamp.epochSeconds, event.timestamp.nanos).toString(),
-        event.template,
+        event.message,
         event.level,
         itemsJson,
     )

@@ -18,7 +18,7 @@ class BaseLogger(
                 timestamp = now(),
                 name = name,
                 level = level,
-                template = message,
+                message = message,
                 items = contextItems ?: mapOf()
             )
         )

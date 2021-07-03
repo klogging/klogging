@@ -13,6 +13,6 @@ class ClefEventTest : DescribeSpec({
         val ts = timestampNow()
         val event = Event(UUID.randomUUID().toString(), ts, "Test", Level.INFO, "Message", mapOf())
 
-        clef(event) shouldBe """{"@t":"${iso(event.timestamp)}","@m":"${event.template}","@l":"${event.level}","logger":"${event.name}"}"""
+        clef(event) shouldBe """{"@t":"${iso(event.timestamp)}","@m":"${event.message}","@l":"${event.level}","logger":"${event.name}"}"""
     }
 })
