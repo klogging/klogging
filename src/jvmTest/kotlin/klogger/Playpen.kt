@@ -1,8 +1,8 @@
 package klogger
 
+import klogger.clef.clef
+import klogger.clef.sendClef
 import klogger.context.logContext
-import klogger.gelf.gelf
-import klogger.gelf.send
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.time.Instant
@@ -11,11 +11,9 @@ import java.util.UUID
 fun main() = runBlocking {
 
     eventSender = { e ->
-//        val ts = Instant.ofEpochSecond(e.timestamp.epochSeconds, e.timestamp.nanos)
-//        println("$ts ${e.items} ${e.template}")
-        val message = gelf(e)
+        val message = clef(e)
         println(message)
-        send(message)
+        sendClef(message)
     }
 
     val logger = BaseLogger("main")
@@ -28,7 +26,7 @@ fun main() = runBlocking {
                     logger.info("Event ${i + 1} at ${Instant.now()}")
                 }
             }
-            logger.info("<< $c")
+            logger.info("<< ${c + 1}")
         }
         logger.info("Finish")
     }

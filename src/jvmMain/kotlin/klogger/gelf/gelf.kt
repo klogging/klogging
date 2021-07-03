@@ -16,6 +16,6 @@ actual fun gelf(event: Event): String {
         event.template,
         event.timestamp.toString(),
         graylogLevel(event.level),
-        itemsJson
+        itemsJson,
     )
 }

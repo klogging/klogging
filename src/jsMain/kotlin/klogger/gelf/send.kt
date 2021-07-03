@@ -1,4 +1,4 @@
 package klogger.gelf
 
-actual fun send(gelfEvent: String, endpoint: Endpoint) {
+actual fun sendGelf(gelfEvent: String, endpoint: Endpoint) {
 }

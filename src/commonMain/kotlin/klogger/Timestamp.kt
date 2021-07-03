@@ -9,6 +9,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
 expect fun now(): Timestamp
+expect fun iso(timestamp: Timestamp): String
 
 @Serializable(with = TimestampSerialiser::class)
 data class Timestamp(val epochSeconds: Long, val nanos: Long) {
@@ -31,5 +32,4 @@ object TimestampSerialiser : KSerializer<Timestamp> {
         return Timestamp(epochSeconds.toLong(), nanos.toLong())
     }
 }
-
 
