@@ -1,5 +1,6 @@
-package klogger
+package klogger.events
 
+import klogger.events.Timestamp
 import java.time.Instant
 
 actual fun now(): Timestamp {

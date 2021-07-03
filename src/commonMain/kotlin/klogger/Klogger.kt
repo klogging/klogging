@@ -1,5 +1,7 @@
 package klogger
 
+import klogger.events.Level
+
 /**
  * Logger interface for sending log events.
  */

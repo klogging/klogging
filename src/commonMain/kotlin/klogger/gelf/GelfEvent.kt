@@ -1,7 +1,7 @@
 package klogger.gelf
 
-import klogger.LogEvent
-import klogger.Level
+import klogger.events.LogEvent
+import klogger.events.Level
 
 expect fun gelf(logEvent: LogEvent): String
 

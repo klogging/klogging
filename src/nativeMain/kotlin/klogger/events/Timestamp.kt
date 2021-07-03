@@ -1,4 +1,6 @@
-package klogger
+package klogger.events
+
+import klogger.events.Timestamp
 
 actual fun now(): Timestamp {
     TODO("Not yet implemented")

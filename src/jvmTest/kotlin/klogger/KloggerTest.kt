@@ -2,6 +2,7 @@ package klogger
 
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+import klogger.events.Level
 
 fun testLogger(
     level: Level = Level.FATAL

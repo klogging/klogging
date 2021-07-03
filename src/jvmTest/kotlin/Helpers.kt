@@ -1,4 +1,4 @@
-import klogger.Timestamp
+import klogger.events.Timestamp
 import java.time.Instant
 
 fun timestampNow() = Instant.now().let { Timestamp(it.epochSecond, it.nano.toLong()) }

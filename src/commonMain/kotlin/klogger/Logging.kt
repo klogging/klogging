@@ -1,5 +1,6 @@
 package klogger
 
+import klogger.events.LogEvent
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 

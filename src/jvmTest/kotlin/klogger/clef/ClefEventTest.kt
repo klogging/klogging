@@ -2,9 +2,9 @@ package klogger.clef
 
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
-import klogger.LogEvent
-import klogger.Level
-import klogger.iso
+import klogger.events.LogEvent
+import klogger.events.Level
+import klogger.events.iso
 import timestampNow
 import java.util.UUID
 

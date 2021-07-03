@@ -2,8 +2,8 @@ package klogger.gelf
 
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
-import klogger.LogEvent
-import klogger.Level
+import klogger.events.LogEvent
+import klogger.events.Level
 import timestampNow
 import java.util.UUID
 

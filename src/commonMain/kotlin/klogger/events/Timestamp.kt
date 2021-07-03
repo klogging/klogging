@@ -1,4 +1,4 @@
-package klogger
+package klogger.events
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable

@@ -1,6 +1,10 @@
 package klogger
 
 import klogger.context.LogContext
+import klogger.events.Level
+import klogger.events.LogEvent
+import klogger.events.newId
+import klogger.events.now
 import kotlin.coroutines.coroutineContext
 
 class BaseLogger(

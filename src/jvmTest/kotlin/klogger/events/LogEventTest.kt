@@ -1,9 +1,11 @@
-package klogger
+package klogger.events
 
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.shouldBe
+import klogger.BaseLogger
 import klogger.context.logContext
+import klogger.eventSender
 import kotlinx.coroutines.launch
 
 fun savedEvents(): MutableList<LogEvent> {
