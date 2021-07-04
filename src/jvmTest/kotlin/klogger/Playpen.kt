@@ -1,5 +1,6 @@
 package klogger
 
+import klogger.Dispatcher.addDispatcher
 import klogger.clef.clef
 import klogger.clef.sendClef
 import klogger.context.logContext
@@ -11,7 +12,7 @@ import java.util.UUID
 
 fun main() = runBlocking {
 
-    Logging.addSender { e -> sendClef(clef(e)) }
+    addDispatcher { e -> sendClef(clef(e)) }
 
     val logger = BaseLogger("main")
     launch(logContext("run" to UUID.randomUUID().toString())) {

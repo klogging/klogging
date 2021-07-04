@@ -4,14 +4,14 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.shouldBe
 import klogger.BaseLogger
-import klogger.Logging
+import klogger.Dispatcher.setDispatchers
 import klogger.context.logContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 fun savedEvents(): MutableList<LogEvent> {
     val saved = mutableListOf<LogEvent>()
-    Logging.setSenders({ e -> saved.add(e) })
+    setDispatchers({ e -> saved.add(e) })
     return saved
 }
 

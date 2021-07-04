@@ -16,7 +16,7 @@ class BaseLogger(
 
     override suspend fun log(level: Level, message: String) {
         val contextItems = coroutineContext[LogContext]?.getAll() ?: mapOf()
-        Logging.dispatch(
+        Logging.sendEvent(
             LogEvent(
                 id = newId(),
                 timestamp = now(),
