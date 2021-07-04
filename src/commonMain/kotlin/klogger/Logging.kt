@@ -7,9 +7,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlin.coroutines.EmptyCoroutineContext
 
-/** Functional type for sending a log event to a destination. */
-typealias SendEvent = (LogEvent) -> Unit
-
 /**
  * The main object for managing log event processing.
  */

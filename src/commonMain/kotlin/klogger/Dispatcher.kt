@@ -15,11 +15,11 @@ object Dispatcher {
         dispatchers.forEach { it(logEvent) }
     }
 
-    fun addDispatcher(sender: SendEvent) {
+    fun addDispatcher(sender: DispatchEvent) {
         dispatchers.add(sender)
     }
 
-    fun setDispatchers(vararg newSenders: SendEvent) {
+    fun setDispatchers(vararg newSenders: DispatchEvent) {
         dispatchers.clear()
         dispatchers.addAll(newSenders)
     }

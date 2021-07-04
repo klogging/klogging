@@ -1,9 +1,10 @@
 package klogger
 
-import klogger.Dispatcher.addDispatcher
+import klogger.Dispatcher.setDispatchers
 import klogger.clef.dispatchClef
 import klogger.clef.toClef
 import klogger.context.logContext
+import klogger.events.LogEvent
 import klogger.gelf.dispatchGelf
 import klogger.gelf.toGelf
 import kotlinx.coroutines.launch
@@ -14,8 +15,13 @@ import java.util.UUID
 
 fun main() = runBlocking {
 
-    addDispatcher { e -> dispatchClef(e.toClef()) }
-    addDispatcher { e -> dispatchGelf(e.toGelf()) }
+    fun LogEvent.format(fmt: String) =
+        LogEvent(id, timestamp, host, name, level, message, items + mapOf("format" to fmt))
+
+    setDispatchers(
+        { e -> dispatchGelf(e.format("GELF").toGelf()) },
+        { e -> dispatchClef(e.format("CLEF").toClef()) },
+    )
 
     val logger = BaseLogger("main")
     launch(logContext("run" to UUID.randomUUID().toString())) {
