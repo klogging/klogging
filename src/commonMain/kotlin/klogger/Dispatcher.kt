@@ -1,6 +1,8 @@
 package klogger
 
 import klogger.events.LogEvent
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 typealias DispatchEvent = (LogEvent) -> Unit
 
@@ -11,8 +13,8 @@ object Dispatcher {
 
     private val dispatchers = mutableListOf(simpleDispatcher)
 
-    fun dispatchEvent(logEvent: LogEvent) {
-        dispatchers.forEach { it(logEvent) }
+    suspend fun dispatchEvent(logEvent: LogEvent) = coroutineScope {
+        dispatchers.forEach { launch { it(logEvent) } }
     }
 
     fun addDispatcher(sender: DispatchEvent) {
