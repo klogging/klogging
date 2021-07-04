@@ -5,8 +5,6 @@ import klogger.clef.dispatchClef
 import klogger.clef.toClef
 import klogger.context.logContext
 import klogger.events.LogEvent
-import klogger.gelf.dispatchGelf
-import klogger.gelf.toGelf
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime
@@ -19,7 +17,6 @@ fun main() = runBlocking {
         LogEvent(id, timestamp, host, name, level, message, items + mapOf("format" to fmt))
 
     setDispatchers(
-        { e -> dispatchGelf(e.format("GELF").toGelf()) },
         { e -> dispatchClef(e.format("CLEF").toClef()) },
     )
 
