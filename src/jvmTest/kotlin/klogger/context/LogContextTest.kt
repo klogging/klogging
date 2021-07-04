@@ -4,6 +4,7 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kotlinx.coroutines.launch
+import kotlin.coroutines.EmptyCoroutineContext
 
 class LogContextTest : DescribeSpec({
     describe("LogContext implementation of CoroutineContext") {
@@ -39,6 +40,10 @@ class LogContextTest : DescribeSpec({
                     launch(logContext("colour" to "green")) {
                         coroutineContext[LogContext]?.get("scope") shouldBe "outer"
                         coroutineContext[LogContext]?.get("colour") shouldBe "green"
+                        launch(EmptyCoroutineContext) {
+                            coroutineContext[LogContext]?.get("scope") shouldBe "outer"
+                            coroutineContext[LogContext]?.get("colour") shouldBe "green"
+                        }
                     }
                     coroutineContext[LogContext]?.get("scope") shouldBe "outer"
                     coroutineContext[LogContext]?.get("colour") shouldBe null
