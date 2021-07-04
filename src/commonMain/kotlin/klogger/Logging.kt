@@ -3,7 +3,6 @@ package klogger
 import klogger.Dispatcher.dispatchEvent
 import klogger.events.LogEvent
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlin.coroutines.EmptyCoroutineContext
@@ -30,5 +29,6 @@ object Logging {
         }
         return eventsChannel
     }
+
     suspend fun sendEvent(event: LogEvent) = logEventsChannel.send(event)
 }

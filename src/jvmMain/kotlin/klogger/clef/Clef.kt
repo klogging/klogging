@@ -5,7 +5,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.time.Instant
 
-const val CLEF_TEMPLATE = """{"@t":"%s","@m":"%s","@l":"%s",%s}"""
+const val CLEF_TEMPLATE = """{"@t":"%s","@m":"%s","@l":"%s","host":"%s",%s}"""
 
 actual fun LogEvent.toClef(): String {
 
@@ -17,6 +17,7 @@ actual fun LogEvent.toClef(): String {
         Instant.ofEpochSecond(timestamp.epochSeconds, timestamp.nanos).toString(),
         message,
         level,
+        host,
         itemsJson,
     )
 }
