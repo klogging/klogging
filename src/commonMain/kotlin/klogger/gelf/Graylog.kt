@@ -1,6 +1,7 @@
 package klogger.gelf
 
 import klogger.events.Level
+import klogger.events.Timestamp
 
 /**
  * Map [Level]s to syslog levels used by Graylog:
@@ -20,3 +21,8 @@ data class Endpoint(
     val host: String = "localhost",
     val port: Int = 12201,
 )
+
+fun Timestamp.graylogFormat(): String {
+    val ns = "000000000$nanos"
+    return "$epochSeconds.${ns.substring(ns.length - 9)}"
+}

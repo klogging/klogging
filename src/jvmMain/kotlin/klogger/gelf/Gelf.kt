@@ -5,7 +5,7 @@ import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
 
-const val GELF_HOST = "Local"
+val thisHost = InetAddress.getLocalHost().hostName
 const val GELF_TEMPLATE = """{"version":"1.1","host":"%s","short_message":"%s","timestamp":%s,"level":%d,%s}"""
 
 actual fun LogEvent.toGelf(): String {
@@ -15,9 +15,9 @@ actual fun LogEvent.toGelf(): String {
         .joinToString(",")
 
     return GELF_TEMPLATE.format(
-        GELF_HOST,
+        thisHost,
         message,
-        timestamp.toString(),
+        timestamp.graylogFormat(),
         graylogLevel(level),
         itemsJson,
     )

@@ -14,7 +14,7 @@ import java.util.UUID
 
 fun main() = runBlocking {
 
-//    addDispatcher { e -> dispatchClef(e.toClef()) }
+    addDispatcher { e -> dispatchClef(e.toClef()) }
     addDispatcher { e -> dispatchGelf(e.toGelf()) }
 
     val logger = BaseLogger("main")

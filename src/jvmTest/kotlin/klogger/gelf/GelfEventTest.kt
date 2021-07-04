@@ -14,7 +14,7 @@ class GelfEventTest : DescribeSpec({
             val ts = timestampNow()
             val event = LogEvent(id, ts, "Test", Level.INFO, "Message", mapOf())
 
-            event.toGelf() shouldBe """{"version":"1.1","host":"$GELF_HOST","short_message":"Message","timestamp":$ts,"level":6,"_logger":"Test"}"""
+            event.toGelf() shouldBe """{"version":"1.1","host":"$thisHost","short_message":"Message","timestamp":$ts,"level":6,"_logger":"Test"}"""
         }
     }
 })
