@@ -13,10 +13,7 @@ expect fun iso(timestamp: Timestamp): String
 
 @Serializable(with = TimestampSerialiser::class)
 data class Timestamp(val epochSeconds: Long, val nanos: Long) {
-    override fun toString(): String {
-        val ns = "000000000$nanos"
-        return "$epochSeconds.${ns.substring(ns.length - 9)}"
-    }
+    override fun toString(): String = iso(this)
 }
 
 object TimestampSerialiser : KSerializer<Timestamp> {
