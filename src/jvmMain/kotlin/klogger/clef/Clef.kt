@@ -7,21 +7,21 @@ import java.time.Instant
 
 const val CLEF_TEMPLATE = """{"@t":"%s","@m":"%s","@l":"%s",%s}"""
 
-actual fun clef(logEvent: LogEvent): String {
+actual fun LogEvent.toClef(): String {
 
-    val itemsJson = (logEvent.items + mapOf("logger" to logEvent.name))
+    val itemsJson = (items + mapOf("logger" to name))
         .map { (k, v) -> """"$k":"$v"""" }
         .joinToString(",")
 
     return CLEF_TEMPLATE.format(
-        Instant.ofEpochSecond(logEvent.timestamp.epochSeconds, logEvent.timestamp.nanos).toString(),
-        logEvent.message,
-        logEvent.level,
+        Instant.ofEpochSecond(timestamp.epochSeconds, timestamp.nanos).toString(),
+        message,
+        level,
         itemsJson,
     )
 }
 
-actual fun sendClef(clefEvent: String, server: String) {
+actual fun dispatchClef(clefEvent: String, server: String) {
     val bytes = clefEvent.toByteArray()
     val url = URL("${server}/api/events/raw?clef")
     val conn = url.openConnection() as HttpURLConnection

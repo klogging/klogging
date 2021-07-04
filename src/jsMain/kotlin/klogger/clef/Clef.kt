@@ -2,8 +2,8 @@ package klogger.clef
 
 import klogger.events.LogEvent
 
-actual fun clef(logEvent: LogEvent): String {
+actual fun LogEvent.toClef(): String {
     TODO("Not yet implemented")
 }
 
-actual fun sendClef(clefEvent: String, server: String) {}
+actual fun dispatchClef(clefEvent: String, server: String) {}

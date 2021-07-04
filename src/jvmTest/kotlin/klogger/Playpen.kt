@@ -1,9 +1,11 @@
 package klogger
 
 import klogger.Dispatcher.addDispatcher
-import klogger.clef.clef
-import klogger.clef.sendClef
+import klogger.clef.dispatchClef
+import klogger.clef.toClef
 import klogger.context.logContext
+import klogger.gelf.dispatchGelf
+import klogger.gelf.toGelf
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime
@@ -12,15 +14,16 @@ import java.util.UUID
 
 fun main() = runBlocking {
 
-    addDispatcher { e -> sendClef(clef(e)) }
+//    addDispatcher { e -> dispatchClef(e.toClef()) }
+    addDispatcher { e -> dispatchGelf(e.toGelf()) }
 
     val logger = BaseLogger("main")
     launch(logContext("run" to UUID.randomUUID().toString())) {
         logger.info("Start")
-        repeat(5) { c ->
+        repeat(2) { c ->
             logger.info(">> ${c + 1}")
             launch(logContext("counter" to (c + 1).toString())) {
-                repeat(5) { i ->
+                repeat(2) { i ->
                     logger.info("Event ${i + 1} at ${LocalDateTime.now(ZoneId.of("Australia/Brisbane"))}")
                 }
             }
