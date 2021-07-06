@@ -4,25 +4,36 @@ import klogger.events.LogEvent
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
+/** Type used for dispatching a [LogEvent] somewhere. */
 typealias DispatchEvent = (LogEvent) -> Unit
 
+/** Object that handles dispatching of [LogEvent]s to zero or more destinations. */
 object Dispatcher {
 
+    /** Simple dispatcher that sends a single, formatted line to the console. */
     private val simpleDispatcher: DispatchEvent =
         { e -> println("${e.timestamp} [${e.level}] ${e.items} - ${e.name} - ${e.message}") }
 
-    private val dispatchers = mutableListOf(simpleDispatcher)
+    /** List of dispatchers that can be changed at any time. */
+    private val dispatchers: MutableList<DispatchEvent> = mutableListOf(simpleDispatcher)
 
+    /**
+     * Dispatch a [LogEvent] to all current destinations.
+     *
+     * Each is dispatched in a separate coroutine.
+     */
     suspend fun dispatchEvent(logEvent: LogEvent) = coroutineScope {
         dispatchers.forEach { launch { it(logEvent) } }
     }
 
-    fun addDispatcher(sender: DispatchEvent) {
-        dispatchers.add(sender)
+    /** Adds a dispatcher to the list. */
+    fun addDispatcher(dispatcher: DispatchEvent) {
+        dispatchers.add(dispatcher)
     }
 
-    fun setDispatchers(vararg newSenders: DispatchEvent) {
+    /** Replaces current dispatchers with zero or more others. */
+    fun setDispatchers(vararg newDispatchers: DispatchEvent) {
         dispatchers.clear()
-        dispatchers.addAll(newSenders)
+        dispatchers.addAll(newDispatchers)
     }
 }
