@@ -14,7 +14,7 @@ class BaseLogger(
 
     override fun minLevel() = minLevel
 
-    override suspend fun log(level: Level, message: String) {
+    override suspend fun logMessage(level: Level, message: String) {
         val contextItems = coroutineContext[LogContext]?.getAll() ?: mapOf()
         Logging.sendEvent(
             LogEvent(
