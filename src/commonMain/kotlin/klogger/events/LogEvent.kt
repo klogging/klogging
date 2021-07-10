@@ -14,6 +14,7 @@ data class LogEvent(
     val name: String,
     val level: Level,
     val message: String,
+    val stackTrace: String?,
     val items: Map<String, String>,
 )
 

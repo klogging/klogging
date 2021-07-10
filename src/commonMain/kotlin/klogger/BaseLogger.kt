@@ -14,22 +14,24 @@ class BaseLogger(
 
     override fun minLevel() = minLevel
 
-    override suspend fun logMessage(level: Level, event: Any) {
+    override suspend fun logMessage(level: Level, exception: Exception?, event: Any) {
         val contextItems = coroutineContext[LogContext]?.getAll() ?: mapOf()
+        val stackTrace = exception?.stackTraceToString()
         when (event) {
-            is String ->
+            is LogEvent ->
+                Logging.sendEvent(event)
+            else ->
                 Logging.sendEvent(
                     LogEvent(
                         id = newId(),
                         timestamp = now(),
                         name = name,
                         level = level,
-                        message = event,
+                        message = event.toString(),
+                        stackTrace = stackTrace,
                         items = contextItems
                     )
                 )
-            is LogEvent ->
-                Logging.sendEvent(event)
         }
     }
 

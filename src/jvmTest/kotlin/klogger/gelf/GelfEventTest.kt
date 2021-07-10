@@ -5,14 +5,13 @@ import io.kotest.matchers.shouldBe
 import klogger.events.Level
 import klogger.events.LogEvent
 import klogger.events.newId
-import timestampNow
-import java.util.UUID
+import klogger.timestampNow
 
 class GelfEventTest : DescribeSpec({
     describe("Creating GELF event JSON") {
         it("includes logger name as _name") {
             val ts = timestampNow()
-            val event = LogEvent(newId(), ts, "test.local", "Test", Level.INFO, "Message", mapOf())
+            val event = LogEvent(newId(), ts, "test.local", "Test", Level.INFO, "Message", null, mapOf())
 
             event.toGelf() shouldBe """{
                 |"version":"1.1",

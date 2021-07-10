@@ -6,12 +6,12 @@ import klogger.events.Level
 import klogger.events.LogEvent
 import klogger.events.iso
 import klogger.events.newId
-import timestampNow
+import klogger.timestampNow
 
 class ClefEventTest : DescribeSpec({
     describe("Creating CLEF event JSON") {
         val ts = timestampNow()
-        val event = LogEvent(newId(), ts, "test.local", "Test", Level.INFO, "Message", mapOf())
+        val event = LogEvent(newId(), ts, "test.local", "Test", Level.INFO, "Message", null, mapOf())
 
         event.toClef() shouldBe """{
             |"@t":"${iso(event.timestamp)}",

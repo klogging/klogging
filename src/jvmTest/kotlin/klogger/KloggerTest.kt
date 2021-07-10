@@ -3,7 +3,7 @@ package klogger
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import klogger.events.Level
-import randomString
+import klogger.randomString
 
 class TestLogger(
     private val level: Level = Level.FATAL
@@ -15,7 +15,7 @@ class TestLogger(
 
     override fun minLevel() = level
 
-    override suspend fun logMessage(level: Level, event: Any) {
+    override suspend fun logMessage(level: Level, exception: Exception?, event: Any) {
         logged = event.toString()
     }
 
