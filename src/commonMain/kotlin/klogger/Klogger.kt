@@ -7,6 +7,8 @@ import klogger.events.Level
  */
 interface Klogger {
 
+    val name: String
+
     fun minLevel(): Level
     fun isLevelEnabled(level: Level) = minLevel() <= level
     fun isTraceEnabled() = minLevel() <= Level.TRACE

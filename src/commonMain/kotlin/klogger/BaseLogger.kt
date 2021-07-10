@@ -8,7 +8,7 @@ import klogger.events.now
 import kotlin.coroutines.coroutineContext
 
 class BaseLogger(
-    private val name: String,
+    override val name: String,
     private val minLevel: Level = Level.INFO,
 ) : Klogger {
 

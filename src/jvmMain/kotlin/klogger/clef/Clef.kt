@@ -24,7 +24,7 @@ actual fun LogEvent.toClef(): String {
 
 actual fun dispatchClef(clefEvent: String, server: String) {
     val bytes = clefEvent.toByteArray()
-    val url = URL("${server}/api/events/raw?clef")
+    val url = URL("${server}/api/events/raw")
     val conn = url.openConnection() as HttpURLConnection
     conn.requestMethod = "POST"
     conn.setRequestProperty("Content-Type", "application/vnd.serilog.clef")

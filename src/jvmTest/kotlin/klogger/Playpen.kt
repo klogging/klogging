@@ -20,7 +20,7 @@ fun main() = runBlocking {
         { e -> dispatchClef(e.format("CLEF").toClef()) },
     )
 
-    val logger = BaseLogger("main")
+    val logger = logger("main")
     launch(logContext("run" to UUID.randomUUID().toString())) {
         logger.info { "Start" }
         repeat(2) { c ->

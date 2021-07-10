@@ -9,6 +9,8 @@ class TestLogger(
     private val level: Level = Level.FATAL
 ) : Klogger {
 
+    override val name: String = "TestLogger"
+
     internal var logged: String? = null
 
     override fun minLevel() = level
