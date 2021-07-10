@@ -15,27 +15,27 @@ interface Klogger {
     fun isDebugEnabled() = minLevel() <= Level.DEBUG
     fun isInfoEnabled() = minLevel() <= Level.INFO
 
-    suspend fun log(level: Level, message: String) {
-        if (isLevelEnabled(level)) logMessage(level, message)
+    suspend fun log(level: Level, event: Any) {
+        if (isLevelEnabled(level)) logMessage(level, event)
     }
 
-    suspend fun trace(message: String) = log(Level.TRACE, message)
-    suspend fun debug(message: String) = log(Level.DEBUG, message)
-    suspend fun info(message: String) = log(Level.INFO, message)
-    suspend fun warn(message: String) = log(Level.WARN, message)
-    suspend fun error(message: String) = log(Level.ERROR, message)
-    suspend fun fatal(message: String) = log(Level.FATAL, message)
+    suspend fun trace(event: Any) = log(Level.TRACE, event)
+    suspend fun debug(event: Any) = log(Level.DEBUG, event)
+    suspend fun info(event: Any) = log(Level.INFO, event)
+    suspend fun warn(event: Any) = log(Level.WARN, event)
+    suspend fun error(event: Any) = log(Level.ERROR, event)
+    suspend fun fatal(event: Any) = log(Level.FATAL, event)
 
-    suspend fun logMessage(level: Level, message: String)
+    suspend fun logMessage(level: Level, event: Any)
 
-    suspend fun log(level: Level, message: () -> String) {
-        if (isLevelEnabled(level)) logMessage(level, message())
+    suspend fun log(level: Level, event: Klogger.() -> Any) {
+        if (isLevelEnabled(level)) logMessage(level, event())
     }
 
-    suspend fun trace(message: () -> String) = log(Level.TRACE, message)
-    suspend fun debug(message: () -> String) = log(Level.DEBUG, message)
-    suspend fun info(message: () -> String) = log(Level.INFO, message)
-    suspend fun warn(message: () -> String) = log(Level.WARN, message)
-    suspend fun error(message: () -> String) = log(Level.ERROR, message)
-    suspend fun fatal(message: () -> String) = log(Level.FATAL, message)
+    suspend fun trace(event: Klogger.() -> Any) = log(Level.TRACE, event)
+    suspend fun debug(event: Klogger.() -> Any) = log(Level.DEBUG, event)
+    suspend fun info(event: Klogger.() -> Any) = log(Level.INFO, event)
+    suspend fun warn(event: Klogger.() -> Any) = log(Level.WARN, event)
+    suspend fun error(event: Klogger.() -> Any) = log(Level.ERROR, event)
+    suspend fun fatal(event: Klogger.() -> Any) = log(Level.FATAL, event)
 }

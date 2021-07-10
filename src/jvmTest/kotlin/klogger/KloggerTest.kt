@@ -15,8 +15,8 @@ class TestLogger(
 
     override fun minLevel() = level
 
-    override suspend fun logMessage(level: Level, message: String) {
-        logged = message
+    override suspend fun logMessage(level: Level, event: Any) {
+        logged = event.toString()
     }
 
 }
