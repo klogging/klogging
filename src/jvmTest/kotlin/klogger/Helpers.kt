@@ -31,7 +31,7 @@ fun logEvent(
     id = id,
     timestamp = timestamp,
     host = host,
-    name = name,
+    logger = name,
     level = level,
     message = message,
     stackTrace = stackTrace,

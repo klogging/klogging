@@ -8,7 +8,7 @@ import java.time.Instant
 
 class BaseLoggerTest : DescribeSpec({
     describe("BaseLogger implementation of Klogger") {
-        describe("logs any event object") {
+        describe("logs any object") {
             it("logs a string in the message field") {
                 val events = savedEvents()
                 val message = randomString()
@@ -26,6 +26,16 @@ class BaseLoggerTest : DescribeSpec({
 
                 events.size shouldBe 1
                 events.first() shouldBeSameInstanceAs event
+            }
+            it("logs an exception with message and stack trace") {
+                val events = savedEvents()
+                val exception = RuntimeException("Some kind of problem")
+                BaseLogger("BaseLoggerTest").warn(exception)
+                waitForDispatch()
+
+                events.size shouldBe 1
+                events.first().message shouldBe exception.message
+                events.first().stackTrace shouldNotBe null
             }
             it("logs the string representation of anything else in the message field") {
                 val events = savedEvents()
@@ -47,7 +57,7 @@ class BaseLoggerTest : DescribeSpec({
                 events.size shouldBe 1
                 events.first().stackTrace shouldBe null
             }
-            it("includes stack trace information if an exception is provided") {
+            it("includes stack trace information if an exception is provided as well as other information") {
                 val events = savedEvents()
                 logger("BaseLoggerTest").warn(RuntimeException("Oh noes!")) { "Big trouble!" }
                 waitForDispatch()

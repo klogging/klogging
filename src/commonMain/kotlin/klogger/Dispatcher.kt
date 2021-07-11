@@ -12,7 +12,7 @@ object Dispatcher {
 
     /** Simple dispatcher that sends a single, formatted line to the console. */
     private val simpleDispatcher: DispatchEvent =
-        { e -> println("${e.timestamp} [${e.level}] ${e.items} - ${e.name} - ${e.message}") }
+        { e -> println("${e.timestamp} [${e.level}] ${e.items} - ${e.logger} - ${e.message}") }
 
     /** List of dispatchers that can be changed at any time. */
     private val dispatchers: MutableList<DispatchEvent> = mutableListOf(simpleDispatcher)

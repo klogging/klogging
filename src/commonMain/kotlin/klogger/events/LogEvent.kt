@@ -11,7 +11,7 @@ data class LogEvent(
     val id: String,
     val timestamp: Timestamp,
     val host: String = hostname(),
-    val name: String,
+    val logger: String,
     val level: Level,
     val message: String,
     val stackTrace: String?,

@@ -14,10 +14,11 @@ import java.util.UUID
 fun main() = runBlocking {
 
     fun LogEvent.format(fmt: String) =
-        LogEvent(id, timestamp, host, name, level, message, null, items + mapOf("format" to fmt))
+        LogEvent(id, timestamp, host, logger, level, message, stackTrace, items + mapOf("format" to fmt))
 
     setDispatchers(
         { e -> dispatchClef(e.format("CLEF").toClef()) },
+//        { e -> println(e.toClef()) },
     )
 
     val logger = logger("main")
@@ -31,10 +32,19 @@ fun main() = runBlocking {
                 }
             }
             logger.info { "<< ${c + 1}" }
+            functionWithException(logger)
         }
         logger.info { "Finish" }
     }
     // There must be at least one statement outside the coroutine scope.
     logger.info { "All done" }
+}
+
+suspend fun functionWithException(logger: Klogger) {
+    try {
+        throw RuntimeException("Oops! Something went wrong")
+    } catch (e: Exception) {
+        logger.warn(e) { e.message!! }
+    }
 }
 
