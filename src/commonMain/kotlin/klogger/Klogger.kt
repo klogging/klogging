@@ -1,6 +1,7 @@
 package klogger
 
 import klogger.events.Level
+import klogger.events.LogEvent
 
 /**
  * Logger interface for sending log events.
@@ -52,4 +53,6 @@ interface Klogger {
     suspend fun error(exception: Exception, event: Klogger.() -> Any) = log(Level.ERROR, exception, event)
     suspend fun fatal(event: Klogger.() -> Any) = log(Level.FATAL, event)
     suspend fun fatal(exception: Exception, event: Klogger.() -> Any) = log(Level.FATAL, exception, event)
+
+    suspend fun e(template: String, vararg items: Any): LogEvent
 }

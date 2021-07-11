@@ -66,5 +66,12 @@ class BaseLoggerTest : DescribeSpec({
                 events.first().stackTrace shouldNotBe null
             }
         }
+
+        describe("event construction function e()") {
+            it("uses the template unchanged as message if there are no items") {
+                val template = randomString()
+                BaseLogger("BaseLoggerTest").e(template).message shouldBe template
+            }
+        }
     }
 })
