@@ -13,6 +13,7 @@ data class LogEvent(
     val host: String = hostname(),
     val logger: String,
     val level: Level,
+    val template: String? = null,
     val message: String,
     val stackTrace: String?,
     val items: Map<String, String>,

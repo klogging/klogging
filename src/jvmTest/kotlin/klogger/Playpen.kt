@@ -14,7 +14,7 @@ import java.util.UUID
 fun main() = runBlocking {
 
     fun LogEvent.format(fmt: String) =
-        LogEvent(id, timestamp, host, logger, level, message, stackTrace, items + mapOf("format" to fmt))
+        LogEvent(id, timestamp, host, logger, level, template, message, stackTrace, items + mapOf("format" to fmt))
 
     setDispatchers(
         { e -> dispatchClef(e.format("CLEF").toClef()) },

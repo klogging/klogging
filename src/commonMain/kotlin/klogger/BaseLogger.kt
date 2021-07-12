@@ -46,6 +46,7 @@ class BaseLogger(
             timestamp = now(),
             logger = name,
             level = minLevel,
+            template = template,
             message = template,
             stackTrace = null,
             items = contextItems(),

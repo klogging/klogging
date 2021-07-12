@@ -13,7 +13,7 @@ class ClefEventTest : DescribeSpec({
     describe("Creating CLEF event JSON") {
         it("omits @x if `stackTrace` is null") {
             val ts = timestampNow()
-            val event = LogEvent(newId(), ts, "test.local", "Test", Level.INFO, "Message", null, mapOf())
+            val event = LogEvent(newId(), ts, "test.local", "Test", Level.INFO, null, "Message", null, mapOf())
 
             event.toClef() shouldBe """{
             |"@t":"${iso(event.timestamp)}",
@@ -26,7 +26,7 @@ class ClefEventTest : DescribeSpec({
         it("includes @x if `stackTrace` is present") {
             val ts = timestampNow()
             val trace = randomString()
-            val event = LogEvent(newId(), ts, "test.local", "Test", Level.INFO, "Message", trace, mapOf())
+            val event = LogEvent(newId(), ts, "test.local", "Test", Level.INFO, null, "Message", trace, mapOf())
 
             event.toClef() shouldBe """{
             |"@t":"${iso(event.timestamp)}",
