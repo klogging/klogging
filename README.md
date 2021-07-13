@@ -1,6 +1,6 @@
-# Klogger
+# Ktlogging
 
-**Klogger** (working title) is a logging library for Kotlin applications that
+**Ktlogging** (working title) is a logging library for Kotlin applications that
 use coroutines, such as the [Ktor](https://ktor.io) asynchronous service framework.
 
 ## Goals

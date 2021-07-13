@@ -3,7 +3,7 @@ plugins {
     kotlin("plugin.serialization") version "1.5.20"
 }
 
-group = "klogger"
+group = "ktlogging"
 version = "1.0-SNAPSHOT"
 
 repositories {
