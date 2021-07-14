@@ -18,7 +18,7 @@ class TestLogger(
         logged = event.toString()
     }
 
-    override suspend fun e(template: String, vararg items: Any): LogEvent {
+    override suspend fun e(template: String, vararg values: Any): LogEvent {
         TODO("Not yet implemented")
     }
 }

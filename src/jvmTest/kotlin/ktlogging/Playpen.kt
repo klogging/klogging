@@ -14,8 +14,10 @@ import java.util.UUID
 fun main() = runBlocking {
 
     fun LogEvent.format(fmt: String) =
-        LogEvent(id, timestamp, host, logger, level, template, message, stackTrace,
-            items + mapOf("format" to fmt, "thread" to Thread.currentThread().name))
+        LogEvent(
+            id, timestamp, host, logger, level, template, message, stackTrace,
+            items + mapOf("format" to fmt, "thread" to Thread.currentThread().name)
+        )
 
     setDispatchers(
         { e -> dispatchClef(e.format("CLEF").toClef()) },
@@ -29,7 +31,9 @@ fun main() = runBlocking {
             logger.info { ">> ${c + 1}" }
             launch(logContext("counter" to (c + 1).toString())) {
                 repeat(2) { i ->
-                    logger.info { "Event ${i + 1} at ${LocalDateTime.now(ZoneId.of("Australia/Brisbane"))}" }
+                    logger.info {
+                        e("Event {Iteration} at {RightNow}", i + 1, LocalDateTime.now(ZoneId.of("Australia/Brisbane")))
+                    }
                 }
             }
             logger.info { "<< ${c + 1}" }

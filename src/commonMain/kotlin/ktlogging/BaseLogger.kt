@@ -41,8 +41,8 @@ class BaseLogger(
     private suspend inline fun contextItems() =
         coroutineContext[LogContext]?.getAll() ?: mapOf()
 
-    override suspend fun e(template: String, vararg items: Any): LogEvent {
-        val templated = template(template, *items)
+    override suspend fun e(template: String, vararg values: Any): LogEvent {
+        val templated = template(template, *values)
         return LogEvent(
             id = newId(),
             timestamp = now(),
