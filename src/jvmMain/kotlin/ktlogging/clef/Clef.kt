@@ -12,6 +12,7 @@ actual fun LogEvent.toClef(): String {
     val eventMap: MutableMap<String, String> = (mapOf(
         "@t" to Instant.ofEpochSecond(timestamp.epochSeconds, timestamp.nanos).toString(),
         "@m" to message,
+        "@mt" to (template ?: message),
         "@l" to level.name,
         "host" to host,
         "logger" to logger,
