@@ -5,6 +5,7 @@ import ktlogging.events.Level
 import ktlogging.events.LogEvent
 import ktlogging.events.newId
 import ktlogging.events.now
+import ktlogging.template.template
 import kotlin.coroutines.coroutineContext
 
 class BaseLogger(
@@ -41,15 +42,16 @@ class BaseLogger(
         coroutineContext[LogContext]?.getAll() ?: mapOf()
 
     override suspend fun e(template: String, vararg items: Any): LogEvent {
+        val templated = template(template, *items)
         return LogEvent(
             id = newId(),
             timestamp = now(),
             logger = name,
             level = minLevel,
             template = template,
-            message = template,
+            message = templated.evaluated,
             stackTrace = null,
-            items = contextItems(),
+            items = templated.items + contextItems(),
         )
     }
 }

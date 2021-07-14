@@ -1,6 +1,7 @@
 package ktlogging
 
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.types.shouldBeSameInstanceAs
@@ -69,8 +70,20 @@ class BaseLoggerTest : DescribeSpec({
 
         describe("event construction function e()") {
             it("uses the template unchanged as message if there are no items") {
-                val template = randomString()
-                BaseLogger("BaseLoggerTest").e(template).message shouldBe template
+                val tmpl = randomString()
+                with(BaseLogger("BaseLoggerTest").e(tmpl)) {
+                    message shouldBe tmpl
+                    template shouldBe tmpl
+                }
+            }
+            it("uses message templating to complete the message") {
+                val tmpl = "Hello {User}!"
+                val item = randomString()
+                with(BaseLogger("BaseLoggerTest").e(tmpl, item)) {
+                    message shouldBe "Hello $item!"
+                    template shouldBe tmpl
+                    items shouldContain ("User" to item)
+                }
             }
         }
     }
