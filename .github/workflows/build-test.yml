@@ -1,0 +1,36 @@
+name: Build and test
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - README.md
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - README.md
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: 11
+
+      - name: Gradle compile and test JVM code
+        run: ./gradlew clean jvmTest
+
+      - name: Report on tests
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: Test results
+          path: build/test-results/jvmTest/*.xml
+          reporter: java-junit
