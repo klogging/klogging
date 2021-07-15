@@ -28,15 +28,15 @@ fun main() = runBlocking {
     launch(logContext("run" to UUID.randomUUID().toString())) {
         logger.info { "Start" }
         repeat(2) { c ->
-            logger.info { ">> ${c + 1}" }
-            launch(logContext("counter" to (c + 1).toString())) {
+            logger.info { e(">> {Counter}", c + 1) }
+            launch(logContext("Counter" to (c + 1).toString())) {
                 repeat(2) { i ->
                     logger.info {
                         e("Event {Iteration} at {RightNow}", i + 1, LocalDateTime.now(ZoneId.of("Australia/Brisbane")))
                     }
                 }
             }
-            logger.info { "<< ${c + 1}" }
+            logger.info { e("<< {Counter}", c + 1) }
             functionWithException(logger)
         }
         logger.info { "Finish" }
@@ -49,7 +49,7 @@ suspend fun functionWithException(logger: Ktlogger) {
     try {
         throw RuntimeException("Oops! Something went wrong")
     } catch (e: Exception) {
-        logger.warn(e) { e.message!! }
+        logger.warn(e) { e("Message: {Message}", e.message) }
     }
 }
 
