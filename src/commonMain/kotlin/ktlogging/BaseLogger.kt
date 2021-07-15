@@ -15,7 +15,7 @@ class BaseLogger(
 
     override fun minLevel() = minLevel
 
-    override suspend fun logMessage(level: Level, exception: Exception?, event: Any) {
+    override suspend fun logMessage(level: Level, exception: Exception?, event: Any?) {
         val eventToLog = when (event) {
             is LogEvent -> event
             else -> {
@@ -41,7 +41,7 @@ class BaseLogger(
     private suspend inline fun contextItems() =
         coroutineContext[LogContext]?.getAll() ?: mapOf()
 
-    override suspend fun e(template: String, vararg values: Any): LogEvent {
+    override suspend fun e(template: String, vararg values: Any?): LogEvent {
         val templated = template(template, *values)
         return LogEvent(
             id = newId(),

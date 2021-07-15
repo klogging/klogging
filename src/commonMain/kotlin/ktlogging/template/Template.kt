@@ -6,7 +6,7 @@ data class Templated(
     val items: Map<String, String>,
 )
 
-fun template(template: String, vararg items: Any): Templated {
+fun template(template: String, vararg items: Any?): Templated {
     val textsAndHoles = extractHoles(template)
     var itemIdx = 0
     val itemMap = mutableMapOf<String, String>()

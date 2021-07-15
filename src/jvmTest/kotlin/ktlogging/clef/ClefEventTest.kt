@@ -18,6 +18,7 @@ class ClefEventTest : DescribeSpec({
             event.toClef() shouldBe """{
             |"@t":"${iso(event.timestamp)}",
             |"@m":"${event.message}",
+            |"@mt":"${event.message}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
             |"logger":"${event.logger}"
@@ -31,6 +32,7 @@ class ClefEventTest : DescribeSpec({
             event.toClef() shouldBe """{
             |"@t":"${iso(event.timestamp)}",
             |"@m":"${event.message}",
+            |"@mt":"${event.message}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
             |"logger":"${event.logger}",

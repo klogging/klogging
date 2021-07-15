@@ -14,11 +14,11 @@ class TestLogger(
     internal var logged: String? = null
 
     override fun minLevel() = level
-    override suspend fun logMessage(level: Level, exception: Exception?, event: Any) {
+    override suspend fun logMessage(level: Level, exception: Exception?, event: Any?) {
         logged = event.toString()
     }
 
-    override suspend fun e(template: String, vararg values: Any): LogEvent {
+    override suspend fun e(template: String, vararg values: Any?): LogEvent {
         TODO("Not yet implemented")
     }
 }
