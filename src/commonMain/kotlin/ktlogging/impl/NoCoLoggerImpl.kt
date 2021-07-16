@@ -1,18 +1,20 @@
-package ktlogging
+package ktlogging.impl
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import ktlogging.Logging
+import ktlogging.NoCoLogger
 import ktlogging.events.Level
 import ktlogging.events.LogEvent
 import ktlogging.events.newId
 import ktlogging.events.now
 import ktlogging.template.templateItems
 
-class JavaLogger(
+class NoCoLoggerImpl(
     override val name: String,
     private val minLevel: Level = Level.INFO,
-) : JLogger {
+) : NoCoLogger {
 
     override fun minLevel() = minLevel
 

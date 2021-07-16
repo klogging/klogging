@@ -1,5 +1,7 @@
-package ktlogging
+package ktlogging.impl
 
+import ktlogging.KtLogger
+import ktlogging.Logging
 import ktlogging.context.LogContext
 import ktlogging.events.Level
 import ktlogging.events.LogEvent
@@ -8,7 +10,7 @@ import ktlogging.events.now
 import ktlogging.template.templateItems
 import kotlin.coroutines.coroutineContext
 
-class BaseLogger(
+class KtLoggerImpl(
     override val name: String,
     private val minLevel: Level = Level.INFO,
 ) : KtLogger {

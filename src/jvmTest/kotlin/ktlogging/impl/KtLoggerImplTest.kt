@@ -1,19 +1,24 @@
-package ktlogging
+package ktlogging.impl
 
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.types.shouldBeSameInstanceAs
+import ktlogging.logEvent
+import ktlogging.logger
+import ktlogging.randomString
+import ktlogging.savedEvents
+import ktlogging.waitForDispatch
 import java.time.Instant
 
-class BaseLoggerTest : DescribeSpec({
-    describe("BaseLogger implementation of KtLogger") {
+class KtLoggerImplTest : DescribeSpec({
+    describe("KtLoggerImpl implementation of KtLogger") {
         describe("logs any object") {
             it("logs a string in the message field") {
                 val events = savedEvents()
                 val message = randomString()
-                BaseLogger("BaseLoggerTest").warn(message)
+                KtLoggerImpl("KtLoggerImplTest").warn(message)
                 waitForDispatch()
 
                 events.size shouldBe 1
@@ -22,7 +27,7 @@ class BaseLoggerTest : DescribeSpec({
             it("logs a LogEvent object as-is") {
                 val events = savedEvents()
                 val event = logEvent()
-                BaseLogger("BaseLoggerTest").info(event)
+                KtLoggerImpl("KtLoggerImplTest").info(event)
                 waitForDispatch()
 
                 events.size shouldBe 1
@@ -31,7 +36,7 @@ class BaseLoggerTest : DescribeSpec({
             it("logs an exception with message and stack trace") {
                 val events = savedEvents()
                 val exception = RuntimeException("Some kind of problem")
-                BaseLogger("BaseLoggerTest").warn(exception)
+                KtLoggerImpl("KtLoggerImplTest").warn(exception)
                 waitForDispatch()
 
                 events.size shouldBe 1
@@ -41,7 +46,7 @@ class BaseLoggerTest : DescribeSpec({
             it("logs the string representation of anything else in the message field") {
                 val events = savedEvents()
                 val event = Instant.now()
-                logger("BaseLoggerTest").info(event)
+                logger("KtLoggerImplTest").info(event)
                 waitForDispatch()
 
                 events.size shouldBe 1
@@ -52,7 +57,7 @@ class BaseLoggerTest : DescribeSpec({
         describe("optionally logs exception information") {
             it("does not include stack trace information if an exception is not provided") {
                 val events = savedEvents()
-                logger("BaseLoggerTest").warn { "Possible trouble" }
+                logger("KtLoggerImplTest").warn { "Possible trouble" }
                 waitForDispatch()
 
                 events.size shouldBe 1
@@ -60,7 +65,7 @@ class BaseLoggerTest : DescribeSpec({
             }
             it("includes stack trace information if an exception is provided as well as other information") {
                 val events = savedEvents()
-                logger("BaseLoggerTest").warn(RuntimeException("Oh noes!")) { "Big trouble!" }
+                logger("KtLoggerImplTest").warn(RuntimeException("Oh noes!")) { "Big trouble!" }
                 waitForDispatch()
 
                 events.size shouldBe 1
@@ -71,7 +76,7 @@ class BaseLoggerTest : DescribeSpec({
         describe("event construction function e()") {
             it("uses the template unchanged as message if there are no items") {
                 val tmpl = randomString()
-                with(BaseLogger("BaseLoggerTest").e(tmpl)) {
+                with(KtLoggerImpl("KtLoggerImplTest").e(tmpl)) {
                     message shouldBe tmpl
                     template shouldBe tmpl
                 }
@@ -79,7 +84,7 @@ class BaseLoggerTest : DescribeSpec({
             it("uses message templating to complete the message") {
                 val tmpl = "Hello {User}!"
                 val item = randomString()
-                with(BaseLogger("BaseLoggerTest").e(tmpl, item)) {
+                with(KtLoggerImpl("KtLoggerImplTest").e(tmpl, item)) {
                     message shouldBe tmpl
                     template shouldBe tmpl
                     items shouldContain ("User" to item)
