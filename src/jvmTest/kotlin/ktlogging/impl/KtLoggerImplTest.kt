@@ -4,7 +4,7 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import io.kotest.matchers.types.shouldBeSameInstanceAs
+import ktlogging.events.Level
 import ktlogging.logEvent
 import ktlogging.logger
 import ktlogging.randomString
@@ -24,14 +24,44 @@ class KtLoggerImplTest : DescribeSpec({
                 events.size shouldBe 1
                 events.first().message shouldBe message
             }
-            it("logs a LogEvent object as-is") {
+            it("logs a LogEvent object with the specified level") {
                 val events = savedEvents()
                 val event = logEvent()
-                KtLoggerImpl("KtLoggerImplTest").info(event)
+                KtLoggerImpl("KtLoggerImplTest").warn(event)
                 waitForDispatch()
 
                 events.size shouldBe 1
-                events.first() shouldBeSameInstanceAs event
+                with(events.first()) {
+                    id shouldBe event.id
+                    timestamp shouldBe event.timestamp
+                    host shouldBe event.host
+                    logger shouldBe event.logger
+                    level shouldBe Level.WARN
+                    template shouldBe event.template
+                    message shouldBe event.message
+                    stackTrace shouldBe event.stackTrace
+                    items shouldBe event.items
+                }
+            }
+            it("logs a LogEvent object with stack trace from any exception") {
+                val events = savedEvents()
+                val event = logEvent()
+                val exception = RuntimeException("Oh noes!")
+                KtLoggerImpl("KtLoggerImplTest").error(exception, event)
+                waitForDispatch()
+
+                events.size shouldBe 1
+                with(events.first()) {
+                    id shouldBe event.id
+                    timestamp shouldBe event.timestamp
+                    host shouldBe event.host
+                    logger shouldBe event.logger
+                    level shouldBe Level.ERROR
+                    template shouldBe event.template
+                    message shouldBe event.message
+                    stackTrace shouldBe exception.stackTraceToString()
+                    items shouldBe event.items
+                }
             }
             it("logs an exception with message and stack trace") {
                 val events = savedEvents()

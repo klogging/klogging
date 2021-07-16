@@ -17,5 +17,8 @@ data class LogEvent(
     val message: String,
     val stackTrace: String?,
     val items: Map<String, String>,
-)
-
+) {
+    fun copyWith(newLevel: Level, newStacktrace: String?) = LogEvent(
+        id, timestamp, host, logger, newLevel, template, message, newStacktrace, items
+    )
+}

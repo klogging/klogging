@@ -20,7 +20,7 @@ class NoCoLoggerImpl(
 
     override fun logMessage(level: Level, exception: Exception?, event: Any?) {
         val eventToLog = when (event) {
-            is LogEvent -> event
+            is LogEvent -> event.copyWith(level, exception?.stackTraceToString())
             else -> {
                 val (message, stackTrace) = when (event) {
                     is Exception -> (event.message ?: "Exception") to event.stackTraceToString()
