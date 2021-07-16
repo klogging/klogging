@@ -11,14 +11,13 @@ import java.time.Instant
 actual fun LogEvent.toClef(): String {
     val eventMap: MutableMap<String, String> = (mapOf(
         "@t" to Instant.ofEpochSecond(timestamp.epochSeconds, timestamp.nanos).toString(),
-        "@m" to message,
-        "@mt" to (template ?: message),
         "@l" to level.name,
         "host" to host,
         "logger" to logger,
     ) + items).toMutableMap()
-    if (stackTrace != null)
-        eventMap["@x"] = stackTrace
+    if (template != null) eventMap["@mt"] = template
+    else eventMap["@m"] = message
+    if (stackTrace != null) eventMap["@x"] = stackTrace
 
     return Json.encodeToString(eventMap)
 }

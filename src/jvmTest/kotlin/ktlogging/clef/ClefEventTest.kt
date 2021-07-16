@@ -17,11 +17,10 @@ class ClefEventTest : DescribeSpec({
 
             event.toClef() shouldBe """{
             |"@t":"${iso(event.timestamp)}",
-            |"@m":"${event.message}",
-            |"@mt":"${event.message}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
-            |"logger":"${event.logger}"
+            |"logger":"${event.logger}",
+            |"@m":"${event.message}"
             |}""".trimMargin().replace("\n", "")
         }
         it("includes @x if `stackTrace` is present") {
@@ -31,12 +30,38 @@ class ClefEventTest : DescribeSpec({
 
             event.toClef() shouldBe """{
             |"@t":"${iso(event.timestamp)}",
-            |"@m":"${event.message}",
-            |"@mt":"${event.message}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
             |"logger":"${event.logger}",
+            |"@m":"${event.message}",
             |"@x":"${event.stackTrace}"
+            |}""".trimMargin().replace("\n", "")
+        }
+        it("includes @m but not @mt if `template` is null") {
+            val ts = timestampNow()
+            val event = LogEvent(newId(), ts, "test.local", "Test", Level.INFO, null, "Message", null, mapOf())
+
+            event.toClef() shouldBe """{
+            |"@t":"${iso(event.timestamp)}",
+            |"@l":"${event.level}",
+            |"host":"${event.host}",
+            |"logger":"${event.logger}",
+            |"@m":"${event.message}"
+            |}""".trimMargin().replace("\n", "")
+        }
+        it("includes @mt but not @m if `template` is included") {
+            val ts = timestampNow()
+            val id = randomString()
+            val event = LogEvent(newId(), ts, "test.local", "Test", Level.INFO, "Id={Id}", "Id={Id}", null,
+                mapOf("Id" to id))
+
+            event.toClef() shouldBe """{
+            |"@t":"${iso(event.timestamp)}",
+            |"@l":"${event.level}",
+            |"host":"${event.host}",
+            |"logger":"${event.logger}",
+            |"Id":"$id",
+            |"@mt":"${event.template}"
             |}""".trimMargin().replace("\n", "")
         }
     }

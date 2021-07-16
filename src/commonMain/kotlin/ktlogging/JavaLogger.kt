@@ -7,7 +7,7 @@ import ktlogging.events.Level
 import ktlogging.events.LogEvent
 import ktlogging.events.newId
 import ktlogging.events.now
-import ktlogging.template.template
+import ktlogging.template.templateItems
 
 class JavaLogger(
     override val name: String,
@@ -42,16 +42,16 @@ class JavaLogger(
     }
 
     override fun e(template: String, vararg values: Any?): LogEvent {
-        val templated = template(template, *values)
+        val items = templateItems(template, *values).mapValues { v -> v.toString() }
         return LogEvent(
             id = newId(),
             timestamp = now(),
             logger = name,
             level = minLevel,
             template = template,
-            message = templated.evaluated,
+            message = template,
             stackTrace = null,
-            items = templated.items,
+            items = items,
         )
     }
 }

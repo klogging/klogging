@@ -80,7 +80,7 @@ class BaseLoggerTest : DescribeSpec({
                 val tmpl = "Hello {User}!"
                 val item = randomString()
                 with(BaseLogger("BaseLoggerTest").e(tmpl, item)) {
-                    message shouldBe "Hello $item!"
+                    message shouldBe tmpl
                     template shouldBe tmpl
                     items shouldContain ("User" to item)
                 }
