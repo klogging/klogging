@@ -45,7 +45,7 @@ fun main() = runBlocking {
     logger.info { "All done" }
 }
 
-suspend fun functionWithException(logger: Ktlogger) {
+suspend fun functionWithException(logger: KtLogger) {
     try {
         throw RuntimeException("Oops! Something went wrong")
     } catch (e: Exception) {

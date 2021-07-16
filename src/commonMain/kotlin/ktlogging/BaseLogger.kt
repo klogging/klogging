@@ -11,7 +11,7 @@ import kotlin.coroutines.coroutineContext
 class BaseLogger(
     override val name: String,
     private val minLevel: Level = Level.INFO,
-) : Ktlogger {
+) : KtLogger {
 
     override fun minLevel() = minLevel
 

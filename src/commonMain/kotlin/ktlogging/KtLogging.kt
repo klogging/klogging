@@ -4,18 +4,18 @@ import kotlin.reflect.KClass
 
 expect fun classNameOf(ownerClass: KClass<*>): String?
 
-val LOGGERS: MutableMap<String, Ktlogger> = mutableMapOf()
+val LOGGERS: MutableMap<String, KtLogger> = mutableMapOf()
 
-internal fun loggerFor(name: String?): Ktlogger {
+internal fun loggerFor(name: String?): KtLogger {
     val loggerName = name ?: "KtLogging"
     return LOGGERS.getOrPut(loggerName) { BaseLogger(loggerName) }
 }
 
-fun logger(name: String): Ktlogger = loggerFor(name)
+fun logger(name: String): KtLogger = loggerFor(name)
 
-fun logger(ownerClass: KClass<*>): Ktlogger = loggerFor(classNameOf(ownerClass))
+fun logger(ownerClass: KClass<*>): KtLogger = loggerFor(classNameOf(ownerClass))
 
 interface KtLogging {
-    val logger: Ktlogger
+    val logger: KtLogger
         get() = loggerFor(classNameOf(this::class))
 }

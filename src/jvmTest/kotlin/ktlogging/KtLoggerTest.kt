@@ -7,7 +7,7 @@ import ktlogging.events.LogEvent
 
 class TestLogger(
     private val level: Level = Level.FATAL
-) : Ktlogger {
+) : KtLogger {
 
     override val name: String = "TestLogger"
 
