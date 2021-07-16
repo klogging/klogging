@@ -19,25 +19,7 @@ class NoCoLoggerImpl(
     override fun minLevel() = minLevel
 
     override fun logMessage(level: Level, exception: Exception?, event: Any?) {
-        val eventToLog = when (event) {
-            is LogEvent -> event.copyWith(level, exception?.stackTraceToString())
-            else -> {
-                val (message, stackTrace) = when (event) {
-                    is Exception -> (event.message ?: "Exception") to event.stackTraceToString()
-                    else -> event.toString() to exception?.stackTraceToString()
-                }
-                LogEvent(
-                    id = newId(),
-                    timestamp = now(),
-                    logger = name,
-                    level = level,
-                    message = message,
-                    stackTrace = stackTrace,
-                    items = mapOf()
-                )
-            }
-        }
-
+        val eventToLog = eventFrom(level, exception, event)
         CoroutineScope(Job()).launch {
             Logging.sendEvent(eventToLog)
         }
