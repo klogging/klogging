@@ -26,12 +26,12 @@ class NoCoLoggerImpl(
     }
 
     override fun e(template: String, vararg values: Any?): LogEvent {
-        val items = templateItems(template, *values).mapValues { v -> v.toString() }
+        val items = templateItems(template, *values).mapValues { e -> e.value.toString() }
         return LogEvent(
             id = newId(),
             timestamp = now(),
-            logger = name,
-            level = minLevel,
+            logger = this.name,
+            level = this.minLevel,
             template = template,
             message = template,
             stackTrace = null,

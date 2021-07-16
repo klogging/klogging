@@ -20,14 +20,11 @@ fun BaseLogger.eventFrom(
         is LogEvent ->
             event.copyWith(level, exception?.stackTraceToString())
         else -> {
-            val (message, stackTrace) = when (event) {
-                is Exception -> (event.message ?: "Exception") to event.stackTraceToString()
-                else -> event.toString() to exception?.stackTraceToString()
-            }
+            val (message, stackTrace) = messageAndStackTrace(event, exception)
             LogEvent(
                 id = newId(),
                 timestamp = now(),
-                logger = name,
+                logger = this.name,
                 level = level,
                 message = message,
                 stackTrace = stackTrace,
@@ -35,4 +32,9 @@ fun BaseLogger.eventFrom(
             )
         }
     }
+}
+
+internal fun messageAndStackTrace(event: Any?, exception: Exception?) = when (event) {
+    is Exception -> (event.message ?: "Exception") to event.stackTraceToString()
+    else -> event.toString() to exception?.stackTraceToString()
 }

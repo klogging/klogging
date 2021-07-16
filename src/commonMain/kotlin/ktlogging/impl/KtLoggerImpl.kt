@@ -30,8 +30,8 @@ class KtLoggerImpl(
         return LogEvent(
             id = newId(),
             timestamp = now(),
-            logger = name,
-            level = minLevel,
+            logger = this.name,
+            level = this.minLevel,
             template = template,
             message = template,
             stackTrace = null,
