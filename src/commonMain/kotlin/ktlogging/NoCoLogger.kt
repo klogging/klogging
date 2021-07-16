@@ -6,17 +6,9 @@ import ktlogging.events.LogEvent
 /**
  * Interface for logging from outside coroutines.
  *
- * `JLogger` is a working name for now.
+ * `NoCoLogger` is a working name for now.
  */
-interface NoCoLogger {
-
-    val name: String
-
-    fun minLevel(): Level
-    fun isLevelEnabled(level: Level) = minLevel() <= level
-    fun isTraceEnabled() = minLevel() <= Level.TRACE
-    fun isDebugEnabled() = minLevel() <= Level.DEBUG
-    fun isInfoEnabled() = minLevel() <= Level.INFO
+interface NoCoLogger : BaseLogger {
 
     fun logMessage(level: Level, exception: Exception?, event: Any?)
 

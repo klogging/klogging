@@ -4,17 +4,9 @@ import ktlogging.events.Level
 import ktlogging.events.LogEvent
 
 /**
- * Logger interface for sending log events.
+ * Logger interface for sending log events inside coroutines.
  */
-interface KtLogger {
-
-    val name: String
-
-    fun minLevel(): Level
-    fun isLevelEnabled(level: Level) = minLevel() <= level
-    fun isTraceEnabled() = minLevel() <= Level.TRACE
-    fun isDebugEnabled() = minLevel() <= Level.DEBUG
-    fun isInfoEnabled() = minLevel() <= Level.INFO
+interface KtLogger : BaseLogger {
 
     suspend fun logMessage(level: Level, exception: Exception?, event: Any?)
 
