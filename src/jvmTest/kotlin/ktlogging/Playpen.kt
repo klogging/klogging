@@ -1,12 +1,16 @@
 package ktlogging
 
-import ktlogging.Dispatcher.setDispatchers
-import ktlogging.clef.dispatchClef
-import ktlogging.clef.toClef
-import ktlogging.context.logContext
-import ktlogging.events.LogEvent
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import ktlogging.clef.dispatchClef
+import ktlogging.clef.toClef
+import ktlogging.config.DEFAULT_CONSOLE
+import ktlogging.config.LogDispatcher
+import ktlogging.config.LoggingConfig
+import ktlogging.config.LoggingConfiguration
+import ktlogging.context.logContext
+import ktlogging.events.Level
+import ktlogging.events.LogEvent
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.UUID
@@ -19,9 +23,11 @@ fun main() = runBlocking {
             items + mapOf("format" to fmt, "thread" to Thread.currentThread().name)
         )
 
-    setDispatchers(
-        { e -> dispatchClef(e.format("CLEF").toClef()) },
-//        { e -> println(e.toClef()) },
+    LoggingConfiguration.setConfigs(
+        DEFAULT_CONSOLE,
+        LoggingConfig("ROOT", Level.INFO, listOf(
+            LogDispatcher("Seq") { e -> dispatchClef(e.format("CLEF").toClef()) }
+        )),
     )
 
     val logger = logger("main")
