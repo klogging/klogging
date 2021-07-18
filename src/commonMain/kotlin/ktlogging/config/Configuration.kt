@@ -15,7 +15,8 @@ data class LoggingConfig(
     val dispatchers: List<LogDispatcher>,
 )
 
-val DEFAULT_CONSOLE = LoggingConfig("ROOT", Level.INFO, listOf(LogDispatcher("CONSOLE", simpleDispatcher)))
+const val ROOT_CONFIG = "ROOT"
+val DEFAULT_CONSOLE = LoggingConfig(ROOT_CONFIG, Level.INFO, listOf(LogDispatcher("CONSOLE", simpleDispatcher)))
 
 object LoggingConfiguration {
 
@@ -27,6 +28,13 @@ object LoggingConfiguration {
     }
 
     fun dispatchersFor(name: String, level: Level): List<LogDispatcher> {
-        return configs.flatMap { it.dispatchers }
+        return configs
+            .filter { matchesName(it, name) && minLevel(it, level) }
+            .flatMap { it.dispatchers }
     }
+
+    private inline fun matchesName(config: LoggingConfig, name: String) =
+        config.name == ROOT_CONFIG || name.startsWith(config.name)
+
+    private inline fun minLevel(config: LoggingConfig, level: Level) = level >= config.level
 }
