@@ -12,10 +12,7 @@ import kotlin.coroutines.coroutineContext
 
 class KtLoggerImpl(
     override val name: String,
-    private val minLevel: Level = Level.INFO,
 ) : KtLogger {
-
-    override fun minLevel() = minLevel
 
     override suspend fun logMessage(level: Level, exception: Exception?, event: Any?) {
         val eventToLog = eventFrom(level, exception, event, contextItems())
@@ -31,7 +28,7 @@ class KtLoggerImpl(
             id = newId(),
             timestamp = now(),
             logger = this.name,
-            level = this.minLevel,
+            level = minLevel(),
             template = template,
             message = template,
             stackTrace = null,

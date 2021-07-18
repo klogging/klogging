@@ -9,6 +9,7 @@ import ktlogging.events.Timestamp
  * 0=Emergency,1=Alert,2=Critical,3=Error,4=Warning,5=Notice,6=Informational,7=Debug
  */
 fun graylogLevel(level: Level) = when (level) {
+    Level.NONE -> 7
     Level.TRACE -> 7
     Level.DEBUG -> 7
     Level.INFO -> 6

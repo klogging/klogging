@@ -13,10 +13,7 @@ import ktlogging.template.templateItems
 
 class NoCoLoggerImpl(
     override val name: String,
-    private val minLevel: Level = Level.INFO,
 ) : NoCoLogger {
-
-    override fun minLevel() = minLevel
 
     override fun logMessage(level: Level, exception: Exception?, event: Any?) {
         val eventToLog = eventFrom(level, exception, event)
@@ -31,7 +28,7 @@ class NoCoLoggerImpl(
             id = newId(),
             timestamp = now(),
             logger = this.name,
-            level = this.minLevel,
+            level = minLevel(),
             template = template,
             message = template,
             stackTrace = null,
