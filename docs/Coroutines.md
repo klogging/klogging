@@ -22,8 +22,20 @@ suspend fun complexLogic(input: EssentialStuff): ValuableOutput {
 
 The log events sent by any code within the scope of the launched
 coroutine will contain a field called `runId` with the value of
-`input.runId` for that particular run. That includes any other
-coroutines launched by that one.
+`input.runId` for that particular run. A couple of log events might look like this:
+
+```json
+{
+  "timestamp": "2021-07-18T03:27:06.628560Z",
+  "runId": "76CE907C",
+  "message": "Starting logic"
+}
+{
+  "timestamp": "2021-07-18T03:27:06.633872Z",
+  "runId": "76CE907C",
+  "message": "Finished logic"
+}
+```
 
 ## Asynchronous dispatching of log events
 
