@@ -10,13 +10,8 @@ interface KtLogger : BaseLogger {
 
     suspend fun logMessage(level: Level, exception: Exception?, event: Any?)
 
-    suspend fun log(level: Level, exception: Exception, event: Any?) {
-        if (isLevelEnabled(level)) logMessage(level, exception, event)
-    }
-
-    suspend fun log(level: Level, event: Any?) {
-        if (isLevelEnabled(level)) logMessage(level, null, event)
-    }
+    suspend fun log(level: Level, exception: Exception, event: Any?) = logMessage(level, exception, event)
+    suspend fun log(level: Level, event: Any?) = logMessage(level, null, event)
 
     suspend fun trace(event: Any?) = log(Level.TRACE, event)
     suspend fun debug(event: Any?) = log(Level.DEBUG, event)

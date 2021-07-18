@@ -4,6 +4,7 @@ import kotlinx.coroutines.delay
 import ktlogging.config.LogDispatcher
 import ktlogging.config.LoggingConfig
 import ktlogging.config.LoggingConfiguration
+import ktlogging.config.ROOT_CONFIG
 import ktlogging.events.Level
 import ktlogging.events.LogEvent
 import ktlogging.events.Timestamp
@@ -46,6 +47,6 @@ suspend fun waitForDispatch(millis: Long = 50) = delay(millis)
 fun savedEvents(): MutableList<LogEvent> {
     val saved = mutableListOf<LogEvent>()
     LoggingConfiguration
-        .setConfigs(LoggingConfig("Test", Level.TRACE, listOf(LogDispatcher("Test") { e -> saved.add(e) })))
+        .setConfigs(LoggingConfig(ROOT_CONFIG, Level.TRACE, listOf(LogDispatcher("Test") { e -> saved.add(e) })))
     return saved
 }
