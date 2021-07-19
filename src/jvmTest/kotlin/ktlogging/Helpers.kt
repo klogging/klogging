@@ -1,11 +1,15 @@
 package ktlogging
 
+import kotlinx.coroutines.delay
+import ktlogging.config.LogDispatcher
+import ktlogging.config.LoggingConfig
+import ktlogging.config.LoggingConfiguration
+import ktlogging.config.ROOT_CONFIG
 import ktlogging.events.Level
 import ktlogging.events.LogEvent
 import ktlogging.events.Timestamp
 import ktlogging.events.hostname
 import ktlogging.events.newId
-import kotlinx.coroutines.delay
 import java.time.Instant
 import kotlin.random.Random
 import kotlin.random.nextULong
@@ -42,6 +46,7 @@ suspend fun waitForDispatch(millis: Long = 50) = delay(millis)
 
 fun savedEvents(): MutableList<LogEvent> {
     val saved = mutableListOf<LogEvent>()
-    Dispatcher.setDispatchers({ e -> saved.add(e) })
+    LoggingConfiguration
+        .setConfigs(LoggingConfig(ROOT_CONFIG, Level.TRACE, listOf(LogDispatcher("Test") { e -> saved.add(e) })))
     return saved
 }

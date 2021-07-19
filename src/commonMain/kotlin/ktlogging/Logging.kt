@@ -4,7 +4,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
-import ktlogging.Dispatcher.dispatchEvent
+import ktlogging.dispatching.Dispatcher.dispatchEvent
 import ktlogging.events.LogEvent
 
 /**

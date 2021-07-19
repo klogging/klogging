@@ -1,23 +1,45 @@
 # KtLogging
 
-**KtLogging** is a logging library for Kotlin applications that use coroutines, such as
-the [Ktor](https://ktor.io) asynchronous service framework.
+[![Build and test](https://github.com/mjstrasser/ktlogging/actions/workflows/build-test.yml/badge.svg)](https://github.com/mjstrasser/ktlogging/actions/workflows/build-test.yml)
 
-> This is work in progress
+**KtLogging** is a pure-Kotlin logging library that aims to be flexible and easy to use.
+It uses Kotlin idioms for creating loggers and sending log events.
+It takes advantage of [Kotlin coroutines](https://kotlinlang.org/docs/coroutines-guide.html)  
+in environments that use them, for example the [Ktor](https://ktor.io) asynchronous service
+framework.
 
 ## Intention
 
-- Familar logging idioms for Java and C# devs.
+**This is work in progress**
+
+- Familiar logging idioms for Java and C# devs.
 - Kotlin coroutines for carrying contextual information to include in log events.
-- Pure Kotlin multiplatform (future).
 - Structured logs by default: not string messages with structured information a clumsy add-on.
-- Message templates for simple logging of both text and data.
-- Timestamp precision down to nanosecond if available.
+- [Message templates](https://messagetemplates.org) for elegant logging of both text and data.
+- Timestamp precision down to nanosecond if available
+- Configuration of logging levels by logger names to targets (like Log4j and Logback). 
+- Pure Kotlin multiplatform (future). _Current development focuses on the JVM._
+
+## How to use it
+
+_Coming soon_
+
+## Use cases
+
+This section will cover:
+
+- Creating loggers
+- Logging events
+- Adding information to the coroutine context to be logged
+- Configuring logging levels, dispatchers and targets
 
 ## Why another logging library?
 
 KtLogging is designed from the ground up to be standalone, pure Kotlin and to be used with
-coroutines. No other library I could find meets these requirements.
+coroutines. It is designed to be used by distributed services that log events with information
+from a wide variety of contexts.
+
+No other library I could find meets these requirements.
 
 ### Why not … ?
 
