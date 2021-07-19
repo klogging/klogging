@@ -1,5 +1,6 @@
 # KtLogging
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Build and test](https://github.com/mjstrasser/ktlogging/actions/workflows/build-test.yml/badge.svg)](https://github.com/mjstrasser/ktlogging/actions/workflows/build-test.yml)
 
 **KtLogging** is a pure-Kotlin logging library that aims to be flexible and easy to use.
