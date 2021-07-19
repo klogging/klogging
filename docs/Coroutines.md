@@ -27,11 +27,13 @@ coroutine will contain a field called `runId` with the value of
 ```json
 {
   "timestamp": "2021-07-18T03:27:06.628560Z",
+  "level": "INFO",
   "runId": "76CE907C",
   "message": "Starting logic"
 }
 {
   "timestamp": "2021-07-18T03:27:06.633872Z",
+  "level": "INFO",
   "runId": "76CE907C",
   "message": "Finished logic"
 }

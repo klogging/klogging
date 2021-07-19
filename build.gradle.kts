@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "ktlogging"
-version = "1.0-SNAPSHOT"
+version = "0.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -17,7 +17,7 @@ val kotestVersion: String by project
 kotlin {
     jvm {
         compilations.all {
-            kotlinOptions.jvmTarget = "1.8"
+            kotlinOptions.jvmTarget = "11"
         }
         testRuns["test"].executionTask.configure {
             useJUnitPlatform()

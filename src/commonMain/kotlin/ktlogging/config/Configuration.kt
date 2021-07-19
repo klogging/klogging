@@ -31,10 +31,10 @@ object LoggingConfiguration {
         .filter { matchesName(it, name) && minLevel(it, level) }
         .flatMap { it.dispatchers }
 
-    private inline fun matchesName(config: LoggingConfig, name: String) =
+    private fun matchesName(config: LoggingConfig, name: String) =
         config.name == ROOT_CONFIG || name.startsWith(config.name)
 
-    private inline fun minLevel(config: LoggingConfig, level: Level) = level >= config.level
+    private fun minLevel(config: LoggingConfig, level: Level) = level >= config.level
 
     fun minimumLevelOf(name: String): Level = configs
         .filter { matchesName(it, name) }

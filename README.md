@@ -11,7 +11,7 @@ framework.
 
 ## Intention
 
-**This is work in progress**
+🚧 **This is work in progress** 🚧
 
 - Familiar logging idioms for Java and C# devs.
 - Kotlin coroutines for carrying contextual information to include in log events.
@@ -21,9 +21,25 @@ framework.
 - Configuration of logging levels by logger names to targets (like Log4j and Logback). 
 - Pure Kotlin multiplatform (future). _Current development focuses on the JVM._
 
-## How to use it
+## Quick start (JVM only)
 
-_Coming soon_
+1. Clone this repository and build a jar with `./gradlew clean jvmJar`.
+
+2. Add `./build/libs/ktlogging-jvm-0.1-SNAPSHOT.jar` to your project.
+
+3. (Optionally) configure loggers using `LoggingConfiguration.setConfigs()`.
+
+4. Create a logger, for example by using the `KtLogging` interface for coroutine logging:
+
+    ```kotlin
+    class ImportantStuff : KtLogging {
+        suspend fun cleverAction(runId: String, input: String) = coroutineScope {
+            launch(logContext("runId" to runId)) {
+                logger.info("cleverAction with input=$input")
+            }
+        }
+    }
+    ```
 
 ## Use cases
 
