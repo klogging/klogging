@@ -9,7 +9,7 @@ Important properties of an event are:
 
 Property | Description
 ---|---
-Timestamp | The point in time when the event occurred, with the highest precision available.
+Timestamp | The point in time when the event occurred, with microsecond or finer resolution.
 Logger | Name of the logger that sent the event (e.g. a fully-qualified class name).
 Level | An indication of the severity of the event.
 Host | Where the event originated: important in distributed systems.

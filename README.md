@@ -66,9 +66,11 @@ These venerable Java libraries have formed the backbone of Java logging for more
 limitations I find are:
 
 * They are designed to log strings of text with embedded information that is discovered by searching
-  within strings. Logging needs to include …
+  within strings. Logging should be of events containing structured information derived from
+  all nested scopes where those events occur.
 
 * Logback is hamstrung by having timestamp resolution limited to milliseconds. This limit is baked
   in to
   the [core of the library](https://github.com/qos-ch/logback/blob/master/logback-classic/src/main/java/ch/qos/logback/classic/spi/ILoggingEvent.java#L83).
   
+**TBC**
