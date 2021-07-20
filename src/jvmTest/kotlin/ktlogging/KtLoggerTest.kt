@@ -100,13 +100,42 @@ class KtLoggerTest : DescribeSpec({
                     logged shouldBe thing
                 }
             }
-            it("logs a templated event using `e()` function in a lambda") {
+            it("logs a templated event") {
+                val template = "Id is {Id}"
                 val id = randomString()
                 with(TestLogger()) {
-                    info { e("Id is {Id}", id) }
+                    debug("Id is {Id}", id)
+
                     (logged as LogEvent).let {
-                        it.message shouldBe "Id is {Id}"
-                        it.template shouldBe "Id is {Id}"
+                        it.message shouldBe template
+                        it.template shouldBe template
+                        it.items shouldContain ("Id" to id)
+                    }
+                }
+            }
+            it("logs a templated event with an exception") {
+                val template = "Id is {Id}"
+                val id = randomString()
+                val exception = TestException(randomString())
+                with(TestLogger()) {
+                    fatal(exception, "Id is {Id}", id)
+
+                    except shouldBe exception
+                    (logged as LogEvent).let {
+                        it.message shouldBe template
+                        it.template shouldBe template
+                        it.items shouldContain ("Id" to id)
+                    }
+                }
+            }
+            it("logs a templated event using `e()` function in a lambda") {
+                val template = "Id is {Id}"
+                val id = randomString()
+                with(TestLogger()) {
+                    info { e(template, id) }
+                    (logged as LogEvent).let {
+                        it.message shouldBe template
+                        it.template shouldBe template
                         it.items shouldContain ("Id" to id)
                     }
                 }
@@ -126,5 +155,4 @@ class KtLoggerTest : DescribeSpec({
             }
         }
     }
-
 })
