@@ -17,10 +17,13 @@ interface KtLogger : BaseLogger {
     suspend fun debug(event: Any?) = log(Level.DEBUG, event)
     suspend fun info(event: Any?) = log(Level.INFO, event)
     suspend fun warn(event: Any?) = log(Level.WARN, event)
-    suspend fun warn(exception: Exception, event: Any?) = log(Level.WARN, exception, event)
     suspend fun error(event: Any?) = log(Level.ERROR, event)
-    suspend fun error(exception: Exception, event: Any?) = log(Level.ERROR, exception, event)
     suspend fun fatal(event: Any?) = log(Level.FATAL, event)
+    suspend fun trace(exception: Exception, event: Any?) = log(Level.WARN, exception, event)
+    suspend fun debug(exception: Exception, event: Any?) = log(Level.DEBUG, exception, event)
+    suspend fun info(exception: Exception, event: Any?) = log(Level.INFO, exception, event)
+    suspend fun warn(exception: Exception, event: Any?) = log(Level.WARN, exception, event)
+    suspend fun error(exception: Exception, event: Any?) = log(Level.ERROR, exception, event)
     suspend fun fatal(exception: Exception, event: Any?) = log(Level.FATAL, exception, event)
 
     suspend fun log(level: Level, exception: Exception, event: suspend KtLogger.() -> Any?) {
@@ -35,10 +38,13 @@ interface KtLogger : BaseLogger {
     suspend fun debug(event: suspend KtLogger.() -> Any?) = log(Level.DEBUG, event)
     suspend fun info(event: suspend KtLogger.() -> Any?) = log(Level.INFO, event)
     suspend fun warn(event: suspend KtLogger.() -> Any?) = log(Level.WARN, event)
-    suspend fun warn(exception: Exception, event: suspend KtLogger.() -> Any?) = log(Level.WARN, exception, event)
     suspend fun error(event: suspend KtLogger.() -> Any?) = log(Level.ERROR, event)
-    suspend fun error(exception: Exception, event: suspend KtLogger.() -> Any?) = log(Level.ERROR, exception, event)
     suspend fun fatal(event: suspend KtLogger.() -> Any?) = log(Level.FATAL, event)
+    suspend fun trace(exception: Exception, event: suspend KtLogger.() -> Any?) = log(Level.TRACE, exception, event)
+    suspend fun debug(exception: Exception, event: suspend KtLogger.() -> Any?) = log(Level.DEBUG, exception, event)
+    suspend fun info(exception: Exception, event: suspend KtLogger.() -> Any?) = log(Level.INFO, exception, event)
+    suspend fun warn(exception: Exception, event: suspend KtLogger.() -> Any?) = log(Level.WARN, exception, event)
+    suspend fun error(exception: Exception, event: suspend KtLogger.() -> Any?) = log(Level.ERROR, exception, event)
     suspend fun fatal(exception: Exception, event: suspend KtLogger.() -> Any?) = log(Level.FATAL, exception, event)
 
     /**
