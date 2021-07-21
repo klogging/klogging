@@ -32,7 +32,6 @@ class KtLoggerImplTest : DescribeSpec({
 
                 events.size shouldBe 1
                 with(events.first()) {
-                    id shouldBe event.id
                     timestamp shouldBe event.timestamp
                     host shouldBe event.host
                     logger shouldBe event.logger
@@ -52,7 +51,6 @@ class KtLoggerImplTest : DescribeSpec({
 
                 events.size shouldBe 1
                 with(events.first()) {
-                    id shouldBe event.id
                     timestamp shouldBe event.timestamp
                     host shouldBe event.host
                     logger shouldBe event.logger

@@ -3,11 +3,10 @@ package ktlogging.impl
 import ktlogging.BaseLogger
 import ktlogging.events.Level
 import ktlogging.events.LogEvent
-import ktlogging.events.newId
 import ktlogging.events.now
 
 fun LogEvent.copyWith(newLevel: Level, newStacktrace: String?) = LogEvent(
-    id, timestamp, host, logger, newLevel, template, message, newStacktrace, items
+    timestamp, host, logger, newLevel, template, message, newStacktrace, items
 )
 
 fun BaseLogger.eventFrom(
@@ -22,7 +21,6 @@ fun BaseLogger.eventFrom(
         else -> {
             val (message, stackTrace) = messageAndStackTrace(event, exception)
             LogEvent(
-                id = newId(),
                 timestamp = now(),
                 logger = this.name,
                 level = level,

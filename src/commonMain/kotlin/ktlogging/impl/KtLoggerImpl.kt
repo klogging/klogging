@@ -5,7 +5,6 @@ import ktlogging.Logging
 import ktlogging.context.LogContext
 import ktlogging.events.Level
 import ktlogging.events.LogEvent
-import ktlogging.events.newId
 import ktlogging.events.now
 import ktlogging.template.templateItems
 import kotlin.coroutines.coroutineContext
@@ -25,7 +24,6 @@ class KtLoggerImpl(
     override suspend fun e(template: String, vararg values: Any?): LogEvent {
         val items = templateItems(template, *values).mapValues { e -> e.value.toString() }
         return LogEvent(
-            id = newId(),
             timestamp = now(),
             logger = this.name,
             level = minLevel(),

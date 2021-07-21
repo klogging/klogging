@@ -9,7 +9,6 @@ import ktlogging.events.Level
 import ktlogging.events.LogEvent
 import ktlogging.events.Timestamp
 import ktlogging.events.hostname
-import ktlogging.events.newId
 import java.time.Instant
 import kotlin.random.Random
 import kotlin.random.nextULong
@@ -23,7 +22,6 @@ fun randomString() = Random.nextULong().toString(16)
 fun randomLevel() = Level.values().random()
 
 fun logEvent(
-    id: String = newId(),
     timestamp: Timestamp = timestampNow(),
     host: String = hostname(),
     name: String = randomLoggerName(),
@@ -32,7 +30,6 @@ fun logEvent(
     stackTrace: String? = null,
     items: Map<String, String> = mapOf(),
 ) = LogEvent(
-    id = id,
     timestamp = timestamp,
     host = host,
     logger = name,

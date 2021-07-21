@@ -7,7 +7,6 @@ import ktlogging.Logging
 import ktlogging.NoCoLogger
 import ktlogging.events.Level
 import ktlogging.events.LogEvent
-import ktlogging.events.newId
 import ktlogging.events.now
 import ktlogging.template.templateItems
 
@@ -25,7 +24,6 @@ class NoCoLoggerImpl(
     override fun e(template: String, vararg values: Any?): LogEvent {
         val items = templateItems(template, *values).mapValues { e -> e.value.toString() }
         return LogEvent(
-            id = newId(),
             timestamp = now(),
             logger = this.name,
             level = minLevel(),

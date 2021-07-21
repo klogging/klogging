@@ -19,7 +19,7 @@ fun main() = runBlocking {
 
     fun LogEvent.format(fmt: String) =
         LogEvent(
-            id, timestamp, host, logger, level, template, message, stackTrace,
+            timestamp, host, logger, level, template, message, stackTrace,
             items + mapOf("format" to fmt, "thread" to Thread.currentThread().name)
         )
 
