@@ -3,9 +3,9 @@ package ktlogging.events
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.launch
 import ktlogging.context.logContext
 import ktlogging.logger
-import kotlinx.coroutines.launch
 import ktlogging.savedEvents
 import ktlogging.waitForDispatch
 

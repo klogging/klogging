@@ -26,8 +26,10 @@ class TestLogger(
     }
 
     override suspend fun e(template: String, vararg values: Any?): LogEvent =
-        LogEvent(randomString(), now(), hostname(), "TestLogger", Level.NONE, template, template, null,
-            templateItems(template, *values).mapValues { e -> e.value.toString() })
+        LogEvent(
+            randomString(), now(), hostname(), "TestLogger", Level.NONE, template, template, null,
+            templateItems(template, *values).mapValues { e -> e.value.toString() }
+        )
 }
 
 class TestException(message: String) : Exception(message)

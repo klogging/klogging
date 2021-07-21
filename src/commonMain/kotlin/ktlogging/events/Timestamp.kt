@@ -29,4 +29,3 @@ object TimestampSerialiser : KSerializer<Timestamp> {
         return Timestamp(epochSeconds.toLong(), nanos.toLong())
     }
 }
-

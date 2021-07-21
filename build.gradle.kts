@@ -1,6 +1,7 @@
 plugins {
     kotlin("multiplatform") version "1.5.21"
     kotlin("plugin.serialization") version "1.5.21"
+    id("org.jlleitschuh.gradle.ktlint") version "10.1.0"
 }
 
 group = "ktlogging"
@@ -38,7 +39,6 @@ kotlin {
         isMingwX64 -> mingwX64("native")
         else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
     }
-
 
     sourceSets {
         val commonMain by getting {

@@ -64,5 +64,4 @@ class TemplateTest : DescribeSpec({
             ) shouldContainInOrder names
         }
     }
-
 })

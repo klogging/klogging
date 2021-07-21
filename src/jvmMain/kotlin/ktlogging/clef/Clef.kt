@@ -1,20 +1,22 @@
 package ktlogging.clef
 
-import ktlogging.events.LogEvent
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import ktlogging.events.LogEvent
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
 import java.time.Instant
 
 actual fun LogEvent.toClef(): String {
-    val eventMap: MutableMap<String, String> = (mapOf(
-        "@t" to Instant.ofEpochSecond(timestamp.epochSeconds, timestamp.nanos).toString(),
-        "@l" to level.name,
-        "host" to host,
-        "logger" to logger,
-    ) + items).toMutableMap()
+    val eventMap: MutableMap<String, String> = (
+        mapOf(
+            "@t" to Instant.ofEpochSecond(timestamp.epochSeconds, timestamp.nanos).toString(),
+            "@l" to level.name,
+            "host" to host,
+            "logger" to logger,
+        ) + items
+        ).toMutableMap()
     if (template != null) eventMap["@mt"] = template
     else eventMap["@m"] = message
     if (stackTrace != null) eventMap["@x"] = stackTrace
@@ -24,7 +26,7 @@ actual fun LogEvent.toClef(): String {
 
 actual fun dispatchClef(clefEvent: String, server: String) {
     val bytes = clefEvent.toByteArray()
-    val url = URL("${server}/api/events/raw")
+    val url = URL("$server/api/events/raw")
     val conn = url.openConnection() as HttpURLConnection
     conn.requestMethod = "POST"
     conn.setRequestProperty("Content-Type", "application/vnd.serilog.clef")
