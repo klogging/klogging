@@ -23,7 +23,7 @@ fun randomLevel() = Level.values().random()
 
 fun logEvent(
     timestamp: Timestamp = timestampNow(),
-    host: String = hostname(),
+    host: String = hostname,
     name: String = randomLoggerName(),
     level: Level = randomLevel(),
     message: String = randomString(),
