@@ -52,8 +52,10 @@ class ClefEventTest : DescribeSpec({
         it("includes @mt but not @m if `template` is included") {
             val ts = timestampNow()
             val id = randomString()
-            val event = LogEvent(newId(), ts, "test.local", "Test", Level.INFO, "Id={Id}", "Id={Id}", null,
-                mapOf("Id" to id))
+            val event = LogEvent(
+                newId(), ts, "test.local", "Test", Level.INFO, "Id={Id}", "Id={Id}", null,
+                mapOf("Id" to id)
+            )
 
             event.toClef() shouldBe """{
             |"@t":"${iso(event.timestamp)}",

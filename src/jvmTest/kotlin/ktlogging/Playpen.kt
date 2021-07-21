@@ -25,9 +25,12 @@ fun main() = runBlocking {
 
     LoggingConfiguration.setConfigs(
         DEFAULT_CONSOLE,
-        LoggingConfig("ROOT", Level.INFO, listOf(
-            LogDispatcher("Seq") { e -> dispatchClef(e.format("CLEF").toClef()) }
-        )),
+        LoggingConfig(
+            "ROOT", Level.INFO,
+            listOf(
+                LogDispatcher("Seq") { e -> dispatchClef(e.format("CLEF").toClef()) }
+            )
+        ),
     )
 
     val logger = logger("main")
@@ -58,4 +61,3 @@ suspend fun functionWithException(logger: KtLogger) {
         logger.warn(e) { e("Message: {Message}", e.message) }
     }
 }
-

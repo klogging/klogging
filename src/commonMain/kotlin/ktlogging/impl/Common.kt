@@ -15,7 +15,7 @@ fun BaseLogger.eventFrom(
     exception: Exception?,
     event: Any?,
     withItems: Map<String, String> = mapOf(),
-) : LogEvent {
+): LogEvent {
     return when (event) {
         is LogEvent ->
             event.copyWith(level, exception?.stackTraceToString())

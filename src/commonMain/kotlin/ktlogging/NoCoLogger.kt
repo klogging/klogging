@@ -52,5 +52,4 @@ interface NoCoLogger : BaseLogger {
      * Evaluates a message template with the supplied values, returning [LogEvent].
      */
     fun e(template: String, vararg values: Any?): LogEvent
-
 }
