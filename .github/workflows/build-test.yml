@@ -24,8 +24,8 @@ jobs:
           distribution: 'adopt'
           java-version: 11
 
-      - name: Gradle compile and test JVM code
-        run: ./gradlew clean jvmTest
+      - name: Gradle check, compile and test JVM code
+        run: ./gradlew clean ktlintCheck jvmTest
 
 #      - name: Report on tests
 #        uses: dorny/test-reporter@v1
