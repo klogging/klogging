@@ -1,9 +1,11 @@
 # KtLogging concepts
 
+An overview of the concepts in the library.
+
 ## Log event
 
 A **log event** (modelled by [`LogEvent`](../src/commonMain/kotlin/ktlogging/events/LogEvent.kt))
-contains information at a point in time and cyberspace.
+contains information at a point in time and the state of a running system.
 
 Important properties of an event are:
 
@@ -12,8 +14,8 @@ Property | Description
 Timestamp | The point in time when the event occurred, with microsecond or finer resolution.
 Logger | Name of the logger that sent the event (e.g. a fully-qualified class name).
 Level | An indication of the severity of the event.
-Host | Where the event originated: important in distributed systems.
-Message | A text message summarising what happened, that might be constructed from a template.
+Host | Name of the host where the event originated: important in distributed systems.
+Message | A string message summarising what happened, that might be constructed from a template.
 Stack trace | Details about an exception or error, if one is associate with the event.
 Items | A map of useful information current at the time of the event.
 

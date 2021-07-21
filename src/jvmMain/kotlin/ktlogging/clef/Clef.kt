@@ -8,6 +8,10 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.time.Instant
 
+/**
+ * Serialises a [LogEvent] into [CLEF](https://docs.datalust.co/docs/posting-raw-events#compact-json-format)
+ * compact JSON format.
+ */
 actual fun LogEvent.toClef(): String {
     val eventMap: MutableMap<String, String> = (
         mapOf(
@@ -24,6 +28,11 @@ actual fun LogEvent.toClef(): String {
     return Json.encodeToString(eventMap)
 }
 
+/**
+ * Posts a CLEF-serialised event to the specified server using HTTP.
+ *
+ * Simple, initial version: send events separately.
+ */
 actual fun dispatchClef(clefEvent: String, server: String) {
     val bytes = clefEvent.toByteArray()
     val url = URL("$server/api/events/raw")
