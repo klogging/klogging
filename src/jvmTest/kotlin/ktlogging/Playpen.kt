@@ -34,11 +34,11 @@ fun main() = runBlocking {
     )
 
     val logger = logger("main")
-    launch(logContext("run" to UUID.randomUUID().toString())) {
+    launch(logContext("run" to UUID.randomUUID())) {
         logger.info { "Start" }
         repeat(2) { c ->
             logger.info { e(">> {Counter}", c + 1) }
-            launch(logContext("Counter" to (c + 1).toString())) {
+            launch(logContext("Counter" to (c + 1))) {
                 repeat(2) { i ->
                     logger.info {
                         e("Event {Iteration} at {RightNow}", i + 1, LocalDateTime.now(ZoneId.of("Australia/Brisbane")))

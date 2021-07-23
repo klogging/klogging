@@ -28,7 +28,7 @@ fun logEvent(
     level: Level = randomLevel(),
     message: String = randomString(),
     stackTrace: String? = null,
-    items: Map<String, String> = mapOf(),
+    items: Map<String, Any?> = mapOf(),
 ) = LogEvent(
     timestamp = timestamp,
     host = host,

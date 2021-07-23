@@ -1,8 +1,7 @@
 package ktlogging.clef
 
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import ktlogging.events.LogEvent
+import ktlogging.json.serializeMap
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
@@ -13,7 +12,7 @@ import java.time.Instant
  * compact JSON format.
  */
 actual fun LogEvent.toClef(): String {
-    val eventMap: MutableMap<String, String> = (
+    val eventMap: MutableMap<String, Any?> = (
         mapOf(
             "@t" to Instant.ofEpochSecond(timestamp.epochSeconds, timestamp.nanos).toString(),
             "@l" to level.name,
@@ -25,7 +24,7 @@ actual fun LogEvent.toClef(): String {
     else eventMap["@m"] = message
     if (stackTrace != null) eventMap["@x"] = stackTrace
 
-    return Json.encodeToString(eventMap)
+    return serializeMap(eventMap)
 }
 
 /**

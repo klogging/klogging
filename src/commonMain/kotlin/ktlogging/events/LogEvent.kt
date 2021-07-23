@@ -1,7 +1,5 @@
 package ktlogging.events
 
-import kotlinx.serialization.Serializable
-
 /**
  * Name of the executing host, included in all log events.
  */
@@ -11,7 +9,6 @@ expect val hostname: String
  * An event at a point in time with information about the running state of
  * a program.
  */
-@Serializable
 data class LogEvent(
     /** When the event occurred, to microsecond or better precision. */
     val timestamp: Timestamp,
@@ -32,8 +29,6 @@ data class LogEvent(
      *
      * If the message string was constructed from a template, there is one item per
      * hole in the template.
-     *
-     * TODO: Change the type to Map<String, Any?> when serialisation has been sorted out.
      */
-    val items: Map<String, String>,
+    val items: Map<String, Any?>,
 )

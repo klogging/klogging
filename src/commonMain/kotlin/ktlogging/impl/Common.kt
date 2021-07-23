@@ -13,7 +13,7 @@ fun BaseLogger.eventFrom(
     level: Level,
     exception: Exception?,
     event: Any?,
-    withItems: Map<String, String> = mapOf(),
+    withItems: Map<String, Any?> = mapOf(),
 ): LogEvent {
     return when (event) {
         is LogEvent ->
