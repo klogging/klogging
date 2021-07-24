@@ -5,7 +5,7 @@
 
 **Klogging** is a pure-Kotlin logging library that aims to be flexible and easy to use.
 It uses Kotlin idioms for creating loggers and sending log events.
-It takes advantage of [Kotlin coroutines](https://kotlinlang.org/docs/coroutines-guide.html)  
+It takes advantage of [Kotlin coroutines](https://kotlinlang.org/docs/coroutines-guide.html)
 in environments that use them, for example the [Ktor](https://ktor.io) asynchronous service
 framework.
 
