@@ -10,7 +10,7 @@ import ktlogging.events.LogEvent
 /**
  * The main object for managing log event processing.
  */
-object Logging {
+internal object Logging {
     /**
      * [Channel] between the coroutines where log events are sent and the coroutines that send them out.
      */
@@ -27,5 +27,5 @@ object Logging {
         return eventsChannel
     }
 
-    suspend fun sendEvent(event: LogEvent) = logEventsChannel.send(event)
+    suspend fun sendEvent(event: LogEvent): Unit = logEventsChannel.send(event)
 }

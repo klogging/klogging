@@ -3,13 +3,13 @@ package ktlogging.events
 /**
  * Name of the executing host, included in all log events.
  */
-expect val hostname: String
+public expect val hostname: String
 
 /**
  * An event at a point in time with information about the running state of
  * a program.
  */
-data class LogEvent(
+public data class LogEvent(
     /** When the event occurred, to microsecond or better precision. */
     val timestamp: Timestamp,
     /** Host where the event occurred. */

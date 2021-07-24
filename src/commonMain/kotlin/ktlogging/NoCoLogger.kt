@@ -8,48 +8,48 @@ import ktlogging.events.LogEvent
  *
  * `NoCoLogger` is a working name for now.
  */
-interface NoCoLogger : BaseLogger {
+public interface NoCoLogger : BaseLogger {
 
-    fun logMessage(level: Level, exception: Exception?, event: Any?)
+    public fun logMessage(level: Level, exception: Exception?, event: Any?)
 
-    fun log(level: Level, exception: Exception, event: Any?) {
+    public fun log(level: Level, exception: Exception, event: Any?) {
         if (isLevelEnabled(level)) logMessage(level, exception, event)
     }
 
-    fun log(level: Level, event: Any?) {
+    public fun log(level: Level, event: Any?) {
         if (isLevelEnabled(level)) logMessage(level, null, event)
     }
 
-    fun trace(event: Any?) = log(Level.TRACE, event)
-    fun debug(event: Any?) = log(Level.DEBUG, event)
-    fun info(event: Any?) = log(Level.INFO, event)
-    fun warn(event: Any?) = log(Level.WARN, event)
-    fun warn(exception: Exception, event: Any?) = log(Level.WARN, exception, event)
-    fun error(event: Any?) = log(Level.ERROR, event)
-    fun error(exception: Exception, event: Any?) = log(Level.ERROR, exception, event)
-    fun fatal(event: Any?) = log(Level.FATAL, event)
-    fun fatal(exception: Exception, event: Any?) = log(Level.FATAL, exception, event)
+    public fun trace(event: Any?): Unit = log(Level.TRACE, event)
+    public fun debug(event: Any?): Unit = log(Level.DEBUG, event)
+    public fun info(event: Any?): Unit = log(Level.INFO, event)
+    public fun warn(event: Any?): Unit = log(Level.WARN, event)
+    public fun warn(exception: Exception, event: Any?): Unit = log(Level.WARN, exception, event)
+    public fun error(event: Any?): Unit = log(Level.ERROR, event)
+    public fun error(exception: Exception, event: Any?): Unit = log(Level.ERROR, exception, event)
+    public fun fatal(event: Any?): Unit = log(Level.FATAL, event)
+    public fun fatal(exception: Exception, event: Any?): Unit = log(Level.FATAL, exception, event)
 
-    fun log(level: Level, exception: Exception, event: NoCoLogger.() -> Any?) {
+    public fun log(level: Level, exception: Exception, event: NoCoLogger.() -> Any?) {
         if (isLevelEnabled(level)) logMessage(level, exception, event())
     }
 
-    fun log(level: Level, event: NoCoLogger.() -> Any?) {
+    public fun log(level: Level, event: NoCoLogger.() -> Any?) {
         if (isLevelEnabled(level)) logMessage(level, null, event())
     }
 
-    fun trace(event: NoCoLogger.() -> Any?) = log(Level.TRACE, event)
-    fun debug(event: NoCoLogger.() -> Any?) = log(Level.DEBUG, event)
-    fun info(event: NoCoLogger.() -> Any?) = log(Level.INFO, event)
-    fun warn(event: NoCoLogger.() -> Any?) = log(Level.WARN, event)
-    fun warn(exception: Exception, event: NoCoLogger.() -> Any?) = log(Level.WARN, exception, event)
-    fun error(event: NoCoLogger.() -> Any?) = log(Level.ERROR, event)
-    fun error(exception: Exception, event: NoCoLogger.() -> Any?) = log(Level.ERROR, exception, event)
-    fun fatal(event: NoCoLogger.() -> Any?) = log(Level.FATAL, event)
-    fun fatal(exception: Exception, event: NoCoLogger.() -> Any?) = log(Level.FATAL, exception, event)
+    public fun trace(event: NoCoLogger.() -> Any?): Unit = log(Level.TRACE, event)
+    public fun debug(event: NoCoLogger.() -> Any?): Unit = log(Level.DEBUG, event)
+    public fun info(event: NoCoLogger.() -> Any?): Unit = log(Level.INFO, event)
+    public fun warn(event: NoCoLogger.() -> Any?): Unit = log(Level.WARN, event)
+    public fun warn(exception: Exception, event: NoCoLogger.() -> Any?): Unit = log(Level.WARN, exception, event)
+    public fun error(event: NoCoLogger.() -> Any?): Unit = log(Level.ERROR, event)
+    public fun error(exception: Exception, event: NoCoLogger.() -> Any?): Unit = log(Level.ERROR, exception, event)
+    public fun fatal(event: NoCoLogger.() -> Any?): Unit = log(Level.FATAL, event)
+    public fun fatal(exception: Exception, event: NoCoLogger.() -> Any?): Unit = log(Level.FATAL, exception, event)
 
     /**
      * Evaluates a message template with the supplied values, returning [LogEvent].
      */
-    fun e(template: String, vararg values: Any?): LogEvent
+    public fun e(template: String, vararg values: Any?): LogEvent
 }

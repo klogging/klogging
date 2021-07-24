@@ -16,6 +16,9 @@ val kotlinSerialisationJsonVersion: String by project
 val kotestVersion: String by project
 
 kotlin {
+    // Enable explicit API mode. See https://kotlinlang.org/docs/whatsnew14.html#explicit-api-mode-for-library-authors
+    explicitApi()
+
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "11"

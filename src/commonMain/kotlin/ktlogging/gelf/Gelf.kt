@@ -2,6 +2,6 @@ package ktlogging.gelf
 
 import ktlogging.events.LogEvent
 
-expect fun LogEvent.toGelf(): String
+public expect fun LogEvent.toGelf(): String
 
-expect fun dispatchGelf(gelfEvent: String, endpoint: Endpoint = Endpoint())
+public expect fun dispatchGelf(gelfEvent: String, endpoint: Endpoint = Endpoint())

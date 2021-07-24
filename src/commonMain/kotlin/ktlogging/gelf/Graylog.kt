@@ -8,7 +8,7 @@ import ktlogging.events.Timestamp
  *
  * 0=Emergency,1=Alert,2=Critical,3=Error,4=Warning,5=Notice,6=Informational,7=Debug
  */
-fun graylogLevel(level: Level) = when (level) {
+public fun graylogLevel(level: Level): Int = when (level) {
     Level.NONE -> 7
     Level.TRACE -> 7
     Level.DEBUG -> 7
@@ -18,12 +18,12 @@ fun graylogLevel(level: Level) = when (level) {
     Level.FATAL -> 2
 }
 
-data class Endpoint(
+public data class Endpoint(
     val host: String = "localhost",
     val port: Int = 12201,
 )
 
-fun Timestamp.graylogFormat(): String {
+public fun Timestamp.graylogFormat(): String {
     val ns = "000000000$nanos"
     return "$epochSeconds.${ns.substring(ns.length - 9)}"
 }

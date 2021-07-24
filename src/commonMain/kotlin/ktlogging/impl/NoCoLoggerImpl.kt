@@ -10,7 +10,7 @@ import ktlogging.events.LogEvent
 import ktlogging.events.now
 import ktlogging.template.templateItems
 
-class NoCoLoggerImpl(
+public class NoCoLoggerImpl(
     override val name: String,
 ) : NoCoLogger {
 

@@ -11,7 +11,7 @@ import java.time.Instant
  * Serialises a [LogEvent] into [CLEF](https://docs.datalust.co/docs/posting-raw-events#compact-json-format)
  * compact JSON format.
  */
-actual fun LogEvent.toClef(): String {
+public actual fun LogEvent.toClef(): String {
     val eventMap: MutableMap<String, Any?> = (
         mapOf(
             "@t" to Instant.ofEpochSecond(timestamp.epochSeconds, timestamp.nanos).toString(),
@@ -32,7 +32,7 @@ actual fun LogEvent.toClef(): String {
  *
  * Simple, initial version: send events separately.
  */
-actual fun dispatchClef(clefEvent: String, server: String) {
+public actual fun dispatchClef(clefEvent: String, server: String) {
     val bytes = clefEvent.toByteArray()
     val url = URL("$server/api/events/raw")
     val conn = url.openConnection() as HttpURLConnection

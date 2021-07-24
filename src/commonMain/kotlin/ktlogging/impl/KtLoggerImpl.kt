@@ -9,7 +9,7 @@ import ktlogging.events.now
 import ktlogging.template.templateItems
 import kotlin.coroutines.coroutineContext
 
-class KtLoggerImpl(
+public class KtLoggerImpl(
     override val name: String,
 ) : KtLogger {
 

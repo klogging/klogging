@@ -8,15 +8,15 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
-expect fun now(): Timestamp
-expect fun iso(timestamp: Timestamp): String
+public expect fun now(): Timestamp
+public expect fun iso(timestamp: Timestamp): String
 
-@Serializable(with = TimestampSerialiser::class)
-data class Timestamp(val epochSeconds: Long, val nanos: Long) {
+@Serializable(with = TimestampSerializer::class)
+public data class Timestamp(val epochSeconds: Long, val nanos: Long) {
     override fun toString(): String = iso(this)
 }
 
-object TimestampSerialiser : KSerializer<Timestamp> {
+public object TimestampSerializer : KSerializer<Timestamp> {
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor("Timestamp", PrimitiveKind.STRING)
 

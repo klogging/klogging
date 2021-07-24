@@ -2,8 +2,8 @@ package ktlogging.gelf
 
 import ktlogging.events.LogEvent
 
-actual fun LogEvent.toGelf(): String {
+public actual fun LogEvent.toGelf(): String {
     TODO("Not yet implemented")
 }
 
-actual fun dispatchGelf(gelfEvent: String, endpoint: Endpoint) {}
+public actual fun dispatchGelf(gelfEvent: String, endpoint: Endpoint) {}

@@ -5,11 +5,11 @@ import ktlogging.events.Level
 import ktlogging.events.LogEvent
 import ktlogging.events.now
 
-fun LogEvent.copyWith(newLevel: Level, newStacktrace: String?) = LogEvent(
+public fun LogEvent.copyWith(newLevel: Level, newStacktrace: String?): LogEvent = LogEvent(
     timestamp, host, logger, newLevel, template, message, newStacktrace, items
 )
 
-fun BaseLogger.eventFrom(
+public fun BaseLogger.eventFrom(
     level: Level,
     exception: Exception?,
     event: Any?,

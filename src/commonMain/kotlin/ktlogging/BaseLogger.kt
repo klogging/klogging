@@ -3,17 +3,17 @@ package ktlogging
 import ktlogging.config.LoggingConfiguration
 import ktlogging.events.Level
 
-interface BaseLogger {
+public interface BaseLogger {
 
-    val name: String
+    public val name: String
 
-    fun minLevel(): Level = LoggingConfiguration.minimumLevelOf(name)
+    public fun minLevel(): Level = LoggingConfiguration.minimumLevelOf(name)
 
-    fun isLevelEnabled(level: Level) = minLevel() <= level
-    fun isTraceEnabled() = minLevel() <= Level.TRACE
-    fun isDebugEnabled() = minLevel() <= Level.DEBUG
-    fun isInfoEnabled() = minLevel() <= Level.INFO
-    fun isWarnEnabled() = minLevel() <= Level.WARN
-    fun isErrorEnabled() = minLevel() <= Level.ERROR
-    fun isFatalEnabled() = minLevel() <= Level.FATAL
+    public fun isLevelEnabled(level: Level): Boolean = minLevel() <= level
+    public fun isTraceEnabled(): Boolean = minLevel() <= Level.TRACE
+    public fun isDebugEnabled(): Boolean = minLevel() <= Level.DEBUG
+    public fun isInfoEnabled(): Boolean = minLevel() <= Level.INFO
+    public fun isWarnEnabled(): Boolean = minLevel() <= Level.WARN
+    public fun isErrorEnabled(): Boolean = minLevel() <= Level.ERROR
+    public fun isFatalEnabled(): Boolean = minLevel() <= Level.FATAL
 }

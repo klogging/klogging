@@ -1,3 +1,3 @@
 package ktlogging.events
 
-actual val hostname: String = TODO("Not yet implemented")
+public actual val hostname: String = TODO("Not yet implemented")

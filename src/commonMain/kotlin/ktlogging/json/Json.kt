@@ -8,7 +8,7 @@ import kotlinx.serialization.json.JsonPrimitive
 /**
  * Serialize a map with string keys to JSON.
  */
-fun serializeMap(map: Map<String, Any?>): String {
+public fun serializeMap(map: Map<String, Any?>): String {
     val element = map.toJsonElement()
     return element.toString()
 }

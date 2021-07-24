@@ -1,13 +1,13 @@
 package ktlogging.template
 
-fun templateItems(template: String, vararg values: Any?): Map<String, Any?> {
+public fun templateItems(template: String, vararg values: Any?): Map<String, Any?> {
     val itemNames = extractItemNames(template)
     return itemNames.zip(values).toMap()
 }
 
 private enum class TextOrHole { TEXT, HOLE }
 
-fun extractItemNames(template: String): List<String> {
+public fun extractItemNames(template: String): List<String> {
     val itemNames = mutableListOf<String>()
     var state = TextOrHole.TEXT
     var holeStart = 0
