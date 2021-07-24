@@ -1,4 +1,5 @@
 plugins {
+    id("com.github.ben-manes.versions") version "0.39.0"
     kotlin("multiplatform") version "1.5.21"
     kotlin("plugin.serialization") version "1.5.21"
     id("org.jlleitschuh.gradle.ktlint") version "10.1.0"
