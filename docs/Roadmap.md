@@ -1,4 +1,4 @@
-# KtLogging roadmap
+# Klogging roadmap
 
 In no particular order at this stage.
 
@@ -11,4 +11,4 @@ In no particular order at this stage.
 
 - Create a [Ktor](https://ktor.io/) plugin with options for automatically
   capturing and logging request and other context information.
-- Create an [SLF4J](http://www.slf4j.org/) binding for KtLogging.
+- Create an [SLF4J](http://www.slf4j.org/) binding for Klogging.

@@ -5,7 +5,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "10.1.0"
 }
 
-group = "ktlogging"
+group = "io.klogging"
 version = "0.1-SNAPSHOT"
 
 repositories {

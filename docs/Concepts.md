@@ -1,10 +1,10 @@
-# KtLogging concepts
+# Klogging concepts
 
 An overview of the concepts in the library.
 
 ## Log event
 
-A **log event** (modelled by [`LogEvent`](../src/commonMain/kotlin/ktlogging/events/LogEvent.kt))
+A **log event** (modelled by [`LogEvent`](../src/commonMain/kotlin/io/klogging/events/LogEvent.kt))
 contains information at a point in time and the state of a running system.
 
 Important properties of an event are:
@@ -29,7 +29,7 @@ more **targets**.
 All log events should include information from all contexts, from its
 immediate scope up to all enclosing scopes.
 
-The [`LogContext`](../src/commonMain/kotlin/ktlogging/context/LogContext.kt)
+The [`LogContext`](../src/commonMain/kotlin/io/klogging/context/LogContext.kt)
 class can be placed in a coroutine context for inclusion in log events.
 See [Coroutines](Coroutines.md) for an example.
 

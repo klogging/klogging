@@ -1,10 +1,10 @@
-# KtLogging and coroutines
+# Klogging and coroutines
 
-Kotlin coroutines provide two blessings to KtLogging.
+Kotlin coroutines provide two blessings to Klogging.
 
 ## Contextual information management
 
-The [`LogContext`](../src/commonMain/kotlin/ktlogging/context/LogContext.kt)
+The [`LogContext`](../src/commonMain/kotlin/io/klogging/context/LogContext.kt)
 class is designed to hold a map of contextual information in a
 coroutine context. For example:
 

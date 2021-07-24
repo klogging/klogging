@@ -1,2 +1,2 @@
 
-rootProject.name = "ktlogging"
+rootProject.name = "klogging"

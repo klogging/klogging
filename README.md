@@ -1,9 +1,9 @@
-# KtLogging
+# Klogging
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Build and test](https://github.com/mjstrasser/ktlogging/actions/workflows/build-test.yml/badge.svg)](https://github.com/mjstrasser/ktlogging/actions/workflows/build-test.yml)
+[![Build and test](https://github.com/klogging/klogging/actions/workflows/build-test.yml/badge.svg)](https://github.com/klogging/klogging/actions/workflows/build-test.yml)
 
-**KtLogging** is a pure-Kotlin logging library that aims to be flexible and easy to use.
+**Klogging** is a pure-Kotlin logging library that aims to be flexible and easy to use.
 It uses Kotlin idioms for creating loggers and sending log events.
 It takes advantage of [Kotlin coroutines](https://kotlinlang.org/docs/coroutines-guide.html)  
 in environments that use them, for example the [Ktor](https://ktor.io) asynchronous service
@@ -25,14 +25,14 @@ framework.
 
 1. Clone this repository and build a jar with `./gradlew clean jvmJar`.
 
-2. Add `./build/libs/ktlogging-jvm-0.1-SNAPSHOT.jar` to your project.
+2. Add `./build/libs/klogging-jvm-0.1-SNAPSHOT.jar` to your project.
 
 3. (Optionally) configure loggers using `LoggingConfiguration.setConfigs()`.
 
-4. Create a logger, for example by using the `KtLogging` interface for coroutine logging:
+4. Create a logger, for example by using the `Klogging` interface for coroutine logging:
 
     ```kotlin
-    class ImportantStuff : KtLogging {
+    class ImportantStuff : Klogging {
         suspend fun cleverAction(runId: String, input: String) = coroutineScope {
             launch(logContext("runId" to runId)) {
                 logger.info("cleverAction with input=$input")
@@ -52,7 +52,7 @@ This section will cover:
 
 ## Why another logging library?
 
-KtLogging is designed from the ground up to be standalone, pure Kotlin and to be used with
+Klogging is designed from the ground up to be standalone, pure Kotlin and to be used with
 coroutines. It is designed to be used by distributed services that log events with information
 from a wide variety of contexts.
 
