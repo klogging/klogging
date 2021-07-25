@@ -3,10 +3,11 @@ plugins {
     kotlin("multiplatform") version "1.5.21"
     kotlin("plugin.serialization") version "1.5.21"
     id("org.jlleitschuh.gradle.ktlint") version "10.1.0"
+    id("org.jetbrains.dokka") version "1.4.32"
 }
 
 group = "io.klogging"
-version = "0.1-SNAPSHOT"
+version = "0.1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -67,4 +68,8 @@ kotlin {
         val nativeMain by getting
         val nativeTest by getting
     }
+}
+
+tasks.dokkaHtml.configure {
+    outputDirectory.set(buildDir.resolve("dokka"))
 }

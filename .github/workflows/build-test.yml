@@ -34,3 +34,6 @@ jobs:
 #          name: Test results
 #          path: build/test-results/jvmTest/*.xml
 #          reporter: java-junit
+
+      - name: Generate KDoc
+        run: ./gradlew dokkaHtml
