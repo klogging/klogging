@@ -1,3 +1,5 @@
+<img src="docs/klogging.svg" width="60px" height="60px" alt="Klogging logo"/>
+
 # Klogging
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
