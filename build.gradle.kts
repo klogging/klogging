@@ -4,6 +4,9 @@ plugins {
     kotlin("plugin.serialization") version "1.5.21"
     id("org.jlleitschuh.gradle.ktlint") version "10.1.0"
     id("org.jetbrains.dokka") version "1.4.32"
+    `maven-publish`
+    signing
+    id("io.github.gradle-nexus.publish-plugin") version "1.0.0"
 }
 
 group = "io.klogging"
@@ -71,5 +74,64 @@ kotlin {
 }
 
 tasks.dokkaHtml.configure {
-    outputDirectory.set(buildDir.resolve("dokka"))
+    outputDirectory.set(buildDir.resolve("dokka/html"))
+}
+
+tasks.register<Jar>("dokkaJar") {
+    archiveClassifier.set("javadoc")
+    from(layout.buildDirectory.dir("dokka/html"))
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenKotlin") {
+            from(components["kotlin"])
+            artifact(tasks["sourcesJar"])
+            artifact(tasks["dokkaJar"])
+            pom {
+                name.set("klogging")
+                description.set("Kotlin logging library with structured logging and coroutines support")
+                url.set("https://github.com/klogging/klogging")
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+                    }
+                    developers {
+                        developer {
+                            id.set("mjstrasser")
+                            name.set("Michael Strasser")
+                            email.set("klogging@michaelstrasser.com")
+                        }
+                    }
+                    scm {
+                        connection.set("scm:git:git://github.com/klogging/klogging.git")
+                        url.set("https://github.com/klogging/klogging")
+                    }
+                }
+            }
+        }
+    }
+}
+
+nexusPublishing {
+    val ossrhUsername: String? by project
+    val ossrhPassword: String? by project
+    repositories {
+        create("sonatype") {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            username.set(ossrhUsername)
+            password.set(ossrhPassword)
+        }
+    }
+}
+
+signing {
+    val signingKeyId: String? by project
+    val signingKey: String? by project
+    val signingPassword: String? by project
+    println("Signing Key ID: $signingKeyId")
+    useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+    sign(publishing.publications["mavenKotlin"])
 }
