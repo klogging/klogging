@@ -31,7 +31,7 @@ jobs:
         run: ./gradlew dokkaHtml
 
       - name: Publish JVM Jar to Maven Central and release
-        run: ./gradlew dokkaJar publishJvmPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository
+        run: ./gradlew --info dokkaJar publishJvmPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository
         env:
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
           ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.SIGNING_KEY_ID }}

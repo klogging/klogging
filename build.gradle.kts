@@ -131,7 +131,6 @@ signing {
     val signingKeyId: String? by project
     val signingKey: String? by project
     val signingPassword: String? by project
-    println("Signing Key ID: $signingKeyId")
     useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
     sign(publishing.publications["mavenKotlin"])
 }
