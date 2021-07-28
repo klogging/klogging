@@ -16,8 +16,17 @@
 
 */
 
-package io.klogging.events
+plugins {
+    `kotlin-dsl`
+    id("com.github.ben-manes.versions") version "0.39.0"
+}
 
-import java.net.InetAddress
+repositories {
+    maven("https://plugins.gradle.org/m2/")
+}
 
-public actual val hostname: String = InetAddress.getLocalHost().hostName
+val spotlessVersion: String by project
+
+dependencies {
+    implementation("com.diffplug.spotless:spotless-plugin-gradle:$spotlessVersion")
+}

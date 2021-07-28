@@ -12,9 +12,9 @@ coroutine context. For example:
 suspend fun complexLogic(input: EssentialStuff): ValuableOutput {
     launch(logContext("runId" to input.runId)) {
         logger.info { "Starting logic" }
-        
+
         // Do stuff, potentially logging events
-        
+
         logger.info { "Finished logic" }
     }
 }

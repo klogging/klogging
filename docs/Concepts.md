@@ -32,4 +32,3 @@ immediate scope up to all enclosing scopes.
 The [`LogContext`](../src/commonMain/kotlin/io/klogging/context/LogContext.kt)
 class can be placed in a coroutine context for inclusion in log events.
 See [Coroutines](Coroutines.md) for an example.
-

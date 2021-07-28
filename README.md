@@ -20,7 +20,7 @@ framework.
 - Structured logs by default: not string messages with structured information a clumsy add-on.
 - [Message templates](https://messagetemplates.org) for elegant logging of both text and data.
 - Timestamp precision down to nanosecond if available
-- Configuration of logging levels by logger names to targets (like Log4j and Logback). 
+- Configuration of logging levels by logger names to targets (like Log4j and Logback).
 - Pure Kotlin multiplatform (future). _Current development focuses on the JVM._
 
 ## Quick start (JVM only)
@@ -74,5 +74,5 @@ limitations I find are:
 * Logback is hamstrung by having timestamp resolution limited to milliseconds. This limit is baked
   in to
   the [core of the library](https://github.com/qos-ch/logback/blob/master/logback-classic/src/main/java/ch/qos/logback/classic/spi/ILoggingEvent.java#L83).
-  
+
 **TBC**

@@ -1,12 +1,27 @@
+/*
+
+   Copyright 2021 Michael Strasser.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+
+import io.klogging.build.configureSpotless
+
 plugins {
-    id("com.github.ben-manes.versions") version "0.39.0"
     kotlin("multiplatform") version "1.5.21"
     kotlin("plugin.serialization") version "1.5.21"
-    id("org.jlleitschuh.gradle.ktlint") version "10.1.0"
-    id("org.jetbrains.dokka") version "1.4.32"
     `maven-publish`
-    signing
-    id("io.github.gradle-nexus.publish-plugin") version "1.0.0"
 }
 
 group = "io.klogging"
@@ -73,64 +88,4 @@ kotlin {
     }
 }
 
-tasks.dokkaHtml.configure {
-    outputDirectory.set(buildDir.resolve("dokka/html"))
-}
-
-tasks.register<Jar>("dokkaJar") {
-    archiveClassifier.set("javadoc")
-    from(layout.buildDirectory.dir("dokka/html"))
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("mavenKotlin") {
-            from(components["kotlin"])
-            artifact(tasks["sourcesJar"])
-            artifact(tasks["dokkaJar"])
-            pom {
-                name.set("klogging")
-                description.set("Kotlin logging library with structured logging and coroutines support")
-                url.set("https://github.com/klogging/klogging")
-                licenses {
-                    license {
-                        name.set("The Apache License, Version 2.0")
-                        url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
-                    }
-                    developers {
-                        developer {
-                            id.set("mjstrasser")
-                            name.set("Michael Strasser")
-                            email.set("klogging@michaelstrasser.com")
-                        }
-                    }
-                    scm {
-                        connection.set("scm:git:git://github.com/klogging/klogging.git")
-                        url.set("https://github.com/klogging/klogging")
-                    }
-                }
-            }
-        }
-    }
-}
-
-nexusPublishing {
-    val ossrhUsername: String? by project
-    val ossrhPassword: String? by project
-    repositories {
-        create("sonatype") {
-            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-            username.set(ossrhUsername)
-            password.set(ossrhPassword)
-        }
-    }
-}
-
-signing {
-    val signingKeyId: String? by project
-    val signingKey: String? by project
-    val signingPassword: String? by project
-    useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
-    sign(publishing.publications["mavenKotlin"])
-}
+configureSpotless()
