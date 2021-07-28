@@ -17,6 +17,7 @@
 */
 
 import io.klogging.build.configureSpotless
+import io.klogging.build.configureTesting
 import io.klogging.build.configureVersioning
 
 plugins {
@@ -71,11 +72,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerialisationJsonVersion")
             }
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
-        }
+        val commonTest by getting
         val jvmMain by getting
         val jvmTest by getting {
             dependencies {
@@ -89,5 +86,6 @@ kotlin {
     }
 }
 
+configureTesting()
 configureSpotless()
 configureVersioning()
