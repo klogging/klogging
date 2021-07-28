@@ -16,9 +16,13 @@
 
 */
 
+import io.klogging.build.configureAssemble
+import io.klogging.build.configureJacoco
+import io.klogging.build.configurePublishing
 import io.klogging.build.configureSpotless
 import io.klogging.build.configureTesting
 import io.klogging.build.configureVersioning
+import io.klogging.build.configureWrapper
 
 plugins {
     kotlin("multiplatform")
@@ -38,10 +42,11 @@ val kotlinSerialisationJsonVersion: String by project
 val kotestVersion: String by project
 
 kotlin {
-    // Enable explicit API mode. See https://kotlinlang.org/docs/whatsnew14.html#explicit-api-mode-for-library-authors
     explicitApi()
 
     jvm {
+        withJava() // Needed for jacocoTestReport Gradle target
+
         compilations.all {
             kotlinOptions.jvmTarget = "11"
         }
@@ -86,6 +91,10 @@ kotlin {
     }
 }
 
-configureTesting()
+configureAssemble()
+configureJacoco()
+configurePublishing()
 configureSpotless()
+configureTesting()
 configureVersioning()
+configureWrapper()
