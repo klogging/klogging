@@ -113,6 +113,8 @@ private fun Project.createPublishingTasks(
     configure<NexusPublishExtension> {
         repositories {
             sonatype {
+                nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+                snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
                 username.set(repoUsername)
                 password.set(repoPassword)
             }
@@ -173,16 +175,16 @@ private fun Project.createReleaseTasks(
     }
 
     tasks.register("publishSnapshot") {
-        dependsOn("publishAllPublicationsToSonatypeRepository")
+        dependsOn("publishJvmPublicationToSonatypeRepository")
     }
 
     tasks.named("closeSonatypeStagingRepository") {
-        mustRunAfter("publishAllPublicationsToSonatypeRepository")
+        mustRunAfter("publishJvmPublicationToSonatypeRepository")
     }
 
     tasks.register("publishRelease") {
         dependsOn(validateReleaseTask)
-        dependsOn("publishAllPublicationsToSonatypeRepository")
+        dependsOn("publishJvmPublicationToSonatypeRepository")
         dependsOn("closeAndReleaseSonatypeStagingRepository")
     }
 }
