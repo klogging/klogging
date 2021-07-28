@@ -3,7 +3,7 @@
 # Klogging
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Build and test](https://github.com/klogging/klogging/actions/workflows/build-test.yml/badge.svg)](https://github.com/klogging/klogging/actions/workflows/build-test.yml)
+[![Build](https://github.com/klogging/klogging/actions/workflows/build.yml/badge.svg)](https://github.com/klogging/klogging/actions/workflows/build.yml)
 
 **Klogging** is a pure-Kotlin logging library that aims to be flexible and easy to use.
 It uses Kotlin idioms for creating loggers and sending log events.
