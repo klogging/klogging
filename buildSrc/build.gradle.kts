@@ -27,8 +27,10 @@ repositories {
 
 val spotlessVersion: String by project
 val reckonVersion: String by project
+val nexusPublishingVersion: String by project
 
 dependencies {
     implementation("com.diffplug.spotless:spotless-plugin-gradle:$spotlessVersion")
     implementation("org.ajoberstar.reckon:reckon-gradle:$reckonVersion")
+    implementation("io.github.gradle-nexus:publish-plugin:$nexusPublishingVersion")
 }
