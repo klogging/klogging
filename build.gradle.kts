@@ -21,9 +21,9 @@ import io.klogging.build.configureTesting
 import io.klogging.build.configureVersioning
 
 plugins {
-    kotlin("multiplatform") version "1.5.21"
-    kotlin("plugin.serialization") version "1.5.21"
-    `maven-publish`
+    kotlin("multiplatform")
+    kotlin("plugin.serialization")
+    id("com.github.ben-manes.versions")
 }
 
 group = "io.klogging"
