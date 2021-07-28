@@ -3,3 +3,4 @@ build
 !buildSrc/src/main/kotlin/io/klogging/build
 .idea
 .DS_Store
+.batect
