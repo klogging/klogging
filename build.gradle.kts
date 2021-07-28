@@ -17,6 +17,7 @@
 */
 
 import io.klogging.build.configureSpotless
+import io.klogging.build.configureVersioning
 
 plugins {
     kotlin("multiplatform") version "1.5.21"
@@ -89,3 +90,4 @@ kotlin {
 }
 
 configureSpotless()
+configureVersioning()

@@ -16,19 +16,19 @@
 
 */
 
-plugins {
-    `kotlin-dsl`
-    id("com.github.ben-manes.versions") version "0.39.0"
-}
+package io.klogging.build
 
-repositories {
-    maven("https://plugins.gradle.org/m2/")
-}
+import org.ajoberstar.reckon.gradle.ReckonExtension
+import org.ajoberstar.reckon.gradle.ReckonPlugin
+import org.gradle.api.Project
+import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.configure
 
-val spotlessVersion: String by project
-val reckonVersion: String by project
+fun Project.configureVersioning() {
+    apply<ReckonPlugin>()
 
-dependencies {
-    implementation("com.diffplug.spotless:spotless-plugin-gradle:$spotlessVersion")
-    implementation("org.ajoberstar.reckon:reckon-gradle:$reckonVersion")
+    configure<ReckonExtension> {
+        scopeFromProp()
+        snapshotFromProp()
+    }
 }
