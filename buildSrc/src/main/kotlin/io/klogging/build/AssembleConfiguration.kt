@@ -32,6 +32,7 @@ fun Project.configureAssemble() {
 
         project.extensions.getByType<PublishingExtension>().publications.names
             .filter { it != "kotlinMultiplatform" }
+            .filter { it != "native" }
             .forEach { publicationName ->
                 from(tasks.named("${publicationName}Jar"))
                 from(tasks.named("${publicationName}JavadocJar"))
