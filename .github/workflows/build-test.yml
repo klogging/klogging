@@ -25,16 +25,4 @@ jobs:
           java-version: 11
 
       - name: Gradle check, compile and test JVM code
-        run: ./gradlew clean ktlintCheck jvmTest
-
-      - name: Generate KDoc
-        run: ./gradlew dokkaHtml
-
-      - name: Publish JVM Jar to Maven Central and release
-        run: ./gradlew --info dokkaJar publishJvmPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository
-        env:
-          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
-          ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.SIGNING_KEY_ID }}
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASSWORD }}
-          ORG_GRADLE_PROJECT_ossrhUsername: ${{ secrets.OSSRH_USERNAME }}
-          ORG_GRADLE_PROJECT_ossrhPassword: ${{ secrets.OSSRH_PASSWORD }}
+        run: ./gradlew clean jvmTest
