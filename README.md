@@ -4,6 +4,7 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Build](https://github.com/klogging/klogging/actions/workflows/build.yml/badge.svg)](https://github.com/klogging/klogging/actions/workflows/build.yml)
+[![Maven Central](https://img.shields.io/maven-central/v/io.klogging/klogging-jvm.svg?label=maven%20central)](https://search.maven.org/search?q=g:%22io.klogging%22%20AND%20a:%22klogging-jvm%22)
 
 **Klogging** is a pure-Kotlin logging library that aims to be flexible and easy to use.
 It uses Kotlin idioms for creating loggers and sending log events.
