@@ -29,7 +29,7 @@ class GelfEventTest : DescribeSpec({
     describe("Creating GELF event JSON") {
         it("includes logger name as _logger") {
             val ts = timestampNow()
-            val event = LogEvent(ts, "test.local", "Test", Level.INFO, null, "Message", null, mapOf())
+            val event = LogEvent(ts, "test.local", "Test", null, Level.INFO, null, "Message", null, mapOf())
 
             event.toGelf() shouldBe """{
                 |"version":"1.1",
@@ -43,7 +43,7 @@ class GelfEventTest : DescribeSpec({
         it("includes full_message with `stackTrace` if present") {
             val ts = timestampNow()
             val trace = randomString()
-            val event = LogEvent(ts, "test.local", "Test", Level.INFO, null, "Message", trace, mapOf())
+            val event = LogEvent(ts, "test.local", "Test", null, Level.INFO, null, "Message", trace, mapOf())
 
             event.toGelf() shouldBe """{
                 |"version":"1.1",

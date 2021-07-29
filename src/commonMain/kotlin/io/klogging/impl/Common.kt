@@ -21,10 +21,11 @@ package io.klogging.impl
 import io.klogging.BaseLogger
 import io.klogging.events.Level
 import io.klogging.events.LogEvent
+import io.klogging.events.currentContext
 import io.klogging.events.now
 
 public fun LogEvent.copyWith(newLevel: Level, newStacktrace: String?): LogEvent = LogEvent(
-    timestamp, host, logger, newLevel, template, message, newStacktrace, items
+    timestamp, host, logger, context ?: currentContext(), newLevel, template, message, newStacktrace, items
 )
 
 public fun BaseLogger.eventFrom(
@@ -41,6 +42,7 @@ public fun BaseLogger.eventFrom(
             LogEvent(
                 timestamp = now(),
                 logger = this.name,
+                context = currentContext(),
                 level = level,
                 message = message,
                 stackTrace = stackTrace,
