@@ -19,9 +19,12 @@
 rootProject.name = "klogging"
 
 pluginManagement {
+    val kotlinVersion: String by settings
+    val versionsPluginVersion: String by settings
+
     plugins {
-        kotlin("multiplatform") version "1.5.21"
-        kotlin("plugin.serialization") version "1.5.21"
-        id("com.github.ben-manes.versions") version "0.39.0"
+        kotlin("multiplatform") version kotlinVersion
+        kotlin("plugin.serialization") version kotlinVersion
+        id("com.github.ben-manes.versions") version versionsPluginVersion
     }
 }
