@@ -22,6 +22,7 @@ import io.klogging.Logging
 import io.klogging.context.LogContext
 import io.klogging.events.Level
 import io.klogging.events.LogEvent
+import io.klogging.events.currentContext
 import io.klogging.events.now
 import io.klogging.template.templateItems
 import kotlin.coroutines.coroutineContext
@@ -43,6 +44,7 @@ public class KloggerImpl(
         return LogEvent(
             timestamp = now(),
             logger = this.name,
+            context = currentContext(),
             level = minLevel(),
             template = template,
             message = template,

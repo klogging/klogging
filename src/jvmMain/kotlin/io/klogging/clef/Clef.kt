@@ -38,8 +38,8 @@ public actual fun LogEvent.toClef(): String {
             "logger" to logger,
         ) + items
         ).toMutableMap()
-    if (template != null) eventMap["@mt"] = template
-    else eventMap["@m"] = message
+    if (context != null) eventMap["context"] = context
+    if (template != null) eventMap["@mt"] = template else eventMap["@m"] = message
     if (stackTrace != null) eventMap["@x"] = stackTrace
 
     return serializeMap(eventMap)

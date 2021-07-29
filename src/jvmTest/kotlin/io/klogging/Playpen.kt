@@ -37,8 +37,8 @@ fun main() = runBlocking {
 
     fun LogEvent.format(fmt: String) =
         LogEvent(
-            timestamp, host, logger, level, template, message, stackTrace,
-            items + mapOf("format" to fmt, "thread" to Thread.currentThread().name)
+            timestamp, host, logger, context, level, template, message, stackTrace,
+            items + mapOf("format" to fmt)
         )
 
     LoggingConfiguration.setConfigs(
@@ -51,7 +51,7 @@ fun main() = runBlocking {
         ),
     )
 
-    val logger = logger("main")
+    val logger = logger("Playpen")
     launch(logContext("run" to UUID.randomUUID())) {
         logger.info { "Start" }
         repeat(2) { c ->
