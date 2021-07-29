@@ -26,15 +26,16 @@ import org.gradle.testing.jacoco.plugins.JacocoPlugin
 import org.gradle.testing.jacoco.plugins.JacocoPluginExtension
 import org.gradle.testing.jacoco.tasks.JacocoReport
 
-fun Project.configureJacoco() {
+fun Project.configureJacoco(jacocoVersion: String) {
     apply<JacocoPlugin>()
 
     configure<JacocoPluginExtension> {
-        toolVersion = "0.8.7"
+        toolVersion = jacocoVersion
     }
 
     tasks.named<JacocoReport>("jacocoTestReport") {
         reports {
+            html.required.set(true)
             xml.required.set(true)
         }
     }
