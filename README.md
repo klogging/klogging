@@ -26,13 +26,25 @@ framework.
 
 ## Quick start (JVM only)
 
-1. Clone this repository and build a jar with `./gradlew clean jvmJar`.
+1. Include Klogging in your project with Gradle:
 
-2. Add `./build/libs/klogging-jvm-0.1-SNAPSHOT.jar` to your project.
+   ```kotlin
+   implementation("io.klogging:klogging-jvm:0.1.0")
+   ```
 
-3. (Optionally) configure loggers using `LoggingConfiguration.setConfigs()`.
+   or Maven:
 
-4. Create a logger, for example by using the `Klogging` interface for coroutine logging:
+   ```xml
+   <dependency>
+     <groupId>io.klogging</groupId>
+     <artifactId>klogging-jvm</artifactId>
+     <version>0.1.0</version>
+   </dependency>
+   ```
+
+2. (Optionally) configure loggers using `LoggingConfiguration.setConfigs()`.
+
+3. Create a logger, for example by using the `Klogging` interface for coroutine logging:
 
     ```kotlin
     class ImportantStuff : Klogging {
