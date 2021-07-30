@@ -81,7 +81,7 @@ tasks:
         OSSRH_USERNAME: $OSSRH_USERNAME
         OSSRH_PASSWORD: $OSSRH_PASSWORD
         SIGNING_KEY_ID: $SIGNING_KEY_ID # Run `gpg -K` to get this, take last eight characters
-        SIGNING_KEY: $SIGNING_KEY # Run `gpg --export-secret-keys <ID> --armor` to get this
+        SIGNING_KEY: $SIGNING_KEY # Run `gpg --export-secret-keys <ID> | base64` to get this
         SIGNING_PASSWORD: $SIGNING_PASSWORD
 
   assembleRelease:
@@ -91,5 +91,5 @@ tasks:
       command: ./gradlew assembleRelease
       environment:
         SIGNING_KEY_ID: $SIGNING_KEY_ID # Run `gpg -K` to get this, take last eight characters
-        SIGNING_KEY: $SIGNING_KEY # Run `gpg --export-secret-keys <ID> --armor` to get this
+        SIGNING_KEY: $SIGNING_KEY # Run `gpg --export-secret-keys <ID> | base64` to get this
         SIGNING_PASSWORD: $SIGNING_PASSWORD
