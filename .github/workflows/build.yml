@@ -40,6 +40,10 @@ jobs:
 
       - name: Check
         run: ./batect check
+        # Signing info needed for building the signing task.
+        env:
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
 
       - name: Generating code coverage report
         run: ./batect generateCodeCoverageReport
@@ -68,16 +72,6 @@ jobs:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-        if: github.repository == 'klogging/klogging' && startsWith(github.ref, 'refs/tags/') && github.event_name == 'push'
-
-      - name: Create GitHub release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: build/release/*
-          fail_on_unmatched_files: true
-          draft: true # Update draft release with matching tag, if there is one.
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: github.repository == 'klogging/klogging' && startsWith(github.ref, 'refs/tags/') && github.event_name == 'push'
 
       - name: Clean up dependencies before caching
