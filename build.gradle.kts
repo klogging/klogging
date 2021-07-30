@@ -37,9 +37,11 @@ repositories {
     mavenCentral()
 }
 
+val jacocoVersion: String by project
 val kotlinCoroutinesVersion: String by project
 val kotlinSerialisationJsonVersion: String by project
 val kotestVersion: String by project
+val ktlintVersion: String by project
 
 kotlin {
     explicitApi()
@@ -92,9 +94,9 @@ kotlin {
 }
 
 configureAssemble()
-configureJacoco()
+configureJacoco(jacocoVersion)
 configurePublishing()
-configureSpotless()
+configureSpotless(ktlintVersion)
 configureTesting()
 configureVersioning()
 configureWrapper()
