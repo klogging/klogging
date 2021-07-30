@@ -30,15 +30,11 @@ import org.gradle.api.tasks.TaskProvider
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.extra
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
-import org.gradle.plugins.signing.Sign
 import org.gradle.plugins.signing.SigningExtension
 import org.gradle.plugins.signing.SigningPlugin
-import java.nio.file.Files
-import java.util.Base64
 
 fun Project.configurePublishing() {
     apply<MavenPublishPlugin>()
@@ -136,24 +132,11 @@ private fun Project.createPublishingTasks(
 
 private fun Project.createSigningTasks() {
     configure<SigningExtension> {
+        val key = getEnvironmentVariableOrThrow("SIGNING_KEY")
+        val keyId = getEnvironmentVariableOrThrow("SIGNING_KEY_ID")
+        val password = getEnvironmentVariableOrThrow("SIGNING_PASSWORD")
+        useInMemoryPgpKeys(keyId, key, password)
         sign(publishing.publications)
-    }
-
-    tasks.withType<Sign>().configureEach {
-        doFirst {
-            val keyId = getEnvironmentVariableOrThrow("GPG_KEY_ID")
-            val keyRing = getEnvironmentVariableOrThrow("GPG_KEY_RING")
-            val keyPassphrase = getEnvironmentVariableOrThrow("GPG_KEY_PASSPHRASE")
-
-            val keyRingFilePath = Files.createTempFile("klogger-signing", ".gpg")
-            keyRingFilePath.toFile().deleteOnExit()
-
-            Files.write(keyRingFilePath, Base64.getDecoder().decode(keyRing))
-
-            project.extra["signing.keyId"] = keyId
-            project.extra["signing.secretKeyRingFile"] = keyRingFilePath.toString()
-            project.extra["signing.password"] = keyPassphrase
-        }
     }
 }
 
