@@ -37,10 +37,6 @@ jobs:
 
       - name: Build
         run: ./batect build
-        # Signing info needed for building the signing task.
-        env:
-          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
 
       - name: Check
         run: ./batect check
