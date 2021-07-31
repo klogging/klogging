@@ -33,7 +33,7 @@ class RenderClefTest : DescribeSpec({
             val ts = timestampNow()
             val event = LogEvent(ts, "test.local", "Test", currentContext(), Level.INFO, null, "Message", null, mapOf())
 
-            renderClef(event) shouldBe """{
+            RENDER_CLEF(event) shouldBe """{
             |"@t":"${iso(event.timestamp)}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
@@ -48,7 +48,7 @@ class RenderClefTest : DescribeSpec({
             val event =
                 LogEvent(ts, "test.local", "Test", currentContext(), Level.INFO, null, "Message", trace, mapOf())
 
-            renderClef(event) shouldBe """{
+            RENDER_CLEF(event) shouldBe """{
             |"@t":"${iso(event.timestamp)}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
@@ -62,7 +62,7 @@ class RenderClefTest : DescribeSpec({
             val ts = timestampNow()
             val event = LogEvent(ts, "test.local", "Test", currentContext(), Level.INFO, null, "Message", null, mapOf())
 
-            renderClef(event) shouldBe """{
+            RENDER_CLEF(event) shouldBe """{
             |"@t":"${iso(event.timestamp)}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
@@ -79,7 +79,7 @@ class RenderClefTest : DescribeSpec({
                 mapOf("Id" to id)
             )
 
-            renderClef(event) shouldBe """{
+            RENDER_CLEF(event) shouldBe """{
             |"@t":"${iso(event.timestamp)}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
@@ -93,7 +93,7 @@ class RenderClefTest : DescribeSpec({
             val ts = timestampNow()
             val event = LogEvent(ts, "test.local", "Test", null, Level.INFO, null, "Message", null, mapOf())
 
-            renderClef(event) shouldBe """{
+            RENDER_CLEF(event) shouldBe """{
             |"@t":"${iso(event.timestamp)}",
             |"@l":"${event.level}",
             |"host":"${event.host}",

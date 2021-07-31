@@ -16,9 +16,6 @@
 
 */
 
-package io.klogging.render
+package io.klogging.dispatching
 
-public val RENDER_SIMPLE: RenderString = { e ->
-    "${e.timestamp} ${e.level} [${e.context}] ${e.logger} ${e.items} : ${e.message}" +
-        if (e.stackTrace != null) "\n${e.stackTrace}" else ""
-}
+public actual val STDERR: DispatchString = TODO("Not yet implemented")

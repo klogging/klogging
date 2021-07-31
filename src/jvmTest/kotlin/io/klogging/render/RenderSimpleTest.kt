@@ -31,7 +31,7 @@ class RenderSimpleTest : DescribeSpec({
             val ts = timestampNow()
             val event = LogEvent(ts, "test.local", "Test", "test-thread", Level.INFO, null, "Message", null, mapOf())
 
-            renderSimple(event) shouldBe "$ts INFO [test-thread] Test {} : Message"
+            RENDER_SIMPLE(event) shouldBe "$ts INFO [test-thread] Test {} : Message"
         }
 
         it("puts a stack trace starting on the next line") {
@@ -40,7 +40,7 @@ class RenderSimpleTest : DescribeSpec({
             val event =
                 LogEvent(ts, "test.local", "Test", "test-thread", Level.INFO, null, "Message", stackTrace, mapOf())
 
-            renderSimple(event) shouldBe "$ts INFO [test-thread] Test {} : Message\n$stackTrace"
+            RENDER_SIMPLE(event) shouldBe "$ts INFO [test-thread] Test {} : Message\n$stackTrace"
         }
     }
 })

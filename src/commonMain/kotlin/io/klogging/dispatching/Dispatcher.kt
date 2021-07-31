@@ -23,6 +23,9 @@ import io.klogging.events.LogEvent
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
+/** Type used for dispatching a string somewhere. */
+public typealias DispatchString = (String) -> Unit
+
 /** Type used for dispatching a [LogEvent] somewhere. */
 public typealias DispatchEvent = (LogEvent) -> Unit
 
