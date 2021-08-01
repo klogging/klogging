@@ -18,14 +18,13 @@
 
 package io.klogging
 
-import io.klogging.config.LogDispatcher
-import io.klogging.config.LoggingConfig
-import io.klogging.config.LoggingConfiguration
-import io.klogging.config.ROOT_CONFIG
+import io.klogging.config.SinkConfiguration
+import io.klogging.config.loggingConfig
 import io.klogging.events.Level
 import io.klogging.events.LogEvent
 import io.klogging.events.Timestamp
 import io.klogging.events.hostname
+import io.klogging.render.RenderString
 import kotlinx.coroutines.delay
 import java.time.Instant
 import kotlin.random.Random
@@ -61,7 +60,10 @@ suspend fun waitForDispatch(millis: Long = 50) = delay(millis)
 
 fun savedEvents(): MutableList<LogEvent> {
     val saved = mutableListOf<LogEvent>()
-    LoggingConfiguration
-        .setConfigs(LoggingConfig(ROOT_CONFIG, Level.TRACE, listOf(LogDispatcher("Test") { e -> saved.add(e) })))
+    val saveEventRenderer: RenderString = { e -> saved.add(e); "" }
+    loggingConfig {
+        sink("test", SinkConfiguration({ }, saveEventRenderer))
+        logging { fromMinLevel(Level.TRACE) { toSink("test") } }
+    }
     return saved
 }

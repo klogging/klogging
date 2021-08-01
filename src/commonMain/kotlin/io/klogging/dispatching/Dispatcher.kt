@@ -18,7 +18,9 @@
 
 package io.klogging.dispatching
 
-import io.klogging.config.LoggingConfiguration
+import io.klogging.config.KloggingConfiguration
+import io.klogging.config.SinkConfiguration
+import io.klogging.events.Level
 import io.klogging.events.LogEvent
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -47,8 +49,19 @@ public object Dispatcher {
      * Each is dispatched in a separate coroutine.
      */
     public suspend fun dispatchEvent(logEvent: LogEvent): Unit = coroutineScope {
-        LoggingConfiguration
-            .dispatchersFor(logEvent.logger, logEvent.level)
-            .forEach { launch { it.dispatcher(logEvent) } }
+        sinksFor(logEvent.logger, logEvent.level)
+            .forEach { launch { it.dispatcher(it.renderer(logEvent)) } }
+    }
+
+    public fun sinksFor(loggerName: String, level: Level): List<SinkConfiguration> {
+        val sinkNames = KloggingConfiguration.configs
+            .filter { it.nameMatch.matches(loggerName) }
+            .flatMap { it.ranges }
+            .filter { level >= it.minLevel && level <= it.maxLevel }
+            .flatMap { it.sinkNames }
+            .distinct()
+        return KloggingConfiguration.sinks
+            .filterKeys { sinkNames.contains(it) }
+            .map { it.value }
     }
 }

@@ -16,12 +16,19 @@
 
 */
 
-package io.klogging.gelf
+package io.klogging.dispatching
 
-import io.klogging.events.LogEvent
+import java.io.IOException
+import java.net.DatagramPacket
+import java.net.DatagramSocket
+import java.net.InetAddress
 
-public actual fun LogEvent.toGelf(): String {
-    TODO("Not yet implemented")
+public actual fun graylogServer(endpoint: Endpoint): DispatchString = { eventString ->
+    val bytes = eventString.toByteArray()
+    val packet = DatagramPacket(bytes, 0, bytes.size, InetAddress.getByName(endpoint.host), endpoint.port)
+    try {
+        DatagramSocket().use { it.send(packet) }
+    } catch (e: IOException) {
+        System.err.println("Exception sending GELF message: $e")
+    }
 }
-
-public actual fun dispatchGelf(gelfEvent: String, endpoint: Endpoint) {}

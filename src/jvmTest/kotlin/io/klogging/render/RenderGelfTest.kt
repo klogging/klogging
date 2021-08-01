@@ -16,7 +16,7 @@
 
 */
 
-package io.klogging.gelf
+package io.klogging.render
 
 import io.klogging.events.Level
 import io.klogging.events.LogEvent
@@ -25,13 +25,13 @@ import io.klogging.timestampNow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 
-class GelfEventTest : DescribeSpec({
-    describe("Creating GELF event JSON") {
+class RenderGelfTest : DescribeSpec({
+    describe("render a `LogEvent` to GELF") {
         it("includes logger name as _logger") {
             val ts = timestampNow()
             val event = LogEvent(ts, "test.local", "Test", null, Level.INFO, null, "Message", null, mapOf())
 
-            event.toGelf() shouldBe """{
+            RENDER_GELF(event) shouldBe """{
                 |"version":"1.1",
                 |"host":"${event.host}",
                 |"short_message":"${event.message}",
@@ -40,12 +40,13 @@ class GelfEventTest : DescribeSpec({
                 |"_logger":"${event.logger}"
                 |}""".trimMargin().replace("\n", "")
         }
-        it("includes full_message with `stackTrace` if present") {
-            val ts = timestampNow()
-            val trace = randomString()
-            val event = LogEvent(ts, "test.local", "Test", null, Level.INFO, null, "Message", trace, mapOf())
+    }
+    it("includes full_message with `stackTrace` if present") {
+        val ts = timestampNow()
+        val trace = randomString()
+        val event = LogEvent(ts, "test.local", "Test", null, Level.INFO, null, "Message", trace, mapOf())
 
-            event.toGelf() shouldBe """{
+        RENDER_GELF(event) shouldBe """{
                 |"version":"1.1",
                 |"host":"${event.host}",
                 |"short_message":"${event.message}",
@@ -54,6 +55,5 @@ class GelfEventTest : DescribeSpec({
                 |"level":${graylogLevel(Level.INFO)},
                 |"_logger":"${event.logger}"
                 |}""".trimMargin().replace("\n", "")
-        }
     }
 })

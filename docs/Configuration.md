@@ -15,25 +15,19 @@ Here is a prototype example:
 ```kotlin
 import com.example.logging.renderAudit
 
-import io.klogging.LoggingConfiguration
+import io.klogging.config.loggingConfiguration
 import io.klogging.dispatching.STDERR
 import io.klogging.dispatching.STDOUT
 import io.klogging.render.RENDER_CLEF
 import io.klogging.render.RENDER_SIMPLE
 
-LoggingConfiguration {
+loggingConfiguration {
     // Dispatch to standout output stream with simple message rendering.
-    sink("stdout") {
-        STDOUT { RENDER_SIMPLE }
-    }
+    sink("stdout", STDOUT, RENDER_SIMPLE)
     // Dispatch to standout error stream with simple message rendering.
-    sink("stderr") {
-        STDERR { RENDER_SIMPLE }
-    }
+    sink("stderr", STDERR, RENDER_SIMPLE)
     // Dispatch to a Seq server with CLEF rendering by default.
-    sink("seq") {
-        seq(server = "http://localhost:5342")
-    }
+    sink("seq", seq(server = "http://localhost:5341"))
     // Dispatch to a syslog endpoint, with custom rendering.
     sink("auditing") {
         syslog(config = "syslogConfig") { render(renderAudit) }
@@ -55,8 +49,8 @@ LoggingConfiguration {
         }
     }
     logging {
-        // Only from one logger (i.e. on class).
-        onlyLogger("com.example.service.FancyService")
+        // Exact logger name (e.g. one class).
+        exactLogger("com.example.service.FancyService")
         // Log from DEBUG to Seq.
         withMinLevel(Level.DEBUG) { to Sink("seq") }
     }

@@ -16,10 +16,6 @@
 
 */
 
-package io.klogging.gelf
+package io.klogging.dispatching
 
-import io.klogging.events.LogEvent
-
-public expect fun LogEvent.toGelf(): String
-
-public expect fun dispatchGelf(gelfEvent: String, endpoint: Endpoint = Endpoint())
+public expect fun seqServer(server: String): DispatchString

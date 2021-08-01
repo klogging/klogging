@@ -18,38 +18,30 @@
 
 package io.klogging
 
-import io.klogging.clef.dispatchClef
-import io.klogging.clef.toClef
-import io.klogging.config.DEFAULT_CONSOLE
-import io.klogging.config.LogDispatcher
-import io.klogging.config.LoggingConfig
-import io.klogging.config.LoggingConfiguration
+import io.klogging.config.loggingConfig
+import io.klogging.config.seq
 import io.klogging.context.logContext
 import io.klogging.events.Level
-import io.klogging.events.LogEvent
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.UUID
 
+/**
+ * Main program for experimenting with Klogging features as they are developed.
+ */
 fun main() = runBlocking {
 
-    fun LogEvent.format(fmt: String) =
-        LogEvent(
-            timestamp, host, logger, context, level, template, message, stackTrace,
-            items + mapOf("format" to fmt)
-        )
-
-    LoggingConfiguration.setConfigs(
-        DEFAULT_CONSOLE,
-        LoggingConfig(
-            "ROOT", Level.INFO,
-            listOf(
-                LogDispatcher("Seq") { e -> dispatchClef(e.format("CLEF").toClef()) }
-            )
-        ),
-    )
+    loggingConfig {
+        sink("seq", seq("http://localhost:5341"))
+        logging {
+            exactLogger("Playpen")
+            fromMinLevel(Level.INFO) {
+                toSink("seq")
+            }
+        }
+    }
 
     val logger = logger("Playpen")
     launch(logContext("run" to UUID.randomUUID())) {

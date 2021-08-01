@@ -16,12 +16,15 @@
 
 */
 
-package io.klogging.clef
+package io.klogging.config
 
-import io.klogging.events.LogEvent
+import io.klogging.dispatching.STDOUT
+import io.klogging.events.Level
+import io.klogging.render.RENDER_SIMPLE
 
-public actual fun LogEvent.toClef(): String {
-    TODO("Not yet implemented")
+public val STDOUT_SIMPLE: SinkConfiguration = SinkConfiguration(STDOUT, RENDER_SIMPLE)
+
+public val defaultConsole: KloggingConfiguration.() -> Unit = {
+    sink("console", STDOUT_SIMPLE)
+    logging { fromMinLevel(Level.INFO) { toSink("console") } }
 }
-
-public actual fun dispatchClef(clefEvent: String, server: String) {}

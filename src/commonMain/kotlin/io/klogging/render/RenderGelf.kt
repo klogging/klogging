@@ -16,10 +16,37 @@
 
 */
 
-package io.klogging.gelf
+package io.klogging.render
 
 import io.klogging.events.Level
+import io.klogging.events.LogEvent
 import io.klogging.events.Timestamp
+
+private const val GELF_TEMPLATE =
+    """{"version":"1.1","host":"{{HOST}}","short_message":"{{SHORT}}",{{EX}}"timestamp":{{TS}},"level":{{LEVEL}},{{ITEMS}}}"""
+private const val STACK_TEMPLATE = """"full_message":"{{ST}}","""
+
+/**
+ * Renders a [LogEvent] into [GELF](https://docs.graylog.org/en/latest/pages/gelf.html#gelf-payload-specification)
+ * JSON format.
+ */
+public val RENDER_GELF: RenderString = { e ->
+    val exception = e.stackTrace?.let { formatStackTrace(it) } ?: ""
+    val itemsJson = (e.items + mapOf("logger" to e.logger))
+        .map { (k, v) -> """"_$k":"$v"""" }
+        .joinToString(",")
+
+    GELF_TEMPLATE
+        .replace("{{HOST}}", e.host)
+        .replace("{{SHORT}}", e.message)
+        .replace("{{EX}}", exception)
+        .replace("{{TS}}", e.timestamp.graylogFormat())
+        .replace("{{LEVEL}}", graylogLevel(e.level).toString())
+        .replace("{{ITEMS}}", itemsJson)
+}
+
+private fun formatStackTrace(stackTrace: String) = STACK_TEMPLATE
+    .replace("{{ST}}", stackTrace)
 
 /**
  * Map [Level]s to syslog levels used by Graylog:
@@ -35,11 +62,6 @@ public fun graylogLevel(level: Level): Int = when (level) {
     Level.ERROR -> 3
     Level.FATAL -> 2
 }
-
-public data class Endpoint(
-    val host: String = "localhost",
-    val port: Int = 12201,
-)
 
 public fun Timestamp.graylogFormat(): String {
     val ns = "000000000$nanos"

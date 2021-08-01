@@ -16,12 +16,6 @@
 
 */
 
-package io.klogging.gelf
+package io.klogging.dispatching
 
-import io.klogging.events.LogEvent
-
-public actual fun LogEvent.toGelf(): String {
-    TODO("Not yet implemented")
-}
-
-public actual fun dispatchGelf(gelfEvent: String, endpoint: Endpoint) {}
+public actual fun seqServer(server: String): DispatchString = TODO("Not yet implemented")

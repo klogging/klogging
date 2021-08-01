@@ -18,14 +18,14 @@
 
 package io.klogging
 
-import io.klogging.config.LoggingConfiguration
+import io.klogging.config.KloggingConfiguration
 import io.klogging.events.Level
 
 public interface BaseLogger {
 
     public val name: String
 
-    public fun minLevel(): Level = LoggingConfiguration.minimumLevelOf(name)
+    public fun minLevel(): Level = KloggingConfiguration.minimumLevelOf(name)
 
     public fun isLevelEnabled(level: Level): Boolean = minLevel() <= level
     public fun isTraceEnabled(): Boolean = minLevel() <= Level.TRACE

@@ -16,12 +16,8 @@
 
 */
 
-package io.klogging.clef
+package io.klogging.dispatching
 
-import io.klogging.events.LogEvent
-
-public actual fun LogEvent.toClef(): String {
+actual fun graylogServer(endpoint: Endpoint): DispatchString {
     TODO("Not yet implemented")
 }
-
-public actual fun dispatchClef(clefEvent: String, server: String) {}
