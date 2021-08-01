@@ -21,17 +21,36 @@ package io.klogging
 import io.klogging.config.KloggingConfiguration
 import io.klogging.events.Level
 
+/**
+ * Base interface of [Klogger] interface for use in coroutines and
+ * [NoCoLogger] interface for use outside coroutines.
+ */
 public interface BaseLogger {
 
+    /** Name of the logger: usually a class name in Java. */
     public val name: String
 
+    /**
+     * Minimum level at which to emit log events, determined from current
+     * configuration.
+     */
     public fun minLevel(): Level = KloggingConfiguration.minimumLevelOf(name)
 
+    /**
+     * Check whether this logger will emit log events at the specified logging
+     * level.
+     */
     public fun isLevelEnabled(level: Level): Boolean = minLevel() <= level
+    /** Is this logger enabled to emit [Level.TRACE] events? */
     public fun isTraceEnabled(): Boolean = minLevel() <= Level.TRACE
+    /** Is this logger enabled to emit [Level.DEBUG] events? */
     public fun isDebugEnabled(): Boolean = minLevel() <= Level.DEBUG
+    /** Is this logger enabled to emit [Level.INFO] events? */
     public fun isInfoEnabled(): Boolean = minLevel() <= Level.INFO
+    /** Is this logger enabled to emit [Level.WARN] events? */
     public fun isWarnEnabled(): Boolean = minLevel() <= Level.WARN
+    /** Is this logger enabled to emit [Level.ERROR] events? */
     public fun isErrorEnabled(): Boolean = minLevel() <= Level.ERROR
+    /** Is this logger enabled to emit [Level.FATAL] events? */
     public fun isFatalEnabled(): Boolean = minLevel() <= Level.FATAL
 }

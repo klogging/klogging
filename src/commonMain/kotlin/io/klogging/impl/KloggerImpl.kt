@@ -18,6 +18,7 @@
 
 package io.klogging.impl
 
+import io.klogging.Klogger
 import io.klogging.Logging
 import io.klogging.context.LogContext
 import io.klogging.events.Level
@@ -29,9 +30,9 @@ import kotlin.coroutines.coroutineContext
 
 public class KloggerImpl(
     override val name: String,
-) : io.klogging.Klogger {
+) : Klogger {
 
-    override suspend fun logMessage(level: Level, exception: Exception?, event: Any?) {
+    override suspend fun emitEvent(level: Level, exception: Exception?, event: Any?) {
         val eventToLog = eventFrom(level, exception, event, contextItems())
         Logging.sendEvent(eventToLog)
     }

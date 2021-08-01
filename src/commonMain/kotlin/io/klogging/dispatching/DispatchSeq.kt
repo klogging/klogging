@@ -18,4 +18,5 @@
 
 package io.klogging.dispatching
 
+/** Dispatch a rendered string to a Seq server. */
 public expect fun seqServer(server: String): DispatchString

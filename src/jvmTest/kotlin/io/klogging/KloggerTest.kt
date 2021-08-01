@@ -38,7 +38,7 @@ class TestLogger(
     internal var logged: Any? = null
 
     override fun minLevel() = minLevel
-    override suspend fun logMessage(level: Level, exception: Exception?, event: Any?) {
+    override suspend fun emitEvent(level: Level, exception: Exception?, event: Any?) {
         except = exception
         logged = event
     }

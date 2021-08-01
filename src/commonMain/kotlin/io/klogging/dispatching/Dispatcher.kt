@@ -25,21 +25,6 @@ import io.klogging.events.LogEvent
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
-/** Type used for dispatching a string somewhere. */
-public typealias DispatchString = (String) -> Unit
-
-/** Type used for dispatching a [LogEvent] somewhere. */
-public typealias DispatchEvent = (LogEvent) -> Unit
-
-/**
- * Simple dispatcher that sends a single, formatted line to the console, with any stack trace
- * on the following lines.
- */
-public val simpleDispatcher: DispatchEvent = { e ->
-    println("${e.timestamp} ${e.level} [${e.context}] ${e.logger} ${e.items} : ${e.message}")
-    if (e.stackTrace != null) println(e.stackTrace)
-}
-
 /** Object that handles dispatching of [LogEvent]s to zero or more targets. */
 public object Dispatcher {
 
@@ -65,3 +50,6 @@ public object Dispatcher {
             .map { it.value }
     }
 }
+
+/** Type used for dispatching a string somewhere. */
+public typealias DispatchString = (String) -> Unit

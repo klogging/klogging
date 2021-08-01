@@ -30,16 +30,17 @@ public object KloggingConfiguration {
     internal val sinks = mutableMapOf<String, SinkConfiguration>()
     internal val configs = mutableListOf<LoggingConfig>()
 
-    /** Adds a sink configuration. */
+    /** DSL: add a sink configuration. */
     public fun sink(sinkName: String, sinkConfig: SinkConfiguration) {
         sinks[sinkName] = sinkConfig
     }
 
+    /** DSL: add a sink configuration from dispatcher and renderer. */
     public fun sink(sinkName: String, dispatcher: DispatchString, renderer: RenderString) {
         sinks[sinkName] = SinkConfiguration(dispatcher, renderer)
     }
 
-    /** Adds a logging configuration specified in the DSL. */
+    /** DSL: add logging configuration specified in [block]. */
     public fun logging(block: LoggingConfig.() -> Unit) {
         val loggingConfig = LoggingConfig()
         loggingConfig.apply(block)
@@ -65,7 +66,7 @@ public object KloggingConfiguration {
  * @param append if `true`, append this configuration to any existing one.
  *               Default is `false`, causing this configuration replace any existing one.
  */
-public fun loggingConfig(append: Boolean = false, block: KloggingConfiguration.() -> Unit) {
+public fun loggingConfiguration(append: Boolean = false, block: KloggingConfiguration.() -> Unit) {
     if (!append) KloggingConfiguration.reset()
     KloggingConfiguration.apply(block)
 }

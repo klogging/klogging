@@ -26,18 +26,18 @@ import io.klogging.events.LogEvent
  */
 public interface Klogger : BaseLogger {
 
-    public suspend fun logMessage(level: Level, exception: Exception?, event: Any?)
+    public suspend fun emitEvent(level: Level, exception: Exception?, event: Any?)
 
-    public suspend fun log(level: Level, exception: Exception, event: Any?): Unit = logMessage(level, exception, event)
-    public suspend fun log(level: Level, event: Any?): Unit = logMessage(level, null, event)
+    public suspend fun log(level: Level, exception: Exception, event: Any?): Unit = emitEvent(level, exception, event)
+    public suspend fun log(level: Level, event: Any?): Unit = emitEvent(level, null, event)
 
     public suspend fun log(level: Level, exception: Exception, template: String, vararg values: Any?): Unit =
-        if (values.isEmpty()) logMessage(level, exception, template)
-        else logMessage(level, exception, e(template, *values))
+        if (values.isEmpty()) emitEvent(level, exception, template)
+        else emitEvent(level, exception, e(template, *values))
 
     public suspend fun log(level: Level, template: String, vararg values: Any?): Unit =
-        if (values.isEmpty()) logMessage(level, null, template)
-        else logMessage(level, null, e(template, *values))
+        if (values.isEmpty()) emitEvent(level, null, template)
+        else emitEvent(level, null, e(template, *values))
 
     public suspend fun trace(event: Any?): Unit = log(Level.TRACE, event)
     public suspend fun debug(event: Any?): Unit = log(Level.DEBUG, event)
@@ -79,11 +79,11 @@ public interface Klogger : BaseLogger {
         log(Level.FATAL, exception, template, *values)
 
     public suspend fun log(level: Level, exception: Exception, event: suspend Klogger.() -> Any?) {
-        if (isLevelEnabled(level)) logMessage(level, exception, event())
+        if (isLevelEnabled(level)) emitEvent(level, exception, event())
     }
 
     public suspend fun log(level: Level, event: suspend Klogger.() -> Any?) {
-        if (isLevelEnabled(level)) logMessage(level, null, event())
+        if (isLevelEnabled(level)) emitEvent(level, null, event())
     }
 
     public suspend fun trace(event: suspend Klogger.() -> Any?): Unit = log(Level.TRACE, event)

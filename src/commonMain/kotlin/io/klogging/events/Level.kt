@@ -20,6 +20,9 @@ package io.klogging.events
 
 import kotlinx.serialization.Serializable
 
+/**
+ * Levels of logging severity: higher level means more severe.
+ */
 @Serializable
 public enum class Level {
     NONE, TRACE, DEBUG, INFO, WARN, ERROR, FATAL

@@ -32,7 +32,7 @@ public class NoCoLoggerImpl(
     override val name: String,
 ) : NoCoLogger {
 
-    override fun logMessage(level: Level, exception: Exception?, event: Any?) {
+    override fun emitEvent(level: Level, exception: Exception?, event: Any?) {
         val eventToLog = eventFrom(level, exception, event)
         CoroutineScope(Job()).launch {
             Logging.sendEvent(eventToLog)

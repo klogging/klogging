@@ -18,8 +18,8 @@
 
 package io.klogging.dispatching
 
-/** Dispatch a string to the standard output. */
+/** Dispatch an event rendered as a string to the standard output stream. */
 public val STDOUT: DispatchString = { s -> println(s) }
 
-/** Dispatch a string to the standard error stream. */
+/** Dispatch an event rendered as a string to the standard error stream. */
 public expect val STDERR: DispatchString

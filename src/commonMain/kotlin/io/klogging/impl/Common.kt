@@ -24,21 +24,33 @@ import io.klogging.events.LogEvent
 import io.klogging.events.currentContext
 import io.klogging.events.now
 
-public fun LogEvent.copyWith(newLevel: Level, newStacktrace: String?): LogEvent = LogEvent(
+/**
+ * Copy a [LogEvent], setting the level and the stack trace from any exception.
+ *
+ * This function is used when an event has already been constructed, for example
+ * by the [Klogger#e] and [NoCoLogger#e] functions.
+ */
+private fun LogEvent.copyWith(newLevel: Level, newStacktrace: String?): LogEvent = LogEvent(
     timestamp, host, logger, context ?: currentContext(), newLevel, template, message, newStacktrace, items
 )
 
+/**
+ * Extension function on [BaseLogger] that constructs a [LogEvent] from a range of types.
+ *
+ * - If the object is an event already, update it with level and exception (if present).
+ * - Otherwise, construct an event with current context and timestamp.
+ */
 public fun BaseLogger.eventFrom(
     level: Level,
     exception: Exception?,
-    event: Any?,
+    eventObject: Any?,
     withItems: Map<String, Any?> = mapOf(),
 ): LogEvent {
-    return when (event) {
+    return when (eventObject) {
         is LogEvent ->
-            event.copyWith(level, exception?.stackTraceToString())
+            eventObject.copyWith(level, exception?.stackTraceToString())
         else -> {
-            val (message, stackTrace) = messageAndStackTrace(event, exception)
+            val (message, stackTrace) = messageAndStackTrace(eventObject, exception)
             LogEvent(
                 timestamp = now(),
                 logger = this.name,

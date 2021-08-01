@@ -21,19 +21,32 @@ package io.klogging
 import io.klogging.impl.KloggerImpl
 import kotlin.reflect.KClass
 
+/** Get the name of a class. */
 public expect fun classNameOf(ownerClass: KClass<*>): String?
 
+/**
+ * Runtime list of current [Klogger] instances.
+ */
 private val LOGGERS: MutableMap<String, Klogger> = mutableMapOf()
 
+/**
+ * Returns a [Klogger] for the specified name: returning an existing one
+ * or creating a new one if needed.
+ */
 internal fun loggerFor(name: String?): Klogger {
     val loggerName = name ?: "Klogging"
     return LOGGERS.getOrPut(loggerName) { KloggerImpl(loggerName) }
 }
 
+/** Returns a [Klogger] with the specified name. */
 public fun logger(name: String): Klogger = loggerFor(name)
 
+/** Returns a [Klogger] with the name of the specified class. */
 public fun logger(ownerClass: KClass<*>): Klogger = loggerFor(classNameOf(ownerClass))
 
+/**
+ * Utility interface that supplies a [Klogger] property called `logger`.
+ */
 public interface Klogging {
     public val logger: Klogger
         get() = loggerFor(classNameOf(this::class))
