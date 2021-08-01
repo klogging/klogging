@@ -46,7 +46,10 @@ framework.
    at INFO or higher level (more severe):
 
     ```kotlin
-    loggingConfiguration { defaultConsole() }
+    fun main() = runBlocking {
+        loggingConfiguration { defaultConsole() }
+        // ...
+    }
     ```
 
 4. Create a logger, for example by using the `Klogging` interface for coroutine logging:
