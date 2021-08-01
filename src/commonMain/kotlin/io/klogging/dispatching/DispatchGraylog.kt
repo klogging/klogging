@@ -18,9 +18,11 @@
 
 package io.klogging.dispatching
 
+/** Model of a Graylog server endpoint. */
 public data class Endpoint(
     val host: String = "localhost",
     val port: Int = 12201,
 )
 
+/** Dispatch a rendered string to a Graylog server. */
 public expect fun graylogServer(endpoint: Endpoint): DispatchString

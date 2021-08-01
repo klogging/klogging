@@ -12,24 +12,24 @@ It takes advantage of [Kotlin coroutines](https://kotlinlang.org/docs/coroutines
 in environments that use them, for example the [Ktor](https://ktor.io) asynchronous service
 framework.
 
-## Intention
+🚧 **The library is a work in progress** 🚧
 
-🚧 **This is work in progress** 🚧
+## Intention
 
 - Familiar logging idioms for Java and C# devs.
 - Kotlin coroutines for carrying contextual information to include in log events.
-- Structured logs by default: not string messages with structured information a clumsy add-on.
+- Structured logs by default.
 - [Message templates](https://messagetemplates.org) for elegant logging of both text and data.
-- Timestamp precision down to nanosecond if available
+- Timestamp resolution down to nanosecond if available
 - Configuration of logging levels by logger names to targets (like Log4j and Logback).
 - Pure Kotlin multiplatform (future). _Current development focuses on the JVM._
 
-## Quick start (JVM only)
+## Quick start (JVM)
 
 1. Include Klogging in your project with Gradle:
 
    ```kotlin
-   implementation("io.klogging:klogging-jvm:0.1.0")
+   implementation("io.klogging:klogging-jvm:0.2.0")
    ```
 
    or Maven:
@@ -38,13 +38,18 @@ framework.
    <dependency>
      <groupId>io.klogging</groupId>
      <artifactId>klogging-jvm</artifactId>
-     <version>0.1.0</version>
+     <version>0.2.0</version>
    </dependency>
    ```
 
-2. (Optionally) configure loggers using `LoggingConfiguration.setConfigs()`.
+2. Configure logging early in your program startup using the configuration DSL. For simple logging to the console
+   at INFO or higher level (more severe):
 
-3. Create a logger, for example by using the `Klogging` interface for coroutine logging:
+    ```kotlin
+    loggingConfiguration { defaultConsole() }
+    ```
+
+4. Create a logger, for example by using the `Klogging` interface for coroutine logging:
 
     ```kotlin
     class ImportantStuff : Klogging {
@@ -86,6 +91,9 @@ limitations I find are:
 
 * Logback is hamstrung by having timestamp resolution limited to milliseconds. This limit is baked
   in to
-  the [core of the library](https://github.com/qos-ch/logback/blob/master/logback-classic/src/main/java/ch/qos/logback/classic/spi/ILoggingEvent.java#L83).
+  the [core of the library](https://github.com/qos-ch/logback/blob/master/logback-classic/src/main/java/ch/qos/logback/classic/spi/ILoggingEvent.java#L83):
+  that `long` value is milliseconds since the Unix Epoch.
 
-**TBC**
+#### KotlinLogging, Log4j Kotlin, etc.
+
+These libraries (mostly) wrap underlying Java libraries.

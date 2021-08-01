@@ -18,6 +18,6 @@
 
 package io.klogging.dispatching
 
-actual fun graylogServer(endpoint: Endpoint): DispatchString {
+public actual fun graylogServer(endpoint: Endpoint): DispatchString {
     TODO("Not yet implemented")
 }

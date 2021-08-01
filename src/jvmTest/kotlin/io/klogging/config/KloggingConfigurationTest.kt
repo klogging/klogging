@@ -53,7 +53,7 @@ class KloggingConfigurationTest : DescribeSpec({
         describe("configuration DSL") {
             it("adds sinks to the map") {
                 val sinkConfig = seq("http://localhost:5341")
-                loggingConfig {
+                loggingConfiguration {
                     sink("console", STDOUT_SIMPLE)
                     sink("seq", sinkConfig)
                 }
@@ -61,7 +61,7 @@ class KloggingConfigurationTest : DescribeSpec({
                 KloggingConfiguration.sinks shouldContain ("seq" to sinkConfig)
             }
             it("adds the default console") {
-                loggingConfig { defaultConsole() }
+                loggingConfiguration { defaultConsole() }
 
                 with(KloggingConfiguration) {
                     sinks shouldContain ("console" to STDOUT_SIMPLE)
@@ -77,7 +77,7 @@ class KloggingConfigurationTest : DescribeSpec({
                 }
             }
             it("ignores a sink that has not been already defined") {
-                loggingConfig {
+                loggingConfiguration {
                     logging {
                         sink("console", STDOUT_SIMPLE)
                         fromLoggerBase("com.example")
@@ -95,7 +95,7 @@ class KloggingConfigurationTest : DescribeSpec({
                 }
             }
             it("allows for complex logging configuration") {
-                loggingConfig {
+                loggingConfiguration {
                     // Dispatch to standout output stream with simple message rendering.
                     sink("stdout", STDOUT, RENDER_SIMPLE)
                     // Dispatch to standout error stream with simple message rendering.
@@ -168,13 +168,13 @@ class KloggingConfigurationTest : DescribeSpec({
                 minimumLevelOf(randomString()) shouldBe Level.NONE
             }
             it("returns INFO from the default console configuration") {
-                loggingConfig { defaultConsole() }
+                loggingConfiguration { defaultConsole() }
                 minimumLevelOf(randomString()) shouldBe Level.INFO
             }
             it("returns the level of a single configuration that matches the logger name") {
                 val name = randomString()
                 val level = randomLevel()
-                loggingConfig {
+                loggingConfiguration {
                     sink("stdout", STDOUT, RENDER_SIMPLE)
                     logging {
                         exactLogger(name)
@@ -186,7 +186,7 @@ class KloggingConfigurationTest : DescribeSpec({
             }
             it("returns the minimum level of configurations that match the event name") {
                 val name = randomString()
-                loggingConfig {
+                loggingConfiguration {
                     sink("stdout", STDOUT, RENDER_SIMPLE)
                     logging { atLevel(Level.WARN) { toSink("stdout") } }
                     logging { exactLogger(name); atLevel(Level.INFO) { toSink("stdout") } }
@@ -196,7 +196,7 @@ class KloggingConfigurationTest : DescribeSpec({
             }
             it("returns NONE if no configurations match the event name") {
                 val name = randomString()
-                loggingConfig {
+                loggingConfiguration {
                     sink("stdout", STDOUT, RENDER_SIMPLE)
                     logging { exactLogger(name); atLevel(Level.INFO) { toSink("stdout") } }
                 }

@@ -19,7 +19,7 @@
 package io.klogging
 
 import io.klogging.config.SinkConfiguration
-import io.klogging.config.loggingConfig
+import io.klogging.config.loggingConfiguration
 import io.klogging.events.Level
 import io.klogging.events.LogEvent
 import io.klogging.events.Timestamp
@@ -61,7 +61,7 @@ suspend fun waitForDispatch(millis: Long = 50) = delay(millis)
 fun savedEvents(): MutableList<LogEvent> {
     val saved = mutableListOf<LogEvent>()
     val saveEventRenderer: RenderString = { e -> saved.add(e); "" }
-    loggingConfig {
+    loggingConfiguration {
         sink("test", SinkConfiguration({ }, saveEventRenderer))
         logging { fromMinLevel(Level.TRACE) { toSink("test") } }
     }

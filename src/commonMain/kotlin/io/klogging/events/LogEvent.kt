@@ -19,14 +19,6 @@
 package io.klogging.events
 
 /**
- * Name of the executing host, included in all log events.
- */
-public expect val hostname: String
-
-/** Thread name or similar current context identifier. */
-internal expect fun currentContext(): String?
-
-/**
  * An event at a point in time with information about the running state of
  * a program.
  */
@@ -55,3 +47,11 @@ public data class LogEvent(
      */
     val items: Map<String, Any?>,
 )
+
+/**
+ * Name of the executing host, included in all log events.
+ */
+public expect val hostname: String
+
+/** Thread name or similar current context identifier. */
+internal expect fun currentContext(): String?

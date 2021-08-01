@@ -30,7 +30,7 @@ class LevelsTestLogger(private val level: Level) : Klogger {
 
     var loggedMessage: Any? = null
 
-    override suspend fun logMessage(level: Level, exception: Exception?, event: Any?) {
+    override suspend fun emitEvent(level: Level, exception: Exception?, event: Any?) {
         loggedMessage = event
     }
 

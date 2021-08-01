@@ -21,17 +21,29 @@ package io.klogging
 import io.klogging.impl.NoCoLoggerImpl
 import kotlin.reflect.KClass
 
+/**
+ * Runtime list of current [NoCoLogger] instances.
+ */
 private val NOCO_LOGGERS: MutableMap<String, NoCoLogger> = mutableMapOf()
 
+/**
+ * Returns a [NoCoLogger] for the specified name: returning an existing one
+ * or creating a new one if needed.
+ */
 internal fun noCoLoggerFor(name: String?): NoCoLogger {
     val loggerName = name ?: "Klogger"
     return NOCO_LOGGERS.getOrPut(loggerName) { NoCoLoggerImpl(loggerName) }
 }
 
+/** Returns a [NoCoLogger] with the specified name. */
 public fun noCoLogger(name: String): NoCoLogger = noCoLoggerFor(name)
 
+/** Returns a [NoCoLogger] with the name of the specified class. */
 public fun noCoLogger(ownerClass: KClass<*>): NoCoLogger = noCoLoggerFor(classNameOf(ownerClass))
 
+/**
+ * Utility interface that supplies a [NoCoLogger] property called `logger`.
+ */
 public interface NoCoLogging {
     public val logger: NoCoLogger
         get() = noCoLoggerFor(classNameOf(this::class))

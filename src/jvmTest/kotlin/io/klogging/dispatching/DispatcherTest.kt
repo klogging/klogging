@@ -20,7 +20,7 @@ package io.klogging.dispatching
 
 import io.klogging.config.KloggingConfiguration
 import io.klogging.config.defaultConsole
-import io.klogging.config.loggingConfig
+import io.klogging.config.loggingConfiguration
 import io.klogging.events.Level
 import io.klogging.randomLevel
 import io.klogging.randomString
@@ -43,7 +43,7 @@ class DispatcherTest : DescribeSpec({
         }
         describe("with default console configuration") {
             it("returns the sink for INFO") {
-                loggingConfig { defaultConsole() }
+                loggingConfiguration { defaultConsole() }
                 val sinks = Dispatcher.sinksFor(randomString(), Level.INFO)
 
                 sinks shouldHaveSize 1
@@ -51,13 +51,13 @@ class DispatcherTest : DescribeSpec({
                 sinks.first().renderer shouldBe RENDER_SIMPLE
             }
             it("returns no sinks for DEBUG") {
-                loggingConfig { defaultConsole() }
+                loggingConfiguration { defaultConsole() }
                 Dispatcher.sinksFor(randomString(), Level.DEBUG) shouldHaveSize 0
             }
         }
         describe("with base logger name configuration") {
             beforeTest {
-                loggingConfig {
+                loggingConfiguration {
                     sink("console", STDOUT, RENDER_SIMPLE)
                     logging {
                         fromLoggerBase("com.example.Thing")
@@ -77,7 +77,7 @@ class DispatcherTest : DescribeSpec({
         }
         describe("with exact logger name configuration") {
             beforeTest {
-                loggingConfig {
+                loggingConfiguration {
                     sink("console", STDOUT, RENDER_SIMPLE)
                     logging {
                         exactLogger("com.example.OtherThing")
@@ -97,7 +97,7 @@ class DispatcherTest : DescribeSpec({
         }
         describe("with minimum level specification") {
             beforeTest {
-                loggingConfig {
+                loggingConfiguration {
                     sink("stdout", STDOUT, RENDER_SIMPLE)
                     sink("stderr", STDERR, RENDER_SIMPLE)
                     logging {

@@ -18,4 +18,4 @@
 
 package io.klogging.dispatching
 
-actual fun seqServer(server: String): DispatchString = TODO("Not yet implemented")
+public actual fun seqServer(server: String): DispatchString = TODO("Not yet implemented")

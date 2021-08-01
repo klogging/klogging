@@ -18,7 +18,7 @@
 
 package io.klogging
 
-import io.klogging.config.loggingConfig
+import io.klogging.config.loggingConfiguration
 import io.klogging.config.seq
 import io.klogging.context.logContext
 import io.klogging.events.Level
@@ -33,7 +33,7 @@ import java.util.UUID
  */
 fun main() = runBlocking {
 
-    loggingConfig {
+    loggingConfiguration {
         sink("seq", seq("http://localhost:5341"))
         logging {
             exactLogger("Playpen")

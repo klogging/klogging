@@ -18,6 +18,11 @@
 
 package io.klogging.render
 
+/**
+ * Simple implementation of [RenderString] for output to a console, mostly on one line.
+ *
+ * If there is a stack trace it is on second and following lines.
+ */
 public val RENDER_SIMPLE: RenderString = { e ->
     "${e.timestamp} ${e.level} [${e.context}] ${e.logger} ${e.items} : ${e.message}" +
         if (e.stackTrace != null) "\n${e.stackTrace}" else ""

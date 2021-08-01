@@ -10,7 +10,7 @@ Goals for logging configuration are:
 
 ## Configuration DSL
 
-Here is a prototype example:
+Here is a complex example.
 
 ```kotlin
 import com.example.logging.renderAudit
@@ -36,13 +36,13 @@ loggingConfiguration {
         // Log everything from `com.example` base.
         fromLoggerBase("com.example")
         // INFO level only.
-        withLevel(Level.INFO) {
+        atLevel(Level.INFO) {
             // To both standard out and Seq.
             toSink("stdout")
             toSink("seq")
         }
         // WARN level and above (more severe).
-        withMinLevel(Level.WARN) {
+        fromMinLevel(Level.WARN) {
             // To both standard error and Seq.
             toSink("stderr")
             toSink("seq")
@@ -52,7 +52,7 @@ loggingConfiguration {
         // Exact logger name (e.g. one class).
         exactLogger("com.example.service.FancyService")
         // Log from DEBUG to Seq.
-        withMinLevel(Level.DEBUG) { to Sink("seq") }
+        fromMinLevel(Level.DEBUG) { to Sink("seq") }
     }
     logging {
         // Log all audit events.
