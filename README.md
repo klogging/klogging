@@ -14,7 +14,8 @@ events. It takes advantage of
 environments that use them, for example the [Ktor](https://ktor.io)
 asynchronous service framework.
 
-🚧 **The library is a work in progress** 🚧
+🚧 **Klogging is alpha software in rapid development.  The API and
+key implementation details will change** 🚧
 
 ## Intention
 
