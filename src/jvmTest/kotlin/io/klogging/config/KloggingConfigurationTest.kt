@@ -160,6 +160,21 @@ class KloggingConfigurationTest : DescribeSpec({
                     }
                 }
             }
+            it("can combine configurations") {
+                loggingConfiguration { defaultConsole() }
+                loggingConfiguration(append = true) {
+                    sink("stderr", STDERR, RENDER_SIMPLE)
+                    logging {
+                        exactLogger("Test")
+                        atLevel(Level.WARN) { toSink("stderr") }
+                    }
+                }
+
+                with(KloggingConfiguration) {
+                    sinks shouldHaveSize 2
+                    configs shouldHaveSize 2
+                }
+            }
         }
         describe("minimumLevel() function") {
             beforeTest { KloggingConfiguration.reset() }
