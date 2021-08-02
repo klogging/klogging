@@ -18,15 +18,18 @@
 
 package io.klogging.config
 
-import io.klogging.dispatching.STDOUT
-import io.klogging.events.Level
-import io.klogging.render.RENDER_SIMPLE
+/** Marker annotation for DSL functions. */
+@DslMarker
+public annotation class ConfigDsl
 
-/** Simple sink configuration for rendering simple strings to the standard output stream. */
-public val STDOUT_SIMPLE: SinkConfiguration = SinkConfiguration(RENDER_SIMPLE, STDOUT)
-
-/** Simple default configuration for logging to the console. */
-public val defaultConsole: KloggingConfiguration.() -> Unit = {
-    sink("console", STDOUT_SIMPLE)
-    logging { fromMinLevel(Level.INFO) { toSink("console") } }
+/**
+ * Root DSL function for creating a [KloggingConfiguration].
+ *
+ * @param append if `true`, append this configuration to any existing one.
+ *               Default is `false`, causing this configuration replace any existing one.
+ */
+@ConfigDsl
+public fun loggingConfiguration(append: Boolean = false, block: KloggingConfiguration.() -> Unit) {
+    if (!append) KloggingConfiguration.reset()
+    KloggingConfiguration.apply(block)
 }

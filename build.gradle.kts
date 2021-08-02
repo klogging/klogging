@@ -31,7 +31,7 @@ plugins {
 }
 
 group = "io.klogging"
-version = "0.3.0-SNAPSHOT"
+version = "0.2.1"
 
 repositories {
     mavenCentral()

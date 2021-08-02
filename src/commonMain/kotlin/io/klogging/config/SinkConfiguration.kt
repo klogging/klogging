@@ -28,14 +28,14 @@ import io.klogging.render.RenderString
 
 /** Configuration of a logging sink, comprising a dispatcher and a renderer. */
 public class SinkConfiguration(
-    internal val dispatcher: DispatchString,
     internal val renderer: RenderString,
+    internal val dispatcher: DispatchString,
 )
 
 /** Sink configuration for a [Seq](https://datalust.co/seq) server. */
 public fun seq(server: String, renderer: RenderString = RENDER_CLEF): SinkConfiguration =
-    SinkConfiguration(seqServer(server), renderer)
+    SinkConfiguration(renderer, seqServer(server))
 
 /** Sink configuration for a [Graylog](https://www.graylog.org/) server. */
 public fun graylog(host: String, port: Int, renderer: RenderString = RENDER_GELF): SinkConfiguration =
-    SinkConfiguration(graylogServer(Endpoint(host, port)), renderer)
+    SinkConfiguration(renderer, graylogServer(Endpoint(host, port)))

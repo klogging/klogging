@@ -62,7 +62,7 @@ fun savedEvents(): MutableList<LogEvent> {
     val saved = mutableListOf<LogEvent>()
     val saveEventRenderer: RenderString = { e -> saved.add(e); "" }
     loggingConfiguration {
-        sink("test", SinkConfiguration({ }, saveEventRenderer))
+        sink("test", SinkConfiguration(saveEventRenderer) {})
         logging { fromMinLevel(Level.TRACE) { toSink("test") } }
     }
     return saved

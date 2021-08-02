@@ -23,13 +23,13 @@ import io.klogging.render.RENDER_CLEF
 import io.klogging.render.RENDER_SIMPLE
 
 loggingConfiguration {
-    // Dispatch to standout output stream with simple message rendering.
-    sink("stdout", STDOUT, RENDER_SIMPLE)
-    // Dispatch to standout error stream with simple message rendering.
-    sink("stderr", STDERR, RENDER_SIMPLE)
-    // Dispatch to a Seq server with CLEF rendering by default.
+    // Render as a string message and send to standout output stream.
+    sink("stdout", RENDER_SIMPLE, STDOUT)
+    // Render as a string message and send to standout error stream.
+    sink("stderr", RENDER_SIMPLE, STDERR)
+    // Render as CLEF (by default) and send to a Seq server.
     sink("seq", seq(server = "http://localhost:5341"))
-    // Dispatch to a syslog endpoint, with custom rendering.
+    // Send to a syslog endpoint, with custom rendering.
     sink("auditing") {
         syslog(config = "syslogConfig") { render(renderAudit) }
     }
@@ -99,12 +99,12 @@ into a string.
 This example configures two sinks:
 
 ```kotlin
-    sink("stdout", STDOUT, RENDER_SIMPLE)
+    sink("stdout", RENDER_SIMPLE, STDOUT)
     sink("seq", seq("http://localhost:5341"))
 ```
 
-- The `stdout` sink uses the built-in `STDOUT` dispatcher that sends strings to the standard output
-  that were rendered using the simple string renderer `RENDER_SIMPLE`.
+- The `stdout` sink renders events with the built-in renderer `RENDER_SIMPLE` and dispatches them
+  to the standard output using the built-in `STDOUT` dispatcher.
 - The `seq` sink uses the built-in `seq` function for rendering events in
   [CLEF](https://docs.datalust.co/docs/posting-raw-events#compact-json-format) compact JSON format and
   dispatching them to a [Seq](https://datalust.co/seq) server running locally.

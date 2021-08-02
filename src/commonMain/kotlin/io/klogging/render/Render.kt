@@ -20,5 +20,5 @@ package io.klogging.render
 
 import io.klogging.events.LogEvent
 
-/** Type for rendering a [LogEvent] to a String. */
+/** Functional type for rendering a [LogEvent] to a String. */
 public typealias RenderString = (LogEvent) -> String

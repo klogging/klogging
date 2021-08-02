@@ -30,8 +30,11 @@ public data class LevelRange(
     internal val sinkNames = mutableListOf<String>()
 
     /**
-     * Adds a sink to the list for this range of levels.
+     * DSL function to specify a sink where events for this [LoggingConfig] should be sent.
+     *
+     * @param sinkName name of the sink
      */
+    @ConfigDsl
     public fun toSink(sinkName: String) {
         if (KloggingConfiguration.sinks.containsKey(sinkName)) sinkNames.add(sinkName)
         // TODO create an internal console logger for this and similar messages.
@@ -53,31 +56,49 @@ public class LoggingConfig {
     internal var nameMatch: Regex = Regex(matchAllLoggers)
     internal val ranges = mutableListOf<LevelRange>()
 
-    /** Match logger names from this base. */
-    public fun fromLoggerBase(name: String) {
-        nameMatch = Regex("^$name.*")
-    }
-
-    /** Match this logger name exactly. */
-    public fun exactLogger(name: String) {
-        nameMatch = Regex("^$name\$")
+    /**
+     * DSL function to specify that logger names should match from the specified base name.
+     *
+     * @param baseName match logger names from this base
+     */
+    @ConfigDsl
+    public fun fromLoggerBase(baseName: String) {
+        nameMatch = Regex("^$baseName.*")
     }
 
     /**
-     *  DSL: for a range of levels from `minLevel` to `FATAL`.
+     * DSL function to specify that logger names should match this name exactly.
+     *
+     * @param exactName match this logger name exactly
      */
-    public fun fromMinLevel(minLevel: Level, block: LevelRange.() -> Unit) {
+    @ConfigDsl
+    public fun exactLogger(exactName: String) {
+        nameMatch = Regex("^$exactName\$")
+    }
+
+    /**
+     * DSL function to specify the minimum level from which to log.
+     *
+     * @param minLevel inclusive minimum level
+     * @param configBlock configuration for this range of levels
+     */
+    @ConfigDsl
+    public fun fromMinLevel(minLevel: Level, configBlock: LevelRange.() -> Unit) {
         val range = LevelRange(minLevel, Level.FATAL)
-        range.apply(block)
+        range.apply(configBlock)
         if (range.sinkNames.isNotEmpty()) ranges.add(range)
     }
 
     /**
-     * DSL: at a specific level.
+     * DSL function to specify a specific level at which to log.
+     *
+     * @param level exact level
+     * @param configBlock configuration for this range of levels
      */
-    public fun atLevel(level: Level, block: LevelRange.() -> Unit) {
+    @ConfigDsl
+    public fun atLevel(level: Level, configBlock: LevelRange.() -> Unit) {
         val range = LevelRange(level, level)
-        range.apply(block)
+        range.apply(configBlock)
         if (range.sinkNames.isNotEmpty()) ranges.add(range)
     }
 }

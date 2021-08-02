@@ -97,9 +97,9 @@ class KloggingConfigurationTest : DescribeSpec({
             it("allows for complex logging configuration") {
                 loggingConfiguration {
                     // Dispatch to standout output stream with simple message rendering.
-                    sink("stdout", STDOUT, RENDER_SIMPLE)
+                    sink("stdout", RENDER_SIMPLE, STDOUT)
                     // Dispatch to standout error stream with simple message rendering.
-                    sink("stderr", STDERR, RENDER_SIMPLE)
+                    sink("stderr", RENDER_SIMPLE, STDERR)
                     // Dispatch to a Seq server with CLEF rendering by default.
                     sink("seq", seq(server = "http://localhost:5341"))
                     logging {
@@ -163,7 +163,7 @@ class KloggingConfigurationTest : DescribeSpec({
             it("can combine configurations") {
                 loggingConfiguration { defaultConsole() }
                 loggingConfiguration(append = true) {
-                    sink("stderr", STDERR, RENDER_SIMPLE)
+                    sink("stderr", RENDER_SIMPLE, STDERR)
                     logging {
                         exactLogger("Test")
                         atLevel(Level.WARN) { toSink("stderr") }
@@ -190,7 +190,7 @@ class KloggingConfigurationTest : DescribeSpec({
                 val name = randomString()
                 val level = randomLevel()
                 loggingConfiguration {
-                    sink("stdout", STDOUT, RENDER_SIMPLE)
+                    sink("stdout", RENDER_SIMPLE, STDOUT)
                     logging {
                         exactLogger(name)
                         atLevel(level) { toSink("stdout") }
@@ -202,7 +202,7 @@ class KloggingConfigurationTest : DescribeSpec({
             it("returns the minimum level of configurations that match the event name") {
                 val name = randomString()
                 loggingConfiguration {
-                    sink("stdout", STDOUT, RENDER_SIMPLE)
+                    sink("stdout", RENDER_SIMPLE, STDOUT)
                     logging { atLevel(Level.WARN) { toSink("stdout") } }
                     logging { exactLogger(name); atLevel(Level.INFO) { toSink("stdout") } }
                 }
@@ -212,7 +212,7 @@ class KloggingConfigurationTest : DescribeSpec({
             it("returns NONE if no configurations match the event name") {
                 val name = randomString()
                 loggingConfiguration {
-                    sink("stdout", STDOUT, RENDER_SIMPLE)
+                    sink("stdout", RENDER_SIMPLE, STDOUT)
                     logging { exactLogger(name); atLevel(Level.INFO) { toSink("stdout") } }
                 }
 
