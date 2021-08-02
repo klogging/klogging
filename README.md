@@ -1,4 +1,5 @@
-<img src="docs/klogging.svg" width="60px" height="60px" alt="Klogging logo"/>
+<img src="docs/klogging.svg" width="20%" height="auto" alt="Klogging Library"
+align="right"/>
 
 # Klogging
 
@@ -6,23 +7,28 @@
 [![Build](https://github.com/klogging/klogging/actions/workflows/build.yml/badge.svg)](https://github.com/klogging/klogging/actions/workflows/build.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/io.klogging/klogging-jvm.svg?label=maven%20central)](https://search.maven.org/search?q=g:%22io.klogging%22%20AND%20a:%22klogging-jvm%22)
 
-**Klogging** is a pure-Kotlin logging library that aims to be flexible and easy to use.
-It uses Kotlin idioms for creating loggers and sending log events.
-It takes advantage of [Kotlin coroutines](https://kotlinlang.org/docs/coroutines-guide.html)
-in environments that use them, for example the [Ktor](https://ktor.io) asynchronous service
-framework.
+**Klogging** is a pure-Kotlin logging library that aims to be flexible and
+easy to use. It uses Kotlin idioms for creating loggers and sending log
+events. It takes advantage of
+[Kotlin coroutines](https://kotlinlang.org/docs/coroutines-guide.html) in
+environments that use them, for example the [Ktor](https://ktor.io)
+asynchronous service framework.
 
 🚧 **The library is a work in progress** 🚧
 
 ## Intention
 
 - Familiar logging idioms for Java and C# devs.
-- Kotlin coroutines for carrying contextual information to include in log events.
+- Kotlin coroutines for carrying contextual information to include in log
+  events.
 - Structured logs by default.
-- [Message templates](https://messagetemplates.org) for elegant logging of both text and data.
-- Timestamp resolution down to nanosecond if available
-- Configuration of logging levels by logger names to targets (like Log4j and Logback).
-- Pure Kotlin multiplatform (future). _Current development focuses on the JVM._
+- [Message templates](https://messagetemplates.org) for elegant logging of
+  both text and data.
+- Timestamp resolution down to nanosecond if available.
+- Configuration of logging levels by logger names to targets (like Log4j and
+  Logback).
+- Pure Kotlin multiplatform (future). _Current development focuses on the
+  JVM._
 
 ## Quick start (JVM)
 
@@ -42,8 +48,9 @@ framework.
    </dependency>
    ```
 
-2. Configure logging early in your program startup using the configuration DSL. For simple logging to the console
-   at INFO or higher level (more severe):
+2. Configure logging early in your program startup using the configuration
+   DSL. For simple logging to the console at INFO or higher level (more
+   severe):
 
     ```kotlin
     fun main() = runBlocking {
@@ -52,7 +59,8 @@ framework.
     }
     ```
 
-4. Create a logger, for example by using the `Klogging` interface for coroutine logging:
+3. Create a logger, for example by using the `Klogging` interface for
+   coroutine logging:
 
     ```kotlin
     class ImportantStuff : Klogging {
@@ -75,9 +83,9 @@ This section will cover:
 
 ## Why another logging library?
 
-Klogging is designed from the ground up to be standalone, pure Kotlin and to be used with
-coroutines. It is designed to be used by distributed services that log events with information
-from a wide variety of contexts.
+Klogging is designed from the ground up to be standalone, pure Kotlin and to
+be used with coroutines. It is designed to be used by distributed services
+that log events with information from a wide variety of contexts.
 
 No other library I could find meets these requirements.
 
@@ -85,16 +93,17 @@ No other library I could find meets these requirements.
 
 #### Logback / Log4j
 
-These venerable Java libraries have formed the backbone of Java logging for more than 10 years. The
-limitations I find are:
+These solid, but venerable Java libraries and have formed the backbone of Java
+logging for more than 10 years. The limitations I find are:
 
-* They are designed to log strings of text with embedded information that is discovered by searching
-  within strings. Logging should be of events containing structured information derived from
-  all nested scopes where those events occur.
+* They are designed to log strings of text with embedded information that is
+  discovered by searching within strings. Logging should be of events
+  containing structured information derived from all nested scopes where those
+  events occur.
 
-* Logback is hamstrung by having timestamp resolution limited to milliseconds. This limit is baked
-  in to
-  the [core of the library](https://github.com/qos-ch/logback/blob/master/logback-classic/src/main/java/ch/qos/logback/classic/spi/ILoggingEvent.java#L83):
+* Logback is hamstrung by having timestamp resolution limited to milliseconds.
+  This limit is baked in to the
+  [core of the library](https://github.com/qos-ch/logback/blob/master/logback-classic/src/main/java/ch/qos/logback/classic/spi/ILoggingEvent.java#L83):
   that `long` value is milliseconds since the Unix Epoch.
 
 #### KotlinLogging, Log4j Kotlin, etc.
