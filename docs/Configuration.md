@@ -127,6 +127,9 @@ These functions specify how to match logger names. For example:
 
 Using these functions enables the configuration of logger hierarchies, like in Log4J and Logback.
 
+> **Note:** These functions are optional: if logger names are not specified, all loggers will match.
+> This defines the equivalent of a root logger in Log4J or Logback.
+
 ### `fromMinlevel` and `atLevel`
 
 These functions specify the levels at which to dispatch log events. For example:
