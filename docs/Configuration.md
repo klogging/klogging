@@ -89,7 +89,7 @@ loggingConfiguration(append = true) {
 
 ### `sink`
 
-This function configures a named sink with a renderer and a dispatcher. 
+This function configures a named sink with a renderer and a dispatcher.
 
 - A renderer _renders_ a [LogEvent](../src/commonMain/kotlin/io/klogging/events/LogEvent.kt)
 into a string.
