@@ -14,8 +14,8 @@ events. It takes advantage of
 environments that use them, for example the [Ktor](https://ktor.io)
 asynchronous service framework.
 
-🚧 **Klogging is alpha software in rapid development.  The API and
-key implementation details will change** 🚧
+🚧 **Klogging is alpha software in rapid development. The API and key
+implementation details will change** 🚧
 
 ## Intention
 
@@ -94,7 +94,7 @@ No other library I could find meets these requirements.
 
 #### Logback / Log4j
 
-These solid, but venerable Java libraries and have formed the backbone of Java
+These solid, but venerable Java libraries have formed the backbone of Java
 logging for more than 10 years. The limitations I find are:
 
 * They are designed to log strings of text with embedded information that is
