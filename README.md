@@ -36,7 +36,7 @@ implementation details will change** 🚧
 1. Include Klogging in your project with Gradle:
 
    ```kotlin
-   implementation("io.klogging:klogging-jvm:0.2.0")
+   implementation("io.klogging:klogging-jvm:0.2.1")
    ```
 
    or Maven:
@@ -45,7 +45,7 @@ implementation details will change** 🚧
    <dependency>
      <groupId>io.klogging</groupId>
      <artifactId>klogging-jvm</artifactId>
-     <version>0.2.0</version>
+     <version>0.2.1</version>
    </dependency>
    ```
 
@@ -60,15 +60,25 @@ implementation details will change** 🚧
     }
     ```
 
-3. Create a logger, for example by using the `Klogging` interface for
-   coroutine logging:
+3. Create a `logger` attribute for a class, for example by using the `Klogging` interface logging inside
+   coroutines:
 
     ```kotlin
     class ImportantStuff : Klogging {
         suspend fun cleverAction(runId: String, input: String) = coroutineScope {
             launch(logContext("runId" to runId)) {
-                logger.info("cleverAction with input=$input")
+                logger.info("cleverAction using {input}", input)
             }
+        }
+    }
+    ```
+   
+   Or by using the `NoCoLogging` interface for logging outside coroutines:
+
+    ```kotlin
+    class OtherStuff : NoCologging {
+        fun funkyAction(input: String) {
+            logger.info("funkyAction using {input}", input)
         }
     }
     ```
