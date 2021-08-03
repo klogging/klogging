@@ -98,7 +98,7 @@ private fun Project.createPublishingTasks(
                         developer {
                             id.set("mjstrasser")
                             name.set("Michael Strasser")
-                            email.set("klogging@michaelstrasser.com")
+                            email.set("mjstrasser@klogging.io")
                         }
                     }
                     scm {

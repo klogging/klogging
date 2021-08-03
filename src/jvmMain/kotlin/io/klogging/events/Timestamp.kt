@@ -19,12 +19,25 @@
 package io.klogging.events
 
 import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.util.TimeZone
 
+/** Right now, expressed as a [Timestamp]. */
 public actual fun now(): Timestamp {
     val instant = Instant.now()
     return Timestamp(instant.epochSecond, instant.nano.toLong())
 }
 
-public actual fun iso(timestamp: Timestamp): String =
+/** Express a [Timestamp] as an ISO8601-formatted string. */
+internal actual fun iso(timestamp: Timestamp): String =
     Instant.ofEpochSecond(timestamp.epochSeconds, timestamp.nanos)
         .toString()
+
+private val localOffset: ZoneOffset = ZoneOffset.ofTotalSeconds(TimeZone.getDefault().rawOffset / 1000)
+
+/** Express a [Timestamp] as an ISO8601 local timezone string without the `T`. */
+internal actual fun local(timestamp: Timestamp): String = LocalDateTime
+    .ofEpochSecond(timestamp.epochSeconds, timestamp.nanos.toInt(), localOffset)
+    .toString()
+    .replace('T', ' ')

@@ -51,5 +51,5 @@ public object Dispatcher {
     }
 }
 
-/** Type used for dispatching a string somewhere. */
+/** Functional type used for dispatching a string somewhere. */
 public typealias DispatchString = (String) -> Unit

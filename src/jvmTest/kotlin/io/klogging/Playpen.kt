@@ -21,7 +21,9 @@ package io.klogging
 import io.klogging.config.loggingConfiguration
 import io.klogging.config.seq
 import io.klogging.context.logContext
+import io.klogging.dispatching.STDOUT
 import io.klogging.events.Level
+import io.klogging.rendering.RENDER_SIMPLE
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime
@@ -34,11 +36,13 @@ import java.util.UUID
 fun main() = runBlocking {
 
     loggingConfiguration {
+        sink("stdout", RENDER_SIMPLE, STDOUT)
         sink("seq", seq("http://localhost:5341"))
         logging {
             exactLogger("Playpen")
             fromMinLevel(Level.INFO) {
                 toSink("seq")
+                toSink("stdout")
             }
         }
     }

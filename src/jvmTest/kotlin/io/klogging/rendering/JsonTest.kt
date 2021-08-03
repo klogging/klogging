@@ -16,7 +16,7 @@
 
 */
 
-package io.klogging.json
+package io.klogging.rendering
 
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe

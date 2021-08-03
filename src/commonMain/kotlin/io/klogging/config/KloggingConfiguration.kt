@@ -20,7 +20,7 @@ package io.klogging.config
 
 import io.klogging.dispatching.DispatchString
 import io.klogging.events.Level
-import io.klogging.render.RenderString
+import io.klogging.rendering.RenderString
 
 /**
  * Klogging configuration for a runtime.
@@ -30,24 +30,40 @@ public object KloggingConfiguration {
     internal val sinks = mutableMapOf<String, SinkConfiguration>()
     internal val configs = mutableListOf<LoggingConfig>()
 
-    /** DSL: add a sink configuration. */
+    /**
+     * DSL function to specify a sink where log events can be dispatched.
+     *
+     * @param sinkName name used to refer to the sink
+     * @param sinkConfig configuration to use
+     */
+    @ConfigDsl
     public fun sink(sinkName: String, sinkConfig: SinkConfiguration) {
         sinks[sinkName] = sinkConfig
     }
 
-    /** DSL: add a sink configuration from dispatcher and renderer. */
-    public fun sink(sinkName: String, dispatcher: DispatchString, renderer: RenderString) {
-        sinks[sinkName] = SinkConfiguration(dispatcher, renderer)
+    /**
+     * DSL function to specify a sink where log events can be dispatched.
+     *
+     * @param sinkName name used to refer to the sink
+     * @param renderer object that renders an event into a string
+     * @param dispatcher object that sends an event as string somewhere
+     */
+    @ConfigDsl
+    public fun sink(sinkName: String, renderer: RenderString, dispatcher: DispatchString) {
+        sinks[sinkName] = SinkConfiguration(renderer, dispatcher)
     }
 
-    /** DSL: add logging configuration specified in [block]. */
-    public fun logging(block: LoggingConfig.() -> Unit) {
+    /**
+     * DSL function to add a logging configuration specified in [configBlog].
+     */
+    @ConfigDsl
+    public fun logging(configBlog: LoggingConfig.() -> Unit) {
         val loggingConfig = LoggingConfig()
-        loggingConfig.apply(block)
+        loggingConfig.apply(configBlog)
         configs.add(loggingConfig)
     }
 
-    /** Returns the minimum level of all level ranges in all configurations. */
+    /** Calculate the minimum level of all level ranges in all configurations. */
     public fun minimumLevelOf(loggerName: String): Level = configs
         .filter { it.nameMatch.matches(loggerName) }
         .flatMap { it.ranges }
@@ -58,15 +74,4 @@ public object KloggingConfiguration {
         sinks.clear()
         configs.clear()
     }
-}
-
-/**
- * DSL: set up configuration.
- *
- * @param append if `true`, append this configuration to any existing one.
- *               Default is `false`, causing this configuration replace any existing one.
- */
-public fun loggingConfiguration(append: Boolean = false, block: KloggingConfiguration.() -> Unit) {
-    if (!append) KloggingConfiguration.reset()
-    KloggingConfiguration.apply(block)
 }

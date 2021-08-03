@@ -24,7 +24,7 @@ import io.klogging.config.loggingConfiguration
 import io.klogging.events.Level
 import io.klogging.randomLevel
 import io.klogging.randomString
-import io.klogging.render.RENDER_SIMPLE
+import io.klogging.rendering.RENDER_SIMPLE
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
@@ -58,7 +58,7 @@ class DispatcherTest : DescribeSpec({
         describe("with base logger name configuration") {
             beforeTest {
                 loggingConfiguration {
-                    sink("console", STDOUT, RENDER_SIMPLE)
+                    sink("console", RENDER_SIMPLE, STDOUT)
                     logging {
                         fromLoggerBase("com.example.Thing")
                         fromMinLevel(Level.DEBUG) { toSink("console") }
@@ -78,7 +78,7 @@ class DispatcherTest : DescribeSpec({
         describe("with exact logger name configuration") {
             beforeTest {
                 loggingConfiguration {
-                    sink("console", STDOUT, RENDER_SIMPLE)
+                    sink("console", RENDER_SIMPLE, STDOUT)
                     logging {
                         exactLogger("com.example.OtherThing")
                         fromMinLevel(Level.DEBUG) { toSink("console") }
@@ -98,8 +98,8 @@ class DispatcherTest : DescribeSpec({
         describe("with minimum level specification") {
             beforeTest {
                 loggingConfiguration {
-                    sink("stdout", STDOUT, RENDER_SIMPLE)
-                    sink("stderr", STDERR, RENDER_SIMPLE)
+                    sink("stdout", RENDER_SIMPLE, STDOUT)
+                    sink("stderr", RENDER_SIMPLE, STDERR)
                     logging {
                         fromMinLevel(Level.INFO) {
                             toSink("stdout")

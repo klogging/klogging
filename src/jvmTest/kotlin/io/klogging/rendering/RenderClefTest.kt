@@ -16,12 +16,11 @@
 
 */
 
-package io.klogging.render
+package io.klogging.rendering
 
 import io.klogging.events.Level
 import io.klogging.events.LogEvent
 import io.klogging.events.currentContext
-import io.klogging.events.iso
 import io.klogging.randomString
 import io.klogging.timestampNow
 import io.kotest.core.spec.style.DescribeSpec
@@ -34,7 +33,7 @@ class RenderClefTest : DescribeSpec({
             val event = LogEvent(ts, "test.local", "Test", currentContext(), Level.INFO, null, "Message", null, mapOf())
 
             RENDER_CLEF(event) shouldBe """{
-            |"@t":"${iso(event.timestamp)}",
+            |"@t":"${event.timestamp.isoString}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
             |"logger":"${event.logger}",
@@ -49,7 +48,7 @@ class RenderClefTest : DescribeSpec({
                 LogEvent(ts, "test.local", "Test", currentContext(), Level.INFO, null, "Message", trace, mapOf())
 
             RENDER_CLEF(event) shouldBe """{
-            |"@t":"${iso(event.timestamp)}",
+            |"@t":"${event.timestamp.isoString}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
             |"logger":"${event.logger}",
@@ -63,7 +62,7 @@ class RenderClefTest : DescribeSpec({
             val event = LogEvent(ts, "test.local", "Test", currentContext(), Level.INFO, null, "Message", null, mapOf())
 
             RENDER_CLEF(event) shouldBe """{
-            |"@t":"${iso(event.timestamp)}",
+            |"@t":"${event.timestamp.isoString}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
             |"logger":"${event.logger}",
@@ -80,7 +79,7 @@ class RenderClefTest : DescribeSpec({
             )
 
             RENDER_CLEF(event) shouldBe """{
-            |"@t":"${iso(event.timestamp)}",
+            |"@t":"${event.timestamp.isoString}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
             |"logger":"${event.logger}",
@@ -94,7 +93,7 @@ class RenderClefTest : DescribeSpec({
             val event = LogEvent(ts, "test.local", "Test", null, Level.INFO, null, "Message", null, mapOf())
 
             RENDER_CLEF(event) shouldBe """{
-            |"@t":"${iso(event.timestamp)}",
+            |"@t":"${event.timestamp.isoString}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
             |"logger":"${event.logger}",

@@ -20,10 +20,10 @@ package io.klogging.config
 
 import io.klogging.dispatching.STDOUT
 import io.klogging.events.Level
-import io.klogging.render.RENDER_SIMPLE
+import io.klogging.rendering.RENDER_SIMPLE
 
 /** Simple sink configuration for rendering simple strings to the standard output stream. */
-public val STDOUT_SIMPLE: SinkConfiguration = SinkConfiguration(STDOUT, RENDER_SIMPLE)
+public val STDOUT_SIMPLE: SinkConfiguration = SinkConfiguration(RENDER_SIMPLE, STDOUT)
 
 /** Simple default configuration for logging to the console. */
 public val defaultConsole: KloggingConfiguration.() -> Unit = {

@@ -50,13 +50,28 @@ fun Project.configureSpotless(ktlintVersion: String) {
     apply<SpotlessPlugin>()
 
     configure<SpotlessExtension> {
+        format("markdown") {
+            target(
+                fileTree(
+                    mapOf(
+                        "dir" to ".",
+                        "include" to listOf("**/*.md"),
+                        "exclude" to listOf(".gradle/**", ".gradle-cache/**", ".batect/**", "build/**")
+                    )
+                )
+            )
+
+            indentWithSpaces()
+            endWithNewline()
+        }
+
         format("misc") {
             target(
                 fileTree(
                     mapOf(
                         "dir" to ".",
-                        "include" to listOf("**/*.md", "**/.gitignore", "**/*.yaml", "**/*.yml", "**/*.sh", "**/Dockerfile"),
-                        "exclude" to listOf(".gradle/**", ".gradle-cache/**", ".batect/**", "build/**")
+                        "include" to listOf("**/.gitignore", "**/*.yaml", "**/*.yml", "**/*.sh", "**/Dockerfile"),
+                        "exclude" to listOf("**/*.md", ".gradle/**", ".gradle-cache/**", ".batect/**", "build/**")
                     )
                 )
             )

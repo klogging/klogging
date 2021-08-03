@@ -16,9 +16,20 @@
 
 */
 
-package io.klogging.render
+package io.klogging.config
 
-import io.klogging.events.LogEvent
+/** Marker annotation for DSL functions. */
+@DslMarker
+public annotation class ConfigDsl
 
-/** Type for rendering a [LogEvent] to a String. */
-public typealias RenderString = (LogEvent) -> String
+/**
+ * Root DSL function for creating a [KloggingConfiguration].
+ *
+ * @param append if `true`, append this configuration to any existing one.
+ *               Default is `false`, causing this configuration replace any existing one.
+ */
+@ConfigDsl
+public fun loggingConfiguration(append: Boolean = false, block: KloggingConfiguration.() -> Unit) {
+    if (!append) KloggingConfiguration.reset()
+    KloggingConfiguration.apply(block)
+}

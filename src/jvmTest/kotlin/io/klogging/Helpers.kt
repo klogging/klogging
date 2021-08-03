@@ -24,7 +24,7 @@ import io.klogging.events.Level
 import io.klogging.events.LogEvent
 import io.klogging.events.Timestamp
 import io.klogging.events.hostname
-import io.klogging.render.RenderString
+import io.klogging.rendering.RenderString
 import kotlinx.coroutines.delay
 import java.time.Instant
 import kotlin.random.Random
@@ -62,7 +62,7 @@ fun savedEvents(): MutableList<LogEvent> {
     val saved = mutableListOf<LogEvent>()
     val saveEventRenderer: RenderString = { e -> saved.add(e); "" }
     loggingConfiguration {
-        sink("test", SinkConfiguration({ }, saveEventRenderer))
+        sink("test", SinkConfiguration(saveEventRenderer) {})
         logging { fromMinLevel(Level.TRACE) { toSink("test") } }
     }
     return saved

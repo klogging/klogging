@@ -16,19 +16,14 @@
 
 */
 
-package io.klogging.events
+package io.klogging.rendering
 
-/** Right now, expressed as a [Timestamp]. */
-public actual fun now(): Timestamp {
-    TODO("Not yet implemented")
-}
-
-/** Express a [Timestamp] as an ISO8601-formatted string. */
-internal actual fun iso(timestamp: Timestamp): String {
-    TODO("Not yet implemented")
-}
-
-/** Express a [Timestamp] as an ISO8601 local timezone string without the `T`. */
-internal actual fun local(timestamp: Timestamp): String {
-    TODO("Not yet implemented")
+/**
+ * Simple implementation of [RenderString] for output to a console, mostly on one line.
+ *
+ * If there is a stack trace it is on second and following lines.
+ */
+public val RENDER_SIMPLE: RenderString = { e ->
+    "${e.timestamp.localString} ${e.level} [${e.context}] ${e.logger} ${e.items} : ${e.message}" +
+        if (e.stackTrace != null) "\n${e.stackTrace}" else ""
 }
