@@ -20,7 +20,7 @@ package io.klogging.config
 
 import io.klogging.dispatching.DispatchString
 import io.klogging.events.Level
-import io.klogging.render.RenderString
+import io.klogging.rendering.RenderString
 
 /**
  * Klogging configuration for a runtime.

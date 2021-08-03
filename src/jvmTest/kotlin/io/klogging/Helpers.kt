@@ -24,7 +24,7 @@ import io.klogging.events.Level
 import io.klogging.events.LogEvent
 import io.klogging.events.Timestamp
 import io.klogging.events.hostname
-import io.klogging.render.RenderString
+import io.klogging.rendering.RenderString
 import kotlinx.coroutines.delay
 import java.time.Instant
 import kotlin.random.Random

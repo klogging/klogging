@@ -16,7 +16,7 @@
 
 */
 
-package io.klogging.render
+package io.klogging.rendering
 
 import io.klogging.events.Level
 import io.klogging.events.LogEvent

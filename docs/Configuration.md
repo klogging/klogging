@@ -19,8 +19,8 @@ import com.example.logging.renderAudit
 import io.klogging.config.loggingConfiguration
 import io.klogging.dispatching.STDERR
 import io.klogging.dispatching.STDOUT
-import io.klogging.render.RENDER_CLEF
-import io.klogging.render.RENDER_SIMPLE
+import io.klogging.rendering.RENDER_CLEF
+import io.klogging.rendering.RENDER_SIMPLE
 
 loggingConfiguration {
     // Render as a string message and send to standout output stream.

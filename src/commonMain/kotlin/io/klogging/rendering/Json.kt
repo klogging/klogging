@@ -16,7 +16,7 @@
 
 */
 
-package io.klogging.json
+package io.klogging.rendering
 
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement

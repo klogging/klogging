@@ -16,10 +16,9 @@
 
 */
 
-package io.klogging.render
+package io.klogging.rendering
 
 import io.klogging.events.LogEvent
-import io.klogging.json.serializeMap
 
 /**
  * Renders a [LogEvent] into [CLEF](https://docs.datalust.co/docs/posting-raw-events#compact-json-format)

@@ -22,9 +22,9 @@ import io.klogging.dispatching.DispatchString
 import io.klogging.dispatching.Endpoint
 import io.klogging.dispatching.graylogServer
 import io.klogging.dispatching.seqServer
-import io.klogging.render.RENDER_CLEF
-import io.klogging.render.RENDER_GELF
-import io.klogging.render.RenderString
+import io.klogging.rendering.RENDER_CLEF
+import io.klogging.rendering.RENDER_GELF
+import io.klogging.rendering.RenderString
 
 /** Configuration of a logging sink, comprising a dispatcher and a renderer. */
 public class SinkConfiguration(

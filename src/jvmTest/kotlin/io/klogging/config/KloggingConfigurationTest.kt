@@ -24,8 +24,8 @@ import io.klogging.dispatching.STDOUT
 import io.klogging.events.Level
 import io.klogging.randomLevel
 import io.klogging.randomString
-import io.klogging.render.RENDER_CLEF
-import io.klogging.render.RENDER_SIMPLE
+import io.klogging.rendering.RENDER_CLEF
+import io.klogging.rendering.RENDER_SIMPLE
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldContainAll

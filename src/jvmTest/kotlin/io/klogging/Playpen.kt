@@ -23,7 +23,7 @@ import io.klogging.config.seq
 import io.klogging.context.logContext
 import io.klogging.dispatching.STDOUT
 import io.klogging.events.Level
-import io.klogging.render.RENDER_SIMPLE
+import io.klogging.rendering.RENDER_SIMPLE
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime

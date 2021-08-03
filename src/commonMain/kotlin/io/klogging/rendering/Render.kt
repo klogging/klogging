@@ -16,14 +16,9 @@
 
 */
 
-package io.klogging.render
+package io.klogging.rendering
 
-/**
- * Simple implementation of [RenderString] for output to a console, mostly on one line.
- *
- * If there is a stack trace it is on second and following lines.
- */
-public val RENDER_SIMPLE: RenderString = { e ->
-    "${e.timestamp.localString} ${e.level} [${e.context}] ${e.logger} ${e.items} : ${e.message}" +
-        if (e.stackTrace != null) "\n${e.stackTrace}" else ""
-}
+import io.klogging.events.LogEvent
+
+/** Functional type for rendering a [LogEvent] to a String. */
+public typealias RenderString = (LogEvent) -> String
