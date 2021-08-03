@@ -24,6 +24,6 @@ package io.klogging.render
  * If there is a stack trace it is on second and following lines.
  */
 public val RENDER_SIMPLE: RenderString = { e ->
-    "${e.timestamp} ${e.level} [${e.context}] ${e.logger} ${e.items} : ${e.message}" +
+    "${e.timestamp.localString} ${e.level} [${e.context}] ${e.logger} ${e.items} : ${e.message}" +
         if (e.stackTrace != null) "\n${e.stackTrace}" else ""
 }

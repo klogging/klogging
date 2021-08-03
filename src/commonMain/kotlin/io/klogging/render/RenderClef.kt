@@ -19,7 +19,6 @@
 package io.klogging.render
 
 import io.klogging.events.LogEvent
-import io.klogging.events.iso
 import io.klogging.json.serializeMap
 
 /**
@@ -33,7 +32,7 @@ import io.klogging.json.serializeMap
 public val RENDER_CLEF: RenderString = { e ->
     val eventMap: MutableMap<String, Any?> = (
         mapOf(
-            "@t" to iso(e.timestamp),
+            "@t" to e.timestamp.isoString,
             "@l" to e.level.name,
             "host" to e.host,
             "logger" to e.logger,

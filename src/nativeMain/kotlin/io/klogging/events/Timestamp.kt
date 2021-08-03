@@ -18,10 +18,17 @@
 
 package io.klogging.events
 
+/** Right now, expressed as a [Timestamp]. */
 public actual fun now(): Timestamp {
     TODO("Not yet implemented")
 }
 
-public actual fun iso(timestamp: Timestamp): String {
+/** Express a [Timestamp] as an ISO8601-formatted string. */
+internal actual fun iso(timestamp: Timestamp): String {
+    TODO("Not yet implemented")
+}
+
+/** Express a [Timestamp] as an ISO8601 local timezone string without the `T`. */
+internal actual fun local(timestamp: Timestamp): String {
     TODO("Not yet implemented")
 }

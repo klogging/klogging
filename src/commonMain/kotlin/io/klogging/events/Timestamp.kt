@@ -23,11 +23,16 @@ package io.klogging.events
  * nanoseconds within the second.
  */
 public data class Timestamp(val epochSeconds: Long, val nanos: Long) {
-    override fun toString(): String = iso(this)
+    public val isoString: String by lazy { iso(this) }
+    public val localString: String by lazy { local(this) }
+    override fun toString(): String = isoString
 }
 
 /** Right now, expressed as a [Timestamp]. */
 public expect fun now(): Timestamp
 
-/** Convert a [Timestamp] into an ISO8601-formatted string. */
-public expect fun iso(timestamp: Timestamp): String
+/** Express a [Timestamp] as an ISO8601-formatted string. */
+internal expect fun iso(timestamp: Timestamp): String
+
+/** Express a [Timestamp] as an ISO8601 local timezone string without the `T`. */
+internal expect fun local(timestamp: Timestamp): String
