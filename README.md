@@ -60,7 +60,7 @@ implementation details will change** 🚧
     }
     ```
 
-3. Create a `logger` attribute for a class, for example by using the `Klogging` interface logging inside
+3. Create a `logger` attribute for a class, for example by using the `Klogging` interface for logging inside
    coroutines:
 
     ```kotlin
