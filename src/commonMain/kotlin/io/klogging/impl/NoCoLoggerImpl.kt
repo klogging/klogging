@@ -19,7 +19,6 @@
 package io.klogging.impl
 
 import io.klogging.Level
-import io.klogging.Logging
 import io.klogging.NoCoLogger
 import io.klogging.events.LogEvent
 import io.klogging.template.templateItems
