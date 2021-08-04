@@ -18,7 +18,7 @@
 
 package io.klogging.impl
 
-import io.klogging.events.Level
+import io.klogging.Level
 import io.klogging.logEvent
 import io.klogging.logger
 import io.klogging.randomString

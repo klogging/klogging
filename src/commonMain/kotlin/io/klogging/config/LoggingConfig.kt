@@ -18,7 +18,7 @@
 
 package io.klogging.config
 
-import io.klogging.events.Level
+import io.klogging.Level
 import io.klogging.internal.warn
 
 /**

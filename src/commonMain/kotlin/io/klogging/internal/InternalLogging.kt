@@ -18,9 +18,9 @@
 
 package io.klogging.internal
 
+import io.klogging.Level
 import io.klogging.dispatching.STDERR
 import io.klogging.dispatching.STDOUT
-import io.klogging.events.Level
 import io.klogging.events.LogEvent
 import io.klogging.rendering.RenderString
 import io.klogging.rendering.localString
@@ -35,7 +35,12 @@ internal val RENDER_INTERNAL: RenderString = { e: LogEvent ->
  * Simplified internal logging for Klogging diagnostics, especially during
  * configuration.
  */
-public fun log(loggerName: String, level: Level, message: String, exception: Exception? = null) {
+public fun log(
+    loggerName: String,
+    level: Level,
+    message: String,
+    exception: Exception? = null
+) {
     val event = LogEvent(
         logger = loggerName,
         level = level,
@@ -46,18 +51,34 @@ public fun log(loggerName: String, level: Level, message: String, exception: Exc
     else STDERR(RENDER_INTERNAL(event))
 }
 
-public fun debug(loggerName: String, message: String, exception: Exception? = null) {
+public fun debug(
+    loggerName: String,
+    message: String,
+    exception: Exception? = null
+) {
     log(loggerName, Level.DEBUG, message, exception)
 }
 
-public fun info(loggerName: String, message: String, exception: Exception? = null) {
+public fun info(
+    loggerName: String,
+    message: String,
+    exception: Exception? = null
+) {
     log(loggerName, Level.INFO, message, exception)
 }
 
-public fun warn(loggerName: String, message: String, exception: Exception? = null) {
+public fun warn(
+    loggerName: String,
+    message: String,
+    exception: Exception? = null
+) {
     log(loggerName, Level.WARN, message, exception)
 }
 
-public fun error(loggerName: String, message: String, exception: Exception? = null) {
+public fun error(
+    loggerName: String,
+    message: String,
+    exception: Exception? = null
+) {
     log(loggerName, Level.ERROR, message, exception)
 }

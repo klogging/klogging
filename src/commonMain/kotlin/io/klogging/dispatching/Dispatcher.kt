@@ -18,9 +18,9 @@
 
 package io.klogging.dispatching
 
+import io.klogging.Level
 import io.klogging.config.KloggingConfiguration
 import io.klogging.config.SinkConfiguration
-import io.klogging.events.Level
 import io.klogging.events.LogEvent
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch

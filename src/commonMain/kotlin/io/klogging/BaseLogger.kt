@@ -19,7 +19,6 @@
 package io.klogging
 
 import io.klogging.config.KloggingConfiguration
-import io.klogging.events.Level
 
 /**
  * Base interface of [Klogger] interface for use in coroutines and

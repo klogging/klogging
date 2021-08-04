@@ -18,10 +18,10 @@
 
 package io.klogging.dispatching
 
+import io.klogging.Level
 import io.klogging.config.KloggingConfiguration
 import io.klogging.config.defaultConsole
 import io.klogging.config.loggingConfiguration
-import io.klogging.events.Level
 import io.klogging.randomLevel
 import io.klogging.randomString
 import io.klogging.rendering.RENDER_SIMPLE

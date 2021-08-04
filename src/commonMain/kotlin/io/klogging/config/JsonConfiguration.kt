@@ -18,10 +18,10 @@
 
 package io.klogging.config
 
+import io.klogging.Level
 import io.klogging.dispatching.DispatchString
 import io.klogging.dispatching.STDERR
 import io.klogging.dispatching.STDOUT
-import io.klogging.events.Level
 import io.klogging.internal.warn
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RENDER_GELF
@@ -53,7 +53,10 @@ public data class JsonSinkConfiguration(
     internal fun toSinkConfiguration(): SinkConfiguration? {
         val renderer = BUILT_IN_RENDERERS[renderWith]
         val dispatcher = BUILT_IN_DISPATCHERS[dispatchTo]
-        return if (renderer != null && dispatcher != null) SinkConfiguration(renderer, dispatcher)
+        return if (renderer != null && dispatcher != null) SinkConfiguration(
+            renderer,
+            dispatcher
+        )
         else null
     }
 }

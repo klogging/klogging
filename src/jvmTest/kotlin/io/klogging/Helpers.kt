@@ -20,7 +20,6 @@ package io.klogging
 
 import io.klogging.config.SinkConfiguration
 import io.klogging.config.loggingConfiguration
-import io.klogging.events.Level
 import io.klogging.events.LogEvent
 import io.klogging.events.hostname
 import io.klogging.rendering.RenderString

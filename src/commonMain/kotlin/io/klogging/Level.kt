@@ -16,7 +16,7 @@
 
 */
 
-package io.klogging.events
+package io.klogging
 
 import kotlinx.serialization.Serializable
 

@@ -19,9 +19,9 @@
 package io.klogging.impl
 
 import io.klogging.Klogger
+import io.klogging.Level
 import io.klogging.Logging
 import io.klogging.context.LogContext
-import io.klogging.events.Level
 import io.klogging.events.LogEvent
 import io.klogging.events.currentContext
 import io.klogging.template.templateItems
