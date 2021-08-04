@@ -36,7 +36,7 @@ public data class LevelRange(
      */
     @ConfigDsl
     public fun toSink(sinkName: String) {
-        if (KloggingConfiguration.sinks.containsKey(sinkName)) sinkNames.add(sinkName)
+        if (sinkName in KloggingConfiguration.sinks) sinkNames += sinkName
         // TODO create an internal console logger for this and similar messages.
         else println("WARN: sink $sinkName has not been defined and will be ignored")
     }
@@ -83,7 +83,10 @@ public class LoggingConfig {
      * @param configBlock configuration for this range of levels
      */
     @ConfigDsl
-    public fun fromMinLevel(minLevel: Level, configBlock: LevelRange.() -> Unit) {
+    public fun fromMinLevel(
+        minLevel: Level,
+        configBlock: LevelRange.() -> Unit
+    ) {
         val range = LevelRange(minLevel, Level.FATAL)
         range.apply(configBlock)
         if (range.sinkNames.isNotEmpty()) ranges.add(range)
