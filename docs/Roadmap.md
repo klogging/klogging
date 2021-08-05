@@ -28,6 +28,7 @@ In no particular order at this stage.
   impact of SLF4J using only millisecond precision.
 - Consider a [Log4j2](https://logging.apache.org/log4j/2.x/manual/api.html)
   binding for Klogging.
+- Consider a JUL (JDK native logging) binding for Klogging.
 - A repository of examples in Kotlin and Java
 - A complete documentation and support website, using ideas from
   [The Documentation System](https://documentation.divio.com/).
