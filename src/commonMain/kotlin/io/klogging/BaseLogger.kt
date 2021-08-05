@@ -18,11 +18,17 @@
 
 package io.klogging
 
+import io.klogging.Level.DEBUG
+import io.klogging.Level.ERROR
+import io.klogging.Level.FATAL
+import io.klogging.Level.INFO
+import io.klogging.Level.TRACE
+import io.klogging.Level.WARN
 import io.klogging.config.KloggingConfiguration
 
 /**
- * Base interface of [Klogger] interface for use in coroutines and
- * [NoCoLogger] interface for use outside coroutines.
+ * Base interface of [Klogger] interface for use in coroutines, and
+ * [NoCoLogger] interface when not using coroutines.
  */
 public interface BaseLogger {
 
@@ -40,16 +46,22 @@ public interface BaseLogger {
      * level.
      */
     public fun isLevelEnabled(level: Level): Boolean = minLevel() <= level
-    /** Is this logger enabled to emit [Level.TRACE] events? */
-    public fun isTraceEnabled(): Boolean = minLevel() <= Level.TRACE
-    /** Is this logger enabled to emit [Level.DEBUG] events? */
-    public fun isDebugEnabled(): Boolean = minLevel() <= Level.DEBUG
-    /** Is this logger enabled to emit [Level.INFO] events? */
-    public fun isInfoEnabled(): Boolean = minLevel() <= Level.INFO
-    /** Is this logger enabled to emit [Level.WARN] events? */
-    public fun isWarnEnabled(): Boolean = minLevel() <= Level.WARN
-    /** Is this logger enabled to emit [Level.ERROR] events? */
-    public fun isErrorEnabled(): Boolean = minLevel() <= Level.ERROR
-    /** Is this logger enabled to emit [Level.FATAL] events? */
-    public fun isFatalEnabled(): Boolean = minLevel() <= Level.FATAL
+
+    /** Is this logger enabled to emit [TRACE] events? */
+    public fun isTraceEnabled(): Boolean = isLevelEnabled(TRACE)
+
+    /** Is this logger enabled to emit [DEBUG] events? */
+    public fun isDebugEnabled(): Boolean = isLevelEnabled(DEBUG)
+
+    /** Is this logger enabled to emit [INFO] events? */
+    public fun isInfoEnabled(): Boolean = isLevelEnabled(INFO)
+
+    /** Is this logger enabled to emit [WARN] events? */
+    public fun isWarnEnabled(): Boolean = isLevelEnabled(WARN)
+
+    /** Is this logger enabled to emit [ERROR] events? */
+    public fun isErrorEnabled(): Boolean = isLevelEnabled(ERROR)
+
+    /** Is this logger enabled to emit [FATAL] events? */
+    public fun isFatalEnabled(): Boolean = isLevelEnabled(FATAL)
 }
