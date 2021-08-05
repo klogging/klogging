@@ -82,7 +82,11 @@ kotlin {
             }
         }
         val commonTest by getting
-        val jvmMain by getting
+        val jvmMain by getting {
+            dependencies {
+                implementation(kotlin("reflect"))
+            }
+        }
         val jvmTest by getting {
             dependencies {
                 implementation("io.kotest:kotest-runner-junit5:$kotestVersion")
