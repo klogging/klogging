@@ -24,8 +24,8 @@ import io.klogging.context.logContext
 import io.klogging.dispatching.STDOUT
 import io.klogging.events.Level
 import io.klogging.rendering.RENDER_SIMPLE
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.UUID
@@ -33,7 +33,7 @@ import java.util.UUID
 /**
  * Main program for experimenting with Klogging features as they are developed.
  */
-fun main() = runBlocking {
+suspend fun main() = coroutineScope {
 
     loggingConfiguration {
         sink("stdout", RENDER_SIMPLE, STDOUT)
