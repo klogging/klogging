@@ -51,7 +51,8 @@ public fun loggingConfiguration(append: Boolean = false, block: KloggingConfigur
 }
 
 /**
- * Klogging configuration for a runtime.
+ * Klogging configuration for a runtime.  This is a global singleton.  No function or property is
+ * thread-safe.
  */
 public object KloggingConfiguration {
 
