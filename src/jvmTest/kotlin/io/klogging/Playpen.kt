@@ -40,8 +40,8 @@ suspend fun main() = coroutineScope {
         sink("seq", seq("http://localhost:5341"))
         logging {
             exactLogger("Playpen")
+            toSink("seq")
             fromMinLevel(Level.INFO) {
-                toSink("seq")
                 toSink("stdout")
             }
         }
