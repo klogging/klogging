@@ -22,7 +22,7 @@ import io.klogging.BaseLogger
 import io.klogging.events.Level
 import io.klogging.events.LogEvent
 import io.klogging.events.currentContext
-import io.klogging.events.now
+import kotlinx.datetime.Clock
 
 /**
  * Copy a [LogEvent], setting the level and the stack trace from any exception.
@@ -52,7 +52,7 @@ public fun BaseLogger.eventFrom(
         else -> {
             val (message, stackTrace) = messageAndStackTrace(eventObject, exception)
             LogEvent(
-                timestamp = now(),
+                timestamp = Clock.System.now(),
                 logger = this.name,
                 context = currentContext(),
                 level = level,
@@ -64,7 +64,19 @@ public fun BaseLogger.eventFrom(
     }
 }
 
-internal fun messageAndStackTrace(event: Any?, exception: Exception?) = when (event) {
-    is Exception -> (event.message ?: "Exception") to event.stackTraceToString()
-    else -> event.toString() to exception?.stackTraceToString()
+/**
+ * Extract message and stack trace values from a non-[LogEvent] object.
+ *
+ * @param obj an object that has been sent in a logging function call.
+ *
+ * @param exception an exception that may have been sent in a logging function call.
+ *
+ * @return a pair with the message to show and any stack trace that is present:
+ *   - If the object is an exception, return its message and stack trace.
+ *   - If the object is not an exception, return `toString()` on the object
+ *     and any stack trace on the supplied exception.
+ */
+internal fun messageAndStackTrace(obj: Any?, exception: Exception?): Pair<String, String?> = when (obj) {
+    is Exception -> (obj.message ?: "Exception") to obj.stackTraceToString()
+    else -> obj.toString() to exception?.stackTraceToString()
 }

@@ -18,6 +18,20 @@
 
 package io.klogging.rendering
 
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+
+/**
+ * Extension property for Kotlin [Instant] to render it in local time as two words.
+ *
+ * The simple mechanism is to render as ISO8601 and replace the `T` with a space.
+ */
+public val Instant.localString: String
+    get() = toLocalDateTime(TimeZone.currentSystemDefault())
+        .toString()
+        .replace('T', ' ')
+
 /**
  * Simple implementation of [RenderString] for output to a console, mostly on one line.
  *

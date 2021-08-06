@@ -20,7 +20,7 @@ package io.klogging.rendering
 
 import io.klogging.events.Level
 import io.klogging.events.LogEvent
-import io.klogging.events.Timestamp
+import kotlinx.datetime.Instant
 
 private const val GELF_TEMPLATE =
     """{"version":"1.1","host":"{{HOST}}","short_message":"{{SHORT}}",{{EX}}"timestamp":{{TS}},"level":{{LEVEL}},{{ITEMS}}}"""
@@ -63,7 +63,7 @@ public fun graylogLevel(level: Level): Int = when (level) {
     Level.FATAL -> 2
 }
 
-public fun Timestamp.graylogFormat(): String {
-    val ns = "000000000$nanos"
+public fun Instant.graylogFormat(): String {
+    val ns = "000000000$nanosecondsOfSecond"
     return "$epochSeconds.${ns.substring(ns.length - 9)}"
 }

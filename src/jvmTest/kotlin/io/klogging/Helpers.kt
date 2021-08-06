@@ -22,15 +22,15 @@ import io.klogging.config.SinkConfiguration
 import io.klogging.config.loggingConfiguration
 import io.klogging.events.Level
 import io.klogging.events.LogEvent
-import io.klogging.events.Timestamp
 import io.klogging.events.hostname
 import io.klogging.rendering.RenderString
 import kotlinx.coroutines.delay
-import java.time.Instant
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import kotlin.random.Random
 import kotlin.random.nextULong
 
-fun timestampNow() = Instant.now().let { Timestamp(it.epochSecond, it.nano.toLong()) }
+fun timestampNow() = Clock.System.now()
 
 fun randomLoggerName() = Random.nextInt().toString(16)
 
@@ -39,7 +39,7 @@ fun randomString() = Random.nextULong().toString(16)
 fun randomLevel() = Level.values().random()
 
 fun logEvent(
-    timestamp: Timestamp = timestampNow(),
+    timestamp: Instant = timestampNow(),
     host: String = hostname,
     name: String = randomLoggerName(),
     level: Level = randomLevel(),

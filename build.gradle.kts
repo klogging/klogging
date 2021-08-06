@@ -39,6 +39,7 @@ repositories {
 
 val jacocoVersion: String by project
 val kotlinCoroutinesVersion: String by project
+val kotlinDateTimeVersion: String by project
 val kotlinSerialisationJsonVersion: String by project
 val kotestVersion: String by project
 val ktlintVersion: String by project
@@ -76,6 +77,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinDateTimeVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerialisationJsonVersion")
             }
         }
