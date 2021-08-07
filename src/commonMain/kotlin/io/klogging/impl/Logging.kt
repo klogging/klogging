@@ -18,6 +18,7 @@
 
 package io.klogging.impl
 
+import io.klogging.config.KLOGGING_LOGGER
 import io.klogging.dispatching.Dispatcher.dispatchEvent
 import io.klogging.events.LogEvent
 import io.klogging.internal.debug
@@ -31,8 +32,6 @@ import kotlinx.coroutines.launch
  */
 internal object Logging {
 
-    private const val LOGGING_LOGGER = "Logging"
-
     /**
      * [Channel] between the coroutines where log events are sent and the coroutines that send them out.
      */
@@ -43,7 +42,7 @@ internal object Logging {
         val eventsChannel = Channel<LogEvent>()
         CoroutineScope(Job()).launch {
             for (logEvent in eventsChannel) {
-                debug(LOGGING_LOGGER, "Read event ${logEvent.id}")
+                debug(KLOGGING_LOGGER, "Read event ${logEvent.id}")
                 dispatchEvent(logEvent)
             }
         }
@@ -51,7 +50,7 @@ internal object Logging {
     }
 
     suspend fun sendEvent(logEvent: LogEvent) {
-        debug(LOGGING_LOGGER, "Sending event with ${logEvent.id}")
+        debug(KLOGGING_LOGGER, "Sending event with ${logEvent.id}")
         logEventsChannel.send(logEvent)
     }
 }

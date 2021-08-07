@@ -19,6 +19,7 @@
 package io.klogging.dispatching
 
 import io.klogging.Level
+import io.klogging.config.KLOGGING_LOGGER
 import io.klogging.config.KloggingConfiguration
 import io.klogging.config.SinkConfiguration
 import io.klogging.events.LogEvent
@@ -29,8 +30,6 @@ import kotlinx.coroutines.launch
 /** Object that handles dispatching of [LogEvent]s to zero or more targets. */
 public object Dispatcher {
 
-    private const val DISPATCHER_LOGGER = "Dispatcher"
-
     /**
      * Dispatch a [LogEvent] to selected targets.
      *
@@ -40,7 +39,7 @@ public object Dispatcher {
         sinksFor(logEvent.logger, logEvent.level)
             .forEach { sinkConfig ->
                 launch {
-                    debug(DISPATCHER_LOGGER, "Dispatching event ${logEvent.id}")
+                    debug(KLOGGING_LOGGER, "Dispatching event ${logEvent.id}")
                     sinkConfig.dispatcher(sinkConfig.renderer(logEvent))
                 }
             }

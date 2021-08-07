@@ -23,7 +23,7 @@ import io.klogging.dispatching.DispatchString
 import io.klogging.rendering.RenderString
 import kotlin.native.concurrent.ThreadLocal
 
-internal const val CONFIG_LOGGER = "Configuration"
+internal const val KLOGGING_LOGGER = "Klogging"
 
 @ThreadLocal
 internal var kloggingLogLevel: Level = Level.INFO

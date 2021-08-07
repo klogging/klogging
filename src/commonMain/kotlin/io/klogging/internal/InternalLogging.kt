@@ -27,7 +27,7 @@ import io.klogging.rendering.RenderString
 import io.klogging.rendering.localString
 
 internal val RENDER_INTERNAL: RenderString = { e: LogEvent ->
-    "${e.timestamp.localString} ${e.level} [${e.context}] : ${e.message}" +
+    "${e.timestamp.localString} ${e.level} [${e.context}] : ${e.logger} : ${e.message}" +
         if (e.items.isNotEmpty()) " : ${e.items}" else "" +
             if (e.stackTrace != null) "\n${e.stackTrace}" else ""
 }

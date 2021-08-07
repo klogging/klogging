@@ -108,7 +108,7 @@ internal fun readConfig(configJson: String): JsonConfiguration? =
     try {
         Json { ignoreUnknownKeys = true }.decodeFromString(configJson)
     } catch (ex: SerializationException) {
-        warn(CONFIG_LOGGER, "Exception parsing JSON configuration", ex)
+        warn(KLOGGING_LOGGER, "Exception parsing JSON configuration", ex)
         null
     }
 
@@ -121,12 +121,12 @@ public fun configureFromJson(configJson: String) {
         if (config.kloggingLevel != null) kloggingLogLevel = config.kloggingLevel
         config.sinks.forEach { entry ->
             entry.value.toSinkConfiguration()?.let {
-                debug(CONFIG_LOGGER, "Setting sink `${entry.key}` with ${entry.value}")
+                debug(KLOGGING_LOGGER, "Setting sink `${entry.key}` with ${entry.value}")
                 KloggingConfiguration.sinks[entry.key] = it
             }
         }
         config.logging.forEach { logging ->
-            debug(CONFIG_LOGGER, "Adding logging config $logging")
+            debug(KLOGGING_LOGGER, "Adding logging config $logging")
             KloggingConfiguration.configs.add(logging.toLoggingConfig())
         }
     }
