@@ -25,8 +25,16 @@ import kotlin.native.concurrent.ThreadLocal
 
 internal const val KLOGGING_LOGGER = "Klogging"
 
+/**
+ * Set the default Klogging log level from the environment using name
+ * [ENV_KLOGGING_LOG_LEVEL] if present, else default to [Level.INFO].
+ */
+internal val defaultKloggingLogLevel: Level = try {
+    getenv(ENV_KLOGGING_LOG_LEVEL)?.let { Level.valueOf(it) } ?: Level.INFO
+} catch (ex: Exception) { Level.INFO }
+
 @ThreadLocal
-internal var kloggingLogLevel: Level = Level.INFO
+internal var kloggingLogLevel: Level = defaultKloggingLogLevel
 
 /**
  * Klogging configuration for a runtime.
@@ -83,9 +91,11 @@ public object KloggingConfiguration {
         .flatMap { it.ranges }
         .minOfOrNull { it.minLevel } ?: Level.NONE
 
-    /** Clear all configurations. */
+    /**
+     * Clear all configurations and reset default Klogging log level.
+     * */
     internal fun reset() {
-        kloggingLogLevel = Level.INFO
+        kloggingLogLevel = defaultKloggingLogLevel
         sinks.clear()
         configs.clear()
     }
