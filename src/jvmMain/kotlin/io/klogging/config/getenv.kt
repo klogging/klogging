@@ -18,6 +18,4 @@
 
 package io.klogging.config
 
-/** Marker annotation for DSL functions. */
-@DslMarker
-public annotation class ConfigDsl
+internal actual fun getenv(): Map<String, String> = System.getenv()

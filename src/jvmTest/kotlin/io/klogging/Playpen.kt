@@ -34,6 +34,7 @@ import java.util.UUID.randomUUID
  */
 suspend fun main() = coroutineScope {
     loggingConfiguration {
+        // kloggingLevel(Level.DEBUG)
         sink("stdout", RENDER_SIMPLE, STDOUT)
         sink("seq", seq("http://localhost:5341"))
         logging {

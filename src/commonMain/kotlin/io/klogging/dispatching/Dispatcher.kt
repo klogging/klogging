@@ -22,6 +22,7 @@ import io.klogging.Level
 import io.klogging.config.KloggingConfiguration
 import io.klogging.config.SinkConfiguration
 import io.klogging.events.LogEvent
+import io.klogging.internal.debug
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
@@ -35,7 +36,12 @@ public object Dispatcher {
      */
     public suspend fun dispatchEvent(logEvent: LogEvent): Unit = coroutineScope {
         sinksFor(logEvent.logger, logEvent.level)
-            .forEach { launch { it.dispatcher(it.renderer(logEvent)) } }
+            .forEach { sinkConfig ->
+                launch {
+                    debug("Dispatching event ${logEvent.id}")
+                    sinkConfig.dispatcher(sinkConfig.renderer(logEvent))
+                }
+            }
     }
 
     public fun sinksFor(loggerName: String, level: Level): List<SinkConfiguration> {

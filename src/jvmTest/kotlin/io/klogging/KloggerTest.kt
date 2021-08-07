@@ -43,8 +43,8 @@ class TestLogger(
 
     override suspend fun e(template: String, vararg values: Any?): LogEvent =
         LogEvent(
-            timestampNow(), hostname, "TestLogger", Thread.currentThread().name, Level.NONE, template, template, null,
-            templateItems(template, *values).mapValues { e -> e.value.toString() }
+            randomString(), timestampNow(), hostname, "TestLogger", Thread.currentThread().name, Level.NONE,
+            template, template, null, templateItems(template, *values).mapValues { e -> e.value.toString() }
         )
 }
 

@@ -18,7 +18,9 @@
 
 package io.klogging.config
 
-import io.klogging.Level
+import io.klogging.Level.DEBUG
+import io.klogging.Level.FATAL
+import io.klogging.Level.INFO
 import io.klogging.dispatching.STDOUT
 import io.klogging.rendering.RENDER_SIMPLE
 import io.kotest.core.spec.style.DescribeSpec
@@ -30,6 +32,17 @@ import io.kotest.matchers.shouldNotBe
 
 internal class JsonConfigurationTest : DescribeSpec({
     describe("Configuration from JSON") {
+        describe("invalid JSON") {
+            it("does not configure anything") {
+                KloggingConfiguration.reset()
+                configureFromJson("*** THIS IS NOT JSON ***")
+
+                with(KloggingConfiguration) {
+                    sinks shouldHaveSize 0
+                    configs shouldHaveSize 0
+                }
+            }
+        }
         describe("simple configuration using built-in renderers and dispatchers") {
             val simpleJsonConfig = """
                 {
@@ -70,7 +83,7 @@ internal class JsonConfigurationTest : DescribeSpec({
                         fromLoggerBase shouldBe "com.example"
                         levelRanges shouldHaveSize 1
                         with(levelRanges.first()) {
-                            fromMinLevel shouldBe Level.INFO
+                            fromMinLevel shouldBe INFO
                             toSinks shouldHaveSize 1
                             toSinks.first() shouldBe "stdout"
                         }
@@ -98,12 +111,25 @@ internal class JsonConfigurationTest : DescribeSpec({
                         nameMatch.pattern shouldBe "^com.example.*"
                         ranges shouldHaveSize 1
                         with(ranges.first()) {
-                            minLevel shouldBe Level.INFO
-                            maxLevel shouldBe Level.FATAL
+                            minLevel shouldBe INFO
+                            maxLevel shouldBe FATAL
                             sinkNames shouldContainExactly listOf("stdout")
                         }
                     }
                 }
+            }
+        }
+        describe("Klogging minimum log level") {
+            it("is not changed if not set in JSON") {
+                configureFromJson("""{}""")
+
+                kloggingMinLogLevel shouldBe INFO
+            }
+            it("is changed if set in JSON") {
+                kloggingMinLogLevel = INFO
+                configureFromJson("""{"kloggingMinLogLevel":"DEBUG"}""")
+
+                kloggingMinLogLevel shouldBe DEBUG
             }
         }
     }

@@ -21,12 +21,16 @@ package io.klogging.events
 import io.klogging.Level
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import kotlin.random.Random
+import kotlin.random.nextULong
 
 /**
  * An event at a point in time with information about the running state of
  * a program.
  */
 public data class LogEvent(
+    /** Unique identifier for this event. */
+    val id: String = Random.nextULong().toString(16),
     /** When the event occurred, to microsecond or better precision. */
     val timestamp: Instant = Clock.System.now(),
     /** Host where the event occurred. */

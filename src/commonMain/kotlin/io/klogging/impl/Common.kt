@@ -31,7 +31,7 @@ import kotlinx.datetime.Clock
  * by the [Klogger#e] and [NoCoLogger#e] functions.
  */
 private fun LogEvent.copyWith(newLevel: Level, newStacktrace: String?): LogEvent = LogEvent(
-    timestamp, host, logger, context ?: currentContext(), newLevel, template, message, newStacktrace, items
+    id, timestamp, host, logger, context ?: currentContext(), newLevel, template, message, newStacktrace, items
 )
 
 /**

@@ -18,6 +18,20 @@
 
 package io.klogging.config
 
-/** Marker annotation for DSL functions. */
-@DslMarker
-public annotation class ConfigDsl
+internal const val ENV_KLOGGING_MIN_LOG_LEVEL = "KLOGGING_MIN_LOG_LEVEL"
+
+internal expect fun getenv(): Map<String, String>
+
+internal val ENV: Map<String, String> by lazy { getenv() }
+
+/**
+ * Return the value of an item in the running environment, or
+ * `null` if the name is not found.
+ */
+public fun getenv(name: String): String? = ENV[name]
+
+/**
+ * Return the value of an item in the running environment, or
+ * a default value if not found.
+ */
+public fun getenv(name: String, default: String): String = ENV[name] ?: default
