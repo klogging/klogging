@@ -20,7 +20,7 @@ package io.klogging.rendering
 
 import io.klogging.events.Level
 import io.klogging.events.LogEvent
-import io.klogging.events.Timestamp
+import kotlinx.datetime.Instant
 
 private const val GELF_TEMPLATE =
     """{"version":"1.1","host":"{{HOST}}","short_message":"{{SHORT}}",{{EX}}"timestamp":{{TS}},"level":{{LEVEL}},{{ITEMS}}}"""
@@ -29,6 +29,10 @@ private const val STACK_TEMPLATE = """"full_message":"{{ST}}","""
 /**
  * Renders a [LogEvent] into [GELF](https://docs.graylog.org/en/latest/pages/gelf.html#gelf-payload-specification)
  * JSON format.
+ *
+ * It uses very crude string templates because JSON serialisation is
+ * unable to convert an [Instant] into a number in `ssssssssssss.nnnnnnnnn`
+ * format as required for GELF.
  */
 public val RENDER_GELF: RenderString = { e ->
     val exception = e.stackTrace?.let { formatStackTrace(it) } ?: ""
@@ -48,6 +52,11 @@ public val RENDER_GELF: RenderString = { e ->
 private fun formatStackTrace(stackTrace: String) = STACK_TEMPLATE
     .replace("{{ST}}", stackTrace)
 
+public fun Instant.graylogFormat(): String {
+    val ns = "000000000$nanosecondsOfSecond"
+    return "$epochSeconds.${ns.substring(ns.length - 9)}"
+}
+
 /**
  * Map [Level]s to syslog levels used by Graylog:
  *
@@ -61,9 +70,4 @@ public fun graylogLevel(level: Level): Int = when (level) {
     Level.WARN -> 4
     Level.ERROR -> 3
     Level.FATAL -> 2
-}
-
-public fun Timestamp.graylogFormat(): String {
-    val ns = "000000000$nanos"
-    return "$epochSeconds.${ns.substring(ns.length - 9)}"
 }

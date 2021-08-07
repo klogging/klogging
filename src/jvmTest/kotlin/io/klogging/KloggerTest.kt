@@ -21,7 +21,6 @@ package io.klogging
 import io.klogging.events.Level
 import io.klogging.events.LogEvent
 import io.klogging.events.hostname
-import io.klogging.events.now
 import io.klogging.template.templateItems
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContain
@@ -45,7 +44,7 @@ class TestLogger(
 
     override suspend fun e(template: String, vararg values: Any?): LogEvent =
         LogEvent(
-            now(), hostname, "TestLogger", Thread.currentThread().name, Level.NONE, template, template, null,
+            timestampNow(), hostname, "TestLogger", Thread.currentThread().name, Level.NONE, template, template, null,
             templateItems(template, *values).mapValues { e -> e.value.toString() }
         )
 }
@@ -105,7 +104,7 @@ class KloggerTest : DescribeSpec({
                 }
             }
             it("logs an object in a lambda") {
-                val thing = randomString() to now()
+                val thing = randomString() to timestampNow()
                 with(TestLogger()) {
                     info { thing }
                     logged shouldBe thing

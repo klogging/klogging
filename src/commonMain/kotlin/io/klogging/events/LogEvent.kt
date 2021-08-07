@@ -18,13 +18,15 @@
 
 package io.klogging.events
 
+import kotlinx.datetime.Instant
+
 /**
  * An event at a point in time with information about the running state of
  * a program.
  */
 public data class LogEvent(
     /** When the event occurred, to microsecond or better precision. */
-    val timestamp: Timestamp,
+    val timestamp: Instant,
     /** Host where the event occurred. */
     val host: String = hostname,
     /** Name of the logger that emitted the event. */

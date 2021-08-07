@@ -31,7 +31,7 @@ import io.klogging.events.LogEvent
 public val RENDER_CLEF: RenderString = { e ->
     val eventMap: MutableMap<String, Any?> = (
         mapOf(
-            "@t" to e.timestamp.isoString,
+            "@t" to e.timestamp.toString(),
             "@l" to e.level.name,
             "host" to e.host,
             "logger" to e.logger,

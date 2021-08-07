@@ -33,7 +33,7 @@ class RenderClefTest : DescribeSpec({
             val event = LogEvent(ts, "test.local", "Test", currentContext(), Level.INFO, null, "Message", null, mapOf())
 
             RENDER_CLEF(event) shouldBe """{
-            |"@t":"${event.timestamp.isoString}",
+            |"@t":"${event.timestamp}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
             |"logger":"${event.logger}",
@@ -48,7 +48,7 @@ class RenderClefTest : DescribeSpec({
                 LogEvent(ts, "test.local", "Test", currentContext(), Level.INFO, null, "Message", trace, mapOf())
 
             RENDER_CLEF(event) shouldBe """{
-            |"@t":"${event.timestamp.isoString}",
+            |"@t":"${event.timestamp}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
             |"logger":"${event.logger}",
@@ -62,7 +62,7 @@ class RenderClefTest : DescribeSpec({
             val event = LogEvent(ts, "test.local", "Test", currentContext(), Level.INFO, null, "Message", null, mapOf())
 
             RENDER_CLEF(event) shouldBe """{
-            |"@t":"${event.timestamp.isoString}",
+            |"@t":"${event.timestamp}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
             |"logger":"${event.logger}",
@@ -79,7 +79,7 @@ class RenderClefTest : DescribeSpec({
             )
 
             RENDER_CLEF(event) shouldBe """{
-            |"@t":"${event.timestamp.isoString}",
+            |"@t":"${event.timestamp}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
             |"logger":"${event.logger}",
@@ -93,7 +93,7 @@ class RenderClefTest : DescribeSpec({
             val event = LogEvent(ts, "test.local", "Test", null, Level.INFO, null, "Message", null, mapOf())
 
             RENDER_CLEF(event) shouldBe """{
-            |"@t":"${event.timestamp.isoString}",
+            |"@t":"${event.timestamp}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
             |"logger":"${event.logger}",

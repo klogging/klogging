@@ -22,11 +22,11 @@ import io.klogging.Logging
 import io.klogging.NoCoLogger
 import io.klogging.events.Level
 import io.klogging.events.LogEvent
-import io.klogging.events.now
 import io.klogging.template.templateItems
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 
 public class NoCoLoggerImpl(
     override val name: String,
@@ -42,7 +42,7 @@ public class NoCoLoggerImpl(
     override fun e(template: String, vararg values: Any?): LogEvent {
         val items = templateItems(template, *values).mapValues { e -> e.value.toString() }
         return LogEvent(
-            timestamp = now(),
+            timestamp = Clock.System.now(),
             logger = this.name,
             level = minLevel(),
             template = template,

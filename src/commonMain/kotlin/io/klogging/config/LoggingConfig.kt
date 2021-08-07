@@ -104,4 +104,16 @@ public class LoggingConfig {
         range.apply(configBlock)
         if (range.sinkNames.isNotEmpty()) ranges.add(range)
     }
+
+    /**
+     * DSL function to specify a sink where events for all logging levels should be sent.
+     *
+     * @param sinkName name of the sink
+     */
+    @ConfigDsl
+    public fun toSink(sinkName: String) {
+        val range = LevelRange(Level.TRACE, Level.FATAL)
+        range.toSink(sinkName)
+        if (range.sinkNames.isNotEmpty()) ranges.add(range)
+    }
 }
