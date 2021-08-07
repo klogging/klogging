@@ -33,7 +33,7 @@ class JsonConfigurationTest : DescribeSpec({
         describe("invalid JSON") {
             it("does not configure anything") {
                 KloggingConfiguration.reset()
-                configureFromJson("{\"key\":\"value\"}")
+                configureFromJson("*** THIS IS NOT JSON ***")
 
                 with(KloggingConfiguration) {
                     sinks shouldHaveSize 0
@@ -115,6 +115,19 @@ class JsonConfigurationTest : DescribeSpec({
                         }
                     }
                 }
+            }
+        }
+        describe("Klogging log level") {
+            it("is not changed if not set in JSON") {
+                configureFromJson("""{}""")
+
+                kloggingLogLevel shouldBe Level.INFO
+            }
+            it("is changed if set in JSON") {
+                kloggingLogLevel = Level.INFO
+                configureFromJson("""{"kloggingLevel":"DEBUG"}""")
+
+                kloggingLogLevel shouldBe Level.DEBUG
             }
         }
     }

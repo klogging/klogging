@@ -28,13 +28,16 @@ import kotlinx.serialization.json.Json
 
 /**
  * Data class for JSON representation of [KloggingConfiguration].
+ *
+ * Fields are optional so that when `append` is specified, only new configuration
+ * needs to be added.
  */
 @Serializable
 public data class JsonConfiguration(
     val append: Boolean = false,
-    val kloggingLevel: Level = Level.INFO,
-    val sinks: Map<String, JsonSinkConfiguration>,
-    val logging: List<JsonLoggingConfig>,
+    val kloggingLevel: Level? = null,
+    val sinks: Map<String, JsonSinkConfiguration> = mapOf(),
+    val logging: List<JsonLoggingConfig> = listOf(),
 )
 
 /**
@@ -103,7 +106,7 @@ public data class JsonLevelRange(
  */
 internal fun readConfig(configJson: String): JsonConfiguration? =
     try {
-        Json.decodeFromString(configJson)
+        Json { ignoreUnknownKeys = true }.decodeFromString(configJson)
     } catch (ex: SerializationException) {
         warn(CONFIG_LOGGER, "Exception parsing JSON configuration", ex)
         null
@@ -113,9 +116,9 @@ internal fun readConfig(configJson: String): JsonConfiguration? =
  * Load [KloggingConfiguration] from JSON configuration string.
  */
 public fun configureFromJson(configJson: String) {
-    debug(CONFIG_LOGGER, "Reading config from '$configJson'")
     readConfig(configJson)?.let { config ->
         if (!config.append) KloggingConfiguration.reset()
+        if (config.kloggingLevel != null) kloggingLogLevel = config.kloggingLevel
         config.sinks.forEach { entry ->
             entry.value.toSinkConfiguration()?.let {
                 debug(CONFIG_LOGGER, "Setting sink `${entry.key}` with ${entry.value}")

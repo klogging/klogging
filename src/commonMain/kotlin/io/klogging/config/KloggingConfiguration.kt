@@ -85,6 +85,7 @@ public object KloggingConfiguration {
 
     /** Clear all configurations. */
     internal fun reset() {
+        kloggingLogLevel = Level.INFO
         sinks.clear()
         configs.clear()
     }
