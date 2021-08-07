@@ -20,6 +20,7 @@ package io.klogging.config
 
 import io.klogging.Level
 import io.klogging.dispatching.DispatchString
+import io.klogging.internal.info
 import io.klogging.rendering.RenderString
 import kotlin.native.concurrent.ThreadLocal
 
@@ -33,6 +34,19 @@ internal val defaultKloggingLogLevel: Level = try {
 
 @ThreadLocal
 internal var kloggingLogLevel: Level = defaultKloggingLogLevel
+
+/**
+ * Root DSL function for creating a [KloggingConfiguration].
+ *
+ * @param append if `true`, append this configuration to any existing one.
+ *               Default is `false`, causing this configuration replace any existing one.
+ */
+@ConfigDsl
+public fun loggingConfiguration(append: Boolean = false, block: KloggingConfiguration.() -> Unit) {
+    info("Setting configuration using the DSL with append=$append")
+    if (!append) KloggingConfiguration.reset()
+    KloggingConfiguration.apply(block)
+}
 
 /**
  * Klogging configuration for a runtime.

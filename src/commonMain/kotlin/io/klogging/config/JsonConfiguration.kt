@@ -20,6 +20,7 @@ package io.klogging.config
 
 import io.klogging.Level
 import io.klogging.internal.debug
+import io.klogging.internal.info
 import io.klogging.internal.warn
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
@@ -120,6 +121,7 @@ internal fun readConfig(configJson: String): JsonConfiguration? =
  */
 public fun configureFromJson(configJson: String) {
     readConfig(configJson)?.let { config ->
+        info("Reading JSON configuration") // TODO: move this logging into reading from file with name
         if (!config.append) KloggingConfiguration.reset()
         if (config.kloggingLevel != null) kloggingLogLevel = config.kloggingLevel
         config.sinks.forEach { entry ->
