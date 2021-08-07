@@ -18,14 +18,19 @@
 
 package io.klogging.config
 
+import io.klogging.dispatching.STDOUT
+import io.klogging.events.Level
+import io.klogging.rendering.RENDER_SIMPLE
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 
 class JsonConfigurationTest : DescribeSpec({
     describe("Configuration from JSON") {
-        it("reads a simple configuration with built-in renderer and dispatcher") {
+        describe("simple configuration using built-in renderers and dispatchers") {
             val simpleJsonConfig = """
                 {
                   "sinks": {
@@ -49,23 +54,54 @@ class JsonConfigurationTest : DescribeSpec({
                   ]
                 }
             """.trimIndent()
-            val jsonConfig = readConfig(simpleJsonConfig)
+            it("reads the configuration from string") {
+                val jsonConfig = readConfig(simpleJsonConfig)
 
-            with(jsonConfig) {
-                sinks shouldHaveSize 1
-                sinks.keys.first() shouldBe "stdout"
-                with(sinks.values.first()) {
-                    renderWith shouldBe "RENDER_SIMPLE"
-                    dispatchTo shouldBe "STDOUT"
+                jsonConfig shouldNotBe null
+                jsonConfig?.apply {
+                    sinks shouldHaveSize 1
+                    sinks.keys.first() shouldBe "stdout"
+                    with(sinks.values.first()) {
+                        renderWith shouldBe "RENDER_SIMPLE"
+                        dispatchTo shouldBe "STDOUT"
+                    }
+                    logging shouldHaveSize 1
+                    with(logging.first()) {
+                        fromLoggerBase shouldBe "com.example"
+                        levelRanges shouldHaveSize 1
+                        with(levelRanges.first()) {
+                            fromMinLevel shouldBe Level.INFO
+                            toSinks shouldHaveSize 1
+                            toSinks.first() shouldBe "stdout"
+                        }
+                    }
                 }
-                logging shouldHaveSize 1
-                with(logging.first()) {
-                    fromLoggerBase shouldBe "com.example"
-                    levelRanges shouldHaveSize 1
-                    with(levelRanges.first()) {
-                        fromMinLevel shouldBe "INFO"
-                        toSinks shouldHaveSize 1
-                        toSinks.first() shouldBe "stdout"
+            }
+            it("sets up built-in sinks") {
+                configureFromJson(simpleJsonConfig)
+
+                with(KloggingConfiguration) {
+                    sinks shouldHaveSize 1
+                    sinks.keys.first() shouldBe "stdout"
+                    with(sinks.values.first()) {
+                        renderer shouldBe RENDER_SIMPLE
+                        dispatcher shouldBe STDOUT
+                    }
+                }
+            }
+            it("sets up the logging configurations") {
+                configureFromJson(simpleJsonConfig)
+
+                with(KloggingConfiguration) {
+                    configs shouldHaveSize 1
+                    with(configs.first()) {
+                        nameMatch.pattern shouldBe "^com.example.*"
+                        ranges shouldHaveSize 1
+                        with(ranges.first()) {
+                            minLevel shouldBe Level.INFO
+                            maxLevel shouldBe Level.FATAL
+                            sinkNames shouldContainExactly listOf("stdout")
+                        }
                     }
                 }
             }
