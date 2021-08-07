@@ -117,17 +117,17 @@ class JsonConfigurationTest : DescribeSpec({
                 }
             }
         }
-        describe("Klogging log level") {
+        describe("Klogging minimum log level") {
             it("is not changed if not set in JSON") {
                 configureFromJson("""{}""")
 
-                kloggingLogLevel shouldBe Level.INFO
+                kloggingMinLogLevel shouldBe Level.INFO
             }
             it("is changed if set in JSON") {
-                kloggingLogLevel = Level.INFO
-                configureFromJson("""{"kloggingLevel":"DEBUG"}""")
+                kloggingMinLogLevel = Level.INFO
+                configureFromJson("""{"kloggingMinLogLevel":"DEBUG"}""")
 
-                kloggingLogLevel shouldBe Level.DEBUG
+                kloggingMinLogLevel shouldBe Level.DEBUG
             }
         }
     }

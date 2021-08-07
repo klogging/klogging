@@ -19,7 +19,7 @@
 package io.klogging.internal
 
 import io.klogging.Level
-import io.klogging.config.kloggingLogLevel
+import io.klogging.config.kloggingMinLogLevel
 import io.klogging.dispatching.STDERR
 import io.klogging.dispatching.STDOUT
 import io.klogging.events.LogEvent
@@ -43,7 +43,7 @@ public fun log(
     message: String,
     exception: Exception? = null
 ) {
-    if (level < kloggingLogLevel) return
+    if (level < kloggingMinLogLevel) return
     val event = LogEvent(
         logger = KLOGGING_LOGGER,
         level = level,
