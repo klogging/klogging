@@ -18,7 +18,6 @@
 
 package io.klogging.rendering
 
-import io.klogging.events.LogEvent
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -26,20 +25,21 @@ import kotlinx.datetime.toLocalDateTime
 /**
  * Extension property for Kotlin [Instant] to render it in local time as two words.
  *
- * The simple mechanism is to render as ISO8601 and replace the `T` with a space.
+ * The simple mechanism is to render as ISO8601 and replace the first `T`
+ * with a space.
  */
 public val Instant.localString: String
     get() = toLocalDateTime(TimeZone.currentSystemDefault())
         .toString()
-        .replace('T', ' ')
+        .replaceFirst('T', ' ')
 
 /**
  * Simple implementation of [RenderString] for output to a console, mostly on one line.
  *
  * If there is a stack trace it is on second and following lines.
  */
-public val RENDER_SIMPLE: RenderString = { e: LogEvent ->
-    "${e.timestamp.localString} ${e.level} [${e.context}] ${e.logger} : ${e.message}" +
-        if (e.items.isNotEmpty()) " : ${e.items}" else "" +
-            if (e.stackTrace != null) "\n${e.stackTrace}" else ""
+public val RENDER_SIMPLE: RenderString = {
+    "${it.timestamp.localString} ${it.level} [${it.context}] ${it.logger} : ${it.message}" +
+        if (it.items.isNotEmpty()) " : ${it.items}"
+        else "" + if (it.stackTrace != null) "\n${it.stackTrace}" else ""
 }

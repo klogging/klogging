@@ -29,8 +29,8 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 
-class DispatcherTest : DescribeSpec({
-
+internal class DispatcherTest : DescribeSpec({
+    /** @todo Why reset each test?  This is a smell around use of globals */
     beforeTest {
         KloggingConfiguration.reset()
     }

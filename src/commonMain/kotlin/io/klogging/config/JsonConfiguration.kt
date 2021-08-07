@@ -32,9 +32,7 @@ import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-/**
- * Data class for JSON representation of [KloggingConfiguration].
- */
+/** Data class for JSON representation of [KloggingConfiguration]. */
 @Serializable
 public data class JsonConfiguration(
     val append: Boolean = false,
@@ -42,9 +40,7 @@ public data class JsonConfiguration(
     val logging: List<JsonLoggingConfig>,
 )
 
-/**
- * Data class for JSON representation of a [SinkConfiguration].
- */
+/** Data class for JSON representation of a [SinkConfiguration]. */
 @Serializable
 public data class JsonSinkConfiguration(
     val renderWith: String?,
@@ -58,9 +54,7 @@ public data class JsonSinkConfiguration(
     }
 }
 
-/**
- * Data class for JSON representation of a [LoggingConfig].
- */
+/** Data class for JSON representation of a [LoggingConfig]. */
 @Serializable
 public data class JsonLoggingConfig(
     val fromLoggerBase: String? = null,
@@ -79,9 +73,7 @@ public data class JsonLoggingConfig(
     }
 }
 
-/**
- * Data class for JSON representation of a [LevelRange].
- */
+/** Data class for JSON representation of a [LevelRange]. */
 @Serializable
 public data class JsonLevelRange(
     val fromMinLevel: Level? = null,
@@ -100,11 +92,11 @@ public data class JsonLevelRange(
 }
 
 /**
- * Read configuration from JSON into a [JsonConfiguration] object.
+ * Reads configuration from JSON into a [JsonConfiguration] object.
  *
- * @param configJson JSON containing Klogging configuration.
+ * @param configJson JSON containing Klogging configuration
  *
- * @return an object used to configure Klogging.
+ * @return an object for Klogging configuration
  */
 internal fun readConfig(configJson: String): JsonConfiguration? =
     try {
@@ -114,26 +106,22 @@ internal fun readConfig(configJson: String): JsonConfiguration? =
         null
     }
 
-/**
- * Load [KloggingConfiguration] from JSON configuration string.
- */
+/** Loads [KloggingConfiguration] from JSON configuration string. */
 internal fun configureFromJson(configJson: String) {
-    readConfig(configJson)?.let { config ->
-        if (!config.append) KloggingConfiguration.reset()
-        config.sinks.forEach { entry ->
-            entry.value.toSinkConfiguration()?.let {
-                KloggingConfiguration.sinks[entry.key] = it
+    readConfig(configJson)?.let { (append, sinks, logging) ->
+        if (!append) KloggingConfiguration.reset()
+        sinks.forEach { (key, value) ->
+            value.toSinkConfiguration()?.let {
+                KloggingConfiguration.sinks[key] = it
             }
         }
-        config.logging.forEach { logging ->
-            KloggingConfiguration.configs.add(logging.toLoggingConfig())
+        logging.forEach {
+            KloggingConfiguration.configs.add(it.toLoggingConfig())
         }
     }
 }
 
-/**
- * Map of built-in renderers by name.
- */
+/** Map of built-in renderers by name. */
 internal val BUILT_IN_RENDERERS: Map<String, RenderString> by lazy {
     mapOf(
         "RENDER_SIMPLE" to RENDER_SIMPLE,
@@ -142,9 +130,7 @@ internal val BUILT_IN_RENDERERS: Map<String, RenderString> by lazy {
     )
 }
 
-/**
- * Map of built-in dispatchers by name.
- */
+/** Map of built-in dispatchers by name. */
 internal val BUILT_IN_DISPATCHERS: Map<String, DispatchString> by lazy {
     mapOf(
         "STDOUT" to STDOUT,

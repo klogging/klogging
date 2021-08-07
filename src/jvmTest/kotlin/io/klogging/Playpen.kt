@@ -27,13 +27,12 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.util.UUID
+import java.util.UUID.randomUUID
 
 /**
  * Main program for experimenting with Klogging features as they are developed.
  */
 suspend fun main() = coroutineScope {
-
     loggingConfiguration {
         sink("stdout", RENDER_SIMPLE, STDOUT)
         sink("seq", seq("http://localhost:5341"))
@@ -47,7 +46,7 @@ suspend fun main() = coroutineScope {
     }
 
     val logger = logger("Playpen")
-    launch(logContext("run" to UUID.randomUUID())) {
+    launch(logContext("run" to randomUUID())) {
         logger.info { "Start" }
         repeat(2) { c ->
             logger.info { e(">> {Counter}", c + 1) }

@@ -28,7 +28,7 @@ import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 
-class JsonConfigurationTest : DescribeSpec({
+internal class JsonConfigurationTest : DescribeSpec({
     describe("Configuration from JSON") {
         describe("simple configuration using built-in renderers and dispatchers") {
             val simpleJsonConfig = """
