@@ -21,6 +21,12 @@ package io.klogging.config
 import io.klogging.Level
 import io.klogging.dispatching.DispatchString
 import io.klogging.rendering.RenderString
+import kotlin.native.concurrent.ThreadLocal
+
+internal const val CONFIG_LOGGER = "Configuration"
+
+@ThreadLocal
+internal var kloggingLogLevel: Level = Level.INFO
 
 /**
  * Klogging configuration for a runtime.
@@ -29,6 +35,14 @@ public object KloggingConfiguration {
 
     internal val sinks = mutableMapOf<String, SinkConfiguration>()
     internal val configs = mutableListOf<LoggingConfig>()
+
+    /**
+     * DSL function to set minimum logging level for Klogging itself.
+     */
+    @ConfigDsl
+    public fun kloggingLevel(level: Level) {
+        kloggingLogLevel = level
+    }
 
     /**
      * DSL function to specify a sink where log events can be dispatched.

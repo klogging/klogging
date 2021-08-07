@@ -19,14 +19,8 @@
 package io.klogging.config
 
 import io.klogging.Level
-import io.klogging.dispatching.DispatchString
-import io.klogging.dispatching.STDERR
-import io.klogging.dispatching.STDOUT
+import io.klogging.internal.debug
 import io.klogging.internal.warn
-import io.klogging.rendering.RENDER_CLEF
-import io.klogging.rendering.RENDER_GELF
-import io.klogging.rendering.RENDER_SIMPLE
-import io.klogging.rendering.RenderString
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromString
@@ -38,6 +32,7 @@ import kotlinx.serialization.json.Json
 @Serializable
 public data class JsonConfiguration(
     val append: Boolean = false,
+    val kloggingLevel: Level = Level.INFO,
     val sinks: Map<String, JsonSinkConfiguration>,
     val logging: List<JsonLoggingConfig>,
 )
@@ -110,7 +105,7 @@ internal fun readConfig(configJson: String): JsonConfiguration? =
     try {
         Json.decodeFromString(configJson)
     } catch (ex: SerializationException) {
-        warn("Configuration", "Exception parsing JSON configuration", ex)
+        warn(CONFIG_LOGGER, "Exception parsing JSON configuration", ex)
         null
     }
 
@@ -118,36 +113,18 @@ internal fun readConfig(configJson: String): JsonConfiguration? =
  * Load [KloggingConfiguration] from JSON configuration string.
  */
 public fun configureFromJson(configJson: String) {
+    debug(CONFIG_LOGGER, "Reading config from '$configJson'")
     readConfig(configJson)?.let { config ->
         if (!config.append) KloggingConfiguration.reset()
         config.sinks.forEach { entry ->
             entry.value.toSinkConfiguration()?.let {
+                debug(CONFIG_LOGGER, "Setting sink `${entry.key}` with ${entry.value}")
                 KloggingConfiguration.sinks[entry.key] = it
             }
         }
         config.logging.forEach { logging ->
+            debug(CONFIG_LOGGER, "Adding logging config $logging")
             KloggingConfiguration.configs.add(logging.toLoggingConfig())
         }
     }
-}
-
-/**
- * Map of built-in renderers by name.
- */
-internal val BUILT_IN_RENDERERS: Map<String, RenderString> by lazy {
-    mapOf(
-        "RENDER_SIMPLE" to RENDER_SIMPLE,
-        "RENDER_CLEF" to RENDER_CLEF,
-        "RENDER_GELF" to RENDER_GELF,
-    )
-}
-
-/**
- * Map of built-in dispatchers by name.
- */
-internal val BUILT_IN_DISPATCHERS: Map<String, DispatchString> by lazy {
-    mapOf(
-        "STDOUT" to STDOUT,
-        "STDERR" to STDERR,
-    )
 }

@@ -19,6 +19,7 @@
 package io.klogging.internal
 
 import io.klogging.Level
+import io.klogging.config.kloggingLogLevel
 import io.klogging.dispatching.STDERR
 import io.klogging.dispatching.STDOUT
 import io.klogging.events.LogEvent
@@ -26,7 +27,7 @@ import io.klogging.rendering.RenderString
 import io.klogging.rendering.localString
 
 internal val RENDER_INTERNAL: RenderString = { e: LogEvent ->
-    "${e.timestamp.localString} ${e.level} : ${e.message}" +
+    "${e.timestamp.localString} ${e.level} [${e.context}] : ${e.message}" +
         if (e.items.isNotEmpty()) " : ${e.items}" else "" +
             if (e.stackTrace != null) "\n${e.stackTrace}" else ""
 }
@@ -41,6 +42,7 @@ public fun log(
     message: String,
     exception: Exception? = null
 ) {
+    if (level < kloggingLogLevel) return
     val event = LogEvent(
         logger = loggerName,
         level = level,

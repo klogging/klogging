@@ -30,6 +30,17 @@ import io.kotest.matchers.shouldNotBe
 
 class JsonConfigurationTest : DescribeSpec({
     describe("Configuration from JSON") {
+        describe("invalid JSON") {
+            it("does not configure anything") {
+                KloggingConfiguration.reset()
+                configureFromJson("{\"key\":\"value\"}")
+
+                with(KloggingConfiguration) {
+                    sinks shouldHaveSize 0
+                    configs shouldHaveSize 0
+                }
+            }
+        }
         describe("simple configuration using built-in renderers and dispatchers") {
             val simpleJsonConfig = """
                 {
