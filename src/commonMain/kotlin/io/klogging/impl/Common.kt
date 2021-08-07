@@ -19,7 +19,7 @@
 package io.klogging.impl
 
 import io.klogging.BaseLogger
-import io.klogging.events.Level
+import io.klogging.Level
 import io.klogging.events.LogEvent
 import io.klogging.events.currentContext
 import kotlinx.datetime.Clock

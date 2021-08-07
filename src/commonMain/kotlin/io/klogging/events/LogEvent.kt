@@ -18,6 +18,7 @@
 
 package io.klogging.events
 
+import io.klogging.Level
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 

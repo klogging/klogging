@@ -18,7 +18,6 @@
 
 package io.klogging
 
-import io.klogging.events.Level
 import io.klogging.events.LogEvent
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe

@@ -18,10 +18,10 @@
 
 package io.klogging.config
 
+import io.klogging.Level
 import io.klogging.config.KloggingConfiguration.minimumLevelOf
 import io.klogging.dispatching.STDERR
 import io.klogging.dispatching.STDOUT
-import io.klogging.events.Level
 import io.klogging.randomLevel
 import io.klogging.randomString
 import io.klogging.rendering.RENDER_CLEF

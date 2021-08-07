@@ -16,7 +16,7 @@
 
 */
 
-package io.klogging
+package io.klogging.impl
 
 import io.klogging.dispatching.Dispatcher.dispatchEvent
 import io.klogging.events.LogEvent

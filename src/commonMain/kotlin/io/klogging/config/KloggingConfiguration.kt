@@ -18,8 +18,8 @@
 
 package io.klogging.config
 
+import io.klogging.Level
 import io.klogging.dispatching.DispatchString
-import io.klogging.events.Level
 import io.klogging.rendering.RenderString
 
 /**

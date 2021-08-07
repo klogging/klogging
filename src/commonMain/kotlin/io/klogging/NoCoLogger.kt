@@ -18,7 +18,6 @@
 
 package io.klogging
 
-import io.klogging.events.Level
 import io.klogging.events.LogEvent
 
 /**
