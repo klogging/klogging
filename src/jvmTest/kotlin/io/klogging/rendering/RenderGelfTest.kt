@@ -29,7 +29,10 @@ class RenderGelfTest : DescribeSpec({
     describe("render a `LogEvent` to GELF") {
         it("includes logger name as _logger") {
             val ts = timestampNow()
-            val event = LogEvent(ts, "test.local", "Test", null, Level.INFO, null, "Message", null, mapOf())
+            val event = LogEvent(
+                randomString(), ts, "test.local", "Test", null, Level.INFO,
+                null, "Message", null, mapOf()
+            )
 
             RENDER_GELF(event) shouldBe """{
                 |"version":"1.1",
@@ -44,7 +47,10 @@ class RenderGelfTest : DescribeSpec({
     it("includes full_message with `stackTrace` if present") {
         val ts = timestampNow()
         val trace = randomString()
-        val event = LogEvent(ts, "test.local", "Test", null, Level.INFO, null, "Message", trace, mapOf())
+        val event = LogEvent(
+            randomString(), ts, "test.local", "Test", null, Level.INFO,
+            null, "Message", trace, mapOf()
+        )
 
         RENDER_GELF(event) shouldBe """{
                 |"version":"1.1",

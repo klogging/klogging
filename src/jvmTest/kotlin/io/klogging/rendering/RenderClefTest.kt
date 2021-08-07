@@ -30,7 +30,10 @@ class RenderClefTest : DescribeSpec({
     describe("Render a `LogEvent` to CLEF") {
         it("omits @x if `stackTrace` is null") {
             val ts = timestampNow()
-            val event = LogEvent(ts, "test.local", "Test", currentContext(), Level.INFO, null, "Message", null, mapOf())
+            val event = LogEvent(
+                randomString(), ts, "test.local", "Test", currentContext(), Level.INFO,
+                null, "Message", null, mapOf()
+            )
 
             RENDER_CLEF(event) shouldBe """{
             |"@t":"${event.timestamp}",
@@ -45,7 +48,10 @@ class RenderClefTest : DescribeSpec({
             val ts = timestampNow()
             val trace = randomString()
             val event =
-                LogEvent(ts, "test.local", "Test", currentContext(), Level.INFO, null, "Message", trace, mapOf())
+                LogEvent(
+                    randomString(), ts, "test.local", "Test", currentContext(), Level.INFO,
+                    null, "Message", trace, mapOf()
+                )
 
             RENDER_CLEF(event) shouldBe """{
             |"@t":"${event.timestamp}",
@@ -59,7 +65,10 @@ class RenderClefTest : DescribeSpec({
         }
         it("includes @m but not @mt if `template` is null") {
             val ts = timestampNow()
-            val event = LogEvent(ts, "test.local", "Test", currentContext(), Level.INFO, null, "Message", null, mapOf())
+            val event = LogEvent(
+                randomString(), ts, "test.local", "Test", currentContext(), Level.INFO,
+                null, "Message", null, mapOf()
+            )
 
             RENDER_CLEF(event) shouldBe """{
             |"@t":"${event.timestamp}",
@@ -74,8 +83,8 @@ class RenderClefTest : DescribeSpec({
             val ts = timestampNow()
             val id = randomString()
             val event = LogEvent(
-                ts, "test.local", "Test", currentContext(), Level.INFO, "Id={Id}", "Id={Id}", null,
-                mapOf("Id" to id)
+                randomString(), ts, "test.local", "Test", currentContext(), Level.INFO,
+                "Id={Id}", "Id={Id}", null, mapOf("Id" to id)
             )
 
             RENDER_CLEF(event) shouldBe """{
@@ -90,7 +99,10 @@ class RenderClefTest : DescribeSpec({
         }
         it("omits context if the event `context` is null") {
             val ts = timestampNow()
-            val event = LogEvent(ts, "test.local", "Test", null, Level.INFO, null, "Message", null, mapOf())
+            val event = LogEvent(
+                randomString(), ts, "test.local", "Test", null, Level.INFO,
+                null, "Message", null, mapOf()
+            )
 
             RENDER_CLEF(event) shouldBe """{
             |"@t":"${event.timestamp}",
