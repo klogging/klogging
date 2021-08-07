@@ -30,7 +30,7 @@ import kotlinx.serialization.json.Json
  * Data class for JSON representation of [KloggingConfiguration].
  *
  * Fields are optional so that when `append` is specified, only new configuration
- * needs to be added.
+ * needs to be included in the JSON.
  */
 @Serializable
 public data class JsonConfiguration(
@@ -68,6 +68,7 @@ public data class JsonLoggingConfig(
     internal fun toLoggingConfig(): LoggingConfig {
         val config = LoggingConfig()
         when {
+            // `exactLogger` has priority over `fromLoggerBase`
             exactLogger != null -> config.exactLogger(exactLogger)
             fromLoggerBase != null -> config.fromLoggerBase(fromLoggerBase)
             // else will match all loggers by default
@@ -88,8 +89,10 @@ public data class JsonLevelRange(
 ) {
     internal fun toLevelRange(): LevelRange {
         val range = when {
+            // `atLevel` has priority over `fromMinLevel`
             atLevel != null -> LevelRange(atLevel, atLevel)
             fromMinLevel != null -> LevelRange(fromMinLevel, Level.FATAL)
+            // All levels
             else -> LevelRange(Level.TRACE, Level.FATAL)
         }
         range.sinkNames.addAll(toSinks)
@@ -108,7 +111,7 @@ internal fun readConfig(configJson: String): JsonConfiguration? =
     try {
         Json { ignoreUnknownKeys = true }.decodeFromString(configJson)
     } catch (ex: SerializationException) {
-        warn(KLOGGING_LOGGER, "Exception parsing JSON configuration", ex)
+        warn("Exception parsing JSON configuration", ex)
         null
     }
 
@@ -121,12 +124,12 @@ public fun configureFromJson(configJson: String) {
         if (config.kloggingLevel != null) kloggingLogLevel = config.kloggingLevel
         config.sinks.forEach { entry ->
             entry.value.toSinkConfiguration()?.let {
-                debug(KLOGGING_LOGGER, "Setting sink `${entry.key}` with ${entry.value}")
+                debug("Setting sink `${entry.key}` with ${entry.value}")
                 KloggingConfiguration.sinks[entry.key] = it
             }
         }
         config.logging.forEach { logging ->
-            debug(KLOGGING_LOGGER, "Adding logging config $logging")
+            debug("Adding logging config $logging")
             KloggingConfiguration.configs.add(logging.toLoggingConfig())
         }
     }

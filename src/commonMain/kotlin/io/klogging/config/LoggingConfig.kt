@@ -38,7 +38,7 @@ public data class LevelRange(
     @ConfigDsl
     public fun toSink(sinkName: String) {
         if (sinkName in KloggingConfiguration.sinks) sinkNames += sinkName
-        else warn(KLOGGING_LOGGER, "Sink `$sinkName` has not been defined and will be ignored")
+        else warn("Sink `$sinkName` has not been defined and will be ignored")
     }
 }
 

@@ -23,8 +23,6 @@ import io.klogging.dispatching.DispatchString
 import io.klogging.rendering.RenderString
 import kotlin.native.concurrent.ThreadLocal
 
-internal const val KLOGGING_LOGGER = "Klogging"
-
 /**
  * Set the default Klogging log level from the environment using name
  * [ENV_KLOGGING_LOG_LEVEL] if present, else default to [Level.INFO].

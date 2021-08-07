@@ -26,6 +26,8 @@ import io.klogging.events.LogEvent
 import io.klogging.rendering.RenderString
 import io.klogging.rendering.localString
 
+private const val KLOGGING_LOGGER = "Klogging"
+
 internal val RENDER_INTERNAL: RenderString = { e: LogEvent ->
     "${e.timestamp.localString} ${e.level} [${e.context}] : ${e.logger} : ${e.message}" +
         if (e.items.isNotEmpty()) " : ${e.items}" else "" +
@@ -37,14 +39,13 @@ internal val RENDER_INTERNAL: RenderString = { e: LogEvent ->
  * configuration.
  */
 public fun log(
-    loggerName: String,
     level: Level,
     message: String,
     exception: Exception? = null
 ) {
     if (level < kloggingLogLevel) return
     val event = LogEvent(
-        logger = loggerName,
+        logger = KLOGGING_LOGGER,
         level = level,
         message = message,
         stackTrace = exception?.stackTraceToString(),
@@ -54,33 +55,29 @@ public fun log(
 }
 
 public fun debug(
-    loggerName: String,
     message: String,
     exception: Exception? = null
 ) {
-    log(loggerName, Level.DEBUG, message, exception)
+    log(Level.DEBUG, message, exception)
 }
 
 public fun info(
-    loggerName: String,
     message: String,
     exception: Exception? = null
 ) {
-    log(loggerName, Level.INFO, message, exception)
+    log(Level.INFO, message, exception)
 }
 
 public fun warn(
-    loggerName: String,
     message: String,
     exception: Exception? = null
 ) {
-    log(loggerName, Level.WARN, message, exception)
+    log(Level.WARN, message, exception)
 }
 
 public fun error(
-    loggerName: String,
     message: String,
     exception: Exception? = null
 ) {
-    log(loggerName, Level.ERROR, message, exception)
+    log(Level.ERROR, message, exception)
 }
