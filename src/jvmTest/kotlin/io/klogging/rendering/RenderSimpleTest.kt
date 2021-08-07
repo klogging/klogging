@@ -36,8 +36,10 @@ class RenderSimpleTest : DescribeSpec({
 
         it("includes items only if they are present") {
             val ts = timestampNow()
-            val event = LogEvent(ts, "test.local", "Test", "test-thread", Level.WARN, null, "Message", null,
-                mapOf("colour" to "green"))
+            val event = LogEvent(
+                ts, "test.local", "Test", "test-thread", Level.WARN, null, "Message", null,
+                mapOf("colour" to "green")
+            )
 
             RENDER_SIMPLE(event) shouldBe "${ts.localString} WARN [test-thread] Test : Message : {colour=green}"
         }
