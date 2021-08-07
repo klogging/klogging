@@ -18,6 +18,7 @@
 
 package io.klogging.events
 
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
 /**
@@ -26,13 +27,13 @@ import kotlinx.datetime.Instant
  */
 public data class LogEvent(
     /** When the event occurred, to microsecond or better precision. */
-    val timestamp: Instant,
+    val timestamp: Instant = Clock.System.now(),
     /** Host where the event occurred. */
     val host: String = hostname,
     /** Name of the logger that emitted the event. */
     val logger: String,
     /** Name of the thread or similar context identifier where the event was emitted. */
-    val context: String? = null,
+    val context: String? = currentContext(),
     /** Severity [Level] of the event. */
     val level: Level,
     /** [Message template](https://messagetemplates.org), if any, used to construct the message. */
@@ -40,14 +41,14 @@ public data class LogEvent(
     /** Message describing the event. */
     val message: String,
     /** String stack trace information that may be included if an exception is associated with the event. */
-    val stackTrace: String?,
+    val stackTrace: String? = null,
     /**
      * Map of items current at the time of the event, to be displayed as structured data.
      *
      * If the message string was constructed from a template, there is one item per
      * hole in the template.
      */
-    val items: Map<String, Any?>,
+    val items: Map<String, Any?> = mapOf(),
 )
 
 /**

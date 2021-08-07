@@ -22,6 +22,7 @@ import io.klogging.dispatching.DispatchString
 import io.klogging.dispatching.STDERR
 import io.klogging.dispatching.STDOUT
 import io.klogging.events.Level
+import io.klogging.internal.warn
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RENDER_GELF
 import io.klogging.rendering.RENDER_SIMPLE
@@ -109,7 +110,7 @@ internal fun readConfig(configJson: String): JsonConfiguration? =
     try {
         Json.decodeFromString(configJson)
     } catch (ex: SerializationException) {
-        // klWarn(ex, "Exception reading configuration from {json}", json)
+        warn("Configuration", "Exception parsing JSON configuration", ex)
         null
     }
 

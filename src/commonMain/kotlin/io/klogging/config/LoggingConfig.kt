@@ -19,6 +19,7 @@
 package io.klogging.config
 
 import io.klogging.events.Level
+import io.klogging.internal.warn
 
 /**
  * Inclusive range of logging levels with the names of sinks where events will be dispatched.
@@ -37,8 +38,7 @@ public data class LevelRange(
     @ConfigDsl
     public fun toSink(sinkName: String) {
         if (sinkName in KloggingConfiguration.sinks) sinkNames += sinkName
-        // TODO create an internal console logger for this and similar messages.
-        else println("WARN: sink $sinkName has not been defined and will be ignored")
+        else warn("Configuration", "Sink `$sinkName` has not been defined and will be ignored")
     }
 }
 
