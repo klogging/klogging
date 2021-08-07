@@ -117,7 +117,7 @@ internal fun readConfig(configJson: String): JsonConfiguration? =
 /**
  * Load [KloggingConfiguration] from JSON configuration string.
  */
-internal fun configureFromJson(configJson: String) {
+public fun configureFromJson(configJson: String) {
     readConfig(configJson)?.let { config ->
         if (!config.append) KloggingConfiguration.reset()
         config.sinks.forEach { entry ->
