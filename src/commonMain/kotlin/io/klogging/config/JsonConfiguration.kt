@@ -36,7 +36,7 @@ import kotlinx.serialization.json.Json
 @Serializable
 public data class JsonConfiguration(
     val append: Boolean = false,
-    val kloggingLevel: Level? = null,
+    val kloggingMinLogLevel: Level? = null,
     val sinks: Map<String, JsonSinkConfiguration> = mapOf(),
     val logging: List<JsonLoggingConfig> = listOf(),
 )
@@ -123,7 +123,7 @@ public fun configureFromJson(configJson: String) {
     readConfig(configJson)?.let { config ->
         info("Reading JSON configuration") // TODO: move this logging into reading from file with name
         if (!config.append) KloggingConfiguration.reset()
-        if (config.kloggingLevel != null) kloggingLogLevel = config.kloggingLevel
+        if (config.kloggingMinLogLevel != null) kloggingMinLogLevel = config.kloggingMinLogLevel
         config.sinks.forEach { entry ->
             entry.value.toSinkConfiguration()?.let {
                 debug("Setting sink `${entry.key}` with ${entry.value}")

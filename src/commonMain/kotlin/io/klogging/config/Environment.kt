@@ -18,7 +18,7 @@
 
 package io.klogging.config
 
-internal const val ENV_KLOGGING_LOG_LEVEL = "KLOGGING_LOG_LEVEL"
+internal const val ENV_KLOGGING_MIN_LOG_LEVEL = "KLOGGING_MIN_LOG_LEVEL"
 
 internal expect fun getenv(): Map<String, String>
 
