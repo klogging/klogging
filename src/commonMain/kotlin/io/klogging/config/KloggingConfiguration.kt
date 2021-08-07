@@ -54,12 +54,12 @@ public object KloggingConfiguration {
     }
 
     /**
-     * DSL function to add a logging configuration specified in [configBlog].
+     * DSL function to add a logging configuration specified in [configBlock].
      */
     @ConfigDsl
-    public fun logging(configBlog: LoggingConfig.() -> Unit) {
+    public fun logging(configBlock: LoggingConfig.() -> Unit) {
         val loggingConfig = LoggingConfig()
-        loggingConfig.apply(configBlog)
+        loggingConfig.apply(configBlock)
         configs.add(loggingConfig)
     }
 
