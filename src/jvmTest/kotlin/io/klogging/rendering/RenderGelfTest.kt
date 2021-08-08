@@ -22,6 +22,7 @@ import io.klogging.Level.INFO
 import io.klogging.events.LogEvent
 import io.klogging.events.timestampNow
 import io.klogging.randomString
+import io.klogging.syslog
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 
@@ -39,7 +40,7 @@ class RenderGelfTest : DescribeSpec({
                 |"host":"${event.host}",
                 |"short_message":"${event.message}",
                 |"timestamp":${ts.graylogFormat()},
-                |"level":${graylogLevel(INFO)},
+                |"level":${INFO.syslog},
                 |"_logger":"${event.logger}"
                 |}""".trimMargin().replace("\n", "")
         }
@@ -58,7 +59,7 @@ class RenderGelfTest : DescribeSpec({
                 |"short_message":"${event.message}",
                 |"full_message":"$trace",
                 |"timestamp":${ts.graylogFormat()},
-                |"level":${graylogLevel(INFO)},
+                |"level":${INFO.syslog},
                 |"_logger":"${event.logger}"
                 |}""".trimMargin().replace("\n", "")
     }
