@@ -35,7 +35,7 @@ internal val defaultKloggingMinLogLevel: Level = try {
 } catch (ex: Exception) { INFO }
 
 @ThreadLocal
-internal var kloggingMinLogLevel: Level = defaultKloggingMinLogLevel
+internal var threadKloggingMinLogLevel: Level = defaultKloggingMinLogLevel
 
 /**
  * Root DSL function for creating a [KloggingConfiguration].
@@ -63,7 +63,7 @@ public object KloggingConfiguration {
      */
     @ConfigDsl
     public fun kloggingMinLevel(minLevel: Level) {
-        kloggingMinLogLevel = minLevel
+        threadKloggingMinLogLevel = minLevel
     }
 
     /**
@@ -107,7 +107,7 @@ public object KloggingConfiguration {
 
     /** Clear all configurations and reset default Klogging log level. */
     internal fun reset() {
-        kloggingMinLogLevel = defaultKloggingMinLogLevel
+        threadKloggingMinLogLevel = defaultKloggingMinLogLevel
         sinks.clear()
         configs.clear()
     }

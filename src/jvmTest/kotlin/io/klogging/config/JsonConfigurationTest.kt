@@ -123,13 +123,13 @@ internal class JsonConfigurationTest : DescribeSpec({
             it("is not changed if not set in JSON") {
                 configureFromJson("""{}""")
 
-                kloggingMinLogLevel shouldBe INFO
+                threadKloggingMinLogLevel shouldBe INFO
             }
             it("is changed if set in JSON") {
-                kloggingMinLogLevel = INFO
+                threadKloggingMinLogLevel = INFO
                 configureFromJson("""{"kloggingMinLogLevel":"DEBUG"}""")
 
-                kloggingMinLogLevel shouldBe DEBUG
+                threadKloggingMinLogLevel shouldBe DEBUG
             }
         }
     }

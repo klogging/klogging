@@ -31,7 +31,7 @@ import kotlinx.datetime.toLocalDateTime
 public val Instant.localString: String
     get() = toLocalDateTime(TimeZone.currentSystemDefault())
         .toString()
-        .replaceFirst('T', ' ')
+        .replace('T', ' ')
 
 /**
  * Simple implementation of [RenderString] for output to a console, mostly on one line.
