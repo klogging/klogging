@@ -104,6 +104,17 @@ fun Project.configureSpotless(ktlintVersion: String) {
             indentWithSpaces()
             endWithNewline()
         }
+
+        java {
+            target("src/**/*.java")
+
+            @Suppress("INACCESSIBLE_TYPE")
+            licenseHeader(kotlinLicenceHeader)
+
+            trimTrailingWhitespace()
+            indentWithSpaces()
+            endWithNewline()
+        }
     }
 
     tasks.named("spotlessKotlinCheck") {

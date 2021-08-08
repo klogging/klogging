@@ -118,13 +118,11 @@ public fun configureFromJson(configJson: String) {
     readConfig(configJson)?.let { (append, kloggingLevel, sinks, logging) ->
         info("Reading JSON configuration") // TODO: move this logging into reading from file with name
         if (!append) KloggingConfiguration.reset()
-        // TODO: Is the next line correct?  upstream/main had
-        //  "kloggingLogLevel", which does not compile
         if (kloggingLevel != null) kloggingMinLogLevel = kloggingLevel
-        sinks.forEach { (key, value) ->
-            value.toSinkConfiguration()?.let {
-                debug("Setting sink `$key` with $value")
-                KloggingConfiguration.sinks[key] = it
+        sinks.forEach { entry ->
+            entry.value.toSinkConfiguration()?.let {
+                debug("Setting sink `${entry.key}` with ${entry.value}")
+                KloggingConfiguration.sinks[entry.key] = it
             }
         }
         logging.forEach {
