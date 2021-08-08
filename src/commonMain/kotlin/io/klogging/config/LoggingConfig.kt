@@ -19,6 +19,8 @@
 package io.klogging.config
 
 import io.klogging.Level
+import io.klogging.Level.FATAL
+import io.klogging.Level.TRACE
 import io.klogging.internal.warn
 
 /**
@@ -87,7 +89,7 @@ public class LoggingConfig {
         minLevel: Level,
         configBlock: LevelRange.() -> Unit
     ) {
-        val range = LevelRange(minLevel, Level.FATAL)
+        val range = LevelRange(minLevel, FATAL)
         range.apply(configBlock)
         if (range.sinkNames.isNotEmpty()) ranges.add(range)
     }
@@ -112,7 +114,7 @@ public class LoggingConfig {
      */
     @ConfigDsl
     public fun toSink(sinkName: String) {
-        val range = LevelRange(Level.TRACE, Level.FATAL)
+        val range = LevelRange(TRACE, FATAL)
         range.toSink(sinkName)
         if (range.sinkNames.isNotEmpty()) ranges.add(range)
     }

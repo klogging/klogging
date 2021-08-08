@@ -18,7 +18,11 @@
 
 package io.klogging.config
 
-import io.klogging.Level
+import io.klogging.Level.DEBUG
+import io.klogging.Level.FATAL
+import io.klogging.Level.INFO
+import io.klogging.Level.NONE
+import io.klogging.Level.WARN
 import io.klogging.config.KloggingConfiguration.minimumLevelOf
 import io.klogging.dispatching.STDERR
 import io.klogging.dispatching.STDOUT
@@ -80,7 +84,7 @@ internal class KloggingConfigurationTest : DescribeSpec({
                     logging {
                         sink("console", STDOUT_SIMPLE)
                         fromLoggerBase("com.example")
-                        fromMinLevel(Level.INFO) {
+                        fromMinLevel(INFO) {
                             toSink("console")
                             toSink("logstash")
                         }
@@ -105,13 +109,13 @@ internal class KloggingConfigurationTest : DescribeSpec({
                         // Log everything from `com.example` base.
                         fromLoggerBase("com.example")
                         // INFO level only.
-                        atLevel(Level.INFO) {
+                        atLevel(INFO) {
                             // To both standard out and Seq.
                             toSink("stdout")
                             toSink("seq")
                         }
                         // WARN level and above (more severe).
-                        fromMinLevel(Level.WARN) {
+                        fromMinLevel(WARN) {
                             // To both standard error and Seq.
                             toSink("stderr")
                             toSink("seq")
@@ -121,7 +125,7 @@ internal class KloggingConfigurationTest : DescribeSpec({
                         // Exact logger name (e.g. one class).
                         exactLogger("com.example.service.FancyService")
                         // Log from DEBUG to Seq.
-                        fromMinLevel(Level.DEBUG) { toSink("seq") }
+                        fromMinLevel(DEBUG) { toSink("seq") }
                     }
                 }
 
@@ -135,13 +139,13 @@ internal class KloggingConfigurationTest : DescribeSpec({
                     with(configs.first()) {
                         nameMatch shouldBe Regex("^com.example.*")
                         ranges shouldHaveSize 2
-                        ranges.first() shouldBe LevelRange(Level.INFO, Level.INFO)
+                        ranges.first() shouldBe LevelRange(INFO, INFO)
                         with(ranges.first()) {
                             sinkNames shouldHaveSize 2
                             sinkNames.first() shouldBe "stdout"
                             sinkNames.last() shouldBe "seq"
                         }
-                        ranges.last() shouldBe LevelRange(Level.WARN, Level.FATAL)
+                        ranges.last() shouldBe LevelRange(WARN, FATAL)
                         with(ranges.last()) {
                             sinkNames shouldHaveSize 2
                             sinkNames.first() shouldBe "stderr"
@@ -151,7 +155,7 @@ internal class KloggingConfigurationTest : DescribeSpec({
                     with(configs.last()) {
                         nameMatch shouldBe Regex("^com.example.service.FancyService\$")
                         ranges shouldHaveSize 1
-                        ranges.first() shouldBe LevelRange(Level.DEBUG, Level.FATAL)
+                        ranges.first() shouldBe LevelRange(DEBUG, FATAL)
                         with(ranges.first()) {
                             sinkNames shouldHaveSize 1
                             sinkNames.first() shouldBe "seq"
@@ -165,7 +169,7 @@ internal class KloggingConfigurationTest : DescribeSpec({
                     sink("stderr", RENDER_SIMPLE, STDERR)
                     logging {
                         exactLogger("Test")
-                        atLevel(Level.WARN) { toSink("stderr") }
+                        atLevel(WARN) { toSink("stderr") }
                     }
                 }
 
@@ -179,11 +183,11 @@ internal class KloggingConfigurationTest : DescribeSpec({
             beforeTest { KloggingConfiguration.reset() }
 
             it("returns NONE if there is no configuration") {
-                minimumLevelOf(randomString()) shouldBe Level.NONE
+                minimumLevelOf(randomString()) shouldBe NONE
             }
             it("returns INFO from the default console configuration") {
                 loggingConfiguration { defaultConsole() }
-                minimumLevelOf(randomString()) shouldBe Level.INFO
+                minimumLevelOf(randomString()) shouldBe INFO
             }
             it("returns the level of a single configuration that matches the logger name") {
                 val name = randomString()
@@ -202,20 +206,20 @@ internal class KloggingConfigurationTest : DescribeSpec({
                 val name = randomString()
                 loggingConfiguration {
                     sink("stdout", RENDER_SIMPLE, STDOUT)
-                    logging { atLevel(Level.WARN) { toSink("stdout") } }
-                    logging { exactLogger(name); atLevel(Level.INFO) { toSink("stdout") } }
+                    logging { atLevel(WARN) { toSink("stdout") } }
+                    logging { exactLogger(name); atLevel(INFO) { toSink("stdout") } }
                 }
 
-                minimumLevelOf(name) shouldBe Level.INFO
+                minimumLevelOf(name) shouldBe INFO
             }
             it("returns NONE if no configurations match the event name") {
                 val name = randomString()
                 loggingConfiguration {
                     sink("stdout", RENDER_SIMPLE, STDOUT)
-                    logging { exactLogger(name); atLevel(Level.INFO) { toSink("stdout") } }
+                    logging { exactLogger(name); atLevel(INFO) { toSink("stdout") } }
                 }
 
-                minimumLevelOf(randomString()) shouldBe Level.NONE
+                minimumLevelOf(randomString()) shouldBe NONE
             }
         }
     }

@@ -18,6 +18,11 @@
 
 package io.klogging
 
+import io.klogging.Level.DEBUG
+import io.klogging.Level.INFO
+import io.klogging.Level.NONE
+import io.klogging.Level.TRACE
+import io.klogging.Level.WARN
 import io.klogging.events.LogEvent
 import io.klogging.events.hostname
 import io.klogging.template.templateItems
@@ -27,7 +32,7 @@ import io.kotest.matchers.shouldBe
 import java.time.Instant
 
 class TestLogger(
-    private val minLevel: Level = Level.TRACE
+    private val minLevel: Level = TRACE
 ) : Klogger {
 
     override val name: String = "TestLogger"
@@ -43,7 +48,7 @@ class TestLogger(
 
     override suspend fun e(template: String, vararg values: Any?): LogEvent =
         LogEvent(
-            randomString(), timestampNow(), hostname, "TestLogger", Thread.currentThread().name, Level.NONE,
+            randomString(), timestampNow(), hostname, "TestLogger", Thread.currentThread().name, NONE,
             template, template, null, templateItems(template, *values).mapValues { e -> e.value.toString() }
         )
 }
@@ -57,7 +62,7 @@ class KloggerTest : DescribeSpec({
             it("logs a string message") {
                 val message = randomString()
                 with(TestLogger()) {
-                    log(Level.INFO, message)
+                    log(INFO, message)
                     logged shouldBe message
                 }
             }
@@ -65,7 +70,7 @@ class KloggerTest : DescribeSpec({
                 val message = randomString()
                 val exception = TestException(randomString())
                 with(TestLogger()) {
-                    log(Level.WARN, exception, message)
+                    log(WARN, exception, message)
                     except shouldBe exception
                     logged shouldBe message
                 }
@@ -89,7 +94,7 @@ class KloggerTest : DescribeSpec({
             it("logs an object") {
                 val thing = Instant.now()
                 with(TestLogger()) {
-                    log(Level.DEBUG, thing)
+                    log(DEBUG, thing)
                     logged shouldBe thing
                 }
             }
@@ -97,7 +102,7 @@ class KloggerTest : DescribeSpec({
                 val thing = listOf(randomString(), randomString())
                 val exception = TestException(randomString())
                 with(TestLogger()) {
-                    log(Level.WARN, exception, thing)
+                    log(WARN, exception, thing)
                     except shouldBe exception
                     logged shouldBe thing
                 }

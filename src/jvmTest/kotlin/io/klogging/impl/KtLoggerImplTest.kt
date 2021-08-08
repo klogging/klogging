@@ -18,7 +18,8 @@
 
 package io.klogging.impl
 
-import io.klogging.Level
+import io.klogging.Level.ERROR
+import io.klogging.Level.WARN
 import io.klogging.logEvent
 import io.klogging.logger
 import io.klogging.randomString
@@ -53,7 +54,7 @@ class KtLoggerImplTest : DescribeSpec({
                     timestamp shouldBe event.timestamp
                     host shouldBe event.host
                     logger shouldBe event.logger
-                    level shouldBe Level.WARN
+                    level shouldBe WARN
                     template shouldBe event.template
                     message shouldBe event.message
                     stackTrace shouldBe event.stackTrace
@@ -72,7 +73,7 @@ class KtLoggerImplTest : DescribeSpec({
                     timestamp shouldBe event.timestamp
                     host shouldBe event.host
                     logger shouldBe event.logger
-                    level shouldBe Level.ERROR
+                    level shouldBe ERROR
                     template shouldBe event.template
                     message shouldBe event.message
                     stackTrace shouldBe exception.stackTraceToString()

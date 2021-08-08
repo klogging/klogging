@@ -18,6 +18,7 @@
 
 package io.klogging
 
+import io.klogging.Level.INFO
 import io.klogging.config.loggingConfiguration
 import io.klogging.config.seq
 import io.klogging.context.logContext
@@ -40,7 +41,7 @@ suspend fun main() = coroutineScope {
         logging {
             exactLogger("Playpen")
             toSink("seq")
-            fromMinLevel(Level.INFO) {
+            fromMinLevel(INFO) {
                 toSink("stdout")
             }
         }

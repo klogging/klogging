@@ -18,7 +18,8 @@
 
 package io.klogging.rendering
 
-import io.klogging.Level
+import io.klogging.Level.INFO
+import io.klogging.Level.WARN
 import io.klogging.events.LogEvent
 import io.klogging.randomString
 import io.klogging.timestampNow
@@ -30,7 +31,7 @@ class RenderSimpleTest : DescribeSpec({
         it("omits null stack trace") {
             val ts = timestampNow()
             val event = LogEvent(
-                randomString(), ts, "test.local", "Test", "test-thread", Level.INFO,
+                randomString(), ts, "test.local", "Test", "test-thread", INFO,
                 null, "Message", null, mapOf()
             )
 
@@ -40,7 +41,7 @@ class RenderSimpleTest : DescribeSpec({
         it("includes items only if they are present") {
             val ts = timestampNow()
             val event = LogEvent(
-                randomString(), ts, "test.local", "Test", "test-thread", Level.WARN,
+                randomString(), ts, "test.local", "Test", "test-thread", WARN,
                 null, "Message", null, mapOf("colour" to "green")
             )
 
@@ -51,7 +52,7 @@ class RenderSimpleTest : DescribeSpec({
             val ts = timestampNow()
             val stackTrace = "${randomString()}\n${randomString()}\n${randomString()}"
             val event = LogEvent(
-                randomString(), ts, "test.local", "Test", "test-thread", Level.INFO,
+                randomString(), ts, "test.local", "Test", "test-thread", INFO,
                 null, "Message", stackTrace, mapOf()
             )
 

@@ -18,7 +18,7 @@
 
 package io.klogging.rendering
 
-import io.klogging.Level
+import io.klogging.Level.INFO
 import io.klogging.events.LogEvent
 import io.klogging.randomString
 import io.klogging.timestampNow
@@ -30,7 +30,7 @@ class RenderGelfTest : DescribeSpec({
         it("includes logger name as _logger") {
             val ts = timestampNow()
             val event = LogEvent(
-                randomString(), ts, "test.local", "Test", null, Level.INFO,
+                randomString(), ts, "test.local", "Test", null, INFO,
                 null, "Message", null, mapOf()
             )
 
@@ -39,7 +39,7 @@ class RenderGelfTest : DescribeSpec({
                 |"host":"${event.host}",
                 |"short_message":"${event.message}",
                 |"timestamp":${ts.graylogFormat()},
-                |"level":${graylogLevel(Level.INFO)},
+                |"level":${graylogLevel(INFO)},
                 |"_logger":"${event.logger}"
                 |}""".trimMargin().replace("\n", "")
         }
@@ -48,7 +48,7 @@ class RenderGelfTest : DescribeSpec({
         val ts = timestampNow()
         val trace = randomString()
         val event = LogEvent(
-            randomString(), ts, "test.local", "Test", null, Level.INFO,
+            randomString(), ts, "test.local", "Test", null, INFO,
             null, "Message", trace, mapOf()
         )
 
@@ -58,7 +58,7 @@ class RenderGelfTest : DescribeSpec({
                 |"short_message":"${event.message}",
                 |"full_message":"$trace",
                 |"timestamp":${ts.graylogFormat()},
-                |"level":${graylogLevel(Level.INFO)},
+                |"level":${graylogLevel(INFO)},
                 |"_logger":"${event.logger}"
                 |}""".trimMargin().replace("\n", "")
     }

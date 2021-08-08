@@ -19,6 +19,13 @@
 package io.klogging.rendering
 
 import io.klogging.Level
+import io.klogging.Level.DEBUG
+import io.klogging.Level.ERROR
+import io.klogging.Level.FATAL
+import io.klogging.Level.INFO
+import io.klogging.Level.NONE
+import io.klogging.Level.TRACE
+import io.klogging.Level.WARN
 import io.klogging.events.LogEvent
 import kotlinx.datetime.Instant
 
@@ -63,11 +70,11 @@ public fun Instant.graylogFormat(): String {
  * 0=Emergency,1=Alert,2=Critical,3=Error,4=Warning,5=Notice,6=Informational,7=Debug
  */
 public fun graylogLevel(level: Level): Int = when (level) {
-    Level.NONE -> 7
-    Level.TRACE -> 7
-    Level.DEBUG -> 7
-    Level.INFO -> 6
-    Level.WARN -> 4
-    Level.ERROR -> 3
-    Level.FATAL -> 2
+    NONE -> 7
+    TRACE -> 7
+    DEBUG -> 7
+    INFO -> 6
+    WARN -> 4
+    ERROR -> 3
+    FATAL -> 2
 }
