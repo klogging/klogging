@@ -19,7 +19,6 @@
 package io.klogging.dispatching
 
 import io.klogging.Level
-import io.klogging.config.KloggingConfiguration
 import io.klogging.config.defaultConsole
 import io.klogging.config.loggingConfiguration
 import io.klogging.randomLevel
@@ -30,11 +29,6 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 
 internal class DispatcherTest : DescribeSpec({
-    /** @todo Why reset each test?  This is a smell around use of globals */
-    beforeTest {
-        KloggingConfiguration.reset()
-    }
-
     describe("sinksFor() function") {
         describe("when no loggers are configured") {
             it("returns no sinks") {

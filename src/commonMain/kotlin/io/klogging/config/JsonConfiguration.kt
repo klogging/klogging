@@ -115,10 +115,10 @@ internal fun readConfig(configJson: String): JsonConfiguration? =
 
 /** Load [KloggingConfiguration] from JSON configuration string. */
 public fun configureFromJson(configJson: String) {
-    readConfig(configJson)?.let { (append, kloggingMinLogLevel, sinks, logging) ->
+    readConfig(configJson)?.let { (append, configKloggingMinLogLevel, sinks, logging) ->
         info("Reading JSON configuration") // TODO: move this logging into reading from file with name
         if (!append) KloggingConfiguration.reset()
-        if (kloggingMinLogLevel != null) threadKloggingMinLogLevel = kloggingMinLogLevel
+        if (configKloggingMinLogLevel != null) kloggingMinLogLevel = configKloggingMinLogLevel
         sinks.forEach { (key, value) ->
             value.toSinkConfiguration()?.let {
                 debug("Setting sink `$key` with $value")
