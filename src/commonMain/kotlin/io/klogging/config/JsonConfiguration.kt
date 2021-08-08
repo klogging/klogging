@@ -43,17 +43,11 @@ public data class JsonConfiguration(
 
 /** Data class for JSON representation of a [SinkConfiguration]. */
 @Serializable
-public data class JsonSinkConfiguration(
-    val renderWith: String?,
-    val dispatchTo: String?,
-) {
+public data class JsonSinkConfiguration(val renderWith: String?, val dispatchTo: String?) {
     internal fun toSinkConfiguration(): SinkConfiguration? {
         val renderer = BUILT_IN_RENDERERS[renderWith]
         val dispatcher = BUILT_IN_DISPATCHERS[dispatchTo]
-        return if (renderer != null && dispatcher != null) SinkConfiguration(
-            renderer,
-            dispatcher
-        )
+        return if (renderer != null && dispatcher != null) SinkConfiguration(renderer, dispatcher)
         else null
     }
 }
