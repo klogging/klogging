@@ -34,7 +34,8 @@ public val Instant.localString: String
         .replace('T', ' ')
 
 /**
- * Simple implementation of [RenderString] for output to a console, mostly on one line.
+ * Simple implementation of [RenderString] for output to the standard output stream, mostly on one
+ * line.
  *
  * If there is a stack trace it is on second and following lines.
  */
