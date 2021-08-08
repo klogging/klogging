@@ -20,9 +20,30 @@ package io.klogging
 
 import io.klogging.events.LogEvent
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 
-class LevelsTestLogger(private val level: Level) : Klogger {
+internal class LevelsTest : DescribeSpec({
+    describe("at all logger levels") {
+        it("`log()` calls `logMessage()` for all levels") {
+            Level.values().forEach { loggerLevel ->
+                val logger = LevelsTestLogger(loggerLevel)
+                Level.values().forEach { eventLevel ->
+                    randomString().let { message ->
+                        logger.log(eventLevel, message)
+
+                        if (!logger.isLevelEnabled(eventLevel))
+                            logger.loggedMessage.shouldBeNull()
+                        else
+                            logger.loggedMessage shouldBe message
+                    }
+                }
+            }
+        }
+    }
+})
+
+private class LevelsTestLogger(private val level: Level) : Klogger {
     override val name = "LevelsTestLogger"
 
     override fun minLevel() = level
@@ -37,19 +58,3 @@ class LevelsTestLogger(private val level: Level) : Klogger {
         TODO("Not yet implemented")
     }
 }
-
-class LevelsTest : DescribeSpec({
-    describe("at all logger levels") {
-        it("`log()` calls `logMessage()` for all levels") {
-            Level.values().forEach { loggerLevel ->
-                val logger = LevelsTestLogger(loggerLevel)
-                Level.values().forEach { eventLevel ->
-                    randomString().let { msg ->
-                        logger.log(eventLevel, msg)
-                        logger.loggedMessage shouldBe msg
-                    }
-                }
-            }
-        }
-    }
-})

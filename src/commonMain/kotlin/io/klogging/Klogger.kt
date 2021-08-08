@@ -30,34 +30,43 @@ import io.klogging.events.LogEvent
  * Logger interface for sending log events inside coroutines.
  */
 public interface Klogger : BaseLogger {
-
     public suspend fun emitEvent(level: Level, exception: Exception?, event: Any?)
 
-    public suspend fun log(level: Level, exception: Exception, event: Any?): Unit =
+    public suspend fun log(level: Level, exception: Exception, event: Any?) {
+        if (!isLevelEnabled(level)) return
         emitEvent(level, exception, event)
+    }
 
-    public suspend fun log(level: Level, event: Any?): Unit =
+    public suspend fun log(level: Level, event: Any?) {
+        if (!isLevelEnabled(level)) return
         emitEvent(level, null, event)
+    }
 
     public suspend fun log(
         level: Level,
         exception: Exception,
         template: String,
         vararg values: Any?
-    ): Unit =
+    ) {
+        if (!isLevelEnabled(level)) return
         if (values.isEmpty()) emitEvent(level, exception, template)
         else emitEvent(level, exception, e(template, *values))
+    }
 
-    public suspend fun log(level: Level, template: String, vararg values: Any?): Unit =
+    public suspend fun log(level: Level, template: String, vararg values: Any?) {
+        if (!isLevelEnabled(level)) return
         if (values.isEmpty()) emitEvent(level, null, template)
         else emitEvent(level, null, e(template, *values))
+    }
 
     public suspend fun log(level: Level, exception: Exception, event: suspend Klogger.() -> Any?) {
-        if (isLevelEnabled(level)) emitEvent(level, exception, event())
+        if (!isLevelEnabled(level)) return
+        emitEvent(level, exception, event())
     }
 
     public suspend fun log(level: Level, event: suspend Klogger.() -> Any?) {
-        if (isLevelEnabled(level)) emitEvent(level, null, event())
+        if (!isLevelEnabled(level)) return
+        emitEvent(level, null, event())
     }
 
     public suspend fun trace(event: Any?): Unit = log(TRACE, event)
