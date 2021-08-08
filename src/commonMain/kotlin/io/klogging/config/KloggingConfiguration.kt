@@ -34,6 +34,22 @@ internal val defaultKloggingMinLogLevel: Level = try {
     getenv(ENV_KLOGGING_MIN_LOG_LEVEL)?.let { Level.valueOf(it) } ?: INFO
 } catch (ex: Exception) { INFO }
 
+/**
+ * As a general rule, global thread locals are a strong anti-pattern.  They make testing difficult
+ * and fragile, make reproducing production issues additionally challenging, impede programmer
+ * understanding and comprehension of control flow, and lead to various smells in architecture.
+ * They tend to be a source of subtle bugs both in the library, and in caller misuse.
+ *
+ * See kdoc for [ThreadLocal]:
+ * ```
+ * The annotation has effect only in Kotlin/Native platform.
+ * PLEASE NOTE THAT THIS ANNOTATION MAY GO AWAY IN UPCOMING RELEASES.
+ * ```
+ *
+ * @todo Replace with a better mechanism such as an instance object.  For simple usage in a typical
+ *       program, this should be "invisible".  For more complex programs, other mechanisms would
+ *       support caller's choice of logging context including varying minimum log levels
+ */
 @ThreadLocal
 internal var kloggingMinLogLevel: Level = defaultKloggingMinLogLevel
 
