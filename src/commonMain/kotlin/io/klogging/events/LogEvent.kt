@@ -19,7 +19,7 @@
 package io.klogging.events
 
 import io.klogging.Level
-import kotlinx.datetime.Clock
+import io.klogging.timestampNow
 import kotlinx.datetime.Instant
 import kotlin.random.Random
 import kotlin.random.nextULong
@@ -29,10 +29,14 @@ import kotlin.random.nextULong
  * a program.
  */
 public data class LogEvent(
-    /** Unique identifier for this event. */
+    /**
+     * Unique identifier for this event.
+     *
+     * @todo Why not a UUID?  Perhaps explanatory text on the rational for an unsigned long?
+     */
     val id: String = Random.nextULong().toString(16),
     /** When the event occurred, to microsecond or better precision. */
-    val timestamp: Instant = Clock.System.now(),
+    val timestamp: Instant = timestampNow(),
     /** Host where the event occurred. */
     val host: String = hostname,
     /** Name of the logger that emitted the event. */

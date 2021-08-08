@@ -53,7 +53,7 @@ loggingConfiguration {
         // Exact logger name (e.g. one class).
         exactLogger("com.example.service.FancyService")
         // Log from DEBUG to Seq.
-        fromMinLevel(Level.DEBUG) { to Sink("seq") }
+        fromMinLevel(DEBUG) { to Sink("seq") }
     }
     logging {
         // Log all audit events.

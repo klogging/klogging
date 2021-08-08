@@ -29,7 +29,9 @@ import io.klogging.template.templateItems
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.shouldBe
-import java.time.Instant
+import kotlinx.datetime.Instant
+import java.lang.Thread.currentThread
+import kotlin.time.ExperimentalTime
 
 class TestLogger(
     private val minLevel: Level = TRACE
@@ -48,13 +50,22 @@ class TestLogger(
 
     override suspend fun e(template: String, vararg values: Any?): LogEvent =
         LogEvent(
-            randomString(), timestampNow(), hostname, "TestLogger", Thread.currentThread().name, NONE,
-            template, template, null, templateItems(template, *values).mapValues { e -> e.value.toString() }
+            randomString(),
+            timestampNow(),
+            hostname,
+            "TestLogger",
+            currentThread().name,
+            NONE,
+            template,
+            template,
+            null,
+            templateItems(template, *values).mapValues { e -> e.value.toString() }
         )
 }
 
 class TestException(message: String) : Exception(message)
 
+@OptIn(ExperimentalTime::class)
 class KloggerTest : DescribeSpec({
 
     describe("KtLogger") {
@@ -92,7 +103,7 @@ class KloggerTest : DescribeSpec({
                 }
             }
             it("logs an object") {
-                val thing = Instant.now()
+                val thing = timestampNow()
                 with(TestLogger()) {
                     log(DEBUG, thing)
                     logged shouldBe thing
@@ -115,7 +126,9 @@ class KloggerTest : DescribeSpec({
                 }
             }
             it("logs an object in a lambda with an exception") {
-                val thing = setOf(Instant.now().minusSeconds(5), Instant.now())
+                // Capture once rather than call twice: Avoid a flaky test if the process sleeps
+                val now: Instant = timestampNow()
+                val thing = setOf(now.minusSeconds(5), now)
                 val exception = TestException(randomString())
                 with(TestLogger()) {
                     error(exception) { thing }

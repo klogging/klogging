@@ -21,18 +21,19 @@ package io.klogging.config
 internal const val ENV_KLOGGING_MIN_LOG_LEVEL = "KLOGGING_MIN_LOG_LEVEL"
 internal const val ENV_KLOGGING_CONFIG_JSON_PATH = "KLOGGING_CONFIG_JSON_PATH"
 
+/**
+ * This function should be `private`, but as it is implemented in multiplatform, must be `internal`.
+ * Do not call this function directly outside this file.
+ *
+ * @see [ENV]
+ */
 internal expect fun getenv(): Map<String, String>
 
+/** A map of operating system environment variables and values for the current process. */
 internal val ENV: Map<String, String> by lazy { getenv() }
 
-/**
- * Return the value of an item in the running environment, or
- * `null` if the name is not found.
- */
+/** Returns the value of an item in the running environment, or `null` if the name is not found. */
 public fun getenv(name: String): String? = ENV[name]
 
-/**
- * Return the value of an item in the running environment, or
- * a default value if not found.
- */
+/** Returns the value of an item in the running environment, or a default value if not found. */
 public fun getenv(name: String, default: String): String = ENV[name] ?: default

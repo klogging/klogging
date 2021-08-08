@@ -68,6 +68,8 @@ public fun Instant.graylogFormat(): String {
  * Map [Level]s to syslog levels used by Graylog:
  *
  * 0=Emergency,1=Alert,2=Critical,3=Error,4=Warning,5=Notice,6=Informational,7=Debug
+ *
+ * See [syslog(7)](https://www.man7.org/linux/man-pages/man3/syslog.3.html)
  */
 public fun graylogLevel(level: Level): Int = when (level) {
     NONE -> 7
@@ -76,5 +78,5 @@ public fun graylogLevel(level: Level): Int = when (level) {
     INFO -> 6
     WARN -> 4
     ERROR -> 3
-    FATAL -> 2
+    FATAL -> 2 // TODO: Why "critical" and not "alert"?  Perhaps explanatory text in the kdoc?
 }
