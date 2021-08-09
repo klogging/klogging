@@ -41,14 +41,9 @@ public data class JsonConfiguration(
     val logging: List<JsonLoggingConfig> = listOf(),
 )
 
-/**
- * Data class for JSON representation of a [SinkConfiguration].
- */
+/** Data class for JSON representation of a [SinkConfiguration]. */
 @Serializable
-public data class JsonSinkConfiguration(
-    val renderWith: String?,
-    val dispatchTo: String?,
-) {
+public data class JsonSinkConfiguration(val renderWith: String?, val dispatchTo: String?) {
     internal fun toSinkConfiguration(): SinkConfiguration? {
         val renderer = BUILT_IN_RENDERERS[renderWith]
         val dispatcher = BUILT_IN_DISPATCHERS[dispatchTo]
@@ -57,9 +52,7 @@ public data class JsonSinkConfiguration(
     }
 }
 
-/**
- * Data class for JSON representation of a [LoggingConfig].
- */
+/** Data class for JSON representation of a [LoggingConfig]. */
 @Serializable
 public data class JsonLoggingConfig(
     val fromLoggerBase: String? = null,
@@ -79,9 +72,7 @@ public data class JsonLoggingConfig(
     }
 }
 
-/**
- * Data class for JSON representation of a [LevelRange].
- */
+/** Data class for JSON representation of a [LevelRange]. */
 @Serializable
 public data class JsonLevelRange(
     val fromMinLevel: Level? = null,
@@ -116,23 +107,21 @@ internal fun readConfig(configJson: String): JsonConfiguration? =
         null
     }
 
-/**
- * Load [KloggingConfiguration] from JSON configuration string.
- */
+/** Load [KloggingConfiguration] from JSON configuration string. */
 public fun configureFromJson(configJson: String) {
-    readConfig(configJson)?.let { config ->
+    readConfig(configJson)?.let { (append, configKloggingMinLogLevel, sinks, logging) ->
         info("Reading JSON configuration") // TODO: move this logging into reading from file with name
-        if (!config.append) KloggingConfiguration.reset()
-        if (config.kloggingMinLogLevel != null) kloggingMinLogLevel = config.kloggingMinLogLevel
-        config.sinks.forEach { entry ->
-            entry.value.toSinkConfiguration()?.let {
-                debug("Setting sink `${entry.key}` with ${entry.value}")
-                KloggingConfiguration.sinks[entry.key] = it
+        if (!append) KloggingConfiguration.reset()
+        if (configKloggingMinLogLevel != null) kloggingMinLogLevel = configKloggingMinLogLevel
+        sinks.forEach { (key, value) ->
+            value.toSinkConfiguration()?.let {
+                debug("Setting sink `$key` with $value")
+                KloggingConfiguration.sinks[key] = it
             }
         }
-        config.logging.forEach { logging ->
-            debug("Adding logging config $logging")
-            KloggingConfiguration.configs.add(logging.toLoggingConfig())
+        logging.forEach {
+            debug("Adding logging config $it")
+            KloggingConfiguration.configs.add(it.toLoggingConfig())
         }
     }
 }

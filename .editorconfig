@@ -1,0 +1,7 @@
+[**]
+end_of_line = lf
+max_line_length = 100
+
+[*.{kt, kts}]
+# Oh, the irony.  IntelliJ insists on sorting java* imports last
+disabled_rules = import-ordering

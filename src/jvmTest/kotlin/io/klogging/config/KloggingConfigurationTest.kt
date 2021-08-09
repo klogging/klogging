@@ -35,8 +35,7 @@ import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.shouldBe
 
-class KloggingConfigurationTest : DescribeSpec({
-
+internal class KloggingConfigurationTest : DescribeSpec({
     beforeTest {
         KloggingConfiguration.reset()
     }

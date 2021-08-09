@@ -19,6 +19,10 @@
 package io.klogging.internal
 
 import io.klogging.Level
+import io.klogging.Level.DEBUG
+import io.klogging.Level.ERROR
+import io.klogging.Level.INFO
+import io.klogging.Level.WARN
 import io.klogging.config.kloggingMinLogLevel
 import io.klogging.dispatching.STDERR
 import io.klogging.dispatching.STDOUT
@@ -50,34 +54,22 @@ public fun log(
         message = message,
         stackTrace = exception?.stackTraceToString(),
     )
-    if (level <= Level.INFO) STDOUT(RENDER_INTERNAL(event))
+    if (level <= INFO) STDOUT(RENDER_INTERNAL(event))
     else STDERR(RENDER_INTERNAL(event))
 }
 
-public fun debug(
-    message: String,
-    exception: Exception? = null
-) {
-    log(Level.DEBUG, message, exception)
+public fun debug(message: String, exception: Exception? = null) {
+    log(DEBUG, message, exception)
 }
 
-public fun info(
-    message: String,
-    exception: Exception? = null
-) {
-    log(Level.INFO, message, exception)
+public fun info(message: String, exception: Exception? = null) {
+    log(INFO, message, exception)
 }
 
-public fun warn(
-    message: String,
-    exception: Exception? = null
-) {
-    log(Level.WARN, message, exception)
+public fun warn(message: String, exception: Exception? = null) {
+    log(WARN, message, exception)
 }
 
-public fun error(
-    message: String,
-    exception: Exception? = null
-) {
-    log(Level.ERROR, message, exception)
+public fun error(message: String, exception: Exception? = null) {
+    log(ERROR, message, exception)
 }

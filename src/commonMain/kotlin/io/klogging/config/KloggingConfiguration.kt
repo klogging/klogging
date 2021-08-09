@@ -19,6 +19,8 @@
 package io.klogging.config
 
 import io.klogging.Level
+import io.klogging.Level.INFO
+import io.klogging.Level.NONE
 import io.klogging.dispatching.DispatchString
 import io.klogging.internal.info
 import io.klogging.rendering.RenderString
@@ -26,11 +28,11 @@ import kotlin.native.concurrent.ThreadLocal
 
 /**
  * Set the default Klogging log level from the environment using name
- * [ENV_KLOGGING_MIN_LOG_LEVEL] if present, else default to [Level.INFO].
+ * [ENV_KLOGGING_MIN_LOG_LEVEL] if present, else default to [INFO].
  */
 internal val defaultKloggingMinLogLevel: Level = try {
-    getenv(ENV_KLOGGING_MIN_LOG_LEVEL)?.let { Level.valueOf(it) } ?: Level.INFO
-} catch (ex: Exception) { Level.INFO }
+    getenv(ENV_KLOGGING_MIN_LOG_LEVEL)?.let { Level.valueOf(it) } ?: INFO
+} catch (ex: Exception) { INFO }
 
 @ThreadLocal
 internal var kloggingMinLogLevel: Level = defaultKloggingMinLogLevel
@@ -101,11 +103,9 @@ public object KloggingConfiguration {
     public fun minimumLevelOf(loggerName: String): Level = configs
         .filter { it.nameMatch.matches(loggerName) }
         .flatMap { it.ranges }
-        .minOfOrNull { it.minLevel } ?: Level.NONE
+        .minOfOrNull { it.minLevel } ?: NONE
 
-    /**
-     * Clear all configurations and reset default Klogging log level.
-     * */
+    /** Clear all configurations and reset default Klogging log level. */
     internal fun reset() {
         kloggingMinLogLevel = defaultKloggingMinLogLevel
         sinks.clear()

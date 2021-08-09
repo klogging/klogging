@@ -19,7 +19,6 @@
 package io.klogging.dispatching
 
 import io.klogging.Level
-import io.klogging.config.KloggingConfiguration
 import io.klogging.config.defaultConsole
 import io.klogging.config.loggingConfiguration
 import io.klogging.randomLevel
@@ -29,12 +28,7 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 
-class DispatcherTest : DescribeSpec({
-
-    beforeTest {
-        KloggingConfiguration.reset()
-    }
-
+internal class DispatcherTest : DescribeSpec({
     describe("sinksFor() function") {
         describe("when no loggers are configured") {
             it("returns no sinks") {
