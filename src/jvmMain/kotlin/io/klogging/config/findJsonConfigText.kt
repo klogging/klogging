@@ -18,21 +18,18 @@
 
 package io.klogging.config
 
-internal const val ENV_KLOGGING_MIN_LOG_LEVEL = "KLOGGING_MIN_LOG_LEVEL"
-internal const val ENV_KLOGGING_CONFIG_JSON_PATH = "KLOGGING_CONFIG_JSON_PATH"
-
-internal expect fun getenv(): Map<String, String>
-
-internal val ENV: Map<String, String> by lazy { getenv() }
+import java.io.File
+import kotlin.text.Charsets.UTF_8
 
 /**
- * Return the value of an item in the running environment, or
- * `null` if the name is not found.
+ * Look for the JSON configuration file in one of two places:
+ * 1. specified by the environment variable [ENV_KLOGGING_CONFIG_JSON_PATH]; or
+ * 2. called [JSON_CONFIG_FILENAME] in the classpath.
+ *
+ * If found, return the contents as UTF-8 text; else return `null`.
  */
-public fun getenv(name: String): String? = ENV[name]
-
-/**
- * Return the value of an item in the running environment, or
- * a default value if not found.
- */
-public fun getenv(name: String, default: String): String = ENV[name] ?: default
+public actual fun findJsonConfigText(): String? =
+    getenv(ENV_KLOGGING_CONFIG_JSON_PATH)
+        ?.let { File(it) }
+        ?.let { if (it.exists()) it.readText(UTF_8) else null }
+        ?: JSON_CONFIG_FILENAME::class.java.getResource(JSON_CONFIG_FILENAME)?.readText(UTF_8)

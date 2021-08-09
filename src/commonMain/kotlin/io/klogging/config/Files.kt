@@ -18,21 +18,8 @@
 
 package io.klogging.config
 
-internal const val ENV_KLOGGING_MIN_LOG_LEVEL = "KLOGGING_MIN_LOG_LEVEL"
-internal const val ENV_KLOGGING_CONFIG_JSON_PATH = "KLOGGING_CONFIG_JSON_PATH"
+/** Name of the JSON configuration file on the classpath. */
+internal const val JSON_CONFIG_FILENAME: String = "klogging.json"
 
-internal expect fun getenv(): Map<String, String>
-
-internal val ENV: Map<String, String> by lazy { getenv() }
-
-/**
- * Return the value of an item in the running environment, or
- * `null` if the name is not found.
- */
-public fun getenv(name: String): String? = ENV[name]
-
-/**
- * Return the value of an item in the running environment, or
- * a default value if not found.
- */
-public fun getenv(name: String, default: String): String = ENV[name] ?: default
+/** Find a JSON configuration file and read its contents, if found. */
+public expect fun findJsonConfigText(): String?
