@@ -19,6 +19,7 @@
 package io.klogging.config
 
 import io.klogging.internal.info
+import io.klogging.internal.warn
 import java.io.File
 import kotlin.text.Charsets.UTF_8
 
@@ -45,13 +46,18 @@ internal fun readResourceText(resourcePath: String): String? =
  *
  * If found, return the contents as UTF-8 text; else return `null`.
  */
-public actual fun findJsonConfigText(): String? =
-    getenv(ENV_KLOGGING_CONFIG_JSON_PATH)
+public actual fun findJsonConfigText(): String? {
+    val filePath = getenv(ENV_KLOGGING_CONFIG_JSON_PATH)
+    return filePath
         ?.let { File(it) }
         ?.let {
             if (it.exists()) {
-                info("Reading JSON configuration from ${it.name}")
+                info("Reading JSON configuration from $filePath")
                 it.readText(UTF_8)
-            } else null
+            } else {
+                warn("Specified JSON configuration file $filePath not found")
+                null
+            }
         }
         ?: readResourceText(JSON_CONFIG_FILENAME)
+}
