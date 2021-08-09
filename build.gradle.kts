@@ -95,6 +95,12 @@ kotlin {
     }
 }
 
+// Explicitly set a file copying strategy so `klogging.json` in the jvmTest module
+// will copy correctly for tests to run.
+// This might be a workaround for a bug in Gradle Kotlin scripts, see:
+// https://youtrack.jetbrains.com/issue/KT-46165
+tasks.withType<ProcessResources> { duplicatesStrategy = DuplicatesStrategy.INCLUDE }
+
 configureAssemble()
 configureJacoco(jacocoVersion)
 configurePublishing()

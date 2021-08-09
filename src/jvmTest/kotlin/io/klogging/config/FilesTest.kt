@@ -18,14 +18,15 @@
 
 package io.klogging.config
 
-/** Name of the JSON configuration file on the classpath. */
-internal const val JSON_CONFIG_FILENAME: String = "klogging.json"
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldNotBe
 
-/** Find a JSON configuration file and read its contents, if found. */
-public expect fun findJsonConfigText(): String?
+internal class FilesTest : DescribeSpec({
+    describe("Configuration files") {
+        it("should find `klogging.json` on the classpath") {
+            val jsonText = findJsonConfigText()
 
-/** Attempt to automatically load configuration from a file. */
-public val configLoadedFromFile: Boolean = findJsonConfigText()?.let {
-    configureFromJson(it)
-    true
-} ?: false
+            jsonText shouldNotBe null
+        }
+    }
+})

@@ -18,8 +18,25 @@
 
 package io.klogging.config
 
+import io.klogging.internal.info
 import java.io.File
 import kotlin.text.Charsets.UTF_8
+
+/**
+ * Read the contents of a file on the classpath as UTF-8 text.
+ *
+ * @param resourcePath path to the resource
+ * @return the text in the file, or `null` if the file is not found.
+ */
+internal fun readResourceText(resourcePath: String): String? =
+    // Not 100% sure if using the system classloader will always work.
+    ClassLoader.getSystemClassLoader()
+        .getResourceAsStream(resourcePath)
+        ?.bufferedReader(UTF_8)
+        ?.let {
+            info("Reading JSON configuration from $resourcePath on the classpath")
+            it.readText()
+        }
 
 /**
  * Look for the JSON configuration file in one of two places:
@@ -31,5 +48,10 @@ import kotlin.text.Charsets.UTF_8
 public actual fun findJsonConfigText(): String? =
     getenv(ENV_KLOGGING_CONFIG_JSON_PATH)
         ?.let { File(it) }
-        ?.let { if (it.exists()) it.readText(UTF_8) else null }
-        ?: JSON_CONFIG_FILENAME::class.java.getResource(JSON_CONFIG_FILENAME)?.readText(UTF_8)
+        ?.let {
+            if (it.exists()) {
+                info("Reading JSON configuration from ${it.name}")
+                it.readText(UTF_8)
+            } else null
+        }
+        ?: readResourceText(JSON_CONFIG_FILENAME)

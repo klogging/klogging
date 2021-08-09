@@ -1,0 +1,1 @@
+{"sinks": {"stdout": {"renderWith": "RENDER_SIMPLE", "dispatchTo": "STDOUT"}}, "logging": [{"levelRanges": [{"fromMinLevel": "INFO", "toSinks": ["stdout"]}]}]}
