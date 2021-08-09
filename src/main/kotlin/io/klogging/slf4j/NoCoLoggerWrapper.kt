@@ -39,7 +39,7 @@ class NoCoLoggerWrapper(
     }
 
     override fun trace(format: String?, arg1: Any?, arg2: Any?) {
-        if (format != null) noCoLogger.log(Level.TRACE, format, arrayOf(arg1, arg2))
+        if (format != null) noCoLogger.log(Level.TRACE, format, arg1, arg2)
     }
 
     override fun trace(format: String?, vararg arguments: Any?) {
@@ -68,7 +68,7 @@ class NoCoLoggerWrapper(
     }
 
     override fun debug(format: String?, arg1: Any?, arg2: Any?) {
-        if (format != null) noCoLogger.log(Level.DEBUG, format, arrayOf(arg1, arg2))
+        if (format != null) noCoLogger.log(Level.DEBUG, format, arg1, arg2)
     }
 
     override fun debug(format: String?, vararg arguments: Any?) {
@@ -90,7 +90,7 @@ class NoCoLoggerWrapper(
     }
 
     override fun info(format: String?, arg1: Any?, arg2: Any?) {
-        if (format != null) noCoLogger.log(Level.INFO, format, arrayOf(arg1, arg2))
+        if (format != null) noCoLogger.log(Level.INFO, format, arg1, arg2)
     }
 
     override fun info(format: String?, vararg arguments: Any?) {
@@ -116,7 +116,7 @@ class NoCoLoggerWrapper(
     }
 
     override fun warn(format: String?, arg1: Any?, arg2: Any?) {
-        if (format != null) noCoLogger.log(Level.WARN, format, arrayOf(arg1, arg2))
+        if (format != null) noCoLogger.log(Level.WARN, format, arg1, arg2)
     }
 
     override fun warn(msg: String?, t: Throwable?) {
@@ -134,7 +134,7 @@ class NoCoLoggerWrapper(
     }
 
     override fun error(format: String?, arg1: Any?, arg2: Any?) {
-        if (format != null) noCoLogger.log(Level.ERROR, format, arrayOf(arg1, arg2))
+        if (format != null) noCoLogger.log(Level.ERROR, format, arg1, arg2)
     }
 
     override fun error(format: String?, vararg arguments: Any?) {
