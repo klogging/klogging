@@ -20,7 +20,6 @@ package io.klogging.config
 
 import io.klogging.Level
 import io.klogging.internal.debug
-import io.klogging.internal.info
 import io.klogging.internal.warn
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
