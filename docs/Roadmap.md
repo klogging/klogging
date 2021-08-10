@@ -19,6 +19,8 @@ In no particular order at this stage.
   than Seq. Consider library reuse rather than internal implementation.
 - Consider service loader discovery or similar patterns for 3rd-party
   integrations such as SLF4J so users only pull in relevant dependencies.
+- Consider turning `KloggingConfiguration` from a global singleton into a class and a default
+  function to return a common, shared instance.
 
 ## Additions to the library
 

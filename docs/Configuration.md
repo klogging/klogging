@@ -37,13 +37,13 @@ loggingConfiguration {
         // Log everything from `com.example` base.
         fromLoggerBase("com.example")
         // INFO level only.
-        atLevel(Level.INFO) {
+        atLevel(INFO) {
             // To both standard out and Seq.
             toSink("stdout")
             toSink("seq")
         }
         // WARN level and above (more severe).
-        fromMinLevel(Level.WARN) {
+        fromMinLevel(WARN) {
             // To both standard error and Seq.
             toSink("stderr")
             toSink("seq")
@@ -149,7 +149,7 @@ is written to the console and the configuration is ignored.
 An example:
 
 ```kotlin
-    fromMinLevel(Level.INFO) {
+    fromMinLevel(INFO) {
         toSink("console")
         toSink("seq")
     }
@@ -160,11 +160,11 @@ During dispatching, an event is never dispatched to a sink more than once. Given
 ```kotlin
     logging {
         fromLoggerBase("com.example")
-        fromMinLevel(Level.INFO) {
+        fromMinLevel(INFO) {
             toSink("stdout")
             toSink("seq")
         }
-        fromMinLevel(Level.WARN) {
+        fromMinLevel(WARN) {
             toSink("stderr")
             toSink("seq")
         }

@@ -19,6 +19,8 @@
 package io.klogging.config
 
 import io.klogging.Level
+import io.klogging.Level.FATAL
+import io.klogging.Level.TRACE
 import io.klogging.internal.debug
 import io.klogging.internal.warn
 import kotlinx.serialization.Serializable
@@ -82,9 +84,9 @@ public data class JsonLevelRange(
         val range = when {
             // `atLevel` has priority over `fromMinLevel`
             atLevel != null -> LevelRange(atLevel, atLevel)
-            fromMinLevel != null -> LevelRange(fromMinLevel, Level.FATAL)
+            fromMinLevel != null -> LevelRange(fromMinLevel, FATAL)
             // All levels
-            else -> LevelRange(Level.TRACE, Level.FATAL)
+            else -> LevelRange(TRACE, FATAL)
         }
         range.sinkNames.addAll(toSinks)
         return range

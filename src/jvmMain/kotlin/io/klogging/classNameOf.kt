@@ -20,7 +20,10 @@ package io.klogging
 
 import kotlin.reflect.KClass
 
-public actual fun classNameOf(ownerClass: KClass<*>): String? {
-    val ownerName = ownerClass.java.name
-    return if (ownerName.endsWith("\$Companion")) ownerName.substringBeforeLast('$') else ownerName
-}
+/**
+ * Notes:
+ * 1. The companion class can have a different name than "$Companion"
+ * 2. Kotlin reflection is only supported for JVM, not for JS
+ */
+public actual fun classNameOf(ownerClass: KClass<*>): String? =
+    if (ownerClass.isCompanion) ownerClass.java.enclosingClass.name else ownerClass.java.name

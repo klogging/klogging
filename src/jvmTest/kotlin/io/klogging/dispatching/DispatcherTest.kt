@@ -18,7 +18,11 @@
 
 package io.klogging.dispatching
 
-import io.klogging.Level
+import io.klogging.Level.DEBUG
+import io.klogging.Level.ERROR
+import io.klogging.Level.INFO
+import io.klogging.Level.TRACE
+import io.klogging.Level.WARN
 import io.klogging.config.defaultConsole
 import io.klogging.config.loggingConfiguration
 import io.klogging.randomLevel
@@ -38,7 +42,7 @@ internal class DispatcherTest : DescribeSpec({
         describe("with default console configuration") {
             it("returns the sink for INFO") {
                 loggingConfiguration { defaultConsole() }
-                val sinks = Dispatcher.sinksFor(randomString(), Level.INFO)
+                val sinks = Dispatcher.sinksFor(randomString(), INFO)
 
                 sinks shouldHaveSize 1
                 sinks.first().dispatcher shouldBe STDOUT
@@ -46,7 +50,7 @@ internal class DispatcherTest : DescribeSpec({
             }
             it("returns no sinks for DEBUG") {
                 loggingConfiguration { defaultConsole() }
-                Dispatcher.sinksFor(randomString(), Level.DEBUG) shouldHaveSize 0
+                Dispatcher.sinksFor(randomString(), DEBUG) shouldHaveSize 0
             }
         }
         describe("with base logger name configuration") {
@@ -55,18 +59,18 @@ internal class DispatcherTest : DescribeSpec({
                     sink("console", RENDER_SIMPLE, STDOUT)
                     logging {
                         fromLoggerBase("com.example.Thing")
-                        fromMinLevel(Level.DEBUG) { toSink("console") }
+                        fromMinLevel(DEBUG) { toSink("console") }
                     }
                 }
             }
             it("returns no sinks when the logger name is different to the configuration name") {
-                Dispatcher.sinksFor(randomString(), Level.DEBUG) shouldHaveSize 0
+                Dispatcher.sinksFor(randomString(), DEBUG) shouldHaveSize 0
             }
             it("returns the sink when the logger name matches the configuration name exactly") {
-                Dispatcher.sinksFor("com.example.Thing", Level.INFO) shouldHaveSize 1
+                Dispatcher.sinksFor("com.example.Thing", INFO) shouldHaveSize 1
             }
             it("returns the sink when the logger name starts with the configuration name") {
-                Dispatcher.sinksFor("com.example.Thing\$Subclass", Level.WARN) shouldHaveSize 1
+                Dispatcher.sinksFor("com.example.Thing\$Subclass", WARN) shouldHaveSize 1
             }
         }
         describe("with exact logger name configuration") {
@@ -75,18 +79,18 @@ internal class DispatcherTest : DescribeSpec({
                     sink("console", RENDER_SIMPLE, STDOUT)
                     logging {
                         exactLogger("com.example.OtherThing")
-                        fromMinLevel(Level.DEBUG) { toSink("console") }
+                        fromMinLevel(DEBUG) { toSink("console") }
                     }
                 }
             }
             it("returns no sinks when the logger name is different to the configuration name") {
-                Dispatcher.sinksFor(randomString(), Level.DEBUG) shouldHaveSize 0
+                Dispatcher.sinksFor(randomString(), DEBUG) shouldHaveSize 0
             }
             it("returns the sink when the logger name matches the configuration name exactly") {
-                Dispatcher.sinksFor("com.example.OtherThing", Level.INFO) shouldHaveSize 1
+                Dispatcher.sinksFor("com.example.OtherThing", INFO) shouldHaveSize 1
             }
             it("returns the sink when the logger name starts with the configuration name") {
-                Dispatcher.sinksFor("com.example.OtherThing\$Subclass", Level.WARN) shouldHaveSize 0
+                Dispatcher.sinksFor("com.example.OtherThing\$Subclass", WARN) shouldHaveSize 0
             }
         }
         describe("with minimum level specification") {
@@ -95,7 +99,7 @@ internal class DispatcherTest : DescribeSpec({
                     sink("stdout", RENDER_SIMPLE, STDOUT)
                     sink("stderr", RENDER_SIMPLE, STDERR)
                     logging {
-                        fromMinLevel(Level.INFO) {
+                        fromMinLevel(INFO) {
                             toSink("stdout")
                             toSink("stderr")
                         }
@@ -103,13 +107,13 @@ internal class DispatcherTest : DescribeSpec({
                 }
             }
             it("returns no sinks when the level is below the configured level") {
-                Dispatcher.sinksFor(randomString(), Level.TRACE) shouldHaveSize 0
+                Dispatcher.sinksFor(randomString(), TRACE) shouldHaveSize 0
             }
             it("returns the sinks when the level is at the configured level") {
-                Dispatcher.sinksFor(randomString(), Level.INFO) shouldHaveSize 2
+                Dispatcher.sinksFor(randomString(), INFO) shouldHaveSize 2
             }
             it("returns the sinks when the level is above the configured level") {
-                Dispatcher.sinksFor(randomString(), Level.ERROR) shouldHaveSize 2
+                Dispatcher.sinksFor(randomString(), ERROR) shouldHaveSize 2
             }
         }
     }

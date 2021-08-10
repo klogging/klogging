@@ -18,6 +18,7 @@
 
 package io.klogging
 
+import io.klogging.Level.TRACE
 import io.klogging.config.SinkConfiguration
 import io.klogging.config.loggingConfiguration
 import io.klogging.events.LogEvent
@@ -62,7 +63,7 @@ fun savedEvents(): MutableList<LogEvent> {
     val saveEventRenderer: RenderString = { e -> saved.add(e); "" }
     loggingConfiguration {
         sink("test", SinkConfiguration(saveEventRenderer) {})
-        logging { fromMinLevel(Level.TRACE) { toSink("test") } }
+        logging { fromMinLevel(TRACE) { toSink("test") } }
     }
     return saved
 }
