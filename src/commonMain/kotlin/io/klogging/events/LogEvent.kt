@@ -33,6 +33,7 @@ public data class LogEvent(
      * Unique identifier for this event.
      *
      * @todo Why not a UUID?  Perhaps explanatory text on the rational for an unsigned long?
+     * @todo Better would be something like a DB's auto-incrementing integer.  See chat discussion
      */
     val id: String = Random.nextULong().toString(16),
     /** When the event occurred, to microsecond or better precision. */
