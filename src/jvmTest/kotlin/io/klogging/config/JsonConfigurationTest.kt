@@ -43,7 +43,38 @@ internal class JsonConfigurationTest : DescribeSpec({
                 }
             }
         }
-        describe("simple configuration using built-in renderers and dispatchers") {
+        describe("simple, using built-in, named configuration") {
+            it("sets up the configuration") {
+                val simpleJsonConfig = """{ "configName": "DEFAULT_CONSOLE" }"""
+                configureFromJson(simpleJsonConfig)
+
+                with(KloggingConfiguration) {
+                    sinks shouldHaveSize 1
+                    sinks.keys.first() shouldBe "console"
+                    with(sinks.values.first()) {
+                        renderer shouldBe RENDER_SIMPLE
+                        dispatcher shouldBe STDOUT
+                    }
+                }
+            }
+            it("ignores any other configuration in the file") {
+                val jsonConfig = """
+                    {
+                      "configName":"DEFAULT_CONSOLE",
+                      "sinks": {
+                        "stdout": {
+                          "renderWith": "RENDER_SIMPLE",
+                          "dispatchTo": "STDOUT"
+                        }
+                      }
+                    }
+                """.trimIndent()
+                configureFromJson(jsonConfig)
+
+                KloggingConfiguration.sinks shouldHaveSize 1
+            }
+        }
+        describe("simple, using built-in, named renderers and dispatchers") {
             val simpleJsonConfig = """
                 {
                   "sinks": {

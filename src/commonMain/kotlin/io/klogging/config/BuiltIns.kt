@@ -26,9 +26,14 @@ import io.klogging.rendering.RENDER_GELF
 import io.klogging.rendering.RENDER_SIMPLE
 import io.klogging.rendering.RenderString
 
-/**
- * Map of built-in renderers by name.
- */
+/** Map of built-in configurations by name. */
+internal val BUILT_IN_CONFIGURATIONS: Map<String, KloggingConfiguration.() -> Unit> by lazy {
+    mapOf(
+        "DEFAULT_CONSOLE" to DEFAULT_CONSOLE,
+    )
+}
+
+/** Map of built-in renderers by name. */
 internal val BUILT_IN_RENDERERS: Map<String, RenderString> by lazy {
     mapOf(
         "RENDER_SIMPLE" to RENDER_SIMPLE,
@@ -37,9 +42,7 @@ internal val BUILT_IN_RENDERERS: Map<String, RenderString> by lazy {
     )
 }
 
-/**
- * Map of built-in dispatchers by name.
- */
+/** Map of built-in dispatchers by name. */
 internal val BUILT_IN_DISPATCHERS: Map<String, DispatchString> by lazy {
     mapOf(
         "STDOUT" to STDOUT,

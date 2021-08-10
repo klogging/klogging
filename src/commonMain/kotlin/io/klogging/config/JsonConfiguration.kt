@@ -36,6 +36,7 @@ import kotlinx.serialization.json.Json
  */
 @Serializable
 public data class JsonConfiguration(
+    val configName: String? = null,
     val append: Boolean = false,
     val kloggingMinLogLevel: Level? = null,
     val sinks: Map<String, JsonSinkConfiguration> = mapOf(),
@@ -110,18 +111,25 @@ internal fun readConfig(configJson: String): JsonConfiguration? =
 
 /** Load [KloggingConfiguration] from JSON configuration string. */
 public fun configureFromJson(configJson: String) {
-    readConfig(configJson)?.let { (append, configKloggingMinLogLevel, sinks, logging) ->
-        if (!append) KloggingConfiguration.reset()
-        if (configKloggingMinLogLevel != null) kloggingMinLogLevel = configKloggingMinLogLevel
-        sinks.forEach { (key, value) ->
-            value.toSinkConfiguration()?.let {
-                debug("Setting sink `$key` with $value")
-                KloggingConfiguration.sinks[key] = it
+    readConfig(configJson)?.let { (configName, append, configKloggingMinLogLevel, sinks, logging) ->
+        if (configName != null)
+            BUILT_IN_CONFIGURATIONS[configName]?.let { KloggingConfiguration.apply(it) }
+        else {
+            if (!append) KloggingConfiguration.reset()
+
+            if (configKloggingMinLogLevel != null) kloggingMinLogLevel = configKloggingMinLogLevel
+
+            sinks.forEach { (key, value) ->
+                value.toSinkConfiguration()?.let {
+                    debug("Setting sink `$key` with $value")
+                    KloggingConfiguration.sinks[key] = it
+                }
             }
-        }
-        logging.forEach {
-            debug("Adding logging config $it")
-            KloggingConfiguration.configs.add(it.toLoggingConfig())
+
+            logging.forEach {
+                debug("Adding logging config $it")
+                KloggingConfiguration.configs.add(it.toLoggingConfig())
+            }
         }
     }
 }
