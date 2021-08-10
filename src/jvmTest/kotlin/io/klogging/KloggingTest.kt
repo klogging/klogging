@@ -35,7 +35,6 @@ class KloggingTest : DescribeSpec({
         it("is the full name of the class when its named companion object implements Klogging") {
             ClassWithNamedImplementingCompanion.logger.name shouldBe "io.klogging.ClassWithNamedImplementingCompanion"
         }
-        // TODO: Pathological case of an inner class named "Companion"
         it("is the full name of the class that creates a property using the logger() function") {
             ClassWithLoggerProperty().logger.name shouldBe "io.klogging.ClassWithLoggerProperty"
         }
