@@ -27,7 +27,7 @@ public val STDOUT_SIMPLE: SinkConfiguration =
     SinkConfiguration(RENDER_SIMPLE, STDOUT)
 
 /** Simple default configuration for logging to the standard output stream. */
-public val defaultConsole: KloggingConfiguration.() -> Unit = {
+public val DEFAULT_CONSOLE: KloggingConfiguration.() -> Unit = {
     sink("console", STDOUT_SIMPLE)
     logging { fromMinLevel(INFO) { toSink("console") } }
 }
