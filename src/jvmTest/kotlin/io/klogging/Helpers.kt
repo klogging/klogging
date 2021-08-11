@@ -30,10 +30,6 @@ import kotlinx.datetime.Instant
 import kotlin.random.Random
 import kotlin.random.nextULong
 
-/**
- * @todo It is poor test practice to use random inputs: failing tests are hard to repeat, and
- *       become flaky tests instead, and debugging becomes a race against time and hardware bits
- */
 fun randomLoggerName() = Random.nextInt().toString(16)
 fun randomString() = Random.nextULong().toString(16)
 fun randomLevel() = Level.values().random()
