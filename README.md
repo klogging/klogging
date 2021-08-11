@@ -33,7 +33,7 @@ implementation details will change** 🚧
   both text and data.
 - Use Kotlin coroutines for carrying scope context information to include in log
   events and for asynchronous dispatching of events.
-- Finest available resolution of timestamps, down to nanosecond if available.
+- Finest possible resolution of timestamps, down to nanosecond if available.
 - (Future) Pure Kotlin multiplatform. _Current development focuses on the
   JVM._
 
@@ -103,25 +103,24 @@ I could not find a logging library for Kotlin that meets these requirements:
 
 ### Why not Logback or Log4j?
 
-These solid, but venerable Java libraries have formed the backbone of Java
-logging for more than 10 years. The limitations I find are:
+These solid, but venerable Java libraries have formed the backbone of Java logging for more than 10
+years. The limitations I find are:
 
-* They are designed to log strings of text. Whe you want to search for or filter
-  logs by values within those messages you need to search within, or parse the strings.
+* They are designed to log strings of text. Whe you want to search for or filter logs by values
+  within those messages you need to search within, or parse the strings.
 
 * There are add-ons for including structured data in logs, for example
-  [Logstash Logback Encoder](https://github.com/logstash/logstash-logback-encoder),
-  but they feel clumsy to use.
+  [Logstash Logback Encoder](https://github.com/logstash/logstash-logback-encoder), but they feel
+  clumsy to use.
 
-* **MDC** (Logstash) and **ThreadContext** (Log4j2) provide storage for context information but scopes
-  are independent of thread lifecycles and need to be managed separately.
+* **MDC** (SLF4J/Logback) and **ThreadContext** (Log4j2) provide storage for context information but
+  scopes are independent of thread lifecycles and need to be managed separately.
 
-* Logback is hamstrung by having timestamp resolution limited to milliseconds.
-  This limit is baked in to the
+* Logback is hamstrung by having timestamp resolution limited to milliseconds. This limit is baked
+  in to the
   [core of the library](https://github.com/qos-ch/logback/blob/master/logback-classic/src/main/java/ch/qos/logback/classic/spi/ILoggingEvent.java#L83):
   that `long` value is milliseconds since the Unix Epoch.
 
 ### Why not KotlinLogging, Log4j Kotlin, etc.?
 
-These libraries (mostly) wrap underlying Java libraries and suffer from the
-same limitations.
+These libraries (mostly) wrap underlying Java libraries and suffer from the same limitations.
