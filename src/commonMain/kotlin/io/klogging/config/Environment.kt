@@ -22,8 +22,8 @@ internal const val ENV_KLOGGING_MIN_LOG_LEVEL = "KLOGGING_MIN_LOG_LEVEL"
 internal const val ENV_KLOGGING_CONFIG_JSON_PATH = "KLOGGING_CONFIG_JSON_PATH"
 
 /**
- * This function should be `private`, but as it is implemented in multiplatform, must be `internal`.
- * Do not call this function directly outside this file.
+ * ☠️ This function should be `private`, but as it is implemented in multiplatform, must be
+ * `internal`. Do not call this function directly outside this file.
  *
  * @see [ENV]
  */
