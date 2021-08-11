@@ -23,7 +23,7 @@ import io.klogging.build.configureSpotless
 import io.klogging.build.configureTesting
 import io.klogging.build.configureVersioning
 import io.klogging.build.configureWrapper
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompileCommon
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("multiplatform")
@@ -106,10 +106,13 @@ kotlin {
 // will copy correctly for tests to run.
 // This might be a workaround for a bug in Gradle Kotlin scripts, see:
 // https://youtrack.jetbrains.com/issue/KT-46165
+// TODO: `ProcessResources` is marked by Gradle as "incubating"
 tasks.withType<ProcessResources> { duplicatesStrategy = DuplicatesStrategy.INCLUDE }
 
 // TODO: Move this and above `explicitApi()` to a buildSrc configuration script
-tasks.withType<KotlinCompileCommon>().configureEach {
+// TODO: Compare to https://kotlinlang.org/docs/opt-in-requirements.html and update as needed
+//       A 3rd-party using Klogging (such as slf4j-klogging) would clarify
+tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
         // Opt in for kotlinx-datetime features (see `Timestamps.kt`)
         freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
