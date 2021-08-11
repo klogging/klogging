@@ -23,16 +23,9 @@ import kotlinx.datetime.Instant
 import kotlin.random.Random
 import kotlin.random.nextULong
 
-/**
- * An event at a point in time with information about the running state of
- * a program.
- */
+/** An event at a point in time with information about the running state of a program. */
 public data class LogEvent(
-    /**
-     * Unique identifier for this event.
-     *
-     * @todo Better would be something like a DB's auto-incrementing integer.  See chat discussion
-     */
+    /** Unique identifier for this event. */
     val id: String = Random.nextULong().toString(16),
     /** When the event occurred, to microsecond or better precision. */
     val timestamp: Instant = timestampNow(),
