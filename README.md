@@ -17,18 +17,24 @@ asynchronous service framework.
 🚧 **Klogging is alpha software in rapid development. The API and key
 implementation details will change** 🚧
 
-## Intention
+## Contents
 
-- Familiar logging idioms for Java and C# devs.
-- Kotlin coroutines for carrying contextual information to include in log
-  events.
-- Structured logs by default.
-- [Message templates](https://messagetemplates.org) for elegant logging of
+- [Goals](#goals)
+- [Quick start (JVM)](#quick-start-jvm)
+- [Why another logging library?](#why-another-logging-library)
+  - [Why not Logback or Log4j?](#why-not-logback-or-log4j)
+  - [Why not KotlinLogging, Log4j Kotlin, etc.?](#why-not-kotlinlogging-log4j-kotlin-etc)
+
+## Goals
+
+- Provide a familiar logging experience for Java and C# developers.
+- Create structured log events by default.
+- Use [message templates](https://messagetemplates.org) for simple logging of
   both text and data.
-- Timestamp resolution down to nanosecond if available.
-- Configuration of logging levels by logger names to targets (like Log4j and
-  Logback).
-- Pure Kotlin multiplatform (future). _Current development focuses on the
+- Use Kotlin coroutines for carrying scope context information to include in log
+  events and for asynchronous dispatching of events.
+- Finest available resolution of timestamps, down to nanosecond if available.
+- (Future) Pure Kotlin multiplatform. _Current development focuses on the
   JVM._
 
 ## Quick start (JVM)
@@ -83,40 +89,39 @@ implementation details will change** 🚧
     }
     ```
 
-## Use cases
-
-This section will cover:
-
-- Creating loggers
-- Logging events
-- Adding information to the coroutine context to be logged
-- Configuring logging levels, dispatchers and targets
-
 ## Why another logging library?
 
 Klogging is designed from the ground up to be standalone, pure Kotlin and to
-be used with coroutines. It is designed to be used by distributed services
-that log events with information from a wide variety of contexts.
+be used with coroutines. 
 
-No other library I could find meets these requirements.
+I could not find a logging library for Kotlin that meets these requirements:
 
-### Why not … ?
+* Send structured log events by default.
+* Simple, reliable capture and logging of information from the current execution scope.
+* High-resolution timestamps to ensure log events are aggregated in the
+  correct order.
 
-#### Logback / Log4j
+### Why not Logback or Log4j?
 
 These solid, but venerable Java libraries have formed the backbone of Java
 logging for more than 10 years. The limitations I find are:
 
-* They are designed to log strings of text with embedded information that is
-  discovered by searching within strings. Logging should be of events
-  containing structured information derived from all nested scopes where those
-  events occur.
+* They are designed to log strings of text. Whe you want to search for or filter
+  logs by values within those messages you need to search within, or parse the strings.
+
+* There are add-ons for including structured data in logs, for example
+  [Logstash Logback Encoder](https://github.com/logstash/logstash-logback-encoder),
+  but they feel clumsy to use.
+
+* **MDC** (Logstash) and **ThreadContext** (Log4j2) provide storage for context information but scopes
+  are independent of thread lifecycles and need to be managed separately.
 
 * Logback is hamstrung by having timestamp resolution limited to milliseconds.
   This limit is baked in to the
   [core of the library](https://github.com/qos-ch/logback/blob/master/logback-classic/src/main/java/ch/qos/logback/classic/spi/ILoggingEvent.java#L83):
   that `long` value is milliseconds since the Unix Epoch.
 
-#### KotlinLogging, Log4j Kotlin, etc.
+### Why not KotlinLogging, Log4j Kotlin, etc.?
 
-These libraries (mostly) wrap underlying Java libraries.
+These libraries (mostly) wrap underlying Java libraries and suffer from the
+same limitations.
