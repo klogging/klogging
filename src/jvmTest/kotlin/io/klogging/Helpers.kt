@@ -23,6 +23,7 @@ import io.klogging.config.SinkConfiguration
 import io.klogging.config.loggingConfiguration
 import io.klogging.events.LogEvent
 import io.klogging.events.hostname
+import io.klogging.events.timestampNow
 import io.klogging.rendering.RenderString
 import kotlinx.coroutines.delay
 import kotlinx.datetime.Instant

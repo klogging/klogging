@@ -19,7 +19,6 @@
 package io.klogging.events
 
 import io.klogging.Level
-import io.klogging.timestampNow
 import kotlinx.datetime.Instant
 import kotlin.random.Random
 import kotlin.random.nextULong

@@ -78,5 +78,5 @@ public fun graylogLevel(level: Level): Int = when (level) {
     INFO -> 6
     WARN -> 4
     ERROR -> 3
-    FATAL -> 2 // TODO: Why "critical" and not "alert"?  Perhaps explanatory text in the kdoc?
+    FATAL -> 2
 }

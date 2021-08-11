@@ -18,7 +18,7 @@
 
 @file:OptIn(ExperimentalTime::class)
 
-package io.klogging
+package io.klogging.events
 
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Clock.System

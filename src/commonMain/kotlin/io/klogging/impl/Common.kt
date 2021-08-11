@@ -22,7 +22,7 @@ import io.klogging.BaseLogger
 import io.klogging.Level
 import io.klogging.events.LogEvent
 import io.klogging.events.currentContext
-import io.klogging.timestampNow
+import io.klogging.events.timestampNow
 
 /**
  * Copy a [LogEvent], setting the level and the stack trace from any exception.

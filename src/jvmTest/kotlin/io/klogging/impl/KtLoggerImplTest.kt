@@ -20,11 +20,11 @@ package io.klogging.impl
 
 import io.klogging.Level.ERROR
 import io.klogging.Level.WARN
+import io.klogging.events.timestampNow
 import io.klogging.logEvent
 import io.klogging.logger
 import io.klogging.randomString
 import io.klogging.savedEvents
-import io.klogging.timestampNow
 import io.klogging.waitForDispatch
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContain
