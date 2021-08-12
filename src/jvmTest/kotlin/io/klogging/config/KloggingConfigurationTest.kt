@@ -219,5 +219,42 @@ internal class KloggingConfigurationTest : DescribeSpec({
                 KloggingState.minimumLevelOf(randomString()) shouldBe NONE
             }
         }
+        describe("append() function") {
+            it("combines sinks") {
+                val config = KloggingConfiguration().apply { sink("stdout", STDOUT_SIMPLE) }
+                config.append(
+                    KloggingConfiguration().apply { sink("stderr", seq("http://seq:5341")) }
+                )
+
+                with(config) {
+                    sinks shouldHaveSize 2
+                    sinks.keys shouldContainExactly setOf("stdout", "stderr")
+                }
+            }
+            it("combines logging configurations") {
+                val config = KloggingConfiguration().apply {
+                    sink("stdout", STDOUT_SIMPLE)
+                    logging { fromMinLevel(INFO) { toSink("stdout") } }
+                }
+                config.append(
+                    KloggingConfiguration().apply {
+                        logging { atLevel(DEBUG) { toSink("stdout") } }
+                    }
+                )
+
+                with(config) {
+                    configs shouldHaveSize 2
+                }
+            }
+            it("selects the lower minimum level logging level") {
+                val config = KloggingConfiguration().apply { kloggingMinLogLevel = INFO }
+
+                config.append(KloggingConfiguration().apply { kloggingMinLogLevel = WARN })
+                config.kloggingMinLogLevel shouldBe INFO
+
+                config.append(KloggingConfiguration().apply { kloggingMinLogLevel = DEBUG })
+                config.kloggingMinLogLevel shouldBe DEBUG
+            }
+        }
     }
 })

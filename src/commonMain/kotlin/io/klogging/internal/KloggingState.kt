@@ -41,9 +41,13 @@ internal object KloggingState {
     }
 
     /** Sets a new value of the current config.  */
-    private fun setConfig(config: KloggingConfiguration) {
-        // No synchronisation or locking right now.
+    internal fun setConfig(config: KloggingConfiguration) {
+        // No synchronisation or locking yet.
         currentState[CURRENT_STATE] = config
+    }
+
+    internal fun appendConfig(config: KloggingConfiguration) {
+        currentConfig().append(config)
     }
 
     private fun currentConfig() = currentState[CURRENT_STATE] ?: DEFAULT_CONFIG

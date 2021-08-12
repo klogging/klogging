@@ -46,10 +46,11 @@ internal val defaultKloggingMinLogLevel: Level = try {
 @ConfigDsl
 public fun loggingConfiguration(append: Boolean = false, block: KloggingConfiguration.() -> Unit) {
     info("Setting configuration using the DSL with append=$append")
-    val config = KloggingState.configuration
-    if (!append) config.reset()
+    val config = KloggingConfiguration()
     config.apply(block)
     config.validateSinks()
+    if (append) KloggingState.appendConfig(config)
+    else KloggingState.setConfig(config)
 }
 
 /**
@@ -124,5 +125,12 @@ public class KloggingConfiguration {
             .toSet()
         val extraSinks = loggingSinks - sinks.keys
         extraSinks.forEach { warn("Sink `$it` was not defined and will be ignored") }
+    }
+
+    internal fun append(other: KloggingConfiguration) {
+        sinks.putAll(other.sinks)
+        configs.addAll(other.configs)
+        if (kloggingMinLogLevel > other.kloggingMinLogLevel)
+            kloggingMinLogLevel = other.kloggingMinLogLevel
     }
 }
