@@ -16,6 +16,8 @@
 
 */
 
+@file:OptIn(ExperimentalTime::class)
+
 package io.klogging
 
 import io.klogging.Level.DEBUG
@@ -25,19 +27,16 @@ import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
 import io.klogging.events.LogEvent
 import io.klogging.events.hostname
-import io.klogging.events.minusSeconds
 import io.klogging.events.timestampNow
 import io.klogging.template.templateItems
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.shouldBe
 import java.lang.Thread.currentThread
+import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 
-class TestLogger(
-    private val minLevel: Level = TRACE
-) : Klogger {
-
+class TestLogger(private val minLevel: Level = TRACE) : Klogger {
     override val name: String = "TestLogger"
 
     internal var except: Exception? = null
@@ -66,7 +65,6 @@ class TestLogger(
 
 class TestException(message: String) : Exception(message)
 
-@OptIn(ExperimentalTime::class)
 class KloggerTest : DescribeSpec({
     // Capture once rather than call several times: Avoid flaky tests if the OS sleeps our process
     val now = timestampNow()
@@ -128,7 +126,7 @@ class KloggerTest : DescribeSpec({
                 }
             }
             it("logs an object in a lambda with an exception") {
-                val thing = setOf(now.minusSeconds(5), now)
+                val thing = setOf(now - Duration.seconds(5), now)
                 val exception = TestException(randomString())
                 with(TestLogger()) {
                     error(exception) { thing }

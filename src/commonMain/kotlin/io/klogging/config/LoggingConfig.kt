@@ -23,12 +23,7 @@ import io.klogging.Level.FATAL
 import io.klogging.Level.TRACE
 import io.klogging.internal.warn
 
-/**
- * Inclusive range of logging levels with the names of sinks where events will be dispatched.
- *
- * @todo Implement [ClosedRange] and get the benefits of stdlib support.  See
- *       [Ranges](https://kotlinlang.org/docs/ranges.html)
- */
+/** Inclusive range of logging levels with the names of sinks where events will be dispatched. */
 public data class LevelRange(
     val minLevel: Level,
     val maxLevel: Level,

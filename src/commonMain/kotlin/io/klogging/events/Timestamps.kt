@@ -16,19 +16,11 @@
 
 */
 
-@file:OptIn(ExperimentalTime::class)
-
 package io.klogging.events
 
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Clock.System
 import kotlinx.datetime.Instant
-import kotlin.time.Duration
-import kotlin.time.ExperimentalTime
 
 /** Timestamp of "now" defined by [clock].  The default is the current system clock (time). */
 public fun timestampNow(clock: Clock = System): Instant = clock.now()
-
-/** Shim for compatibility with JDK's `Instant` */
-public fun Instant.minusSeconds(seconds: Long): Instant =
-    this - Duration.seconds(seconds)
