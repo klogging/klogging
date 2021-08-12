@@ -16,6 +16,8 @@
 
 */
 
+@file:OptIn(ExperimentalTime::class)
+
 package io.klogging
 
 import io.klogging.Level.DEBUG
@@ -25,16 +27,16 @@ import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
 import io.klogging.events.LogEvent
 import io.klogging.events.hostname
+import io.klogging.events.timestampNow
 import io.klogging.template.templateItems
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.shouldBe
-import java.time.Instant
+import java.lang.Thread.currentThread
+import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
 
-class TestLogger(
-    private val minLevel: Level = TRACE
-) : Klogger {
-
+class TestLogger(private val minLevel: Level = TRACE) : Klogger {
     override val name: String = "TestLogger"
 
     internal var except: Exception? = null
@@ -48,14 +50,24 @@ class TestLogger(
 
     override suspend fun e(template: String, vararg values: Any?): LogEvent =
         LogEvent(
-            randomString(), timestampNow(), hostname, "TestLogger", Thread.currentThread().name, NONE,
-            template, template, null, templateItems(template, *values).mapValues { e -> e.value.toString() }
+            randomString(),
+            timestampNow(),
+            hostname,
+            "TestLogger",
+            currentThread().name,
+            NONE,
+            template,
+            template,
+            null,
+            templateItems(template, *values).mapValues { e -> e.value.toString() }
         )
 }
 
 class TestException(message: String) : Exception(message)
 
 class KloggerTest : DescribeSpec({
+    // Capture once rather than call several times: Avoid flaky tests if the OS sleeps our process
+    val now = timestampNow()
 
     describe("KtLogger") {
         describe("for different logging styles") {
@@ -92,10 +104,9 @@ class KloggerTest : DescribeSpec({
                 }
             }
             it("logs an object") {
-                val thing = Instant.now()
                 with(TestLogger()) {
-                    log(DEBUG, thing)
-                    logged shouldBe thing
+                    log(DEBUG, now)
+                    logged shouldBe now
                 }
             }
             it("logs an object with an exception") {
@@ -108,14 +119,14 @@ class KloggerTest : DescribeSpec({
                 }
             }
             it("logs an object in a lambda") {
-                val thing = randomString() to timestampNow()
+                val thing = randomString() to now
                 with(TestLogger()) {
                     info { thing }
                     logged shouldBe thing
                 }
             }
             it("logs an object in a lambda with an exception") {
-                val thing = setOf(Instant.now().minusSeconds(5), Instant.now())
+                val thing = setOf(now - Duration.seconds(5), now)
                 val exception = TestException(randomString())
                 with(TestLogger()) {
                     error(exception) { thing }

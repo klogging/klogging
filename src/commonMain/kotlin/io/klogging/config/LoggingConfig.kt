@@ -22,9 +22,7 @@ import io.klogging.Level
 import io.klogging.Level.FATAL
 import io.klogging.Level.TRACE
 
-/**
- * Inclusive range of logging levels with the names of sinks where events will be dispatched.
- */
+/** Inclusive range of logging levels with the names of sinks where events will be dispatched. */
 public data class LevelRange(
     val minLevel: Level,
     val maxLevel: Level,

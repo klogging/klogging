@@ -23,8 +23,8 @@ import io.klogging.Level
 import io.klogging.context.LogContext
 import io.klogging.events.LogEvent
 import io.klogging.events.currentContext
+import io.klogging.events.timestampNow
 import io.klogging.template.templateItems
-import kotlinx.datetime.Clock
 import kotlin.coroutines.coroutineContext
 
 public class KloggerImpl(
@@ -42,7 +42,7 @@ public class KloggerImpl(
     override suspend fun e(template: String, vararg values: Any?): LogEvent {
         val items = templateItems(template, *values).mapValues { e -> e.value.toString() }
         return LogEvent(
-            timestamp = Clock.System.now(),
+            timestamp = timestampNow(),
             logger = this.name,
             context = currentContext(),
             level = minLevel(),

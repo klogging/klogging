@@ -23,19 +23,15 @@ import io.klogging.config.SinkConfiguration
 import io.klogging.config.loggingConfiguration
 import io.klogging.events.LogEvent
 import io.klogging.events.hostname
+import io.klogging.events.timestampNow
 import io.klogging.rendering.RenderString
 import kotlinx.coroutines.delay
-import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlin.random.Random
 import kotlin.random.nextULong
 
-fun timestampNow() = Clock.System.now()
-
 fun randomLoggerName() = Random.nextInt().toString(16)
-
 fun randomString() = Random.nextULong().toString(16)
-
 fun randomLevel() = Level.values().random()
 
 fun logEvent(

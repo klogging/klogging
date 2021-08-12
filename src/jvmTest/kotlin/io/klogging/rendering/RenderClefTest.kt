@@ -21,8 +21,8 @@ package io.klogging.rendering
 import io.klogging.Level.INFO
 import io.klogging.events.LogEvent
 import io.klogging.events.currentContext
+import io.klogging.events.timestampNow
 import io.klogging.randomString
-import io.klogging.timestampNow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 

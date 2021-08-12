@@ -20,6 +20,7 @@ package io.klogging.impl
 
 import io.klogging.Level.ERROR
 import io.klogging.Level.WARN
+import io.klogging.events.timestampNow
 import io.klogging.logEvent
 import io.klogging.logger
 import io.klogging.randomString
@@ -29,7 +30,6 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import java.time.Instant
 
 class KtLoggerImplTest : DescribeSpec({
     describe("KtLoggerImpl implementation of KtLogger") {
@@ -92,7 +92,7 @@ class KtLoggerImplTest : DescribeSpec({
             }
             it("logs the string representation of anything else in the message field") {
                 val events = savedEvents()
-                val event = Instant.now()
+                val event = timestampNow()
                 logger("KtLoggerImplTest").info(event)
                 waitForDispatch()
 
