@@ -37,8 +37,7 @@ import kotlinx.serialization.json.Json
 @Serializable
 public data class JsonConfiguration(
     val configName: String? = null,
-    val append: Boolean = false,
-    val kloggingMinLogLevel: Level? = null,
+    val kloggingMinLogLevel: Level = defaultKloggingMinLogLevel,
     val sinks: Map<String, JsonSinkConfiguration> = mapOf(),
     val logging: List<JsonLoggingConfig> = listOf(),
 )
@@ -110,16 +109,13 @@ internal fun readConfig(configJson: String): JsonConfiguration? =
     }
 
 /** Load [KloggingConfiguration] from JSON configuration string. */
-public fun configureFromJson(configJson: String): KloggingConfiguration? {
-    return readConfig(configJson)?.let { (configName, append, minLogLevel, sinks, logging) ->
+public fun configureFromJson(configJson: String): KloggingConfiguration? =
+    readConfig(configJson)?.let { (configName, minLogLevel, sinks, logging) ->
         val config = KloggingConfiguration()
         if (configName != null)
             BUILT_IN_CONFIGURATIONS[configName]?.let { config.apply(it) }
         else {
-            if (!append) config.reset()
-
-            if (minLogLevel != null)
-                config.kloggingMinLogLevel = minLogLevel
+            config.kloggingMinLogLevel = minLogLevel
 
             sinks.forEach { (key, value) ->
                 value.toSinkConfiguration()?.let {
@@ -135,4 +131,3 @@ public fun configureFromJson(configJson: String): KloggingConfiguration? {
         }
         config
     }
-}

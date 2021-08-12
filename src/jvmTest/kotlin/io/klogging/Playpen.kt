@@ -34,8 +34,9 @@ import java.util.UUID.randomUUID
  * Main program for experimenting with Klogging features as they are developed.
  */
 suspend fun main() = coroutineScope {
+    val logger = logger("Playpen")
+
     loggingConfiguration {
-        // kloggingLevel(Level.DEBUG)
         sink("stdout", RENDER_SIMPLE, STDOUT)
         sink("seq", seq("http://localhost:5341"))
         logging {
@@ -47,7 +48,6 @@ suspend fun main() = coroutineScope {
         }
     }
 
-    val logger = logger("Playpen")
     launch(logContext("run" to randomUUID())) {
         logger.info { "Start" }
         repeat(2) { c ->
@@ -55,7 +55,10 @@ suspend fun main() = coroutineScope {
             launch(logContext("Counter" to (c + 1))) {
                 repeat(2) { i ->
                     logger.info {
-                        e("Event {Iteration} at {RightNow}", i + 1, LocalDateTime.now(ZoneId.of("Australia/Brisbane")))
+                        e(
+                            "Event {Iteration} at {RightNow}", i + 1,
+                            LocalDateTime.now(ZoneId.of("Australia/Brisbane"))
+                        )
                     }
                 }
             }

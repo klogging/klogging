@@ -42,6 +42,8 @@ internal val defaultKloggingMinLogLevel: Level = try {
  *
  * @param append if `true`, append this configuration to any existing one.
  *               Default is `false`, causing this configuration replace any existing one.
+ *
+ * @param block DSL functions with values to apply to this configuration.
  */
 @ConfigDsl
 public fun loggingConfiguration(append: Boolean = false, block: KloggingConfiguration.() -> Unit) {
@@ -61,7 +63,7 @@ public class KloggingConfiguration {
     internal val sinks = mutableMapOf<String, SinkConfiguration>()
     internal val configs = mutableListOf<LoggingConfig>()
 
-    internal var kloggingMinLogLevel: Level = INFO
+    internal var kloggingMinLogLevel: Level = defaultKloggingMinLogLevel
 
     /**
      * DSL function to set minimum logging level for Klogging itself.
@@ -110,13 +112,6 @@ public class KloggingConfiguration {
         .flatMap { it.ranges }
         .minOfOrNull { it.minLevel } ?: NONE
 
-    /** Clear all configurations and reset default Klogging log level. */
-    internal fun reset() {
-        kloggingMinLogLevel = defaultKloggingMinLogLevel
-        sinks.clear()
-        configs.clear()
-    }
-
     /** Validate that sinks referred to in logging configurations have been defined. */
     internal fun validateSinks() {
         val loggingSinks = configs
@@ -127,6 +122,12 @@ public class KloggingConfiguration {
         extraSinks.forEach { warn("Sink `$it` was not defined and will be ignored") }
     }
 
+    /**
+     * Append another configuration to this one.
+     *
+     * * `sinks` are combined: any with the same name replace those in this config.
+     * * `configs` are appended to those in this config.
+     */
     internal fun append(other: KloggingConfiguration) {
         sinks.putAll(other.sinks)
         configs.addAll(other.configs)
