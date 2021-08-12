@@ -18,9 +18,11 @@
 
 package io.klogging.config
 
+import io.klogging.Level.DEBUG
 import io.klogging.Level.FATAL
 import io.klogging.Level.INFO
 import io.klogging.dispatching.STDOUT
+import io.klogging.internal.KloggingState
 import io.klogging.rendering.RENDER_SIMPLE
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldContainExactly
@@ -149,18 +151,22 @@ internal class JsonConfigurationTest : DescribeSpec({
                 }
             }
         }
-        // describe("Klogging minimum log level") {
-        //     it("is not changed if not set in JSON") {
-        //         val config = configureFromJson("""{}""")
-        //
-        //         kloggingMinLogLevel shouldBe defaultKloggingMinLogLevel
-        //     }
-        //     it("is changed if set in JSON") {
-        //         kloggingMinLogLevel = defaultKloggingMinLogLevel
-        //         configureFromJson("""{"kloggingMinLogLevel":"DEBUG"}""")
-        //
-        //         kloggingMinLogLevel shouldBe DEBUG
-        //     }
-        // }
+        describe("Klogging minimum log level") {
+            beforeTest {
+                KloggingState.setConfig(KloggingConfiguration())
+            }
+            it("is not changed if not set in JSON") {
+                configureFromJson("""{}""")?.let { KloggingState.setConfig(it) }
+
+                KloggingState.kloggingMinLogLevel() shouldBe defaultKloggingMinLogLevel
+            }
+            it("is changed if set in JSON") {
+                configureFromJson("""{"kloggingMinLogLevel":"DEBUG"}""")?.let {
+                    KloggingState.setConfig(it)
+                }
+
+                KloggingState.kloggingMinLogLevel() shouldBe DEBUG
+            }
+        }
     }
 })
