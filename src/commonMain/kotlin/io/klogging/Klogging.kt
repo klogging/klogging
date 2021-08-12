@@ -36,6 +36,7 @@ private val LOGGERS: MutableMap<String, Klogger> = mutableMapOf()
  */
 internal fun loggerFor(name: String?): Klogger {
     // This property is lazily set by checking for a JSON configuration file.
+    // TODO: Can we ensure this is not optimised out of the code?
     KloggingState.configuration
     val loggerName = name ?: "Klogging"
     return LOGGERS.getOrPut(loggerName) { KloggerImpl(loggerName) }

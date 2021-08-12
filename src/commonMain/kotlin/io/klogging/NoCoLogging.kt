@@ -33,6 +33,7 @@ private val NOCO_LOGGERS: MutableMap<String, NoCoLogger> = mutableMapOf()
  */
 internal fun noCoLoggerFor(name: String?): NoCoLogger {
     // This property is lazily set by checking for a JSON configuration file.
+    // TODO: Can we ensure this is not optimised out of the code?
     KloggingState.configuration
     val loggerName = name ?: "Klogger"
     return NOCO_LOGGERS.getOrPut(loggerName) { NoCoLoggerImpl(loggerName) }
