@@ -19,6 +19,7 @@
 package io.klogging
 
 import io.klogging.impl.KloggerImpl
+import io.klogging.internal.KloggingState
 import kotlin.reflect.KClass
 
 /** Get the name of a class. */
@@ -34,6 +35,8 @@ private val LOGGERS: MutableMap<String, Klogger> = mutableMapOf()
  * or creating a new one if needed.
  */
 internal fun loggerFor(name: String?): Klogger {
+    // This property is lazily set by checking for a JSON configuration file.
+    KloggingState.configuration
     val loggerName = name ?: "Klogging"
     return LOGGERS.getOrPut(loggerName) { KloggerImpl(loggerName) }
 }

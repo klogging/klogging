@@ -19,6 +19,7 @@
 package io.klogging
 
 import io.klogging.impl.NoCoLoggerImpl
+import io.klogging.internal.KloggingState
 import kotlin.reflect.KClass
 
 /**
@@ -31,6 +32,8 @@ private val NOCO_LOGGERS: MutableMap<String, NoCoLogger> = mutableMapOf()
  * or creating a new one if needed.
  */
 internal fun noCoLoggerFor(name: String?): NoCoLogger {
+    // This property is lazily set by checking for a JSON configuration file.
+    KloggingState.configuration
     val loggerName = name ?: "Klogger"
     return NOCO_LOGGERS.getOrPut(loggerName) { NoCoLoggerImpl(loggerName) }
 }
