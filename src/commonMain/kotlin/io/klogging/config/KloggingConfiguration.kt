@@ -22,9 +22,10 @@ import io.klogging.Level
 import io.klogging.Level.INFO
 import io.klogging.Level.NONE
 import io.klogging.dispatching.DispatchString
+import io.klogging.internal.KloggingState
 import io.klogging.internal.info
+import io.klogging.internal.warn
 import io.klogging.rendering.RenderString
-import kotlin.native.concurrent.ThreadLocal
 
 /**
  * Set the default Klogging log level from the environment using name
@@ -32,10 +33,9 @@ import kotlin.native.concurrent.ThreadLocal
  */
 internal val defaultKloggingMinLogLevel: Level = try {
     getenv(ENV_KLOGGING_MIN_LOG_LEVEL)?.let { Level.valueOf(it) } ?: INFO
-} catch (ex: Exception) { INFO }
-
-@ThreadLocal
-internal var kloggingMinLogLevel: Level = defaultKloggingMinLogLevel
+} catch (ex: Exception) {
+    INFO
+}
 
 /**
  * Root DSL function for creating a [KloggingConfiguration].
@@ -46,18 +46,21 @@ internal var kloggingMinLogLevel: Level = defaultKloggingMinLogLevel
 @ConfigDsl
 public fun loggingConfiguration(append: Boolean = false, block: KloggingConfiguration.() -> Unit) {
     info("Setting configuration using the DSL with append=$append")
-    if (!append) KloggingConfiguration.reset()
-    KloggingConfiguration.apply(block)
+    val config = KloggingState.configuration
+    if (!append) config.reset()
+    config.apply(block)
+    config.validateSinks()
 }
 
 /**
- * Klogging configuration for a runtime.  This is a global singleton.  No function or property is
- * thread-safe.
+ * Klogging configuration for a runtime.
  */
-public object KloggingConfiguration {
+public class KloggingConfiguration {
 
     internal val sinks = mutableMapOf<String, SinkConfiguration>()
     internal val configs = mutableListOf<LoggingConfig>()
+
+    internal var kloggingMinLogLevel: Level = INFO
 
     /**
      * DSL function to set minimum logging level for Klogging itself.
@@ -111,5 +114,15 @@ public object KloggingConfiguration {
         kloggingMinLogLevel = defaultKloggingMinLogLevel
         sinks.clear()
         configs.clear()
+    }
+
+    /** Validate that sinks referred to in logging configurations have been defined. */
+    internal fun validateSinks() {
+        val loggingSinks = configs
+            .flatMap { it.ranges }
+            .flatMap { it.sinkNames }
+            .toSet()
+        val extraSinks = loggingSinks - sinks.keys
+        extraSinks.forEach { warn("Sink `$it` was not defined and will be ignored") }
     }
 }

@@ -23,7 +23,6 @@ import io.klogging.Level.DEBUG
 import io.klogging.Level.ERROR
 import io.klogging.Level.INFO
 import io.klogging.Level.WARN
-import io.klogging.config.kloggingMinLogLevel
 import io.klogging.dispatching.STDERR
 import io.klogging.dispatching.STDOUT
 import io.klogging.events.LogEvent
@@ -47,7 +46,7 @@ public fun log(
     message: String,
     exception: Exception? = null
 ) {
-    if (level < kloggingMinLogLevel) return
+    if (level < KloggingState.kloggingMinLogLevel()) return
     val event = LogEvent(
         logger = KLOGGING_LOGGER,
         level = level,

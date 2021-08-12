@@ -23,9 +23,9 @@ import io.klogging.Level.FATAL
 import io.klogging.Level.INFO
 import io.klogging.Level.NONE
 import io.klogging.Level.WARN
-import io.klogging.config.KloggingConfiguration.minimumLevelOf
 import io.klogging.dispatching.STDERR
 import io.klogging.dispatching.STDOUT
+import io.klogging.internal.KloggingState
 import io.klogging.randomLevel
 import io.klogging.randomString
 import io.klogging.rendering.RENDER_CLEF
@@ -40,14 +40,10 @@ import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.shouldBe
 
 internal class KloggingConfigurationTest : DescribeSpec({
-    beforeTest {
-        KloggingConfiguration.reset()
-    }
-
     describe("Klogging configuration") {
         describe("default configuration") {
             it("has no sinks and no logging") {
-                with(KloggingConfiguration) {
+                with(KloggingConfiguration()) {
                     sinks shouldHaveSize 0
                     configs shouldHaveSize 0
                 }
@@ -60,16 +56,16 @@ internal class KloggingConfigurationTest : DescribeSpec({
                     sink("console", STDOUT_SIMPLE)
                     sink("seq", sinkConfig)
                 }
-                KloggingConfiguration.sinks shouldContain ("console" to STDOUT_SIMPLE)
-                KloggingConfiguration.sinks shouldContain ("seq" to sinkConfig)
+                KloggingState.sinks() shouldContain ("console" to STDOUT_SIMPLE)
+                KloggingState.sinks() shouldContain ("seq" to sinkConfig)
             }
             it("adds the default console") {
                 loggingConfiguration { DEFAULT_CONSOLE() }
 
-                with(KloggingConfiguration) {
-                    sinks shouldContain ("console" to STDOUT_SIMPLE)
-                    configs shouldHaveSize 1
-                    with(configs.first()) {
+                with(KloggingState) {
+                    sinks() shouldContain ("console" to STDOUT_SIMPLE)
+                    configs() shouldHaveSize 1
+                    with(configs().first()) {
                         nameMatch.pattern shouldBe matchAllLoggers
                         ranges shouldHaveSize 1
                         with(ranges.first()) {
@@ -91,10 +87,10 @@ internal class KloggingConfigurationTest : DescribeSpec({
                     }
                 }
 
-                with(KloggingConfiguration) {
-                    configs shouldHaveSize 1
-                    configs.first().ranges shouldHaveSize 1
-                    configs.first().ranges.first().sinkNames shouldContain "console"
+                with(KloggingState) {
+                    configs() shouldHaveSize 1
+                    configs().first().ranges shouldHaveSize 1
+                    configs().first().ranges.first().sinkNames shouldContain "console"
                 }
             }
             it("allows for complex logging configuration") {
@@ -129,14 +125,17 @@ internal class KloggingConfigurationTest : DescribeSpec({
                     }
                 }
 
-                with(KloggingConfiguration) {
-                    sinks shouldHaveSize 3
-                    sinks.keys shouldContainExactly setOf("stdout", "stderr", "seq")
-                    sinks.values.map { it.dispatcher } shouldContainAll setOf(STDOUT, STDERR)
-                    sinks.values.map { it.renderer }.toSet() shouldContainExactly setOf(RENDER_SIMPLE, RENDER_CLEF)
+                with(KloggingState) {
+                    sinks() shouldHaveSize 3
+                    sinks().keys shouldContainExactly setOf("stdout", "stderr", "seq")
+                    sinks().values.map { it.dispatcher } shouldContainAll setOf(STDOUT, STDERR)
+                    sinks().values.map { it.renderer }.toSet() shouldContainExactly setOf(
+                        RENDER_SIMPLE,
+                        RENDER_CLEF
+                    )
 
-                    configs shouldHaveSize 2
-                    with(configs.first()) {
+                    configs() shouldHaveSize 2
+                    with(configs().first()) {
                         nameMatch shouldBe Regex("^com.example.*")
                         ranges shouldHaveSize 2
                         ranges.first() shouldBe LevelRange(INFO, INFO)
@@ -152,7 +151,7 @@ internal class KloggingConfigurationTest : DescribeSpec({
                             sinkNames.last() shouldBe "seq"
                         }
                     }
-                    with(configs.last()) {
+                    with(configs().last()) {
                         nameMatch shouldBe Regex("^com.example.service.FancyService\$")
                         ranges shouldHaveSize 1
                         ranges.first() shouldBe LevelRange(DEBUG, FATAL)
@@ -173,21 +172,19 @@ internal class KloggingConfigurationTest : DescribeSpec({
                     }
                 }
 
-                with(KloggingConfiguration) {
-                    sinks shouldHaveSize 2
-                    configs shouldHaveSize 2
+                with(KloggingState) {
+                    sinks() shouldHaveSize 2
+                    configs() shouldHaveSize 2
                 }
             }
         }
         describe("minimumLevel() function") {
-            beforeTest { KloggingConfiguration.reset() }
-
             it("returns NONE if there is no configuration") {
-                minimumLevelOf(randomString()) shouldBe NONE
+                KloggingState.minimumLevelOf(randomString()) shouldBe INFO
             }
             it("returns INFO from the default console configuration") {
                 loggingConfiguration { DEFAULT_CONSOLE() }
-                minimumLevelOf(randomString()) shouldBe INFO
+                KloggingState.minimumLevelOf(randomString()) shouldBe INFO
             }
             it("returns the level of a single configuration that matches the logger name") {
                 val name = randomString()
@@ -200,7 +197,7 @@ internal class KloggingConfigurationTest : DescribeSpec({
                     }
                 }
 
-                minimumLevelOf(name) shouldBe level
+                KloggingState.minimumLevelOf(name) shouldBe level
             }
             it("returns the minimum level of configurations that match the event name") {
                 val name = randomString()
@@ -210,7 +207,7 @@ internal class KloggingConfigurationTest : DescribeSpec({
                     logging { exactLogger(name); atLevel(INFO) { toSink("stdout") } }
                 }
 
-                minimumLevelOf(name) shouldBe INFO
+                KloggingState.minimumLevelOf(name) shouldBe INFO
             }
             it("returns NONE if no configurations match the event name") {
                 val name = randomString()
@@ -219,7 +216,7 @@ internal class KloggingConfigurationTest : DescribeSpec({
                     logging { exactLogger(name); atLevel(INFO) { toSink("stdout") } }
                 }
 
-                minimumLevelOf(randomString()) shouldBe NONE
+                KloggingState.minimumLevelOf(randomString()) shouldBe NONE
             }
         }
     }

@@ -19,9 +19,9 @@
 package io.klogging.dispatching
 
 import io.klogging.Level
-import io.klogging.config.KloggingConfiguration
 import io.klogging.config.SinkConfiguration
 import io.klogging.events.LogEvent
+import io.klogging.internal.KloggingState
 import io.klogging.internal.debug
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -45,13 +45,13 @@ public object Dispatcher {
     }
 
     public fun sinksFor(loggerName: String, level: Level): List<SinkConfiguration> {
-        val sinkNames = KloggingConfiguration.configs
+        val sinkNames = KloggingState.configs()
             .filter { it.nameMatch.matches(loggerName) }
             .flatMap { it.ranges }
             .filter { level >= it.minLevel && level <= it.maxLevel }
             .flatMap { it.sinkNames }
             .distinct()
-        return KloggingConfiguration.sinks
+        return KloggingState.sinks()
             .filterKeys { sinkNames.contains(it) }
             .map { it.value }
     }

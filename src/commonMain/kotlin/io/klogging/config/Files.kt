@@ -24,8 +24,7 @@ internal const val JSON_CONFIG_FILENAME: String = "klogging.json"
 /** Find a JSON configuration file and read its contents, if found. */
 public expect fun findJsonConfigText(): String?
 
-/** Attempt to automatically load configuration from a file. */
-public val configLoadedFromFile: Boolean = findJsonConfigText()?.let {
-    configureFromJson(it)
-    true
-} ?: false
+/** Attempt to load configuration from a file. */
+public val configLoadedFromFile: KloggingConfiguration? by lazy {
+    findJsonConfigText()?.let { configureFromJson(it) }
+}

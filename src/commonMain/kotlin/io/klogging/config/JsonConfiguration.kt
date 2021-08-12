@@ -110,26 +110,29 @@ internal fun readConfig(configJson: String): JsonConfiguration? =
     }
 
 /** Load [KloggingConfiguration] from JSON configuration string. */
-public fun configureFromJson(configJson: String) {
-    readConfig(configJson)?.let { (configName, append, configKloggingMinLogLevel, sinks, logging) ->
+public fun configureFromJson(configJson: String): KloggingConfiguration? {
+    return readConfig(configJson)?.let { (configName, append, minLogLevel, sinks, logging) ->
+        val config = KloggingConfiguration()
         if (configName != null)
-            BUILT_IN_CONFIGURATIONS[configName]?.let { KloggingConfiguration.apply(it) }
+            BUILT_IN_CONFIGURATIONS[configName]?.let { config.apply(it) }
         else {
-            if (!append) KloggingConfiguration.reset()
+            if (!append) config.reset()
 
-            if (configKloggingMinLogLevel != null) kloggingMinLogLevel = configKloggingMinLogLevel
+            if (minLogLevel != null)
+                config.kloggingMinLogLevel = minLogLevel
 
             sinks.forEach { (key, value) ->
                 value.toSinkConfiguration()?.let {
                     debug("Setting sink `$key` with $value")
-                    KloggingConfiguration.sinks[key] = it
+                    config.sinks[key] = it
                 }
             }
 
             logging.forEach {
                 debug("Adding logging config $it")
-                KloggingConfiguration.configs.add(it.toLoggingConfig())
+                config.configs.add(it.toLoggingConfig())
             }
         }
+        config
     }
 }
