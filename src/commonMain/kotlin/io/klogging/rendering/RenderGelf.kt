@@ -41,7 +41,7 @@ private const val STACK_TEMPLATE = """"full_message":"{{ST}}","""
  * unable to convert an [Instant] into a number in `ssssssssssss.nnnnnnnnn`
  * format as required for GELF.
  */
-public val RENDER_GELF: RenderString = { e ->
+public val RENDER_GELF: RenderString = { e: LogEvent ->
     val exception = e.stackTrace?.let { formatStackTrace(it) } ?: ""
     val itemsJson = (e.items + mapOf("logger" to e.logger))
         .map { (k, v) -> """"_$k":"$v"""" }
