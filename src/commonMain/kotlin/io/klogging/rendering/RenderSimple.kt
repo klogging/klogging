@@ -40,8 +40,22 @@ public val Instant.localString: String
  * If there is a stack trace it is on second and following lines.
  */
 public val RENDER_SIMPLE: RenderString = { e: LogEvent ->
-    val message = "${e.timestamp.localString} ${e.level} [${e.context}] ${e.logger} : ${e.message}"
+    val message = "${e.timestamp.localString} ${e.level} [${e.context}] ${e.logger} : ${
+        e.message.substituteTemplateVariables(e.items)
+    }"
     val maybeItems = if (e.items.isNotEmpty()) " : ${e.items}" else ""
     val maybeStackTrace = if (e.stackTrace != null) "\n${e.stackTrace}" else ""
     message + maybeItems + maybeStackTrace
 }
+
+private fun String.substituteTemplateVariables(items: Map<String, Any?>): String {
+    /**
+     * FIXME
+     * Maybe we should properly parse Message Template grammar instead of just
+     * replacing occurences?
+     */
+    var result = this
+    items.forEach{ (k, v) -> result = result.replace("{$k}", "$v")}
+    return result
+}
+
