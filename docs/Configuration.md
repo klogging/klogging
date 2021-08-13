@@ -23,9 +23,9 @@ import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RENDER_SIMPLE
 
 loggingConfiguration {
-    // Render as a string message and send to standout output stream.
+    // Render as a string message and send to standard output stream.
     sink("stdout", RENDER_SIMPLE, STDOUT)
-    // Render as a string message and send to standout error stream.
+    // Render as a string message and send to standard error stream.
     sink("stderr", RENDER_SIMPLE, STDERR)
     // Render as CLEF (by default) and send to a Seq server.
     sink("seq", seq(server = "http://localhost:5341"))
