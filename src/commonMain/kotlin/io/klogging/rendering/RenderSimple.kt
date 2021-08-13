@@ -40,7 +40,8 @@ public val Instant.localString: String
  * If there is a stack trace it is on second and following lines.
  */
 public val RENDER_SIMPLE: RenderString = { e: LogEvent ->
-    "${e.timestamp.localString} ${e.level} [${e.context}] ${e.logger} : ${e.message}" +
-        if (e.items.isNotEmpty()) " : ${e.items}" else "" +
-            if (e.stackTrace != null) "\n${e.stackTrace}" else ""
+    val message = "${e.timestamp.localString} ${e.level} [${e.context}] ${e.logger} : ${e.message}"
+    val maybeItems = if (e.items.isNotEmpty()) " : ${e.items}" else ""
+    val maybeStackTrace = if (e.stackTrace != null) "\n${e.stackTrace}" else ""
+    message + maybeItems + maybeStackTrace
 }

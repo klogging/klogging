@@ -31,13 +31,22 @@ import io.klogging.events.timestampNow
  * by the [Klogger#e] and [NoCoLogger#e] functions.
  */
 private fun LogEvent.copyWith(newLevel: Level, newStacktrace: String?): LogEvent = LogEvent(
-    id, timestamp, host, logger, context ?: currentContext(), newLevel, template, message, newStacktrace, items
+    id = id,
+    timestamp = timestamp,
+    host = host,
+    logger = logger,
+    context = context ?: currentContext(),
+    level = newLevel,
+    template = template,
+    message = message,
+    stackTrace = newStacktrace,
+    items = items,
 )
 
 /**
  * Extension function on [BaseLogger] that constructs a [LogEvent] from a range of types.
  *
- * - If the object is an event already, update it with level and exception (if present).
+ * - If the object is an event already, update it with level and stack trace (if present).
  * - Otherwise, construct an event with current context and timestamp.
  */
 public fun BaseLogger.eventFrom(
@@ -76,7 +85,8 @@ public fun BaseLogger.eventFrom(
  *   - If the object is not an exception, return `toString()` on the object
  *     and any stack trace on the supplied exception.
  */
-internal fun messageAndStackTrace(obj: Any?, exception: Exception?): Pair<String, String?> = when (obj) {
-    is Exception -> (obj.message ?: "Exception") to obj.stackTraceToString()
-    else -> obj.toString() to exception?.stackTraceToString()
-}
+internal fun messageAndStackTrace(obj: Any?, exception: Exception?): Pair<String, String?> =
+    when (obj) {
+        is Exception -> (obj.message ?: "Exception") to obj.stackTraceToString()
+        else -> obj.toString() to exception?.stackTraceToString()
+    }
