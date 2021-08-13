@@ -21,8 +21,6 @@ package io.klogging.config
 import io.klogging.Level
 import io.klogging.Level.FATAL
 import io.klogging.Level.TRACE
-import io.klogging.dispatching.DispatchString
-import io.klogging.dispatching.seqServer
 import io.klogging.internal.debug
 import io.klogging.internal.warn
 import io.klogging.rendering.RENDER_CLEF

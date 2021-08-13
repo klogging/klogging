@@ -18,12 +18,7 @@
 
 package io.klogging
 
-import io.klogging.Level.INFO
-import io.klogging.config.loggingConfiguration
-import io.klogging.config.seq
 import io.klogging.context.logContext
-import io.klogging.dispatching.STDOUT
-import io.klogging.rendering.RENDER_SIMPLE
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
