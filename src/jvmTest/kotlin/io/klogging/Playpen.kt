@@ -36,18 +36,6 @@ import java.util.UUID.randomUUID
 suspend fun main() = coroutineScope {
     val logger = logger("Playpen")
 
-    loggingConfiguration {
-        sink("stdout", RENDER_SIMPLE, STDOUT)
-        sink("seq", seq("http://localhost:5341"))
-        logging {
-            exactLogger("Playpen")
-            toSink("seq")
-            fromMinLevel(INFO) {
-                toSink("stdout")
-            }
-        }
-    }
-
     launch(logContext("run" to randomUUID())) {
         logger.info { "Start" }
         repeat(2) { c ->
