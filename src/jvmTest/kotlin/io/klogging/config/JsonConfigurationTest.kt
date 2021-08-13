@@ -23,6 +23,8 @@ import io.klogging.Level.FATAL
 import io.klogging.Level.INFO
 import io.klogging.dispatching.STDOUT
 import io.klogging.internal.KloggingState
+import io.klogging.randomString
+import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RENDER_SIMPLE
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldContainExactly
@@ -30,6 +32,8 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 internal class JsonConfigurationTest : DescribeSpec({
     describe("Configuration from JSON") {
@@ -166,6 +170,87 @@ internal class JsonConfigurationTest : DescribeSpec({
                 }
 
                 KloggingState.kloggingMinLogLevel() shouldBe DEBUG
+            }
+        }
+        describe("sink configuration") {
+            describe("using `renderWith` and `dispatchTo` keys") {
+                it("returns a configuration using names of built-in components") {
+                    val sinkConfig = Json.decodeFromString<JsonSinkConfiguration>(
+                        """{
+                        "renderWith": "RENDER_SIMPLE",
+                        "dispatchTo": "STDOUT"
+                    }
+                        """.trimIndent()
+                    ).toSinkConfiguration()
+
+                    sinkConfig?.renderer shouldBe RENDER_SIMPLE
+                    sinkConfig?.dispatcher shouldBe STDOUT
+                }
+                it("returns null if `renderWith` key is missing") {
+                    val sinkConfig = Json.decodeFromString<JsonSinkConfiguration>(
+                        """{
+                        "dispatchTo": "STDOUT"
+                    }
+                        """.trimIndent()
+                    ).toSinkConfiguration()
+
+                    sinkConfig shouldBe null
+                }
+                it("returns null if `dispatchTo` key is missing") {
+                    val sinkConfig = Json.decodeFromString<JsonSinkConfiguration>(
+                        """{
+                        "renderWith": "RENDER_SIMPLE"
+                    }
+                        """.trimIndent()
+                    ).toSinkConfiguration()
+
+                    sinkConfig shouldBe null
+                }
+                it("returns null if names are not of built-in components") {
+                    val sinkConfig = Json.decodeFromString<JsonSinkConfiguration>(
+                        """{
+                        "renderWith": "${randomString()}",
+                        "dispatchTo": "${randomString()}"
+                    }
+                        """.trimIndent()
+                    ).toSinkConfiguration()
+
+                    sinkConfig shouldBe null
+                }
+            }
+            describe("using `seqServer` key") {
+                it("returns a Seq configuration with RENDER_CLEF if only that key is present") {
+                    val sinkConfig = Json.decodeFromString<JsonSinkConfiguration>(
+                        """{
+                        "seqServer": "http://localhost:5341"
+                    }
+                        """.trimIndent()
+                    ).toSinkConfiguration()
+
+                    sinkConfig?.renderer shouldBe RENDER_CLEF
+                }
+                it("returns a Seq configuration with another renderer if specified") {
+                    val sinkConfig = Json.decodeFromString<JsonSinkConfiguration>(
+                        """{
+                        "seqServer": "http://localhost:5341",
+                        "renderWith": "RENDER_SIMPLE"
+                    }
+                        """.trimIndent()
+                    ).toSinkConfiguration()
+
+                    sinkConfig?.renderer shouldBe RENDER_SIMPLE
+                }
+                it("returns a Seq configuration, overriding any other dispatcher") {
+                    val sinkConfig = Json.decodeFromString<JsonSinkConfiguration>(
+                        """{
+                        "seqServer": "http://localhost:5341",
+                        "dispatchTo": "STDOUT"
+                    }
+                        """.trimIndent()
+                    ).toSinkConfiguration()
+
+                    sinkConfig?.dispatcher shouldNotBe STDOUT
+                }
             }
         }
     }

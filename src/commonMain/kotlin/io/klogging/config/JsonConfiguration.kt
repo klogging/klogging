@@ -21,8 +21,11 @@ package io.klogging.config
 import io.klogging.Level
 import io.klogging.Level.FATAL
 import io.klogging.Level.TRACE
+import io.klogging.dispatching.DispatchString
+import io.klogging.dispatching.seqServer
 import io.klogging.internal.debug
 import io.klogging.internal.warn
+import io.klogging.rendering.RENDER_CLEF
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromString
@@ -44,9 +47,15 @@ public data class JsonConfiguration(
 
 /** Data class for JSON representation of a [SinkConfiguration]. */
 @Serializable
-public data class JsonSinkConfiguration(val renderWith: String?, val dispatchTo: String?) {
+public data class JsonSinkConfiguration(
+    val renderWith: String? = null,
+    val dispatchTo: String? = null,
+    val seqServer: String? = null,
+) {
     internal fun toSinkConfiguration(): SinkConfiguration? {
         val renderer = BUILT_IN_RENDERERS[renderWith]
+        if (seqServer != null)
+            return seq(seqServer, renderer ?: RENDER_CLEF)
         val dispatcher = BUILT_IN_DISPATCHERS[dispatchTo]
         return if (renderer != null && dispatcher != null) SinkConfiguration(renderer, dispatcher)
         else null
