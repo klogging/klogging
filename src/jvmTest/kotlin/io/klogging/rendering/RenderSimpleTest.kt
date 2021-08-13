@@ -62,6 +62,24 @@ class RenderSimpleTest : DescribeSpec({
             RENDER_SIMPLE(event) shouldBe "${ts.localString} WARN [test-thread] Test : Message : {colour=green}"
         }
 
+        it("evaluates variables in a message") {
+            val ts = timestampNow()
+            val event = LogEvent(
+                timestamp = ts,
+                host = "test.local",
+                logger = "Test",
+                context = "test-thread",
+                level = INFO,
+                template = null,
+                message = "User {user} logged in and has a role {user_role}",
+                stackTrace = null,
+                items = mapOf("user" to "Samuel", "user_role" to "admin"),
+            )
+
+
+            RENDER_SIMPLE(event) shouldBe "${ts.localString} INFO [test-thread] Test : User Samuel logged in and has a role admin : {user=Samuel, user_role=admin}"
+        }
+
         it("puts a stack trace starting on the next line") {
             val ts = timestampNow()
             val stackTrace = "${randomString()}\n${randomString()}\n${randomString()}"
