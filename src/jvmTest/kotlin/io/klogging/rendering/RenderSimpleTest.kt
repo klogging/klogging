@@ -64,22 +64,22 @@ class RenderSimpleTest : DescribeSpec({
 
         describe("evaluates variables in a message") {
 
-        it("substitutes all substrings matching item entry's \"{KEY}\" for VALUE") {
-            val ts = timestampNow()
-            val event = LogEvent(
-                timestamp = ts,
-                host = "test.local",
-                logger = "Test",
-                context = "test-thread",
-                level = INFO,
-                template = null,
-                message = "User {user} logged in and has a role {user_role}",
-                stackTrace = null,
-                items = mapOf("user" to "Samuel", "user_role" to "admin"),
-            )
+            it("substitutes all substrings matching item entry's \"{KEY}\" for VALUE") {
+                val ts = timestampNow()
+                val event = LogEvent(
+                    timestamp = ts,
+                    host = "test.local",
+                    logger = "Test",
+                    context = "test-thread",
+                    level = INFO,
+                    template = null,
+                    message = "User {user} logged in and has a role {user_role}",
+                    stackTrace = null,
+                    items = mapOf("user" to "Samuel", "user_role" to "admin"),
+                )
 
-            RENDER_SIMPLE(event) shouldBe "${ts.localString} INFO [test-thread] Test : User Samuel logged in and has a role admin : {user=Samuel, user_role=admin}"
-        }
+                RENDER_SIMPLE(event) shouldBe "${ts.localString} INFO [test-thread] Test : User Samuel logged in and has a role admin : {user=Samuel, user_role=admin}"
+            }
 
             it("doesn't substitute with null") {
                 val ts = timestampNow()
@@ -97,7 +97,6 @@ class RenderSimpleTest : DescribeSpec({
 
                 RENDER_SIMPLE(event) shouldBe "${ts.localString} INFO [test-thread] Test : User Samuel logged in and has a role {user_role} : {user=Samuel, user_role=null}"
             }
-
         }
         it("puts a stack trace starting on the next line") {
             val ts = timestampNow()
