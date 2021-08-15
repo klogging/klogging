@@ -19,10 +19,11 @@
 package io.klogging
 
 import io.klogging.context.logContext
+import io.klogging.events.timestampNow
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.ZoneId
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import java.util.UUID.randomUUID
 
 /**
@@ -40,7 +41,7 @@ suspend fun main() = coroutineScope {
                     logger.info {
                         e(
                             "Event {Iteration} at {RightNow}", i + 1,
-                            LocalDateTime.now(ZoneId.of("Australia/Brisbane"))
+                            timestampNow().toLocalDateTime(TimeZone.currentSystemDefault())
                         )
                     }
                 }

@@ -31,17 +31,26 @@ import io.klogging.rendering.localString
 
 private const val KLOGGING_LOGGER = "Klogging"
 
-internal val RENDER_INTERNAL: RenderString = { e: LogEvent ->
-    "${e.timestamp.localString} ${e.level} [${e.context}] : ${e.logger} : ${e.message}" +
-        if (e.items.isNotEmpty()) " : ${e.items}" else "" +
-            if (e.stackTrace != null) "\n${e.stackTrace}" else ""
+/** Renderer specifically for internal logging. */
+private val RENDER_INTERNAL: RenderString = { e: LogEvent ->
+    val message =
+        "${e.timestamp.localString} ${e.level} [${e.context}] : ${e.logger} : ${e.message}"
+    val maybeItems = if (e.items.isNotEmpty()) " : ${e.items}" else ""
+    val maybeStackTrace = if (e.stackTrace != null) "\n${e.stackTrace}" else ""
+    message + maybeItems + maybeStackTrace
 }
 
 /**
- * Simplified internal logging for Klogging diagnostics, especially during
- * configuration.
+ * Internal logging for Klogging diagnostics. It uses a [LogEvent] with these simplifications:
+ *
+ * - Structured logging is not available. It can be called only with message strings
+ *   and an optional exception.
+ *
+ * - Events are rendered to strings using [RENDER_INTERNAL]. They are printed directly
+ *   to the standard output stream for [INFO] and lower level, and to the standard
+ *   error stream for [WARN] and above levels.
  */
-public fun log(
+internal fun log(
     level: Level,
     message: String,
     exception: Exception? = null
@@ -57,18 +66,18 @@ public fun log(
     else STDERR(RENDER_INTERNAL(event))
 }
 
-public fun debug(message: String, exception: Exception? = null) {
+internal fun debug(message: String, exception: Exception? = null) {
     log(DEBUG, message, exception)
 }
 
-public fun info(message: String, exception: Exception? = null) {
+internal fun info(message: String, exception: Exception? = null) {
     log(INFO, message, exception)
 }
 
-public fun warn(message: String, exception: Exception? = null) {
+internal fun warn(message: String, exception: Exception? = null) {
     log(WARN, message, exception)
 }
 
-public fun error(message: String, exception: Exception? = null) {
+internal fun error(message: String, exception: Exception? = null) {
     log(ERROR, message, exception)
 }

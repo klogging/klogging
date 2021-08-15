@@ -26,7 +26,7 @@ import kotlin.random.nextULong
 /** An event at a point in time with information about the running state of a program. */
 public data class LogEvent(
     /** Unique identifier for this event. */
-    val id: String = Random.nextULong().toString(16),
+    val id: String = randomId(),
     /** When the event occurred, to microsecond or better precision. */
     val timestamp: Instant = timestampNow(),
     /** Host where the event occurred. */
@@ -53,8 +53,14 @@ public data class LogEvent(
 )
 
 /**
- * Name of the executing host, included in all log events.
+ * Random ID for a [LogEvent].
+ *
+ * This implementation generates identifiers that are _compact_ for when they
+ * are printed by the internal logger and random enough (64 bits).
  */
+private fun randomId(): String = Random.nextULong().toString(16)
+
+/** Name of the executing host, included in all log events. */
 public expect val hostname: String
 
 /** Thread name or similar current context identifier. */
