@@ -25,13 +25,15 @@ import io.klogging.build.configureVersioning
 import io.klogging.build.configureWrapper
 
 plugins {
-    kotlin("jvm") version "1.5.21"
+    kotlin("jvm")
     `java-library`
 }
 
 val jacocoVersion: String by project
+val kloggingVersion: String by project
 val kotestVersion: String by project
 val ktlintVersion: String by project
+val slf4jVersion: String by project
 
 configurations.all {
     resolutionStrategy.cacheDynamicVersionsFor(10, "minutes")
@@ -49,8 +51,8 @@ dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    implementation("org.slf4j:slf4j-api:1.8.0-beta4")
-    implementation("io.klogging:klogging-jvm:0.3.0-SNAPSHOT")
+    implementation("io.klogging:klogging-jvm:$kloggingVersion")
+    implementation("org.slf4j:slf4j-api:$slf4jVersion")
 
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
 }
