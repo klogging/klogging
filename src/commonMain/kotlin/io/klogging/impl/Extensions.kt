@@ -22,15 +22,19 @@ import io.klogging.BaseLogger
 import io.klogging.Level
 import io.klogging.events.LogEvent
 import io.klogging.events.currentContext
-import io.klogging.events.timestampNow
 
 /**
- * Copy a [LogEvent], setting the level and the stack trace from any exception.
+ * Copy a [LogEvent], setting the level, the stack trace from any exception, and
+ * context items.
  *
  * This function is used when an event has already been constructed, for example
  * by the [Klogger#e] and [NoCoLogger#e] functions.
  */
-private fun LogEvent.copyWith(newLevel: Level, newStacktrace: String?): LogEvent = LogEvent(
+internal fun LogEvent.copyWith(
+    newLevel: Level,
+    newStacktrace: String? = null,
+    contextItems: Map<String, Any?> = mapOf()
+): LogEvent = LogEvent(
     id = id,
     timestamp = timestamp,
     host = host,
@@ -40,34 +44,33 @@ private fun LogEvent.copyWith(newLevel: Level, newStacktrace: String?): LogEvent
     template = template,
     message = message,
     stackTrace = newStacktrace,
-    items = items,
+    items = contextItems + items,
 )
 
 /**
  * Extension function on [BaseLogger] that constructs a [LogEvent] from a range of types.
  *
- * - If the object is an event already, update it with level and stack trace (if present).
- * - Otherwise, construct an event with current context and timestamp.
+ * - If the object is an event already, update it with level, stack trace (if present)
+ *   and context items.
+ * - Otherwise, construct an event with supplied information.
  */
-public fun BaseLogger.eventFrom(
+internal fun BaseLogger.eventFrom(
     level: Level,
     exception: Exception?,
     eventObject: Any?,
-    withItems: Map<String, Any?> = mapOf(),
+    contextItems: Map<String, Any?> = mapOf(),
 ): LogEvent {
     return when (eventObject) {
         is LogEvent ->
-            eventObject.copyWith(level, exception?.stackTraceToString())
+            eventObject.copyWith(level, exception?.stackTraceToString(), contextItems)
         else -> {
             val (message, stackTrace) = messageAndStackTrace(eventObject, exception)
             LogEvent(
-                timestamp = timestampNow(),
                 logger = this.name,
-                context = currentContext(),
                 level = level,
                 message = message,
                 stackTrace = stackTrace,
-                items = withItems,
+                items = contextItems,
             )
         }
     }
