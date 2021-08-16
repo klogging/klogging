@@ -49,7 +49,7 @@ dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    implementation("org.slf4j:slf4j-api:1.8.0-beta4")
+    implementation("org.slf4j:slf4j-api:1.7.31")
     implementation("io.klogging:klogging-jvm:0.3.0-SNAPSHOT")
 
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
