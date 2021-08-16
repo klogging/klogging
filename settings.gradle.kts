@@ -19,9 +19,11 @@
 rootProject.name = "slf4j-klogging"
 
 pluginManagement {
+    val kotlinVersion: String by settings
     val versionsPluginVersion: String by settings
 
     plugins {
+        kotlin("jvm") version kotlinVersion
         id("com.github.ben-manes.versions") version versionsPluginVersion
     }
 }

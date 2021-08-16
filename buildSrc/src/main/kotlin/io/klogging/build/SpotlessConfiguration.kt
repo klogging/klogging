@@ -118,6 +118,6 @@ fun Project.configureSpotless(ktlintVersion: String) {
     }
 
     tasks.named("spotlessKotlinCheck") {
-        mustRunAfter("jvmTest")
+        mustRunAfter("test")
     }
 }
