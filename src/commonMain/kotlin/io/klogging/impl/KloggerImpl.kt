@@ -23,6 +23,7 @@ import io.klogging.Level
 import io.klogging.context.LogContext
 import io.klogging.events.LogEvent
 import io.klogging.events.currentContext
+import io.klogging.events.runtimeContextItems
 import io.klogging.events.timestampNow
 import io.klogging.template.templateItems
 import kotlin.coroutines.coroutineContext
@@ -36,8 +37,8 @@ public class KloggerImpl(
         Logging.sendEvent(eventToLog)
     }
 
-    private suspend inline fun contextItems() =
-        coroutineContext[LogContext]?.getAll() ?: mapOf()
+    private suspend inline fun contextItems(): Map<String, Any?> =
+        runtimeContextItems() + (coroutineContext[LogContext]?.getAll() ?: mapOf())
 
     override suspend fun e(template: String, vararg values: Any?): LogEvent {
         val items = templateItems(template, *values).mapValues { e -> e.value.toString() }

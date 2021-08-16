@@ -65,3 +65,6 @@ public expect val hostname: String
 
 /** Thread name or similar current context identifier. */
 internal expect fun currentContext(): String?
+
+/** Contextual items in the current runtime. */
+internal expect fun runtimeContextItems(): Map<String, Any?>

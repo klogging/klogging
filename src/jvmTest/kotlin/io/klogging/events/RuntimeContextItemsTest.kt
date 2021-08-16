@@ -18,11 +18,19 @@
 
 package io.klogging.events
 
-public actual val hostname: String = TODO("Not yet implemented")
+import io.klogging.randomString
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.maps.shouldHaveSize
 
-internal actual fun currentContext(): String? {
-    TODO("Not yet implemented")
-}
+class RuntimeContextItemsTest : DescribeSpec({
 
-/** Contextual items in the current runtime. */
-internal actual fun runtimeContextItems(): Map<String, Any?> = mapOf()
+    describe("runtimeContextItems() function") {
+        it("returns an empty map by default") {
+            runtimeContextItems() shouldHaveSize 0
+        }
+        it("returns a map from the supplier set in the `JvmContextItems` object") {
+            val testMap: Map<String, String?> = mapOf(randomString() to randomString())
+            JvmContextItems.mapSupplier = { testMap }
+        }
+    }
+})
