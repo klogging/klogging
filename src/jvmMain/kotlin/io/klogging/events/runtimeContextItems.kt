@@ -22,8 +22,8 @@ package io.klogging.events
  * EXPERIMENTAL: JVM-only object that holds a supplier of maps of context items,
  * e.g. from SLF4J MDC.
  */
-internal object JvmContextItems {
-    internal var mapSupplier: () -> Map<String, String?> = { mapOf() }
+public object JvmContextItems {
+    public var mapSupplier: () -> Map<String, String?> = { mapOf() }
 }
 
 /** Contextual items in the current runtime. */
