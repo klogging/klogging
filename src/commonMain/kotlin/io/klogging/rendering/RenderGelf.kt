@@ -18,15 +18,8 @@
 
 package io.klogging.rendering
 
-import io.klogging.Level
-import io.klogging.Level.DEBUG
-import io.klogging.Level.ERROR
-import io.klogging.Level.FATAL
-import io.klogging.Level.INFO
-import io.klogging.Level.NONE
-import io.klogging.Level.TRACE
-import io.klogging.Level.WARN
 import io.klogging.events.LogEvent
+import io.klogging.syslog
 import kotlinx.datetime.Instant
 
 private const val GELF_TEMPLATE =
@@ -52,7 +45,7 @@ public val RENDER_GELF: RenderString = { e: LogEvent ->
         .replace("{{SHORT}}", e.message)
         .replace("{{EX}}", exception)
         .replace("{{TS}}", e.timestamp.graylogFormat())
-        .replace("{{LEVEL}}", graylogLevel(e.level).toString())
+        .replace("{{LEVEL}}", e.level.syslog.toString())
         .replace("{{ITEMS}}", itemsJson)
 }
 
@@ -62,21 +55,4 @@ private fun formatStackTrace(stackTrace: String) = STACK_TEMPLATE
 public fun Instant.graylogFormat(): String {
     val ns = "000000000$nanosecondsOfSecond"
     return "$epochSeconds.${ns.substring(ns.length - 9)}"
-}
-
-/**
- * Map [Level]s to syslog levels used by Graylog:
- *
- * 0=Emergency,1=Alert,2=Critical,3=Error,4=Warning,5=Notice,6=Informational,7=Debug
- *
- * See [syslog(7)](https://www.man7.org/linux/man-pages/man3/syslog.3.html)
- */
-public fun graylogLevel(level: Level): Int = when (level) {
-    NONE -> 7
-    TRACE -> 7
-    DEBUG -> 7
-    INFO -> 6
-    WARN -> 4
-    ERROR -> 3
-    FATAL -> 2
 }
