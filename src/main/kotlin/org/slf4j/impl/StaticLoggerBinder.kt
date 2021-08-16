@@ -23,13 +23,12 @@ import org.slf4j.ILoggerFactory
 import org.slf4j.spi.LoggerFactoryBinder
 
 /**
- * Implementation of [org.slf4j.impl.StaticLoggerBinder] to provide the [ILoggerFactory]
- * instance.
+ * Implementation of [org.slf4j.impl.StaticLoggerBinder] to provide an [ILoggerFactory].
  *
  * I believe this class must be in the `org.slf4j.impl` package for versions of SLF4J
  * before 1.8.
  */
-class StaticLoggerBinder private constructor(
+class StaticLoggerBinder internal constructor(
     private val loggerFactory: ILoggerFactory
 ) : LoggerFactoryBinder {
 
