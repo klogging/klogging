@@ -23,6 +23,3 @@ public actual val hostname: String = TODO("Not yet implemented")
 internal actual fun currentContext(): String? {
     TODO("Not yet implemented")
 }
-
-/** Contextual items in the current runtime. */
-internal actual fun runtimeContextItems(): Map<String, Any?> = mapOf()
