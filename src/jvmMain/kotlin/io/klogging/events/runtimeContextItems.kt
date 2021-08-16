@@ -18,12 +18,21 @@
 
 package io.klogging.events
 
+import io.klogging.internal.debug
+
+internal typealias MapSupplier = () -> Map<String, String?>
+
 /**
  * EXPERIMENTAL: JVM-only object that holds a supplier of maps of context items,
  * e.g. from SLF4J MDC.
  */
 public object JvmContextItems {
-    public var mapSupplier: () -> Map<String, String?> = { mapOf() }
+    internal var mapSupplier: MapSupplier = { mapOf() }
+
+    public fun setMapSupplier(supplier: MapSupplier) {
+        debug("Setting mapSupplier with ${System.identityHashCode(supplier)}")
+        mapSupplier = supplier
+    }
 }
 
 /** Contextual items in the current runtime. */
