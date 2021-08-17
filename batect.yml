@@ -22,25 +22,25 @@ tasks:
     description: Build the library.
     run:
       container: build-env
-      command: ./gradlew --no-daemon assemble
+      command: ./gradlew assemble
 
   check:
     description: Run the unit tests and static analysis tools.
     run:
       container: build-env
-      command: ./gradlew --no-daemon check
+      command: ./gradlew check
 
   continuousCheck:
     description: Run 'check' and then re-run when any code changes are detected.
     run:
       container: build-env
-      command: ./gradlew --no-daemon --continuous check
+      command: ./gradlew --continuous check
 
   spotlessApply:
     description: Fix code formatting issues identified by Spotless.
     run:
       container: build-env
-      command: ./gradlew --no-daemon spotlessApply
+      command: ./gradlew spotlessApply
 
   shell:
     description: Start a shell in the development environment.
@@ -52,19 +52,19 @@ tasks:
     description: Check for outdated dependencies.
     run:
       container: build-env
-      command: ./gradlew --no-daemon dependencyUpdates -Drevision=release
+      command: ./gradlew dependencyUpdates -Drevision=release
 
   generateCodeCoverageReport:
     description: Generate a code coverage report based on a previous test run.
     run:
       container: build-env
-      command: ./gradlew --no-daemon jacocoTestReport
+      command: ./gradlew jacocoTestReport
 
   publishRelease:
     description: Publish the library to Sonatype's Open Source Software Repository Hosting (OSSRH), which will be synced to Maven Central.
     run:
       container: build-env
-      command: ./gradlew --no-daemon publishRelease
+      command: ./gradlew publishRelease
       environment:
         OSSRH_USERNAME: $OSSRH_USERNAME
         OSSRH_PASSWORD: $OSSRH_PASSWORD
@@ -76,7 +76,7 @@ tasks:
     description: Publish the library to Sonatype's Open Source Software Repository Hosting (OSSRH), which will be synced to Maven Central.
     run:
       container: build-env
-      command: ./gradlew --no-daemon publishSnapshot
+      command: ./gradlew publishSnapshot
       environment:
         OSSRH_USERNAME: $OSSRH_USERNAME
         OSSRH_PASSWORD: $OSSRH_PASSWORD
@@ -88,7 +88,7 @@ tasks:
     description: Assemble the files that would be published to a repository.
     run:
       container: build-env
-      command: ./gradlew --no-daemon assembleRelease
+      command: ./gradlew assembleRelease
       environment:
         SIGNING_KEY_ID: $SIGNING_KEY_ID # Run `gpg -K` to get this, take last eight characters
         SIGNING_KEY: $SIGNING_KEY # Run `gpg --export-secret-keys <ID> | base64` to get this
