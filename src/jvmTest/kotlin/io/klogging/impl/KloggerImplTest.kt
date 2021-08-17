@@ -19,25 +19,30 @@
 package io.klogging.impl
 
 import io.klogging.Level.ERROR
+import io.klogging.Level.INFO
 import io.klogging.Level.WARN
+import io.klogging.context.logContext
 import io.klogging.events.timestampNow
 import io.klogging.logEvent
-import io.klogging.logger
 import io.klogging.randomString
 import io.klogging.savedEvents
 import io.klogging.waitForDispatch
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldContain
+import io.kotest.matchers.maps.shouldContainAll
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import kotlinx.coroutines.withContext
 
-class KtLoggerImplTest : DescribeSpec({
-    describe("KtLoggerImpl implementation of KtLogger") {
+class KloggerImplTest : DescribeSpec({
+
+    describe("KloggerImpl implementation of Klogger") {
         describe("logs any object") {
             it("logs a string in the message field") {
                 val events = savedEvents()
                 val message = randomString()
-                KloggerImpl("KtLoggerImplTest").warn(message)
+                KloggerImpl("KloggerImplTest").warn(message)
                 waitForDispatch()
 
                 events.size shouldBe 1
@@ -46,7 +51,7 @@ class KtLoggerImplTest : DescribeSpec({
             it("logs a LogEvent object with the specified level") {
                 val events = savedEvents()
                 val event = logEvent()
-                KloggerImpl("KtLoggerImplTest").warn(event)
+                KloggerImpl("KloggerImplTest").warn(event)
                 waitForDispatch()
 
                 events.size shouldBe 1
@@ -65,7 +70,7 @@ class KtLoggerImplTest : DescribeSpec({
                 val events = savedEvents()
                 val event = logEvent()
                 val exception = RuntimeException("Oh noes!")
-                KloggerImpl("KtLoggerImplTest").error(exception, event)
+                KloggerImpl("KloggerImplTest").error(exception, event)
                 waitForDispatch()
 
                 events.size shouldBe 1
@@ -83,7 +88,7 @@ class KtLoggerImplTest : DescribeSpec({
             it("logs an exception with message and stack trace") {
                 val events = savedEvents()
                 val exception = RuntimeException("Some kind of problem")
-                KloggerImpl("KtLoggerImplTest").warn(exception)
+                KloggerImpl("KloggerImplTest").warn(exception)
                 waitForDispatch()
 
                 events.size shouldBe 1
@@ -93,7 +98,7 @@ class KtLoggerImplTest : DescribeSpec({
             it("logs the string representation of anything else in the message field") {
                 val events = savedEvents()
                 val event = timestampNow()
-                logger("KtLoggerImplTest").info(event)
+                KloggerImpl("KloggerImplTest").info(event)
                 waitForDispatch()
 
                 events.size shouldBe 1
@@ -104,7 +109,7 @@ class KtLoggerImplTest : DescribeSpec({
         describe("optionally logs exception information") {
             it("does not include stack trace information if an exception is not provided") {
                 val events = savedEvents()
-                logger("KtLoggerImplTest").warn { "Possible trouble" }
+                KloggerImpl("KloggerImplTest").warn { "Possible trouble" }
                 waitForDispatch()
 
                 events.size shouldBe 1
@@ -112,7 +117,7 @@ class KtLoggerImplTest : DescribeSpec({
             }
             it("includes stack trace information if an exception is provided as well as other information") {
                 val events = savedEvents()
-                logger("KtLoggerImplTest").warn(RuntimeException("Oh noes!")) { "Big trouble!" }
+                KloggerImpl("KloggerImplTest").warn(RuntimeException("Oh noes!")) { "Big trouble!" }
                 waitForDispatch()
 
                 events.size shouldBe 1
@@ -123,7 +128,7 @@ class KtLoggerImplTest : DescribeSpec({
         describe("event construction function e()") {
             it("uses the template unchanged as message if there are no items") {
                 val tmpl = randomString()
-                with(KloggerImpl("KtLoggerImplTest").e(tmpl)) {
+                with(KloggerImpl("KloggerImplTest").e(tmpl)) {
                     message shouldBe tmpl
                     template shouldBe tmpl
                 }
@@ -131,11 +136,30 @@ class KtLoggerImplTest : DescribeSpec({
             it("uses message templating to complete the message") {
                 val tmpl = "Hello {User}!"
                 val item = randomString()
-                with(KloggerImpl("KtLoggerImplTest").e(tmpl, item)) {
+                with(KloggerImpl("KloggerImplTest").e(tmpl, item)) {
                     message shouldBe tmpl
                     template shouldBe tmpl
                     items shouldContain ("User" to item)
                 }
+            }
+        }
+
+        describe("emitEvent() function") {
+            it("combines context items with event items") {
+                val events = savedEvents()
+                val runId = randomString()
+                val id = randomString()
+                val event = KloggerImpl("KloggerImplTest").e("User {id} logged in", id)
+                withContext(logContext("run" to runId)) {
+                    KloggerImpl("KloggerImplTest").emitEvent(INFO, null, event)
+                    waitForDispatch()
+                }
+
+                events shouldHaveSize 1
+                events.first().items shouldContainAll mapOf(
+                    "run" to runId,
+                    "id" to id,
+                )
             }
         }
     }
