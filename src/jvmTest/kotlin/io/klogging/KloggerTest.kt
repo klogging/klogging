@@ -73,7 +73,7 @@ class KloggerTest : DescribeSpec({
     }
 
     describe("KtLogger") {
-        describe("does not log") {
+        describe("does not log when level is NONE") {
             it("for a string message") {
                 with(TestLogger()) {
                     log(NONE, "foo")

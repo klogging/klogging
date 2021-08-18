@@ -32,10 +32,10 @@ internal class LevelsTest : DescribeSpec({
                     randomString().let { message ->
                         logger.log(eventLevel, message)
 
-                        if (!logger.isLevelEnabled(eventLevel))
-                            logger.loggedMessage.shouldBeNull()
-                        else
+                        if (logger.isLevelEnabled(eventLevel))
                             logger.loggedMessage shouldBe message
+                        else
+                            logger.loggedMessage.shouldBeNull()
                     }
                 }
             }
