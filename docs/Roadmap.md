@@ -23,7 +23,6 @@ In no particular order at this stage.
 - Create a [Ktor](https://ktor.io/) plugin with options for automatically
   capturing and logging request and other context information.
 - Create an [SLF4J](http://www.slf4j.org/) binding for Klogging.
-- Consider a JUL (JDK native logging) binding for Klogging.
 - A repository of examples in Kotlin and Java
 - A complete documentation and support website, using ideas from
   [The Documentation System](https://documentation.divio.com/).
