@@ -24,7 +24,7 @@ import io.klogging.Level.WARN
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.types.shouldBeInstanceOf
 
-internal class LoggingContextTest : DescribeSpec({
+internal class LevelRangeTest : DescribeSpec({
     describe("LevelRange") {
         it("is also a Kotlin range") {
             LevelRange(DEBUG, WARN).shouldBeInstanceOf<ClosedRange<Level>>()

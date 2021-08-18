@@ -22,27 +22,6 @@ import io.klogging.Level
 import io.klogging.Level.FATAL
 import io.klogging.Level.TRACE
 
-/** Inclusive range of logging levels with the names of sinks where events will be dispatched. */
-public data class LevelRange(
-    val minLevel: Level,
-    val maxLevel: Level,
-) : ClosedRange<Level> {
-    override val start: Level get() = minLevel
-    override val endInclusive: Level get() = maxLevel
-
-    internal val sinkNames = mutableListOf<String>()
-
-    /**
-     * DSL function to specify a sink where events for this [LoggingConfig] should be sent.
-     *
-     * @param sinkName name of the sink
-     */
-    @ConfigDsl
-    public fun toSink(sinkName: String) {
-        sinkNames += sinkName
-    }
-}
-
 /**
  * Logging configuration with a logger name match and a list of level ranges that
  * maps to a list of sinks for each.
