@@ -31,6 +31,7 @@ import io.klogging.events.LogEvent
  */
 public interface Klogger : BaseLogger {
 
+    /** Emit an event after minimum level checking. */
     public suspend fun emitEvent(level: Level, exception: Exception?, event: Any?)
 
     public suspend fun log(level: Level, exception: Exception, event: Any?): Unit =

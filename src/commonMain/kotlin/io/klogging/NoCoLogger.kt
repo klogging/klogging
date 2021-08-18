@@ -33,7 +33,19 @@ import io.klogging.events.LogEvent
  */
 public interface NoCoLogger : BaseLogger {
 
-    public fun emitEvent(level: Level, exception: Exception?, event: Any?)
+    /**
+     * Emit an event after minimum level checking.
+     *
+     * This is different to [Klogger#emitEvent] in that it optionally accepts a map of
+     * items from the context. This mechanism is used by the
+     * [SLF4J binding](https://github.com/klogging/slf4j-klogging).
+     */
+    public fun emitEvent(
+        level: Level,
+        exception: Exception?,
+        event: Any?,
+        contextItems: Map<String, Any?> = mapOf(),
+    )
 
     public fun log(level: Level, exception: Exception, event: Any?): Unit =
         emitEvent(level, exception, event)
