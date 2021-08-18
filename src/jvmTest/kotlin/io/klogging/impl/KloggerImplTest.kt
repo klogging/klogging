@@ -31,9 +31,11 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.maps.shouldContainAll
+import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kotlinx.coroutines.withContext
+import kotlin.random.Random
 
 class KloggerImplTest : DescribeSpec({
 
@@ -140,6 +142,13 @@ class KloggerImplTest : DescribeSpec({
                     message shouldBe tmpl
                     template shouldBe tmpl
                     items shouldContain ("User" to item)
+                }
+            }
+            it("extracts values into items") {
+                val name = randomString()
+                val age = Random.nextInt(50)
+                with(KloggerImpl("KloggerImplTest").e("{name} is {age} years old", name, age)) {
+                    items shouldContainExactly mapOf("name" to name, "age" to age)
                 }
             }
         }
