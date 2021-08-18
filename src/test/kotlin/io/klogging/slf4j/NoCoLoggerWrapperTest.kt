@@ -29,6 +29,7 @@ import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.slf4j.LoggerFactory
+import org.slf4j.MDC
 import kotlin.random.Random
 
 class NoCoLoggerWrapperTest : DescribeSpec({
@@ -165,6 +166,18 @@ class NoCoLoggerWrapperTest : DescribeSpec({
 
             saved shouldHaveSize 1
             saved.first().stackTrace shouldNotBe null
+        }
+
+        it("includes MDC items when they are available") {
+            val saved = savedEvents()
+            val runId = randomString()
+            MDC.putCloseable("runId", runId).use {
+                LoggerFactory.getLogger(randomString()).info(randomString())
+            }
+            waitForDispatch()
+
+            saved shouldHaveSize 1
+            saved.first().items shouldContainExactly mapOf("runId" to runId)
         }
     }
 })

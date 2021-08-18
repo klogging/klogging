@@ -25,6 +25,7 @@ import io.klogging.Level.INFO
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
 import io.klogging.NoCoLogger
+import org.slf4j.MDC
 import org.slf4j.helpers.MarkerIgnoringBase
 
 class NoCoLoggerWrapper(
@@ -36,26 +37,26 @@ class NoCoLoggerWrapper(
     override fun isTraceEnabled(): Boolean = noCoLogger.isTraceEnabled()
 
     override fun trace(msg: String?) {
-        noCoLogger.log(TRACE, msg)
+        logEvent(TRACE, msg)
     }
 
     override fun trace(format: String?, arg: Any?) {
-        if (format != null) noCoLogger.log(TRACE, format, arg)
+        if (format != null) logEvent(TRACE, format, arg)
     }
 
     override fun trace(format: String?, arg1: Any?, arg2: Any?) {
-        if (format != null) noCoLogger.log(TRACE, format, arg1, arg2)
+        if (format != null) logEvent(TRACE, format, arg1, arg2)
     }
 
     override fun trace(format: String?, vararg arguments: Any?) {
-        if (format != null) noCoLogger.log(TRACE, format, *arguments)
+        if (format != null) logEvent(TRACE, format, *arguments)
     }
 
     private fun logWithThrowable(level: Level, msg: String?, t: Throwable?) {
         val ex = t?.let { Exception(it) }
         if (msg != null)
-            if (ex != null) noCoLogger.log(level, ex, msg) else noCoLogger.log(level, msg)
-        else if (ex != null) noCoLogger.log(level, ex)
+            if (ex != null) logEvent(level, ex, msg) else logEvent(level, msg)
+        else if (ex != null) logEvent(level, ex)
     }
 
     override fun trace(msg: String?, t: Throwable?) {
@@ -65,19 +66,19 @@ class NoCoLoggerWrapper(
     override fun isDebugEnabled(): Boolean = noCoLogger.isDebugEnabled()
 
     override fun debug(msg: String?) {
-        noCoLogger.log(DEBUG, msg)
+        logEvent(DEBUG, msg)
     }
 
     override fun debug(format: String?, arg: Any?) {
-        if (format != null) noCoLogger.log(DEBUG, format, arg)
+        if (format != null) logEvent(DEBUG, format, arg)
     }
 
     override fun debug(format: String?, arg1: Any?, arg2: Any?) {
-        if (format != null) noCoLogger.log(DEBUG, format, arg1, arg2)
+        if (format != null) logEvent(DEBUG, format, arg1, arg2)
     }
 
     override fun debug(format: String?, vararg arguments: Any?) {
-        if (format != null) noCoLogger.log(DEBUG, format, *arguments)
+        if (format != null) logEvent(DEBUG, format, *arguments)
     }
 
     override fun debug(msg: String?, t: Throwable?) {
@@ -87,19 +88,19 @@ class NoCoLoggerWrapper(
     override fun isInfoEnabled(): Boolean = noCoLogger.isInfoEnabled()
 
     override fun info(msg: String?) {
-        noCoLogger.log(INFO, msg)
+        logEvent(INFO, msg)
     }
 
     override fun info(format: String?, arg: Any?) {
-        if (format != null) noCoLogger.log(INFO, format, arg)
+        if (format != null) logEvent(INFO, format, arg)
     }
 
     override fun info(format: String?, arg1: Any?, arg2: Any?) {
-        if (format != null) noCoLogger.log(INFO, format, arg1, arg2)
+        if (format != null) logEvent(INFO, format, arg1, arg2)
     }
 
     override fun info(format: String?, vararg arguments: Any?) {
-        if (format != null) noCoLogger.log(INFO, format, *arguments)
+        if (format != null) logEvent(INFO, format, *arguments)
     }
 
     override fun info(msg: String?, t: Throwable?) {
@@ -109,19 +110,19 @@ class NoCoLoggerWrapper(
     override fun isWarnEnabled(): Boolean = noCoLogger.isWarnEnabled()
 
     override fun warn(msg: String?) {
-        noCoLogger.log(WARN, msg)
+        logEvent(WARN, msg)
     }
 
     override fun warn(format: String?, arg: Any?) {
-        if (format != null) noCoLogger.log(WARN, format, arg)
+        if (format != null) logEvent(WARN, format, arg)
     }
 
     override fun warn(format: String?, vararg arguments: Any?) {
-        if (format != null) noCoLogger.log(WARN, format, *arguments)
+        if (format != null) logEvent(WARN, format, *arguments)
     }
 
     override fun warn(format: String?, arg1: Any?, arg2: Any?) {
-        if (format != null) noCoLogger.log(WARN, format, arg1, arg2)
+        if (format != null) logEvent(WARN, format, arg1, arg2)
     }
 
     override fun warn(msg: String?, t: Throwable?) {
@@ -131,22 +132,38 @@ class NoCoLoggerWrapper(
     override fun isErrorEnabled(): Boolean = noCoLogger.isErrorEnabled()
 
     override fun error(msg: String?) {
-        noCoLogger.log(ERROR, msg)
+        logEvent(ERROR, msg)
     }
 
     override fun error(format: String?, arg: Any?) {
-        if (format != null) noCoLogger.log(ERROR, format, arg)
+        if (format != null) logEvent(ERROR, format, arg)
     }
 
     override fun error(format: String?, arg1: Any?, arg2: Any?) {
-        if (format != null) noCoLogger.log(ERROR, format, arg1, arg2)
+        if (format != null) logEvent(ERROR, format, arg1, arg2)
     }
 
     override fun error(format: String?, vararg arguments: Any?) {
-        if (format != null) noCoLogger.log(ERROR, format, *arguments)
+        if (format != null) logEvent(ERROR, format, *arguments)
     }
 
     override fun error(msg: String?, t: Throwable?) {
         logWithThrowable(ERROR, msg, t)
     }
+
+    internal fun logEvent(level: Level, format: String?, vararg arguments: Any?) {
+        if (format == null || arguments.isEmpty())
+            noCoLogger.emitEvent(level, null, format, contextItems())
+        else
+            noCoLogger.emitEvent(level, null, noCoLogger.e(format, *arguments), contextItems())
+    }
+
+    internal fun logEvent(level: Level, exception: Exception?, format: String? = null, vararg arguments: Any?) {
+        if (format == null || arguments.isEmpty())
+            noCoLogger.emitEvent(level, exception, format, contextItems())
+        else
+            noCoLogger.emitEvent(level, null, noCoLogger.e(format, *arguments), contextItems())
+    }
+
+    fun contextItems(): Map<String, Any?> = MDC.getCopyOfContextMap() ?: mapOf()
 }
