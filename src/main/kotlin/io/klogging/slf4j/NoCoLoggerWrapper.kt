@@ -19,6 +19,11 @@
 package io.klogging.slf4j
 
 import io.klogging.Level
+import io.klogging.Level.DEBUG
+import io.klogging.Level.ERROR
+import io.klogging.Level.INFO
+import io.klogging.Level.TRACE
+import io.klogging.Level.WARN
 import io.klogging.NoCoLogger
 import org.slf4j.helpers.MarkerIgnoringBase
 
@@ -31,19 +36,19 @@ class NoCoLoggerWrapper(
     override fun isTraceEnabled(): Boolean = noCoLogger.isTraceEnabled()
 
     override fun trace(msg: String?) {
-        noCoLogger.log(Level.TRACE, msg)
+        noCoLogger.log(TRACE, msg)
     }
 
     override fun trace(format: String?, arg: Any?) {
-        if (format != null) noCoLogger.log(Level.TRACE, format, arg)
+        if (format != null) noCoLogger.log(TRACE, format, arg)
     }
 
     override fun trace(format: String?, arg1: Any?, arg2: Any?) {
-        if (format != null) noCoLogger.log(Level.TRACE, format, arg1, arg2)
+        if (format != null) noCoLogger.log(TRACE, format, arg1, arg2)
     }
 
     override fun trace(format: String?, vararg arguments: Any?) {
-        if (format != null) noCoLogger.log(Level.TRACE, format, *arguments)
+        if (format != null) noCoLogger.log(TRACE, format, *arguments)
     }
 
     private fun logWithThrowable(level: Level, msg: String?, t: Throwable?) {
@@ -54,94 +59,94 @@ class NoCoLoggerWrapper(
     }
 
     override fun trace(msg: String?, t: Throwable?) {
-        logWithThrowable(Level.TRACE, msg, t)
+        logWithThrowable(TRACE, msg, t)
     }
 
     override fun isDebugEnabled(): Boolean = noCoLogger.isDebugEnabled()
 
     override fun debug(msg: String?) {
-        noCoLogger.log(Level.DEBUG, msg)
+        noCoLogger.log(DEBUG, msg)
     }
 
     override fun debug(format: String?, arg: Any?) {
-        if (format != null) noCoLogger.log(Level.DEBUG, format, arg)
+        if (format != null) noCoLogger.log(DEBUG, format, arg)
     }
 
     override fun debug(format: String?, arg1: Any?, arg2: Any?) {
-        if (format != null) noCoLogger.log(Level.DEBUG, format, arg1, arg2)
+        if (format != null) noCoLogger.log(DEBUG, format, arg1, arg2)
     }
 
     override fun debug(format: String?, vararg arguments: Any?) {
-        if (format != null) noCoLogger.log(Level.DEBUG, format, *arguments)
+        if (format != null) noCoLogger.log(DEBUG, format, *arguments)
     }
 
     override fun debug(msg: String?, t: Throwable?) {
-        logWithThrowable(Level.DEBUG, msg, t)
+        logWithThrowable(DEBUG, msg, t)
     }
 
     override fun isInfoEnabled(): Boolean = noCoLogger.isInfoEnabled()
 
     override fun info(msg: String?) {
-        noCoLogger.log(Level.INFO, msg)
+        noCoLogger.log(INFO, msg)
     }
 
     override fun info(format: String?, arg: Any?) {
-        if (format != null) noCoLogger.log(Level.INFO, format, arg)
+        if (format != null) noCoLogger.log(INFO, format, arg)
     }
 
     override fun info(format: String?, arg1: Any?, arg2: Any?) {
-        if (format != null) noCoLogger.log(Level.INFO, format, arg1, arg2)
+        if (format != null) noCoLogger.log(INFO, format, arg1, arg2)
     }
 
     override fun info(format: String?, vararg arguments: Any?) {
-        if (format != null) noCoLogger.log(Level.INFO, format, *arguments)
+        if (format != null) noCoLogger.log(INFO, format, *arguments)
     }
 
     override fun info(msg: String?, t: Throwable?) {
-        logWithThrowable(Level.INFO, msg, t)
+        logWithThrowable(INFO, msg, t)
     }
 
     override fun isWarnEnabled(): Boolean = noCoLogger.isWarnEnabled()
 
     override fun warn(msg: String?) {
-        noCoLogger.log(Level.WARN, msg)
+        noCoLogger.log(WARN, msg)
     }
 
     override fun warn(format: String?, arg: Any?) {
-        if (format != null) noCoLogger.log(Level.WARN, format, arg)
+        if (format != null) noCoLogger.log(WARN, format, arg)
     }
 
     override fun warn(format: String?, vararg arguments: Any?) {
-        if (format != null) noCoLogger.log(Level.WARN, format, *arguments)
+        if (format != null) noCoLogger.log(WARN, format, *arguments)
     }
 
     override fun warn(format: String?, arg1: Any?, arg2: Any?) {
-        if (format != null) noCoLogger.log(Level.WARN, format, arg1, arg2)
+        if (format != null) noCoLogger.log(WARN, format, arg1, arg2)
     }
 
     override fun warn(msg: String?, t: Throwable?) {
-        logWithThrowable(Level.WARN, msg, t)
+        logWithThrowable(WARN, msg, t)
     }
 
     override fun isErrorEnabled(): Boolean = noCoLogger.isErrorEnabled()
 
     override fun error(msg: String?) {
-        noCoLogger.log(Level.ERROR, msg)
+        noCoLogger.log(ERROR, msg)
     }
 
     override fun error(format: String?, arg: Any?) {
-        if (format != null) noCoLogger.log(Level.ERROR, format, arg)
+        if (format != null) noCoLogger.log(ERROR, format, arg)
     }
 
     override fun error(format: String?, arg1: Any?, arg2: Any?) {
-        if (format != null) noCoLogger.log(Level.ERROR, format, arg1, arg2)
+        if (format != null) noCoLogger.log(ERROR, format, arg1, arg2)
     }
 
     override fun error(format: String?, vararg arguments: Any?) {
-        if (format != null) noCoLogger.log(Level.ERROR, format, *arguments)
+        if (format != null) noCoLogger.log(ERROR, format, *arguments)
     }
 
     override fun error(msg: String?, t: Throwable?) {
-        logWithThrowable(Level.ERROR, msg, t)
+        logWithThrowable(ERROR, msg, t)
     }
 }
