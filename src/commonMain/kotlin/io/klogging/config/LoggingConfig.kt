@@ -26,7 +26,10 @@ import io.klogging.Level.TRACE
 public data class LevelRange(
     val minLevel: Level,
     val maxLevel: Level,
-) {
+) : ClosedRange<Level> {
+    override val start: Level get() = minLevel
+    override val endInclusive: Level get() = maxLevel
+
     internal val sinkNames = mutableListOf<String>()
 
     /**
@@ -45,10 +48,7 @@ public data class LevelRange(
  * maps to a list of sinks for each.
  */
 public class LoggingConfig {
-
-    /**
-     * Default matching is all logger names.
-     */
+    /** Default matching is all logger names. */
     internal val matchAllLoggers: String = ".*"
 
     internal var nameMatch: Regex = Regex(matchAllLoggers)

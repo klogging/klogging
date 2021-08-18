@@ -16,8 +16,6 @@
 
 */
 
-@file:OptIn(ExperimentalTime::class)
-
 package io.klogging
 
 import io.klogging.Level.DEBUG
@@ -34,40 +32,8 @@ import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import java.lang.Thread.currentThread
-import kotlin.time.ExperimentalTime
 
-class TestLogger(private val minLevel: Level = TRACE) : Klogger {
-    override val name: String = "TestLogger"
-
-    internal var except: Exception? = null
-    internal var logged: Any? = null
-
-    override fun minLevel() = minLevel
-    override suspend fun emitEvent(level: Level, exception: Exception?, event: Any?) {
-        except = exception
-        logged = event
-    }
-
-    override suspend fun e(template: String, vararg values: Any?): LogEvent =
-        LogEvent(
-            randomString(),
-            timestampNow(),
-            hostname,
-            "TestLogger",
-            currentThread().name,
-            NONE,
-            template,
-            template,
-            null,
-            templateItems(template, *values).mapValues { e -> e.value.toString() }
-        )
-}
-
-class TestException(message: String) : Exception(message)
-
-class KloggerTest : DescribeSpec({
-    // Capture once rather than call several times: Avoid flaky tests if the OS sleeps our process
-    val now = timestampNow()
+internal class KloggerTest : DescribeSpec({
     val thing = object {
         override fun toString() = "foo"
     }
@@ -217,3 +183,32 @@ class KloggerTest : DescribeSpec({
         }
     }
 })
+
+private class TestLogger(private val minLevel: Level = TRACE) : Klogger {
+    override val name: String = "TestLogger"
+
+    internal var except: Exception? = null
+    internal var logged: Any? = null
+
+    override fun minLevel() = minLevel
+    override suspend fun emitEvent(level: Level, exception: Exception?, event: Any?) {
+        except = exception
+        logged = event
+    }
+
+    override suspend fun e(template: String, vararg values: Any?): LogEvent =
+        LogEvent(
+            randomString(),
+            timestampNow(),
+            hostname,
+            "TestLogger",
+            currentThread().name,
+            NONE,
+            template,
+            template,
+            null,
+            templateItems(template, *values).mapValues { e -> e.value.toString() }
+        )
+}
+
+private class TestException(message: String) : Exception(message)
