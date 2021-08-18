@@ -22,6 +22,7 @@ import io.klogging.Level.DEBUG
 import io.klogging.Level.ERROR
 import io.klogging.Level.FATAL
 import io.klogging.Level.INFO
+import io.klogging.Level.NONE
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
 import io.klogging.internal.KloggingState
@@ -45,7 +46,10 @@ public interface BaseLogger {
      * Check whether this logger will emit log events at the specified logging
      * level.
      */
-    public fun isLevelEnabled(level: Level): Boolean = minLevel() <= level
+    public fun isLevelEnabled(level: Level): Boolean = when {
+        NONE == level -> false
+        else -> minLevel() <= level
+    }
 
     /** Is this logger enabled to emit [TRACE] events? */
     public fun isTraceEnabled(): Boolean = isLevelEnabled(TRACE)
