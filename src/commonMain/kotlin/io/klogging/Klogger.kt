@@ -30,6 +30,8 @@ import io.klogging.events.LogEvent
  * Logger interface for sending log events inside coroutines.
  */
 public interface Klogger : BaseLogger {
+
+    /** Emit an event after minimum level checking. */
     public suspend fun emitEvent(level: Level, exception: Exception?, event: Any?)
 
     public suspend fun log(level: Level, exception: Exception, event: Any?) {

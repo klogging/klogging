@@ -31,15 +31,20 @@ public class NoCoLoggerImpl(
     override val name: String,
 ) : NoCoLogger {
 
-    override fun emitEvent(level: Level, exception: Exception?, event: Any?) {
-        val eventToLog = eventFrom(level, exception, event)
+    override fun emitEvent(
+        level: Level,
+        exception: Exception?,
+        event: Any?,
+        contextItems: Map<String, Any?>,
+    ) {
+        val eventToLog = eventFrom(level, exception, event, contextItems)
         CoroutineScope(Job()).launch {
             Logging.sendEvent(eventToLog)
         }
     }
 
     override fun e(template: String, vararg values: Any?): LogEvent {
-        val items = templateItems(template, *values).mapValues { e -> e.value.toString() }
+        val items = templateItems(template, *values).mapValues { e -> e.value }
         return LogEvent(
             timestamp = timestampNow(),
             logger = this.name,

@@ -40,7 +40,7 @@ public class KloggerImpl(
         coroutineContext[LogContext]?.getAll() ?: mapOf()
 
     override suspend fun e(template: String, vararg values: Any?): LogEvent {
-        val items = templateItems(template, *values).mapValues { e -> e.value.toString() }
+        val items = templateItems(template, *values).mapValues { e -> e.value }
         return LogEvent(
             timestamp = timestampNow(),
             logger = this.name,
