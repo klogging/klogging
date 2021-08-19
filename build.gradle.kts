@@ -35,16 +35,8 @@ val kotestVersion: String by project
 val ktlintVersion: String by project
 val slf4jVersion: String by project
 
-configurations.all {
-    resolutionStrategy.cacheDynamicVersionsFor(10, "minutes")
-    resolutionStrategy.cacheChangingModulesFor(10, "minutes")
-}
-
 repositories {
     mavenCentral()
-    maven {
-        url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-    }
 }
 
 dependencies {
