@@ -29,18 +29,18 @@ import org.slf4j.spi.MDCAdapter
  * I believe this class must be in the `org.slf4j.impl` package for versions of SLF4J
  * before 1.8.
  */
-class StaticMDCBinder private constructor() {
+public class StaticMDCBinder private constructor() {
 
-    companion object {
+    public companion object {
         /** Instance of this class available to Java via `StaticMDCBinder.getSingleton()`. */
         @JvmStatic
-        val singleton = StaticMDCBinder()
+        public val singleton: StaticMDCBinder = StaticMDCBinder()
     }
 
     /**
      * Called only during SLF4J MDC construction.
      */
-    fun getMDCA(): MDCAdapter = BasicMDCAdapter()
+    public fun getMDCA(): MDCAdapter = BasicMDCAdapter()
 
-    fun getMDCAdapterClassStr() = BasicMDCAdapter::class.java.name
+    public fun getMDCAdapterClassStr(): String = BasicMDCAdapter::class.java.name
 }

@@ -34,7 +34,7 @@ import org.slf4j.helpers.MessageFormatter
  *
  * It extends [MarkerIgnoringBase] because Klogging does not handle markers.
  */
-class NoCoLoggerWrapper(
+public class NoCoLoggerWrapper(
     private val noCoLogger: NoCoLogger
 ) : MarkerIgnoringBase() {
 

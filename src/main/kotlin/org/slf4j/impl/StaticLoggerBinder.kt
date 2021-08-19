@@ -28,17 +28,17 @@ import org.slf4j.spi.LoggerFactoryBinder
  * I believe this class must be in the `org.slf4j.impl` package for versions of SLF4J
  * before 1.8.
  */
-class StaticLoggerBinder internal constructor(
+public class StaticLoggerBinder internal constructor(
     private val loggerFactory: ILoggerFactory
 ) : LoggerFactoryBinder {
 
-    companion object {
+    public companion object {
         /** Version of SLF4J used to create this binding. */
-        const val REQUEST_API_VERSION = "1.7.32"
+        public const val REQUEST_API_VERSION: String = "1.7.32"
 
         /** Instance of this class available to Java via `StaticLoggingBinder.getSingleton()`. */
         @JvmStatic
-        val singleton = StaticLoggerBinder(NoCoLoggerFactory())
+        public val singleton: StaticLoggerBinder = StaticLoggerBinder(NoCoLoggerFactory())
     }
 
     private val loggerFactoryClassString = NoCoLoggerFactory::class.java.name

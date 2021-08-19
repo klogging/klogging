@@ -26,7 +26,7 @@ import org.slf4j.Logger
  * Implementation of [ILoggerFactory] whose [getLogger] function constructs an [io.klogging.NoCoLogger]
  * wrapped in a [NoCoLoggerWrapper].
  */
-class NoCoLoggerFactory : ILoggerFactory {
+public class NoCoLoggerFactory : ILoggerFactory {
     /**
      * Construct an [io.klogging.NoCoLogger] wrapped in a [NoCoLoggerWrapper].
      *
