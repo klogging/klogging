@@ -26,6 +26,7 @@ import io.klogging.Level.WARN
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldContainExactly
+import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.slf4j.LoggerFactory
@@ -155,6 +156,68 @@ class NoCoLoggerWrapperTest : DescribeSpec({
                 with(saved.first()) {
                     template shouldBe "User {id} called {name} is {age}"
                     items shouldContainExactly mapOf("id" to id, "name" to name, "age" to age)
+                }
+            }
+        }
+
+        describe("works with SLF4J placeholders") {
+            it("replaces SLF4J placeholders with provided values") {
+                val saved = savedEvents()
+                val id = randomString()
+                LoggerFactory.getLogger(randomString()).info("User {} logged in", id)
+                waitForDispatch()
+
+                saved shouldHaveSize 1
+                with(saved.first()) {
+                    template shouldBe "User $id logged in"
+                    message shouldBe "User $id logged in"
+                }
+            }
+            it("replaces SLF4J placeholders but does not add items") {
+                val saved = savedEvents()
+                val id = randomString()
+                LoggerFactory.getLogger(randomString()).info("User {} logged in", id)
+                waitForDispatch()
+
+                saved shouldHaveSize 1
+                saved.first().items shouldHaveSize 0
+            }
+            it("ignores SLF4J placeholders without provided values") {
+                val saved = savedEvents()
+                LoggerFactory.getLogger(randomString()).debug("User {} logged out")
+                waitForDispatch()
+
+                saved shouldHaveSize 1
+                saved.first().message shouldBe "User {} logged out"
+            }
+            it("does not work with SLF4J placeholder and message template hole") {
+                val saved = savedEvents()
+                val id = randomString()
+                val name = randomString()
+                LoggerFactory.getLogger(randomString()).warn("User [{}] {name}", id, name)
+                waitForDispatch()
+
+                saved shouldHaveSize 1
+                with(saved.first()) {
+                    template shouldBe "User [$id] {name}"
+                    message shouldBe "User [$id] {name}"
+                    // First arg goes in items:
+                    items shouldContainExactly mapOf("name" to id)
+                }
+            }
+            it("does not work with message template hole and SLF4J placeholder") {
+                val saved = savedEvents()
+                val id = randomString()
+                val name = randomString()
+                LoggerFactory.getLogger(randomString()).warn("User {name} [{}]", name, id)
+                waitForDispatch()
+
+                saved shouldHaveSize 1
+                with(saved.first()) {
+                    template shouldBe "User {name} [$name]"
+                    message shouldBe "User {name} [$name]"
+                    // First arg goes in items:
+                    items shouldContainExactly mapOf("name" to name)
                 }
             }
         }

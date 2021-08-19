@@ -27,6 +27,7 @@ import io.klogging.Level.WARN
 import io.klogging.NoCoLogger
 import org.slf4j.MDC
 import org.slf4j.helpers.MarkerIgnoringBase
+import org.slf4j.helpers.MessageFormatter
 
 /**
  * Implementation of [org.slf4j.Logger] that wraps an [io.klogging.NoCoLogger].
@@ -166,10 +167,11 @@ class NoCoLoggerWrapper(
      * absence of [arguments].
      */
     private fun emitEvent(level: Level, format: String?, vararg arguments: Any?) {
+        val formatted = MessageFormatter.arrayFormat(format, arguments).message
         if (format == null || arguments.isEmpty())
-            noCoLogger.emitEvent(level, null, format, contextItems())
+            noCoLogger.emitEvent(level, null, formatted, contextItems())
         else
-            noCoLogger.emitEvent(level, null, noCoLogger.e(format, *arguments), contextItems())
+            noCoLogger.emitEvent(level, null, noCoLogger.e(formatted, *arguments), contextItems())
     }
 
     /**
@@ -177,10 +179,11 @@ class NoCoLoggerWrapper(
      * absence of [arguments].
      */
     private fun emitEvent(level: Level, exception: Exception?, format: String? = null, vararg arguments: Any?) {
+        val formatted = MessageFormatter.arrayFormat(format, arguments).message
         if (format == null || arguments.isEmpty())
-            noCoLogger.emitEvent(level, exception, format, contextItems())
+            noCoLogger.emitEvent(level, exception, formatted, contextItems())
         else
-            noCoLogger.emitEvent(level, null, noCoLogger.e(format, *arguments), contextItems())
+            noCoLogger.emitEvent(level, null, noCoLogger.e(formatted, *arguments), contextItems())
     }
 
     private fun contextItems(): Map<String, Any?> = MDC.getCopyOfContextMap() ?: mapOf()
