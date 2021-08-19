@@ -34,7 +34,7 @@ class StaticLoggerBinder internal constructor(
 
     companion object {
         /** Version of SLF4J used to create this binding. */
-        const val REQUEST_API_VERSION = "1.7.31"
+        const val REQUEST_API_VERSION = "1.7.32"
 
         /** Instance of this class available to Java via `StaticLoggingBinder.getSingleton()`. */
         @JvmStatic
