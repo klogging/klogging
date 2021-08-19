@@ -80,15 +80,15 @@ private fun Project.createPublishingTasks(
             val publicationName = this.name
             val javadocTask = tasks.register<Jar>(this.name + "JavadocJar") {
                 archiveClassifier.set("javadoc")
-                archiveBaseName.set("klogging-$publicationName")
+                archiveBaseName.set("slf4j-klogging-$publicationName")
             }
 
             artifact(javadocTask)
 
             pom {
-                name.set("klogging")
-                description.set("Kotlin logging library with structured logging and coroutines support")
-                url.set("https://github.com/klogging/klogging")
+                name.set("slf4j-klogging")
+                description.set("SLF4J binding for Klogging logging library")
+                url.set("https://github.com/klogging/slf4j-klogging")
                 licenses {
                     license {
                         name.set("The Apache License, Version 2.0")
@@ -102,8 +102,8 @@ private fun Project.createPublishingTasks(
                         }
                     }
                     scm {
-                        connection.set("scm:git:git://github.com/klogging/klogging.git")
-                        url.set("https://github.com/klogging/klogging")
+                        connection.set("scm:git:git://github.com/klogging/slf4j-klogging.git")
+                        url.set("https://github.com/klogging/slf4j-klogging")
                     }
                 }
             }
