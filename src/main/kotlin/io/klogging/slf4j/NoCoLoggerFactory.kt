@@ -22,8 +22,16 @@ import io.klogging.noCoLogger
 import org.slf4j.ILoggerFactory
 import org.slf4j.Logger
 
+/**
+ * Implementation of [ILoggerFactory] whose [getLogger] function constructs an [io.klogging.NoCoLogger]
+ * wrapped in a [NoCoLoggerWrapper].
+ */
 class NoCoLoggerFactory : ILoggerFactory {
-    override fun getLogger(name: String?): Logger = NoCoLoggerWrapper(
-        noCoLogger(name ?: "Logger")
-    )
+    /**
+     * Construct an [io.klogging.NoCoLogger] wrapped in a [NoCoLoggerWrapper].
+     *
+     * `NoCoLogger` requires a non-null name, so supply the default `Logger`.
+     * [org.slf4j.LoggerFactory.getLogger] does not guarantee that [name] is not null.
+     */
+    override fun getLogger(name: String?): Logger = NoCoLoggerWrapper(noCoLogger(name ?: "Logger"))
 }
