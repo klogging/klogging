@@ -14,6 +14,8 @@ events. It takes advantage of
 environments that use them, for example the [Ktor](https://ktor.io)
 asynchronous service framework.
 
+See [https://klogging.io](https://klogging.io) for more detailed documentation.
+
 🚧 **Klogging is alpha software in rapid development. The API and key
 implementation details will change** 🚧
 
