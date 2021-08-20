@@ -24,7 +24,7 @@ import io.klogging.savedEvents
 import io.klogging.waitForDispatch
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
-import io.kotest.matchers.maps.shouldContainExactly
+import io.kotest.matchers.shouldBe
 
 class NoCoLoggerImplTest : DescribeSpec({
     describe("NoCoLogger implementation") {
@@ -41,7 +41,7 @@ class NoCoLoggerImplTest : DescribeSpec({
                 waitForDispatch()
 
                 saved shouldHaveSize 1
-                saved.first().items shouldContainExactly mapOf("runId" to runId)
+                saved.first().items shouldBe mapOf("runId" to runId)
             }
         }
     }

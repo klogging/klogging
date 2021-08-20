@@ -48,11 +48,11 @@ public object Dispatcher {
         val sinkNames = KloggingState.configs()
             .filter { it.nameMatch.matches(loggerName) }
             .flatMap { it.ranges }
-            .filter { level >= it.minLevel && level <= it.maxLevel }
+            .filter { level in it }
             .flatMap { it.sinkNames }
             .distinct()
         return KloggingState.sinks()
-            .filterKeys { sinkNames.contains(it) }
+            .filterKeys { it in sinkNames }
             .map { it.value }
     }
 }
