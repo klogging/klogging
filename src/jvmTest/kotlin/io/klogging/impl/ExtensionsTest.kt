@@ -24,7 +24,7 @@ import io.klogging.events.LogEvent
 import io.klogging.randomString
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContainAll
-import io.kotest.matchers.maps.shouldContainExactly
+import io.kotest.matchers.shouldBe
 
 class ExtensionsTest : DescribeSpec({
 
@@ -55,7 +55,7 @@ class ExtensionsTest : DescribeSpec({
                 items = mapOf("run" to run1),
             )
             with(event.copyWith(DEBUG, null, mapOf("run" to run2))) {
-                items shouldContainExactly mapOf("run" to run1)
+                items shouldBe mapOf("run" to run1)
             }
         }
     }

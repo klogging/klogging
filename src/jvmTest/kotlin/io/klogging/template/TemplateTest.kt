@@ -51,11 +51,11 @@ class TemplateTest : DescribeSpec({
         }
         it("ignores extra items provided") {
             val items = templateItems("User {Name} logged in", "Joe", "192.168.2.2")
-            items shouldContainExactly mapOf("Name" to "Joe")
+            items shouldBe mapOf("Name" to "Joe")
         }
         it("only evaluates provided items") {
             val items = templateItems("User {Name} logged in from {IpAddress}", "Sue")
-            items shouldContainExactly mapOf("Name" to "Sue")
+            items shouldBe mapOf("Name" to "Sue")
         }
     }
 

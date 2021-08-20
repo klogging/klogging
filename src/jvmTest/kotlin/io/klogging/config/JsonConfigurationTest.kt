@@ -27,7 +27,6 @@ import io.klogging.randomString
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RENDER_SIMPLE
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.shouldBe
@@ -149,7 +148,7 @@ internal class JsonConfigurationTest : DescribeSpec({
                         with(ranges.first()) {
                             minLevel shouldBe INFO
                             maxLevel shouldBe FATAL
-                            sinkNames shouldContainExactly listOf("stdout")
+                            sinkNames shouldBe listOf("stdout")
                         }
                     }
                 }
