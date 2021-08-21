@@ -88,7 +88,7 @@ private fun Project.createPublishingTasks(
             pom {
                 name.set("slf4j-klogging")
                 description.set("SLF4J binding for Klogging logging library")
-                url.set("https://github.com/klogging/slf4j-klogging")
+                url.set("https://klogging.io/")
                 licenses {
                     license {
                         name.set("The Apache License, Version 2.0")

@@ -27,6 +27,7 @@ import io.klogging.build.configureWrapper
 plugins {
     kotlin("jvm")
     `java-library`
+    `maven-publish`
 }
 
 group = "io.klogging"
@@ -54,6 +55,14 @@ dependencies {
     implementation("org.slf4j:slf4j-api:$slf4jVersion")
 
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("jvm") {
+            from(components["java"])
+        }
+    }
 }
 
 configureAssemble()
