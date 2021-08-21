@@ -65,3 +65,27 @@ public expect val hostname: String
 
 /** Thread name or similar current context identifier. */
 internal expect fun currentContext(): String?
+
+/**
+ * Copy a [LogEvent], setting the level, the stack trace from any exception, and
+ * context items.
+ *
+ * This function is used when an event has already been constructed, for example
+ * by the [Klogger#e] and [NoCoLogger#e] functions.
+ */
+internal fun LogEvent.copyWith(
+    newLevel: Level,
+    newStacktrace: String? = null,
+    contextItems: Map<String, Any?> = mapOf()
+): LogEvent = LogEvent(
+    id = id,
+    timestamp = timestamp,
+    host = host,
+    logger = logger,
+    context = context ?: currentContext(),
+    level = newLevel,
+    template = template,
+    message = message,
+    stackTrace = newStacktrace,
+    items = contextItems + items,
+)
