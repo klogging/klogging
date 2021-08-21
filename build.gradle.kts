@@ -29,6 +29,7 @@ plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
     id("com.github.ben-manes.versions")
+    id("org.jetbrains.dokka")
 }
 
 group = "io.klogging"
