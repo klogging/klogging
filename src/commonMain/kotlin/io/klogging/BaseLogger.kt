@@ -25,6 +25,8 @@ import io.klogging.Level.INFO
 import io.klogging.Level.NONE
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
+import io.klogging.events.LogEvent
+import io.klogging.events.copyWith
 import io.klogging.internal.KloggingState
 
 /**
@@ -69,3 +71,50 @@ public interface BaseLogger {
     /** Is this logger enabled to emit [FATAL] events? */
     public fun isFatalEnabled(): Boolean = isLevelEnabled(FATAL)
 }
+
+/**
+ * Extension function on [BaseLogger] that constructs a [LogEvent] from a range of types.
+ *
+ * - If the object is an event already, update it with level, stack trace (if present)
+ *   and context items.
+ * - Otherwise, construct an event with supplied information.
+ */
+internal fun BaseLogger.eventFrom(
+    level: Level,
+    exception: Exception?,
+    eventObject: Any?,
+    contextItems: Map<String, Any?> = mapOf(),
+): LogEvent {
+    return when (eventObject) {
+        is LogEvent ->
+            eventObject.copyWith(level, exception?.stackTraceToString(), contextItems)
+        else -> {
+            val (message, stackTrace) = messageAndStackTrace(eventObject, exception)
+            LogEvent(
+                logger = this.name,
+                level = level,
+                message = message,
+                stackTrace = stackTrace,
+                items = contextItems,
+            )
+        }
+    }
+}
+
+/**
+ * Extract message and stack trace values from a non-[LogEvent] object.
+ *
+ * @param obj an object that has been sent in a logging function call.
+ *
+ * @param exception an exception that may have been sent in a logging function call.
+ *
+ * @return a pair with the message to show and any stack trace that is present:
+ *   - If the object is an exception, return its message and stack trace.
+ *   - If the object is not an exception, return `toString()` on the object
+ *     and any stack trace on the supplied exception.
+ */
+private fun messageAndStackTrace(obj: Any?, exception: Exception?): Pair<String, String?> =
+    when (obj) {
+        is Exception -> (obj.message ?: "Exception") to obj.stackTraceToString()
+        else -> obj.toString() to exception?.stackTraceToString()
+    }

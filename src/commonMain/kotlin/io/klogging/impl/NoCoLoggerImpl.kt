@@ -20,6 +20,7 @@ package io.klogging.impl
 
 import io.klogging.Level
 import io.klogging.NoCoLogger
+import io.klogging.eventFrom
 import io.klogging.events.LogEvent
 import io.klogging.events.timestampNow
 import io.klogging.template.templateItems
@@ -30,7 +31,6 @@ import kotlinx.coroutines.launch
 public class NoCoLoggerImpl(
     override val name: String,
 ) : NoCoLogger {
-
     override fun emitEvent(
         level: Level,
         exception: Exception?,
