@@ -16,13 +16,7 @@
 
 */
 
-import io.klogging.build.configureAssemble
-import io.klogging.build.configureJacoco
-import io.klogging.build.configurePublishing
-import io.klogging.build.configureSpotless
-import io.klogging.build.configureTesting
-import io.klogging.build.configureVersioning
-import io.klogging.build.configureWrapper
+import io.klogging.build.*
 
 plugins {
     kotlin("jvm")
@@ -43,10 +37,6 @@ repositories {
     mavenCentral()
 }
 
-kotlin {
-    explicitApi()
-}
-
 dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -55,6 +45,19 @@ dependencies {
     implementation("org.slf4j:slf4j-api:$slf4jVersion")
 
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+}
+
+kotlin {
+    explicitApi()
+}
+
+tasks.register<Jar>("jvmJar") {
+    from(sourceSets.main.get().allSource)
+}
+
+tasks.register<Jar>("jvmSourcesJar") {
+    archiveClassifier.set("sources")
+    from(sourceSets.main.get().allSource)
 }
 
 publishing {
