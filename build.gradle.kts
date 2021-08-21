@@ -16,7 +16,13 @@
 
 */
 
-import io.klogging.build.*
+import io.klogging.build.configureAssemble
+import io.klogging.build.configureJacoco
+import io.klogging.build.configurePublishing
+import io.klogging.build.configureSpotless
+import io.klogging.build.configureTesting
+import io.klogging.build.configureVersioning
+import io.klogging.build.configureWrapper
 
 plugins {
     kotlin("jvm")
