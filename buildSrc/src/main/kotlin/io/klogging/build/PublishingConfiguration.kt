@@ -83,6 +83,7 @@ private fun Project.createPublishingTasks(
                 archiveBaseName.set("slf4j-klogging-$publicationName")
             }
 
+            artifact(tasks.named("jvmSourcesJar"))
             artifact(javadocTask)
 
             pom {
