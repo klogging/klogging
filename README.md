@@ -2,7 +2,8 @@
 
 A simple [SLF4J](https://www.slf4j.org) binding to use with Klogging.
 
-For more details, please see [the documentation](https://klogging.io/docs/java/slf4j).
+For more details, please see [the documentation](https://klogging.io/docs/java/slf4j)
+and using [Klogging with Spring Boot via SLF4J](https://klogging.io/docs/java/spring-boot).
 
 ## Quick start
 
@@ -36,4 +37,4 @@ Maven:
 </dependencies>
 ```
 
-This binding does not support Markers.
+This binding does not currently support Markers.
