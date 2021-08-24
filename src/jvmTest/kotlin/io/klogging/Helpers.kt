@@ -31,6 +31,12 @@ import kotlin.random.Random
 import kotlin.random.nextULong
 
 fun randomLoggerName() = Random.nextInt().toString(16)
+
+/**
+ * Random string to use in tests where the value is opaque.
+ * It is suitable for when you don't care what the value is
+ * or where you test that the value has been copied somewhere.
+ */
 fun randomString() = Random.nextULong().toString(16)
 fun randomLevel() = Level.values().random()
 
@@ -52,6 +58,7 @@ fun logEvent(
     items = items,
 )
 
+/** Crude way to help ensure coroutine processing is complete in tests. */
 suspend fun waitForDispatch(millis: Long = 50) = delay(millis)
 
 fun savedEvents(): MutableList<LogEvent> {
