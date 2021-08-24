@@ -30,6 +30,11 @@ tasks:
       container: build-env
       command: ./gradlew check
 
+  build-all-platform-targets:
+    run:
+      container: build-env
+      command: ./gradlew build
+
   continuousCheck:
     description: Run 'check' and then re-run when any code changes are detected.
     run:
