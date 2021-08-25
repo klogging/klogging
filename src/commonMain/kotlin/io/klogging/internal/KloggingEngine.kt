@@ -18,6 +18,56 @@
 
 package io.klogging.internal
 
+import io.klogging.Level
+import io.klogging.config.KloggingConfiguration
+import io.klogging.config.LoggingConfig
+import io.klogging.config.SinkConfiguration
+import io.klogging.config.configLoadedFromFile
+
 object KloggingEngine {
     
+    val DEFAULT_CONFIG = KloggingConfiguration()
+
+    private const val CURRENT_STATE = "CURRENT_STATE"
+    private val currentState: MutableMap<String, KloggingConfiguration> =
+        mutableMapOf(CURRENT_STATE to DEFAULT_CONFIG)
+
+    /** Lazily loaded property that is only set when we have a Klogging state. */
+    internal val configuration: KloggingConfiguration by lazy {
+        debug("Lazy-loading current configuration")
+        configLoadedFromFile?.let { setConfig(it) }
+        currentConfig()
+    }
+
+    /** Sets a new value of the current config.  */
+    internal fun setConfig(config: KloggingConfiguration) {
+        // No synchronisation or locking yet.
+        currentState[CURRENT_STATE] = config
+    }
+
+    internal fun appendConfig(config: KloggingConfiguration) {
+        currentConfig().append(config)
+    }
+
+    private fun currentConfig() = currentState[CURRENT_STATE] ?: DEFAULT_CONFIG
+    
+    private val currentSinks: MutableMap<String, Sink> = mutableMapOf()
+    private fun SinkConfiguration.toSender() =
+        { e: LogEvent -> dispatcher(renderer(e)) }
+    private fun setSinks(sinkConfigs: Map<String, SinkConfiguration>) {
+        currentSinks.clear()
+        currentSinks.putAll(
+            sinkConfigs.mapValues { it.toSender() }
+        )
+    }
+
+    // Functions returning the current state.
+    internal fun minimumLevelOf(name: String): Level = currentConfig().minimumLevelOf(name)
+
+    internal fun sinks(): Map<String, Sink> = currentSinks
+
+    internal fun configs(): List<LoggingConfig> = currentConfig().configs
+
+    internal fun kloggingMinLogLevel(): Level = currentConfig().kloggingMinLogLevel
 }
+

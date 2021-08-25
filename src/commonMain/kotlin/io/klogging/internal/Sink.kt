@@ -26,13 +26,12 @@ public typealias Sender = (LogEvent) -> Unit
 /**
  * 
  */
-internal class Sink(
-    val sinkChannel: Channel<LogEvent>,
-    val sender: Sender,
-) {
+internal class Sink(private val sender: Sender) {
+    private val sinkChannel: Channel<LogEvent> = Channel()
+    
     internal fun emitEvent(event: LogEvent) = sinkChannel.send(event)
         
-    internal suspend fun send() = coroutineScope {
+    internal suspend fun sendTo() = coroutineScope {
         launch {
             for (event in sinkChannel) {
                 debug("sending event ${event.id}")
