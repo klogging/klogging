@@ -23,7 +23,7 @@ import io.klogging.config.KloggingConfiguration
 import io.klogging.config.LoggingConfig
 import io.klogging.config.SinkConfiguration
 import io.klogging.config.configLoadedFromFile
-import io.klogging.event.LogEvent
+import io.klogging.events.LogEvent
 
 /**
  * Object that is the centre of Klogging processing. 
@@ -32,7 +32,7 @@ import io.klogging.event.LogEvent
  */
 public object KloggingEngine {
     
-    val DEFAULT_CONFIG = KloggingConfiguration()
+    private val DEFAULT_CONFIG = KloggingConfiguration()
 
     private const val CURRENT_STATE = "CURRENT_STATE"
     private val currentState: MutableMap<String, KloggingConfiguration> =
@@ -60,11 +60,11 @@ public object KloggingEngine {
     private val currentSinks: MutableMap<String, Sink> = mutableMapOf()
     private fun SinkConfiguration.toSender() =
         { e: LogEvent -> dispatcher(renderer(e)) }
-    private fun setSinks(sinkConfigs: Map<String, SinkConfiguration>) {
+    private suspend fun setSinks(sinkConfigs: Map<String, SinkConfiguration>) {
         currentSinks.values.forEach { it.stop() }
         currentSinks.clear()
         currentSinks.putAll(
-            sinkConfigs.map { name, config ->
+            sinkConfigs.map { (name, config) ->
                 Sink(name, config.toSender()).also { start() }
             }
         )
