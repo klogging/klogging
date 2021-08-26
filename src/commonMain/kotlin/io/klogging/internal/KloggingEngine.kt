@@ -23,8 +23,14 @@ import io.klogging.config.KloggingConfiguration
 import io.klogging.config.LoggingConfig
 import io.klogging.config.SinkConfiguration
 import io.klogging.config.configLoadedFromFile
+import io.klogging.event.LogEvent
 
-object KloggingEngine {
+/**
+ * Object that is the centre of Klogging processing. 
+ *
+ * All static state should be managed here. 
+ */
+public object KloggingEngine {
     
     val DEFAULT_CONFIG = KloggingConfiguration()
 
@@ -55,9 +61,12 @@ object KloggingEngine {
     private fun SinkConfiguration.toSender() =
         { e: LogEvent -> dispatcher(renderer(e)) }
     private fun setSinks(sinkConfigs: Map<String, SinkConfiguration>) {
+        currentSinks.values.forEach { it.stop() }
         currentSinks.clear()
         currentSinks.putAll(
-            sinkConfigs.mapValues { it.toSender() }
+            sinkConfigs.map { name, config ->
+                Sink(name, config.toSender()).also { start() }
+            }
         )
     }
 

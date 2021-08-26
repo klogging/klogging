@@ -19,25 +19,36 @@
 package io.klogging.internal
 
 import io.klogging.events.LogEvent
+import io.klogging.internal.debug
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.coroutineScope
 
 public typealias Sender = (LogEvent) -> Unit
 
 /**
  * 
  */
-internal class Sink(private val sender: Sender) {
+internal class Sink(
+    private val name: String,
+    private val sender: Sender,
+) {
     private val sinkChannel: Channel<LogEvent> = Channel()
     
-    internal fun emitEvent(event: LogEvent) = sinkChannel.send(event)
+    internal suspend fun emitEvent(event: LogEvent) = sinkChannel.send(event)
         
-    internal suspend fun sendTo() = coroutineScope {
+    internal suspend fun start() = coroutineScope {
+        debug("starting sink $name")
         launch {
             for (event in sinkChannel) {
-                debug("sending event ${event.id}")
+                debug("sending event ${event.id} to sink $name")
                 sender(event)
             }
         }
+    }
+    
+    internal suspend fun stop() {
+        debug("stopping sink $name")
+        sinkChannel.close()
     }
 }
 
