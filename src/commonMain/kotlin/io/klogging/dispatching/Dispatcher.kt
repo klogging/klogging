@@ -44,7 +44,7 @@ public object Dispatcher {
             }
     }
 
-    public fun sinksFor(loggerName: String, level: Level): List<SinkConfiguration> {
+    public fun sinksFor(loggerName: String, level: Level): List<Sink> {
         val sinkNames = KloggingState.configs()
             .filter { it.nameMatch.matches(loggerName) }
             .flatMap { it.ranges }

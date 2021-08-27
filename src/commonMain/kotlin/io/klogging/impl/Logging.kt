@@ -32,24 +32,23 @@ import kotlinx.coroutines.launch
 internal object Logging {
 
     /**
-     * [Channel] between the coroutines where log events are sent and the coroutines that send them out.
+     * [Channel] between the coroutines where log events are emitted and the
+     * coroutines that dispatch them to sinks.
      */
-    private val logEventsChannel = startEventsChannel()
-
-    /** Creates the channel and starts the loop to process the log events. */
-    private fun startEventsChannel(): Channel<LogEvent> {
-        val eventsChannel = Channel<LogEvent>()
-        CoroutineScope(Job()).launch {
+    private val logEventsChannel by lazy {
+        debug("Starting events channel")
+        val channel = Channel<LogEvent>()
+        CoroutineScope(Job() + CoroutineName("events")).launch {
             for (logEvent in eventsChannel) {
-                debug("Read event ${logEvent.id}")
+                trace("Read event ${logEvent.id}")
                 dispatchEvent(logEvent)
             }
         }
-        return eventsChannel
+        channel
     }
 
     suspend fun sendEvent(logEvent: LogEvent) {
-        debug("Sending event ${logEvent.id}")
+        trace("Sending event ${logEvent.id}")
         logEventsChannel.send(logEvent)
     }
 }

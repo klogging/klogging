@@ -60,12 +60,12 @@ public object KloggingEngine {
     private val currentSinks: MutableMap<String, Sink> = mutableMapOf()
     private fun SinkConfiguration.toSender() =
         { e: LogEvent -> dispatcher(renderer(e)) }
-    private suspend fun setSinks(sinkConfigs: Map<String, SinkConfiguration>) {
+    private fun setSinks(sinkConfigs: Map<String, SinkConfiguration>) {
         currentSinks.values.forEach { it.stop() }
         currentSinks.clear()
         currentSinks.putAll(
             sinkConfigs.map { (name, config) ->
-                Sink(name, config.toSender()).also { start() }
+                name to Sink(name, config.toSender())
             }
         )
     }

@@ -19,6 +19,7 @@
 package io.klogging.internal
 
 import io.klogging.Level
+import io.klogging.Level.TRACE
 import io.klogging.Level.DEBUG
 import io.klogging.Level.ERROR
 import io.klogging.Level.INFO
@@ -64,6 +65,10 @@ internal fun log(
     )
     if (level <= INFO) STDOUT(RENDER_INTERNAL(event))
     else STDERR(RENDER_INTERNAL(event))
+}
+
+internal fun trace(message: String, throwable: Throwable? = null) {
+    log(TRACE, message, throwable)
 }
 
 internal fun debug(message: String, throwable: Throwable? = null) {
