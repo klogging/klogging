@@ -21,6 +21,7 @@ package io.klogging.internal
 import io.klogging.events.LogEvent
 import io.klogging.internal.debug
 import io.klogging.internal.trace
+import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -35,7 +36,7 @@ internal class Sink(
     private val name: String,
     private val sender: Sender,
 ) {
-    private val sinkChannel by lazy {
+    private val sinkChannel: Channel<LogEvent> by lazy {
         debug("Starting sink $name")
         val channel = Channel<LogEvant>()
         CoroutineScope(Job()).launch(CoroutineName("sink-$name")) {

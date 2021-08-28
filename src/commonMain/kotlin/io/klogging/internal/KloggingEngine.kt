@@ -61,7 +61,6 @@ public object KloggingEngine {
     private fun SinkConfiguration.toSender() =
         { e: LogEvent -> dispatcher(renderer(e)) }
     private fun setSinks(sinkConfigs: Map<String, SinkConfiguration>) {
-        currentSinks.values.forEach { it.stop() }
         currentSinks.clear()
         currentSinks.putAll(
             sinkConfigs.map { (name, config) ->
