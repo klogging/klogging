@@ -19,10 +19,10 @@
 package io.klogging.internal
 
 import io.klogging.Level
-import io.klogging.Level.TRACE
 import io.klogging.Level.DEBUG
 import io.klogging.Level.ERROR
 import io.klogging.Level.INFO
+import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
 import io.klogging.dispatching.STDERR
 import io.klogging.dispatching.STDOUT
