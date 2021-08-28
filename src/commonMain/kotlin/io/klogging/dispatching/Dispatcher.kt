@@ -23,6 +23,7 @@ import io.klogging.config.SinkConfiguration
 import io.klogging.events.LogEvent
 import io.klogging.internal.KloggingState
 import io.klogging.internal.debug
+import io.klogging.internal.Sink
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
@@ -59,3 +60,4 @@ public object Dispatcher {
 
 /** Functional type used for dispatching a string somewhere. */
 public typealias DispatchString = (String) -> Unit
+

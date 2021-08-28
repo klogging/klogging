@@ -38,7 +38,7 @@ internal class Sink(
 ) {
     private val sinkChannel: Channel<LogEvent> by lazy {
         debug("Starting sink $name")
-        val channel = Channel<LogEvant>()
+        val channel = Channel<LogEvent>()
         CoroutineScope(Job()).launch(CoroutineName("sink-$name")) {
             for (event in channel) {
                 trace("Sending event ${event.id} to sink $name")
