@@ -23,14 +23,12 @@ import io.klogging.Level.ERROR
 import io.klogging.Level.INFO
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
-import io.klogging.config.DEFAULT_CONSOLE
 import io.klogging.config.loggingConfiguration
 import io.klogging.randomLevel
 import io.klogging.randomString
 import io.klogging.rendering.RENDER_SIMPLE
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
-import io.kotest.matchers.shouldBe
 
 internal class DispatcherTest : DescribeSpec({
     describe("sinksFor() function") {
