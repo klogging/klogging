@@ -55,6 +55,7 @@ kotlin {
         compilations.all {
             kotlinOptions {
                 jvmTarget = "11"
+                freeCompilerArgs = listOf("-Xopt-in=kotlin.RequiresOptIn")
             }
         }
         testRuns["test"].executionTask.configure {

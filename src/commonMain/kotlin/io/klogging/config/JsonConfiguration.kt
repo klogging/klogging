@@ -24,6 +24,7 @@ import io.klogging.Level.TRACE
 import io.klogging.internal.debug
 import io.klogging.internal.warn
 import io.klogging.rendering.RENDER_CLEF
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromString
@@ -100,6 +101,12 @@ public data class JsonLevelRange(
     }
 }
 
+/** Set up the JSON deserialiser to be accepting of unknown and malformed values. */
+private val json = Json {
+    ignoreUnknownKeys = true
+    isLenient = true
+}
+
 /**
  * Read configuration from JSON into a [JsonConfiguration] object.
  *
@@ -107,9 +114,10 @@ public data class JsonLevelRange(
  *
  * @return an object used to configure Klogging.
  */
+@OptIn(ExperimentalSerializationApi::class)
 internal fun readConfig(configJson: String): JsonConfiguration? =
     try {
-        Json { ignoreUnknownKeys = true }.decodeFromString(configJson)
+        json.decodeFromString(configJson)
     } catch (ex: SerializationException) {
         warn("Exception parsing JSON configuration", ex)
         null
