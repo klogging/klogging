@@ -31,7 +31,7 @@ plugins {
 }
 
 group = "io.klogging"
-version = "0.2.0-SNAPSHOT"
+version = "0.1.1"
 
 val jacocoVersion: String by project
 val kloggingVersion: String by project
@@ -41,6 +41,9 @@ val slf4jVersion: String by project
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://s01.oss.sonatype.org/content/repositories/releases/")
+    }
 }
 
 dependencies {

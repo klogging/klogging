@@ -64,10 +64,9 @@ public class NoCoLoggerWrapper(
      * This function processes all combination of null-ness of the two arguments.
      */
     private fun logWithThrowable(level: Level, msg: String?, t: Throwable?) {
-        val ex = t?.let { Exception(it) }
         if (msg != null)
-            if (ex != null) emitEvent(level, ex, msg) else emitEvent(level, msg)
-        else if (ex != null) emitEvent(level, ex)
+            if (t != null) emitEvent(level, t, msg) else emitEvent(level, msg)
+        else if (t != null) emitEvent(level, t)
     }
 
     override fun trace(msg: String?, t: Throwable?) {
@@ -178,10 +177,10 @@ public class NoCoLoggerWrapper(
      * Forward an event and exception with context items from [MDC], handling null [format] and
      * absence of [arguments].
      */
-    private fun emitEvent(level: Level, exception: Exception?, format: String? = null, vararg arguments: Any?) {
+    private fun emitEvent(level: Level, throwable: Throwable?, format: String? = null, vararg arguments: Any?) {
         val formatted = MessageFormatter.arrayFormat(format, arguments).message
         if (format == null || arguments.isEmpty())
-            noCoLogger.emitEvent(level, exception, formatted, contextItems())
+            noCoLogger.emitEvent(level, throwable, formatted, contextItems())
         else
             noCoLogger.emitEvent(level, null, noCoLogger.e(formatted, *arguments), contextItems())
     }
