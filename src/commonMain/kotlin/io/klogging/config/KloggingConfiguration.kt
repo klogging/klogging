@@ -33,7 +33,7 @@ import io.klogging.rendering.RenderString
  */
 internal val defaultKloggingMinLogLevel: Level = try {
     getenv(ENV_KLOGGING_MIN_LOG_LEVEL)?.let { Level.valueOf(it) } ?: INFO
-} catch (ex: Exception) {
+} catch (_: Throwable) {
     INFO
 }
 

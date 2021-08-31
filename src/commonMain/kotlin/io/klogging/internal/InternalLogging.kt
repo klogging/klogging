@@ -44,7 +44,7 @@ private val RENDER_INTERNAL: RenderString = { e: LogEvent ->
  * Internal logging for Klogging diagnostics. It uses a [LogEvent] with these simplifications:
  *
  * - Structured logging is not available. It can be called only with message strings
- *   and an optional exception.
+ *   and an optional error or exception.
  *
  * - Events are rendered to strings using [RENDER_INTERNAL]. They are printed directly
  *   to the standard output stream for [INFO] and lower level, and to the standard
@@ -53,31 +53,31 @@ private val RENDER_INTERNAL: RenderString = { e: LogEvent ->
 internal fun log(
     level: Level,
     message: String,
-    exception: Exception? = null
+    throwable: Throwable? = null
 ) {
     if (level < KloggingState.kloggingMinLogLevel()) return
     val event = LogEvent(
         logger = KLOGGING_LOGGER,
         level = level,
         message = message,
-        stackTrace = exception?.stackTraceToString(),
+        stackTrace = throwable?.stackTraceToString(),
     )
     if (level <= INFO) STDOUT(RENDER_INTERNAL(event))
     else STDERR(RENDER_INTERNAL(event))
 }
 
-internal fun debug(message: String, exception: Exception? = null) {
-    log(DEBUG, message, exception)
+internal fun debug(message: String, throwable: Throwable? = null) {
+    log(DEBUG, message, throwable)
 }
 
-internal fun info(message: String, exception: Exception? = null) {
-    log(INFO, message, exception)
+internal fun info(message: String, throwable: Throwable? = null) {
+    log(INFO, message, throwable)
 }
 
-internal fun warn(message: String, exception: Exception? = null) {
-    log(WARN, message, exception)
+internal fun warn(message: String, throwable: Throwable? = null) {
+    log(WARN, message, throwable)
 }
 
-internal fun error(message: String, exception: Exception? = null) {
-    log(ERROR, message, exception)
+internal fun error(message: String, throwable: Throwable? = null) {
+    log(ERROR, message, throwable)
 }

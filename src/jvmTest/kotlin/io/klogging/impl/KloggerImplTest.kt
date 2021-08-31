@@ -68,7 +68,7 @@ class KloggerImplTest : DescribeSpec({
                     items shouldBe event.items
                 }
             }
-            it("logs a LogEvent object with stack trace from any exception") {
+            it("logs a LogEvent object with stack trace from a throwable") {
                 val events = savedEvents()
                 val event = logEvent()
                 val exception = RuntimeException("Oh noes!")

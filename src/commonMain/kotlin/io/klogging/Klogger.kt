@@ -32,11 +32,11 @@ import io.klogging.events.LogEvent
 public interface Klogger : BaseLogger {
 
     /** Emit an event after minimum level checking. */
-    public suspend fun emitEvent(level: Level, exception: Exception?, event: Any?)
+    public suspend fun emitEvent(level: Level, throwable: Throwable?, event: Any?)
 
-    public suspend fun log(level: Level, exception: Exception, event: Any?) {
+    public suspend fun log(level: Level, throwable: Throwable, event: Any?) {
         if (!isLevelEnabled(level)) return
-        emitEvent(level, exception, event)
+        emitEvent(level, throwable, event)
     }
 
     public suspend fun log(level: Level, event: Any?) {
@@ -46,13 +46,13 @@ public interface Klogger : BaseLogger {
 
     public suspend fun log(
         level: Level,
-        exception: Exception,
+        throwable: Throwable,
         template: String,
         vararg values: Any?
     ) {
         if (!isLevelEnabled(level)) return
-        if (values.isEmpty()) emitEvent(level, exception, template)
-        else emitEvent(level, exception, e(template, *values))
+        if (values.isEmpty()) emitEvent(level, throwable, template)
+        else emitEvent(level, throwable, e(template, *values))
     }
 
     public suspend fun log(level: Level, template: String, vararg values: Any?) {
@@ -61,9 +61,9 @@ public interface Klogger : BaseLogger {
         else emitEvent(level, null, e(template, *values))
     }
 
-    public suspend fun log(level: Level, exception: Exception, event: suspend Klogger.() -> Any?) {
+    public suspend fun log(level: Level, throwable: Throwable, event: suspend Klogger.() -> Any?) {
         if (!isLevelEnabled(level)) return
-        emitEvent(level, exception, event())
+        emitEvent(level, throwable, event())
     }
 
     public suspend fun log(level: Level, event: suspend Klogger.() -> Any?) {
@@ -75,98 +75,98 @@ public interface Klogger : BaseLogger {
     public suspend fun trace(template: String, vararg values: Any?): Unit =
         log(TRACE, template, *values)
 
-    public suspend fun trace(exception: Exception, event: Any?): Unit =
-        log(WARN, exception, event)
+    public suspend fun trace(throwable: Throwable, event: Any?): Unit =
+        log(WARN, throwable, event)
 
-    public suspend fun trace(exception: Exception, template: String, vararg values: Any?): Unit =
-        log(TRACE, exception, template, *values)
+    public suspend fun trace(throwable: Throwable, template: String, vararg values: Any?): Unit =
+        log(TRACE, throwable, template, *values)
 
     public suspend fun trace(event: suspend Klogger.() -> Any?): Unit =
         log(TRACE, event)
 
-    public suspend fun trace(exception: Exception, event: suspend Klogger.() -> Any?): Unit =
-        log(TRACE, exception, event)
+    public suspend fun trace(throwable: Throwable, event: suspend Klogger.() -> Any?): Unit =
+        log(TRACE, throwable, event)
 
     public suspend fun debug(event: Any?): Unit = log(DEBUG, event)
     public suspend fun debug(template: String, vararg values: Any?): Unit =
         log(DEBUG, template, *values)
 
-    public suspend fun debug(exception: Exception, event: Any?): Unit =
-        log(DEBUG, exception, event)
+    public suspend fun debug(throwable: Throwable, event: Any?): Unit =
+        log(DEBUG, throwable, event)
 
-    public suspend fun debug(exception: Exception, template: String, vararg values: Any?): Unit =
-        log(DEBUG, exception, template, *values)
+    public suspend fun debug(throwable: Throwable, template: String, vararg values: Any?): Unit =
+        log(DEBUG, throwable, template, *values)
 
     public suspend fun debug(event: suspend Klogger.() -> Any?): Unit =
         log(DEBUG, event)
 
-    public suspend fun debug(exception: Exception, event: suspend Klogger.() -> Any?): Unit =
-        log(DEBUG, exception, event)
+    public suspend fun debug(throwable: Throwable, event: suspend Klogger.() -> Any?): Unit =
+        log(DEBUG, throwable, event)
 
     public suspend fun info(event: Any?): Unit = log(INFO, event)
     public suspend fun info(template: String, vararg values: Any?): Unit =
         log(INFO, template, *values)
 
-    public suspend fun info(exception: Exception, event: Any?): Unit =
-        log(INFO, exception, event)
+    public suspend fun info(throwable: Throwable, event: Any?): Unit =
+        log(INFO, throwable, event)
 
-    public suspend fun info(exception: Exception, template: String, vararg values: Any?): Unit =
-        log(INFO, exception, template, *values)
+    public suspend fun info(throwable: Throwable, template: String, vararg values: Any?): Unit =
+        log(INFO, throwable, template, *values)
 
     public suspend fun info(event: suspend Klogger.() -> Any?): Unit =
         log(INFO, event)
 
-    public suspend fun info(exception: Exception, event: suspend Klogger.() -> Any?): Unit =
-        log(INFO, exception, event)
+    public suspend fun info(throwable: Throwable, event: suspend Klogger.() -> Any?): Unit =
+        log(INFO, throwable, event)
 
     public suspend fun warn(event: Any?): Unit = log(WARN, event)
     public suspend fun warn(template: String, vararg values: Any?): Unit =
         log(WARN, template, *values)
 
-    public suspend fun warn(exception: Exception, event: Any?): Unit =
-        log(WARN, exception, event)
+    public suspend fun warn(throwable: Throwable, event: Any?): Unit =
+        log(WARN, throwable, event)
 
-    public suspend fun warn(exception: Exception, template: String, vararg values: Any?): Unit =
-        log(WARN, exception, template, *values)
+    public suspend fun warn(throwable: Throwable, template: String, vararg values: Any?): Unit =
+        log(WARN, throwable, template, *values)
 
     public suspend fun warn(event: suspend Klogger.() -> Any?): Unit =
         log(WARN, event)
 
-    public suspend fun warn(exception: Exception, event: suspend Klogger.() -> Any?): Unit =
-        log(WARN, exception, event)
+    public suspend fun warn(throwable: Throwable, event: suspend Klogger.() -> Any?): Unit =
+        log(WARN, throwable, event)
 
     public suspend fun error(event: Any?): Unit = log(ERROR, event)
     public suspend fun error(template: String, vararg values: Any?): Unit =
         log(ERROR, template, *values)
 
-    public suspend fun error(exception: Exception, event: Any?): Unit =
-        log(ERROR, exception, event)
+    public suspend fun error(throwable: Throwable, event: Any?): Unit =
+        log(ERROR, throwable, event)
 
-    public suspend fun error(exception: Exception, template: String, vararg values: Any?): Unit =
-        log(ERROR, exception, template, *values)
+    public suspend fun error(throwable: Throwable, template: String, vararg values: Any?): Unit =
+        log(ERROR, throwable, template, *values)
 
     public suspend fun error(event: suspend Klogger.() -> Any?): Unit =
         log(ERROR, event)
 
-    public suspend fun error(exception: Exception, event: suspend Klogger.() -> Any?): Unit =
-        log(ERROR, exception, event)
+    public suspend fun error(throwable: Throwable, event: suspend Klogger.() -> Any?): Unit =
+        log(ERROR, throwable, event)
 
     public suspend fun fatal(event: Any?): Unit = log(FATAL, event)
 
     public suspend fun fatal(template: String, vararg values: Any?): Unit =
         log(FATAL, template, *values)
 
-    public suspend fun fatal(exception: Exception, event: Any?): Unit =
-        log(FATAL, exception, event)
+    public suspend fun fatal(throwable: Throwable, event: Any?): Unit =
+        log(FATAL, throwable, event)
 
-    public suspend fun fatal(exception: Exception, template: String, vararg values: Any?): Unit =
-        log(FATAL, exception, template, *values)
+    public suspend fun fatal(throwable: Throwable, template: String, vararg values: Any?): Unit =
+        log(FATAL, throwable, template, *values)
 
     public suspend fun fatal(event: suspend Klogger.() -> Any?): Unit =
         log(FATAL, event)
 
-    public suspend fun fatal(exception: Exception, event: suspend Klogger.() -> Any?): Unit =
-        log(FATAL, exception, event)
+    public suspend fun fatal(throwable: Throwable, event: suspend Klogger.() -> Any?): Unit =
+        log(FATAL, throwable, event)
 
     /**
      * Evaluates a message template with the supplied values, returning [LogEvent].

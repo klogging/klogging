@@ -41,7 +41,10 @@ public data class LogEvent(
     val template: String? = null,
     /** Message describing the event. */
     val message: String,
-    /** String stack trace information that may be included if an exception is associated with the event. */
+    /**
+     *  String stack trace information that may be included if an error or exception is
+     *  associated with the event.
+     */
     val stackTrace: String? = null,
     /**
      * Map of items current at the time of the event, to be displayed as structured data.
@@ -67,7 +70,7 @@ public expect val hostname: String
 internal expect fun currentContext(): String?
 
 /**
- * Copy a [LogEvent], setting the level, the stack trace from any exception, and
+ * Copy a [LogEvent], setting the level, the stack trace from any error or exception, and
  * context items.
  *
  * This function is used when an event has already been constructed, for example

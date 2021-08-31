@@ -79,7 +79,7 @@ internal class KloggerTest : DescribeSpec({
                 val exception = TestException(randomString())
                 with(TestLogger()) {
                     log(WARN, exception, message)
-                    except shouldBe exception
+                    thrower shouldBe exception
                     logged shouldBe message
                 }
             }
@@ -96,7 +96,7 @@ internal class KloggerTest : DescribeSpec({
                 with(TestLogger()) {
                     warn(exception) { message }
                     logged shouldBe message
-                    except shouldBe exception
+                    thrower shouldBe exception
                 }
             }
             it("logs an object") {
@@ -109,7 +109,7 @@ internal class KloggerTest : DescribeSpec({
                 val exception = TestException(randomString())
                 with(TestLogger()) {
                     log(WARN, exception, thing)
-                    except shouldBe exception
+                    thrower shouldBe exception
                     logged shouldBe thing
                 }
             }
@@ -123,7 +123,7 @@ internal class KloggerTest : DescribeSpec({
                 val exception = TestException(randomString())
                 with(TestLogger()) {
                     error(exception) { thing }
-                    except shouldBe exception
+                    thrower shouldBe exception
                     logged shouldBe thing
                 }
             }
@@ -147,7 +147,7 @@ internal class KloggerTest : DescribeSpec({
                 with(TestLogger()) {
                     fatal(exception, "Id is {Id}", id)
 
-                    except shouldBe exception
+                    thrower shouldBe exception
                     (logged as LogEvent).let {
                         it.message shouldBe template
                         it.template shouldBe template
@@ -172,7 +172,7 @@ internal class KloggerTest : DescribeSpec({
                 val exception = TestException(randomString())
                 with(TestLogger()) {
                     warn(exception) { e("Id is {Id}", id) }
-                    except shouldBe exception
+                    thrower shouldBe exception
                     (logged as LogEvent).let {
                         it.message shouldBe "Id is {Id}"
                         it.template shouldBe "Id is {Id}"
@@ -187,12 +187,12 @@ internal class KloggerTest : DescribeSpec({
 private class TestLogger(private val minLevel: Level = TRACE) : Klogger {
     override val name: String = "TestLogger"
 
-    internal var except: Exception? = null
+    internal var thrower: Throwable? = null
     internal var logged: Any? = null
 
     override fun minLevel() = minLevel
-    override suspend fun emitEvent(level: Level, exception: Exception?, event: Any?) {
-        except = exception
+    override suspend fun emitEvent(level: Level, throwable: Throwable?, event: Any?) {
+        thrower = throwable
         logged = event
     }
 

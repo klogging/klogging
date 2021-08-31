@@ -18,6 +18,7 @@
 
 package io.klogging.dispatching
 
+import io.klogging.internal.warn
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
@@ -36,6 +37,6 @@ public actual fun seqServer(server: String): DispatchString = { eventString ->
             System.err.println("Error response ${conn.responseCode} sending CLEF message: $response")
         }
     } catch (e: IOException) {
-        System.err.println("Exception sending CLEF message: $e")
+        warn("Exception sending CLEF message: $e")
     }
 }

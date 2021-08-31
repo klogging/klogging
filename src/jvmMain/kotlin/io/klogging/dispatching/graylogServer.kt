@@ -18,6 +18,7 @@
 
 package io.klogging.dispatching
 
+import io.klogging.internal.warn
 import java.io.IOException
 import java.net.DatagramPacket
 import java.net.DatagramSocket
@@ -29,6 +30,6 @@ public actual fun graylogServer(endpoint: Endpoint): DispatchString = { eventStr
     try {
         DatagramSocket().use { it.send(packet) }
     } catch (e: IOException) {
-        System.err.println("Exception sending GELF message: $e")
+        warn("Exception sending GELF message: $e")
     }
 }

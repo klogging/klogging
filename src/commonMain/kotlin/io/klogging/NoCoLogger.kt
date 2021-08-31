@@ -42,24 +42,24 @@ public interface NoCoLogger : BaseLogger {
      */
     public fun emitEvent(
         level: Level,
-        exception: Exception?,
+        throwable: Throwable?,
         event: Any?,
         contextItems: Map<String, Any?> = mapOf(),
     )
 
-    public fun log(level: Level, exception: Exception, event: Any?): Unit =
-        emitEvent(level, exception, event)
+    public fun log(level: Level, throwable: Throwable, event: Any?): Unit =
+        emitEvent(level, throwable, event)
 
     public fun log(level: Level, event: Any?): Unit = emitEvent(level, null, event)
 
     public fun log(
         level: Level,
-        exception: Exception,
+        throwable: Throwable,
         template: String,
         vararg values: Any?
     ): Unit =
-        if (values.isEmpty()) emitEvent(level, exception, template)
-        else emitEvent(level, exception, e(template, *values))
+        if (values.isEmpty()) emitEvent(level, throwable, template)
+        else emitEvent(level, throwable, e(template, *values))
 
     public fun log(level: Level, template: String, vararg values: Any?): Unit =
         if (values.isEmpty()) emitEvent(level, null, template)
@@ -79,33 +79,33 @@ public interface NoCoLogger : BaseLogger {
     public fun error(template: String, vararg values: Any?): Unit = log(ERROR, template, *values)
     public fun fatal(template: String, vararg values: Any?): Unit = log(FATAL, template, *values)
 
-    public fun trace(exception: Exception, event: Any?): Unit = log(TRACE, exception, event)
-    public fun debug(exception: Exception, event: Any?): Unit = log(DEBUG, exception, event)
-    public fun info(exception: Exception, event: Any?): Unit = log(INFO, exception, event)
-    public fun warn(exception: Exception, event: Any?): Unit = log(WARN, exception, event)
-    public fun error(exception: Exception, event: Any?): Unit = log(ERROR, exception, event)
-    public fun fatal(exception: Exception, event: Any?): Unit = log(FATAL, exception, event)
+    public fun trace(throwable: Throwable, event: Any?): Unit = log(TRACE, throwable, event)
+    public fun debug(throwable: Throwable, event: Any?): Unit = log(DEBUG, throwable, event)
+    public fun info(throwable: Throwable, event: Any?): Unit = log(INFO, throwable, event)
+    public fun warn(throwable: Throwable, event: Any?): Unit = log(WARN, throwable, event)
+    public fun error(throwable: Throwable, event: Any?): Unit = log(ERROR, throwable, event)
+    public fun fatal(throwable: Throwable, event: Any?): Unit = log(FATAL, throwable, event)
 
-    public fun trace(exception: Exception, template: String, vararg values: Any?): Unit =
-        log(TRACE, exception, template, *values)
+    public fun trace(throwable: Throwable, template: String, vararg values: Any?): Unit =
+        log(TRACE, throwable, template, *values)
 
-    public fun debug(exception: Exception, template: String, vararg values: Any?): Unit =
-        log(DEBUG, exception, template, *values)
+    public fun debug(throwable: Throwable, template: String, vararg values: Any?): Unit =
+        log(DEBUG, throwable, template, *values)
 
-    public fun info(exception: Exception, template: String, vararg values: Any?): Unit =
-        log(INFO, exception, template, *values)
+    public fun info(throwable: Throwable, template: String, vararg values: Any?): Unit =
+        log(INFO, throwable, template, *values)
 
-    public fun warn(exception: Exception, template: String, vararg values: Any?): Unit =
-        log(WARN, exception, template, *values)
+    public fun warn(throwable: Throwable, template: String, vararg values: Any?): Unit =
+        log(WARN, throwable, template, *values)
 
-    public fun error(exception: Exception, template: String, vararg values: Any?): Unit =
-        log(ERROR, exception, template, *values)
+    public fun error(throwable: Throwable, template: String, vararg values: Any?): Unit =
+        log(ERROR, throwable, template, *values)
 
-    public fun fatal(exception: Exception, template: String, vararg values: Any?): Unit =
-        log(FATAL, exception, template, *values)
+    public fun fatal(throwable: Throwable, template: String, vararg values: Any?): Unit =
+        log(FATAL, throwable, template, *values)
 
-    public fun log(level: Level, exception: Exception, event: NoCoLogger.() -> Any?) {
-        if (isLevelEnabled(level)) emitEvent(level, exception, event())
+    public fun log(level: Level, throwable: Throwable, event: NoCoLogger.() -> Any?) {
+        if (isLevelEnabled(level)) emitEvent(level, throwable, event())
     }
 
     public fun log(level: Level, event: NoCoLogger.() -> Any?) {
@@ -119,23 +119,23 @@ public interface NoCoLogger : BaseLogger {
     public fun error(event: NoCoLogger.() -> Any?): Unit = log(ERROR, event)
     public fun fatal(event: NoCoLogger.() -> Any?): Unit = log(FATAL, event)
 
-    public fun trace(exception: Exception, event: NoCoLogger.() -> Any?): Unit =
-        log(TRACE, exception, event)
+    public fun trace(throwable: Throwable, event: NoCoLogger.() -> Any?): Unit =
+        log(TRACE, throwable, event)
 
-    public fun debug(exception: Exception, event: NoCoLogger.() -> Any?): Unit =
-        log(DEBUG, exception, event)
+    public fun debug(throwable: Throwable, event: NoCoLogger.() -> Any?): Unit =
+        log(DEBUG, throwable, event)
 
-    public fun info(exception: Exception, event: NoCoLogger.() -> Any?): Unit =
-        log(INFO, exception, event)
+    public fun info(throwable: Throwable, event: NoCoLogger.() -> Any?): Unit =
+        log(INFO, throwable, event)
 
-    public fun warn(exception: Exception, event: NoCoLogger.() -> Any?): Unit =
-        log(WARN, exception, event)
+    public fun warn(throwable: Throwable, event: NoCoLogger.() -> Any?): Unit =
+        log(WARN, throwable, event)
 
-    public fun error(exception: Exception, event: NoCoLogger.() -> Any?): Unit =
-        log(ERROR, exception, event)
+    public fun error(throwable: Throwable, event: NoCoLogger.() -> Any?): Unit =
+        log(ERROR, throwable, event)
 
-    public fun fatal(exception: Exception, event: NoCoLogger.() -> Any?): Unit =
-        log(FATAL, exception, event)
+    public fun fatal(throwable: Throwable, event: NoCoLogger.() -> Any?): Unit =
+        log(FATAL, throwable, event)
 
     /**
      * Evaluates a message template with the supplied values, returning [LogEvent].

@@ -31,8 +31,8 @@ import kotlin.coroutines.coroutineContext
 public class KloggerImpl(
     override val name: String,
 ) : Klogger {
-    override suspend fun emitEvent(level: Level, exception: Exception?, event: Any?) {
-        val eventToLog = eventFrom(level, exception, event, contextItems())
+    override suspend fun emitEvent(level: Level, throwable: Throwable?, event: Any?) {
+        val eventToLog = eventFrom(level, throwable, event, contextItems())
         Logging.sendEvent(eventToLog)
     }
 

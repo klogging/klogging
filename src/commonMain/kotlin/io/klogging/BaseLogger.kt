@@ -81,15 +81,15 @@ public interface BaseLogger {
  */
 internal fun BaseLogger.eventFrom(
     level: Level,
-    exception: Exception?,
+    throwable: Throwable?,
     eventObject: Any?,
     contextItems: Map<String, Any?> = mapOf(),
 ): LogEvent {
     return when (eventObject) {
         is LogEvent ->
-            eventObject.copyWith(level, exception?.stackTraceToString(), contextItems)
+            eventObject.copyWith(level, throwable?.stackTraceToString(), contextItems)
         else -> {
-            val (message, stackTrace) = messageAndStackTrace(eventObject, exception)
+            val (message, stackTrace) = messageAndStackTrace(eventObject, throwable)
             LogEvent(
                 logger = this.name,
                 level = level,
@@ -106,15 +106,15 @@ internal fun BaseLogger.eventFrom(
  *
  * @param obj an object that has been sent in a logging function call.
  *
- * @param exception an exception that may have been sent in a logging function call.
+ * @param throwable an error or exception that may have been sent in a logging function call.
  *
  * @return a pair with the message to show and any stack trace that is present:
- *   - If the object is an exception, return its message and stack trace.
- *   - If the object is not an exception, return `toString()` on the object
- *     and any stack trace on the supplied exception.
+ *   - If the object is a throwable, return its message and stack trace.
+ *   - If the object is not a throwable, return `toString()` on the object
+ *     and any stack trace on the supplied throwable.
  */
-private fun messageAndStackTrace(obj: Any?, exception: Exception?): Pair<String, String?> =
+private fun messageAndStackTrace(obj: Any?, throwable: Throwable?): Pair<String, String?> =
     when (obj) {
-        is Exception -> (obj.message ?: "Exception") to obj.stackTraceToString()
-        else -> obj.toString() to exception?.stackTraceToString()
+        is Throwable -> (obj.message ?: "Throwable") to obj.stackTraceToString()
+        else -> obj.toString() to throwable?.stackTraceToString()
     }

@@ -34,7 +34,7 @@ class NoCoLoggerImplTest : DescribeSpec({
                 val runId = randomString()
                 NoCoLoggerImpl("NoCoLoggerImplTest").emitEvent(
                     level = INFO,
-                    exception = null,
+                    throwable = null,
                     event = "Message",
                     contextItems = mapOf("runId" to runId)
                 )
