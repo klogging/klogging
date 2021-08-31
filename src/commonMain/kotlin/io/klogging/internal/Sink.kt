@@ -19,8 +19,6 @@
 package io.klogging.internal
 
 import io.klogging.events.LogEvent
-import io.klogging.internal.debug
-import io.klogging.internal.trace
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -30,7 +28,8 @@ import kotlinx.coroutines.launch
 public typealias Sender = (LogEvent) -> Unit
 
 /**
- * 
+ * Runtime management of a sink for [LogEvent]s. It contains a coroutine [Channel]
+ * through which all the events for this sink pass.
  */
 internal class Sink(
     private val name: String,
@@ -41,18 +40,15 @@ internal class Sink(
         val channel = Channel<LogEvent>()
         CoroutineScope(Job()).launch(CoroutineName("sink-$name")) {
             for (event in channel) {
-                trace("Sending event ${event.id} to sink $name")
+                trace("Sending event ${event.id} from sink $name")
                 sender(event)
             }
         }
         channel
     }
-    
-    internal suspend fun emitEvent(event: LogEvent) = sinkChannel.send(event)
 
-    internal suspend fun stop() {
-        debug("Stopping sink $name")
-        sinkChannel.close()
+    internal suspend fun emitEvent(event: LogEvent) {
+        trace("Emitting event ${event.id} to sink $name")
+        sinkChannel.send(event)
     }
 }
-

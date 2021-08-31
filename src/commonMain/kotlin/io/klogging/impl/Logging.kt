@@ -42,7 +42,7 @@ internal object Logging {
         val channel = Channel<LogEvent>()
         CoroutineScope(Job()).launch(CoroutineName("events")) {
             for (logEvent in channel) {
-                trace("Read event ${logEvent.id}")
+                trace("Read event ${logEvent.id} from events channel")
                 dispatchEvent(logEvent)
             }
         }
@@ -50,7 +50,7 @@ internal object Logging {
     }
 
     suspend fun sendEvent(logEvent: LogEvent) {
-        trace("Sending event ${logEvent.id}")
+        trace("Sending event ${logEvent.id} to events channel")
         logEventsChannel.send(logEvent)
     }
 }

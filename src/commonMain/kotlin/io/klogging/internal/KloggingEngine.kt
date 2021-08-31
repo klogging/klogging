@@ -26,12 +26,12 @@ import io.klogging.config.configLoadedFromFile
 import io.klogging.events.LogEvent
 
 /**
- * Object that is the centre of Klogging processing. 
+ * Object that is the centre of Klogging processing.
  *
- * All static state should be managed here. 
+ * All static state should be managed here.
  */
 public object KloggingEngine {
-    
+
     private val DEFAULT_CONFIG = KloggingConfiguration()
 
     private const val CURRENT_STATE = "CURRENT_STATE"
@@ -49,14 +49,16 @@ public object KloggingEngine {
     internal fun setConfig(config: KloggingConfiguration) {
         // No synchronisation or locking yet.
         currentState[CURRENT_STATE] = config
+        setSinks(config.sinks)
     }
 
     internal fun appendConfig(config: KloggingConfiguration) {
         currentConfig().append(config)
+        setSinks(currentConfig().sinks)
     }
 
     private fun currentConfig() = currentState[CURRENT_STATE] ?: DEFAULT_CONFIG
-    
+
     private val currentSinks: MutableMap<String, Sink> = mutableMapOf()
     private fun SinkConfiguration.toSender() =
         { e: LogEvent -> dispatcher(renderer(e)) }
@@ -78,4 +80,3 @@ public object KloggingEngine {
 
     internal fun kloggingMinLogLevel(): Level = currentConfig().kloggingMinLogLevel
 }
-

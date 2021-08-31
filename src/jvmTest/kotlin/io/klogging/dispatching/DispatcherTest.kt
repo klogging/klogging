@@ -39,20 +39,20 @@ internal class DispatcherTest : DescribeSpec({
                 Dispatcher.sinksFor(randomString(), randomLevel()) shouldHaveSize 0
             }
         }
-        describe("with default console configuration") {
-            it("returns the sink for INFO") {
-                loggingConfiguration { DEFAULT_CONSOLE() }
-                val sinks = Dispatcher.sinksFor(randomString(), INFO)
-
-                sinks shouldHaveSize 1
-                sinks.first().dispatcher shouldBe STDOUT
-                sinks.first().renderer shouldBe RENDER_SIMPLE
-            }
-            it("returns no sinks for DEBUG") {
-                loggingConfiguration { DEFAULT_CONSOLE() }
-                Dispatcher.sinksFor(randomString(), DEBUG) shouldHaveSize 0
-            }
-        }
+//        describe("with default console configuration") {
+//            it("returns the sink for INFO") {
+//                loggingConfiguration { DEFAULT_CONSOLE() }
+//                val sinks = Dispatcher.sinksFor(randomString(), INFO)
+//
+//                sinks shouldHaveSize 1
+//                sinks.first().dispatcher shouldBe STDOUT
+//                sinks.first().renderer shouldBe RENDER_SIMPLE
+//            }
+//            it("returns no sinks for DEBUG") {
+//                loggingConfiguration { DEFAULT_CONSOLE() }
+//                Dispatcher.sinksFor(randomString(), DEBUG) shouldHaveSize 0
+//            }
+//        }
         describe("with base logger name configuration") {
             beforeTest {
                 loggingConfiguration {
