@@ -16,18 +16,15 @@
 
 */
 
-package io.klogging.dispatching
+package io.klogging.internal
 
 import io.klogging.Level
 import io.klogging.events.LogEvent
-import io.klogging.internal.KloggingEngine
-import io.klogging.internal.Sink
-import io.klogging.internal.debug
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
-/** Object that handles dispatching of [LogEvent]s to zero or more targets. */
-public object Dispatcher {
+/** Object that handles dispatching of [LogEvent]s to zero or more sinks. */
+internal object Dispatcher {
 
     /**
      * Dispatch a [LogEvent] to selected targets.
@@ -44,6 +41,14 @@ public object Dispatcher {
             }
     }
 
+    /**
+     * Calculate the sinks for the specified logger and level.
+     *
+     * @param loggerName name of the logger
+     * @param level level at which to emit logs
+     *
+     * @return the list of [Sink]s for this logger at this level, which may be empty
+     */
     internal fun sinksFor(loggerName: String, level: Level): List<Sink> {
         val sinkNames = KloggingEngine.configs()
             .filter { it.nameMatch.matches(loggerName) }
@@ -56,6 +61,3 @@ public object Dispatcher {
             .map { it.value }
     }
 }
-
-/** Functional type used for dispatching a string somewhere. */
-public typealias DispatchString = (String) -> Unit

@@ -58,7 +58,7 @@ internal fun log(
     message: String,
     throwable: Throwable? = null
 ) {
-    if (level < KloggingState.kloggingMinLogLevel()) return
+    if (level < KloggingEngine.kloggingMinLogLevel()) return
     val event = LogEvent(
         logger = KLOGGING_LOGGER,
         level = level,

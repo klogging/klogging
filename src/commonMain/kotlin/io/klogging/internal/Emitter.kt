@@ -16,12 +16,10 @@
 
 */
 
-package io.klogging.impl
+package io.klogging.internal
 
-import io.klogging.dispatching.Dispatcher.dispatchEvent
 import io.klogging.events.LogEvent
-import io.klogging.internal.debug
-import io.klogging.internal.trace
+import io.klogging.internal.Dispatcher.dispatchEvent
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -31,7 +29,7 @@ import kotlinx.coroutines.launch
 /**
  * The main object for managing log event processing.
  */
-internal object Logging {
+internal object Emitter {
 
     /**
      * [Channel] between the coroutines where log events are emitted and the

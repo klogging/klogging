@@ -26,7 +26,12 @@ import io.klogging.rendering.RENDER_SIMPLE
 public val STDOUT_SIMPLE: SinkConfiguration =
     SinkConfiguration(RENDER_SIMPLE, STDOUT)
 
-/** Simple default configuration for logging to the standard output stream. */
+/**
+ * Simple default configuration for logging to the standard output stream.
+ *
+ * - All loggers are included.
+ * - All events at [INFO] or higher level are included.
+ */
 public val DEFAULT_CONSOLE: KloggingConfiguration.() -> Unit = {
     sink("console", STDOUT_SIMPLE)
     logging { fromMinLevel(INFO) { toSink("console") } }

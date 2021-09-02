@@ -23,7 +23,9 @@ import io.klogging.Level.ERROR
 import io.klogging.Level.INFO
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
+import io.klogging.config.DEFAULT_CONSOLE
 import io.klogging.config.loggingConfiguration
+import io.klogging.internal.Dispatcher
 import io.klogging.randomLevel
 import io.klogging.randomString
 import io.klogging.rendering.RENDER_SIMPLE
@@ -37,20 +39,16 @@ internal class DispatcherTest : DescribeSpec({
                 Dispatcher.sinksFor(randomString(), randomLevel()) shouldHaveSize 0
             }
         }
-//        describe("with default console configuration") {
-//            it("returns the sink for INFO") {
-//                loggingConfiguration { DEFAULT_CONSOLE() }
-//                val sinks = Dispatcher.sinksFor(randomString(), INFO)
-//
-//                sinks shouldHaveSize 1
-//                sinks.first().dispatcher shouldBe STDOUT
-//                sinks.first().renderer shouldBe RENDER_SIMPLE
-//            }
-//            it("returns no sinks for DEBUG") {
-//                loggingConfiguration { DEFAULT_CONSOLE() }
-//                Dispatcher.sinksFor(randomString(), DEBUG) shouldHaveSize 0
-//            }
-//        }
+        describe("with default console configuration") {
+            it("returns the sink for INFO") {
+                loggingConfiguration { DEFAULT_CONSOLE() }
+                Dispatcher.sinksFor(randomString(), INFO) shouldHaveSize 1
+            }
+            it("returns no sinks for DEBUG") {
+                loggingConfiguration { DEFAULT_CONSOLE() }
+                Dispatcher.sinksFor(randomString(), DEBUG) shouldHaveSize 0
+            }
+        }
         describe("with base logger name configuration") {
             beforeTest {
                 loggingConfiguration {

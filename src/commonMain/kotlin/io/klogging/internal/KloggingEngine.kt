@@ -32,9 +32,13 @@ import io.klogging.events.LogEvent
  */
 public object KloggingEngine {
 
+    /** Default, empty configuration. */
     private val DEFAULT_CONFIG = KloggingConfiguration()
 
+    /** Key for the current state (and only!) entry in the map. */
     private const val CURRENT_STATE = "CURRENT_STATE"
+
+    /** Map with the current Klogging configuration. */
     private val currentState: MutableMap<String, KloggingConfiguration> =
         mutableMapOf(CURRENT_STATE to DEFAULT_CONFIG)
 
@@ -42,41 +46,51 @@ public object KloggingEngine {
     internal val configuration: KloggingConfiguration by lazy {
         debug("Lazy-loading current configuration")
         configLoadedFromFile?.let { setConfig(it) }
-        currentConfig()
+        currentConfig
     }
 
-    /** Sets a new value of the current config.  */
+    /** Set a new configuration, replacing the existing one.  */
     internal fun setConfig(config: KloggingConfiguration) {
         // No synchronisation or locking yet.
         currentState[CURRENT_STATE] = config
         setSinks(config.sinks)
     }
 
+    /** Append a new configuration to the existing one. */
     internal fun appendConfig(config: KloggingConfiguration) {
-        currentConfig().append(config)
-        setSinks(currentConfig().sinks)
+        currentConfig.append(config)
+        setSinks(currentConfig.sinks)
     }
 
-    private fun currentConfig() = currentState[CURRENT_STATE] ?: DEFAULT_CONFIG
+    /** Return the current configuration, ensuring it is never null. */
+    private val currentConfig: KloggingConfiguration
+        get() = currentState[CURRENT_STATE] ?: DEFAULT_CONFIG
 
+    /** Map of the current [Sink]s used for sending log events. */
     private val currentSinks: MutableMap<String, Sink> = mutableMapOf()
-    private fun SinkConfiguration.toSender() =
-        { e: LogEvent -> dispatcher(renderer(e)) }
+
+    /** Extension property on [SinkConfiguration] that returns the equivalend [Sender]. */
+    private val SinkConfiguration.sender: Sender
+        get() = { e: LogEvent -> dispatcher(renderer(e)) }
+
+    /** Set new sinks, from configurations. */
     private fun setSinks(sinkConfigs: Map<String, SinkConfiguration>) {
         currentSinks.clear()
         currentSinks.putAll(
             sinkConfigs.map { (name, config) ->
-                name to Sink(name, config.toSender())
+                name to Sink(name, config.sender)
             }
         )
     }
 
     // Functions returning the current state.
-    internal fun minimumLevelOf(name: String): Level = currentConfig().minimumLevelOf(name)
+    internal fun minimumLevelOf(name: String): Level = currentConfig.minimumLevelOf(name)
 
     internal fun sinks(): Map<String, Sink> = currentSinks
 
-    internal fun configs(): List<LoggingConfig> = currentConfig().configs
+    internal fun sinkConfigs(): Map<String, SinkConfiguration> = currentConfig.sinks
 
-    internal fun kloggingMinLogLevel(): Level = currentConfig().kloggingMinLogLevel
+    internal fun configs(): List<LoggingConfig> = currentConfig.configs
+
+    internal fun kloggingMinLogLevel(): Level = currentConfig.kloggingMinLogLevel
 }

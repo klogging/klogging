@@ -22,7 +22,7 @@ import io.klogging.Level
 import io.klogging.Level.INFO
 import io.klogging.Level.NONE
 import io.klogging.dispatching.DispatchString
-import io.klogging.internal.KloggingState
+import io.klogging.internal.KloggingEngine
 import io.klogging.internal.info
 import io.klogging.internal.warn
 import io.klogging.rendering.RenderString
@@ -51,8 +51,8 @@ public fun loggingConfiguration(append: Boolean = false, block: KloggingConfigur
     val config = KloggingConfiguration()
     config.apply(block)
     config.validateSinks()
-    if (append) KloggingState.appendConfig(config)
-    else KloggingState.setConfig(config)
+    if (append) KloggingEngine.appendConfig(config)
+    else KloggingEngine.setConfig(config)
 }
 
 /**

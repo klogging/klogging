@@ -22,7 +22,7 @@ import io.klogging.Level.DEBUG
 import io.klogging.Level.FATAL
 import io.klogging.Level.INFO
 import io.klogging.dispatching.STDOUT
-import io.klogging.internal.KloggingState
+import io.klogging.internal.KloggingEngine
 import io.klogging.randomString
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RENDER_SIMPLE
@@ -31,9 +31,11 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
+@OptIn(ExperimentalSerializationApi::class)
 internal class JsonConfigurationTest : DescribeSpec({
     describe("Configuration from JSON") {
         describe("invalid JSON") {
@@ -156,19 +158,19 @@ internal class JsonConfigurationTest : DescribeSpec({
         }
         describe("Klogging minimum log level") {
             beforeTest {
-                KloggingState.setConfig(KloggingConfiguration())
+                KloggingEngine.setConfig(KloggingConfiguration())
             }
             it("is not changed if not set in JSON") {
-                configureFromJson("""{}""")?.let { KloggingState.setConfig(it) }
+                configureFromJson("""{}""")?.let { KloggingEngine.setConfig(it) }
 
-                KloggingState.kloggingMinLogLevel() shouldBe defaultKloggingMinLogLevel
+                KloggingEngine.kloggingMinLogLevel() shouldBe defaultKloggingMinLogLevel
             }
             it("is changed if set in JSON") {
                 configureFromJson("""{"kloggingMinLogLevel":"DEBUG"}""")?.let {
-                    KloggingState.setConfig(it)
+                    KloggingEngine.setConfig(it)
                 }
 
-                KloggingState.kloggingMinLogLevel() shouldBe DEBUG
+                KloggingEngine.kloggingMinLogLevel() shouldBe DEBUG
             }
         }
         describe("sink configuration") {

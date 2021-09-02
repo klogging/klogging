@@ -32,8 +32,8 @@ public typealias Sender = (LogEvent) -> Unit
  * through which all the events for this sink pass.
  */
 internal class Sink(
-    private val name: String,
-    private val sender: Sender,
+    internal val name: String,
+    internal val sender: Sender,
 ) {
     private val sinkChannel: Channel<LogEvent> by lazy {
         debug("Starting sink $name")
