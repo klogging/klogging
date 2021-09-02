@@ -16,11 +16,11 @@
 
 */
 
-package io.klogging.impl
+package io.klogging.internal
 
-import io.klogging.dispatching.Dispatcher.dispatchEvent
 import io.klogging.events.LogEvent
-import io.klogging.internal.debug
+import io.klogging.internal.Dispatcher.dispatchEvent
+import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -29,27 +29,26 @@ import kotlinx.coroutines.launch
 /**
  * The main object for managing log event processing.
  */
-internal object Logging {
+internal object Emitter {
 
     /**
-     * [Channel] between the coroutines where log events are sent and the coroutines that send them out.
+     * [Channel] between the coroutines where log events are emitted and the
+     * coroutines that dispatch them to sinks.
      */
-    private val logEventsChannel = startEventsChannel()
-
-    /** Creates the channel and starts the loop to process the log events. */
-    private fun startEventsChannel(): Channel<LogEvent> {
-        val eventsChannel = Channel<LogEvent>()
-        CoroutineScope(Job()).launch {
-            for (logEvent in eventsChannel) {
-                debug("Read event ${logEvent.id}")
+    private val logEventsChannel by lazy {
+        debug("Starting events channel")
+        val channel = Channel<LogEvent>()
+        CoroutineScope(Job()).launch(CoroutineName("events")) {
+            for (logEvent in channel) {
+                trace("Read event ${logEvent.id} from events channel")
                 dispatchEvent(logEvent)
             }
         }
-        return eventsChannel
+        channel
     }
 
     suspend fun sendEvent(logEvent: LogEvent) {
-        debug("Sending event ${logEvent.id}")
+        trace("Sending event ${logEvent.id} to events channel")
         logEventsChannel.send(logEvent)
     }
 }

@@ -21,6 +21,7 @@ package io.klogging
 import io.klogging.context.logContext
 import io.klogging.events.timestampNow
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -53,6 +54,7 @@ suspend fun main() = coroutineScope {
     }
     // There must be at least one statement outside the coroutine scope.
     logger.info { "All done" }
+    delay(500)
 }
 
 suspend fun functionWithException(logger: Klogger) {

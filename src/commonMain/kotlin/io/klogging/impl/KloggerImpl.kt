@@ -25,6 +25,7 @@ import io.klogging.eventFrom
 import io.klogging.events.LogEvent
 import io.klogging.events.currentContext
 import io.klogging.events.timestampNow
+import io.klogging.internal.Emitter
 import io.klogging.template.templateItems
 import kotlin.coroutines.coroutineContext
 
@@ -33,7 +34,7 @@ public class KloggerImpl(
 ) : Klogger {
     override suspend fun emitEvent(level: Level, throwable: Throwable?, event: Any?) {
         val eventToLog = eventFrom(level, throwable, event, contextItems())
-        Logging.sendEvent(eventToLog)
+        Emitter.sendEvent(eventToLog)
     }
 
     private suspend inline fun contextItems() =

@@ -16,13 +16,7 @@
 
 */
 
-package io.klogging.rendering
+package io.klogging.dispatching
 
-import io.klogging.events.LogEvent
-
-/** Functional type for rendering a [LogEvent] to a String. */
-public typealias RenderString = (LogEvent) -> String
-
-/** Right-align the string into a fixed-width space. */
-public fun String.rightAlign(width: Int): String =
-    (" ".repeat(width) + this).let { it.substring(it.length - width) }
+/** Functional type used for dispatching a string somewhere. */
+public typealias DispatchString = (String) -> Unit

@@ -16,18 +16,15 @@
 
 */
 
-package io.klogging.dispatching
+package io.klogging.internal
 
 import io.klogging.Level
-import io.klogging.config.SinkConfiguration
 import io.klogging.events.LogEvent
-import io.klogging.internal.KloggingState
-import io.klogging.internal.debug
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
-/** Object that handles dispatching of [LogEvent]s to zero or more targets. */
-public object Dispatcher {
+/** Object that handles dispatching of [LogEvent]s to zero or more sinks. */
+internal object Dispatcher {
 
     /**
      * Dispatch a [LogEvent] to selected targets.
@@ -36,26 +33,31 @@ public object Dispatcher {
      */
     public suspend fun dispatchEvent(logEvent: LogEvent): Unit = coroutineScope {
         sinksFor(logEvent.logger, logEvent.level)
-            .forEach { sinkConfig ->
+            .forEach { sink ->
                 launch {
                     debug("Dispatching event ${logEvent.id}")
-                    sinkConfig.dispatcher(sinkConfig.renderer(logEvent))
+                    sink.emitEvent(logEvent)
                 }
             }
     }
 
-    public fun sinksFor(loggerName: String, level: Level): List<SinkConfiguration> {
-        val sinkNames = KloggingState.configs()
+    /**
+     * Calculate the sinks for the specified logger and level.
+     *
+     * @param loggerName name of the logger
+     * @param level level at which to emit logs
+     *
+     * @return the list of [Sink]s for this logger at this level, which may be empty
+     */
+    internal fun sinksFor(loggerName: String, level: Level): List<Sink> {
+        val sinkNames = KloggingEngine.configs()
             .filter { it.nameMatch.matches(loggerName) }
             .flatMap { it.ranges }
             .filter { level in it }
             .flatMap { it.sinkNames }
             .distinct()
-        return KloggingState.sinks()
+        return KloggingEngine.sinks()
             .filterKeys { it in sinkNames }
             .map { it.value }
     }
 }
-
-/** Functional type used for dispatching a string somewhere. */
-public typealias DispatchString = (String) -> Unit

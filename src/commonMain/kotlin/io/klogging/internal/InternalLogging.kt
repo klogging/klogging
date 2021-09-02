@@ -22,19 +22,22 @@ import io.klogging.Level
 import io.klogging.Level.DEBUG
 import io.klogging.Level.ERROR
 import io.klogging.Level.INFO
+import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
 import io.klogging.dispatching.STDERR
 import io.klogging.dispatching.STDOUT
 import io.klogging.events.LogEvent
 import io.klogging.rendering.RenderString
-import io.klogging.rendering.localString
+import io.klogging.rendering.colour5
+import io.klogging.rendering.localTime
+import io.klogging.rendering.rightAlign
 
 private const val KLOGGING_LOGGER = "Klogging"
 
 /** Renderer specifically for internal logging. */
 private val RENDER_INTERNAL: RenderString = { e: LogEvent ->
-    val message =
-        "${e.timestamp.localString} ${e.level} [${e.context}] : ${e.logger} : ${e.message}"
+    val message = "${e.timestamp.localTime} ${e.level.colour5} [${e.context?.rightAlign(20)}]" +
+        " : ${e.logger} : ${e.message}"
     val maybeItems = if (e.items.isNotEmpty()) " : ${e.items}" else ""
     val maybeStackTrace = if (e.stackTrace != null) "\n${e.stackTrace}" else ""
     message + maybeItems + maybeStackTrace
@@ -55,7 +58,7 @@ internal fun log(
     message: String,
     throwable: Throwable? = null
 ) {
-    if (level < KloggingState.kloggingMinLogLevel()) return
+    if (level < KloggingEngine.kloggingMinLogLevel()) return
     val event = LogEvent(
         logger = KLOGGING_LOGGER,
         level = level,
@@ -64,6 +67,10 @@ internal fun log(
     )
     if (level <= INFO) STDOUT(RENDER_INTERNAL(event))
     else STDERR(RENDER_INTERNAL(event))
+}
+
+internal fun trace(message: String, throwable: Throwable? = null) {
+    log(TRACE, message, throwable)
 }
 
 internal fun debug(message: String, throwable: Throwable? = null) {

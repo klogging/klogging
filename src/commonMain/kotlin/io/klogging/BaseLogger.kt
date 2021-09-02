@@ -27,7 +27,7 @@ import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
 import io.klogging.events.LogEvent
 import io.klogging.events.copyWith
-import io.klogging.internal.KloggingState
+import io.klogging.internal.KloggingEngine
 
 /**
  * Base interface of [Klogger] interface for use in coroutines, and
@@ -42,7 +42,7 @@ public interface BaseLogger {
      * Minimum level at which to emit log events, determined from current
      * configuration.
      */
-    public fun minLevel(): Level = KloggingState.minimumLevelOf(name)
+    public fun minLevel(): Level = KloggingEngine.minimumLevelOf(name)
 
     /**
      * Check whether this logger will emit log events at the specified logging
