@@ -63,6 +63,8 @@ public data class JsonSinkConfiguration(
         val renderer = BUILT_IN_RENDERERS[renderWith]
         if (seqServer != null)
             return seq(seqServer, renderer ?: RENDER_CLEF)
+        if (dispatchTo != null)
+            warn("Please use `sendTo` in JSON config instead of `dispatchTo`, which has been deprecated")
         val sender = BUILT_IN_SENDERS[sendTo ?: dispatchTo]
         return if (renderer != null && sender != null) SinkConfiguration(renderer, sender)
         else null
