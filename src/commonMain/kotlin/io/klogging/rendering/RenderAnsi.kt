@@ -75,8 +75,8 @@ public fun compressLoggerName(name: String, width: Int = 20): String {
  * level output to a console.
  */
 public val RENDER_ANSI: RenderString = { e: LogEvent ->
-    val message = "${e.timestamp.localTime} ${e.level.colour5} ${e.logger.right20} :" +
-        " ${e.evalTemplate()}"
+    val message = "${e.timestamp.localTime} ${e.level.colour5} [${e.context?.right20}] :" +
+        " ${e.logger.right20} : ${e.evalTemplate()}"
     val maybeItems = if (e.items.isNotEmpty()) " : ${e.items}" else ""
     val maybeStackTrace = if (e.stackTrace != null) "\n${e.stackTrace}" else ""
     message + maybeItems + maybeStackTrace

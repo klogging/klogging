@@ -31,7 +31,7 @@ import java.util.UUID.randomUUID
  * Main program for experimenting with Klogging features as they are developed.
  */
 suspend fun main() = coroutineScope {
-    val logger = logger("Playpen")
+    val logger = logger("io.klogging.example.KloggerPlaypen")
 
     launch(logContext("run" to randomUUID())) {
         logger.info { "Start" }

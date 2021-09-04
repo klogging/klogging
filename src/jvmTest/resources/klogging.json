@@ -2,7 +2,7 @@
   "sinks": {
     "stdout": {
       "renderWith": "RENDER_ANSI",
-      "dispatchTo": "STDOUT"
+      "sendTo": "STDOUT"
     },
     "seq": {
       "seqServer": "http://localhost:5341"
