@@ -26,7 +26,7 @@ import io.klogging.events.LogEvent
 import io.klogging.events.currentContext
 import io.klogging.events.timestampNow
 import io.klogging.internal.Emitter
-import io.klogging.template.templateItems
+import io.klogging.templating.templateItems
 import kotlin.coroutines.coroutineContext
 
 public class KloggerImpl(

@@ -16,11 +16,9 @@
 
 */
 
-package io.klogging.template
+package io.klogging.templating
 
-/**
- * Extracts a map of items from a template and supplied values for the holes.
- */
+/** Extract a map of items from a template and supplied values for the holes. */
 public fun templateItems(template: String, vararg values: Any?): Map<String, Any?> {
     val itemNames = extractItemNames(template)
     return itemNames.zip(values).toMap()
@@ -28,6 +26,12 @@ public fun templateItems(template: String, vararg values: Any?): Map<String, Any
 
 private enum class TextOrHole { TEXT, HOLE }
 
+/**
+ * Extract the list of holes from a template.
+ *
+ * For example, from the template `User {id} signed in at {time} ` it extracts
+ * a list containing the strings "id" and "time".
+ */
 internal fun extractItemNames(template: String): List<String> {
     val itemNames = mutableListOf<String>()
     var state = TextOrHole.TEXT

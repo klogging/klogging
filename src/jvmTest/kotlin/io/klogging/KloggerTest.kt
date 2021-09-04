@@ -26,7 +26,7 @@ import io.klogging.Level.WARN
 import io.klogging.events.LogEvent
 import io.klogging.events.hostname
 import io.klogging.events.timestampNow
-import io.klogging.template.templateItems
+import io.klogging.templating.templateItems
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.nulls.shouldBeNull

@@ -33,7 +33,7 @@ plugins {
 }
 
 group = "io.klogging"
-version = "0.3.1"
+version = "0.3.2-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -55,7 +55,6 @@ kotlin {
         compilations.all {
             kotlinOptions {
                 jvmTarget = "11"
-                freeCompilerArgs = listOf("-Xopt-in=kotlin.RequiresOptIn")
             }
         }
         testRuns["test"].executionTask.configure {

@@ -16,7 +16,7 @@
 
 */
 
-package io.klogging.template
+package io.klogging.templating
 
 import io.klogging.randomString
 import io.kotest.core.spec.style.DescribeSpec
@@ -26,7 +26,7 @@ import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.shouldBe
 
-class TemplateTest : DescribeSpec({
+class TemplatingTest : DescribeSpec({
     describe("template items") {
         it("returns nothing if there are no holes in the template") {
             val template = randomString()

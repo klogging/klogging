@@ -24,7 +24,7 @@ import io.klogging.eventFrom
 import io.klogging.events.LogEvent
 import io.klogging.events.timestampNow
 import io.klogging.internal.Emitter
-import io.klogging.template.templateItems
+import io.klogging.templating.templateItems
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
