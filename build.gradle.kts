@@ -116,6 +116,16 @@ tasks.withType<KotlinCompile>().configureEach {
     }
 }
 
+tasks.dokkaHtml.configure {
+    moduleName.set("Klogging")
+    dokkaSourceSets {
+        configureEach {
+            includeNonPublic.set(true)
+            includes.from("src/commonMain/kotlin/packages.md")
+        }
+    }
+}
+
 configureAssemble()
 configureJacoco(jacocoVersion)
 configurePublishing()
