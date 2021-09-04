@@ -20,11 +20,10 @@ package io.klogging.internal
 
 import io.klogging.events.LogEvent
 import kotlinx.coroutines.CoroutineName
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 
+/** Function type for sending a log event somewhere. */
 public typealias Sender = (LogEvent) -> Unit
 
 /**
@@ -38,7 +37,7 @@ internal class Sink(
     private val sinkChannel: Channel<LogEvent> by lazy {
         debug("Starting sink $name")
         val channel = Channel<LogEvent>()
-        CoroutineScope(Job()).launch(CoroutineName("sink-$name")) {
+        KLOGGING_SCOPE.launch(CoroutineName("sink-$name")) {
             for (event in channel) {
                 trace("Sending event ${event.id} from sink $name")
                 sender(event)

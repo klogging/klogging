@@ -79,7 +79,7 @@ internal class JsonConfigurationTest : DescribeSpec({
                 config?.apply { sinks shouldHaveSize 1 }
             }
         }
-        describe("simple, using built-in, named renderers and dispatchers") {
+        describe("simple, using built-in, named renderers and senders") {
             val simpleJsonConfig = """
                 {
                   "sinks": {

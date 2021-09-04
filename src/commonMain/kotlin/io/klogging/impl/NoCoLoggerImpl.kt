@@ -24,10 +24,9 @@ import io.klogging.eventFrom
 import io.klogging.events.LogEvent
 import io.klogging.events.timestampNow
 import io.klogging.internal.Emitter
+import io.klogging.internal.KLOGGING_SCOPE
 import io.klogging.templating.templateItems
 import kotlinx.coroutines.CoroutineName
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 public class NoCoLoggerImpl(
@@ -40,7 +39,7 @@ public class NoCoLoggerImpl(
         contextItems: Map<String, Any?>,
     ) {
         val eventToLog = eventFrom(level, throwable, event, contextItems)
-        CoroutineScope(Job()).launch(CoroutineName("NoCoLogger")) {
+        KLOGGING_SCOPE.launch(CoroutineName("NoCoLogger")) {
             Emitter.sendEvent(eventToLog)
         }
     }

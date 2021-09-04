@@ -21,8 +21,6 @@ package io.klogging.internal
 import io.klogging.events.LogEvent
 import io.klogging.internal.Dispatcher.dispatchEvent
 import kotlinx.coroutines.CoroutineName
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 
@@ -38,7 +36,7 @@ internal object Emitter {
     private val logEventsChannel by lazy {
         debug("Starting events channel")
         val channel = Channel<LogEvent>()
-        CoroutineScope(Job()).launch(CoroutineName("events")) {
+        KLOGGING_SCOPE.launch(CoroutineName("events")) {
             for (logEvent in channel) {
                 trace("Read event ${logEvent.id} from events channel")
                 dispatchEvent(logEvent)
