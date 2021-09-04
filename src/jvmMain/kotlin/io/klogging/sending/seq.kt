@@ -16,20 +16,27 @@
 
 */
 
-package io.klogging.dispatching
+package io.klogging.sending
 
 import io.klogging.internal.warn
 import java.io.IOException
-import java.net.DatagramPacket
-import java.net.DatagramSocket
-import java.net.InetAddress
+import java.net.HttpURLConnection
+import java.net.URL
 
-public actual fun graylogServer(endpoint: Endpoint): DispatchString = { eventString ->
+public actual fun seqServer(server: String): SendString = { eventString ->
     val bytes = eventString.toByteArray()
-    val packet = DatagramPacket(bytes, 0, bytes.size, InetAddress.getByName(endpoint.host), endpoint.port)
+    val url = URL("$server/api/events/raw")
+    val conn = url.openConnection() as HttpURLConnection
+    conn.requestMethod = "POST"
+    conn.setRequestProperty("Content-Type", "application/vnd.serilog.clef")
+    conn.doOutput = true
     try {
-        DatagramSocket().use { it.send(packet) }
+        conn.outputStream.use { it.write(bytes) }
+        val response = conn.inputStream.use { String(it.readAllBytes()) }
+        if (conn.responseCode >= 400) {
+            System.err.println("Error response ${conn.responseCode} sending CLEF message: $response")
+        }
     } catch (e: IOException) {
-        warn("Exception sending GELF message: $e")
+        warn("Exception sending CLEF message: $e")
     }
 }

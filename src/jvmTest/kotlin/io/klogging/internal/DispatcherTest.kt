@@ -28,6 +28,8 @@ import io.klogging.config.loggingConfiguration
 import io.klogging.randomLevel
 import io.klogging.randomString
 import io.klogging.rendering.RENDER_SIMPLE
+import io.klogging.sending.STDERR
+import io.klogging.sending.STDOUT
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
 

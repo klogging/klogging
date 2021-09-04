@@ -16,8 +16,6 @@
 
 */
 
-package io.klogging.dispatching
+package io.klogging.sending
 
-public actual fun graylogServer(endpoint: Endpoint): DispatchString {
-    TODO("Not yet implemented")
-}
+public actual val STDERR: SendString = TODO("Not yet implemented")

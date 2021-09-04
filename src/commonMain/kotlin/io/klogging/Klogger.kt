@@ -27,7 +27,13 @@ import io.klogging.Level.WARN
 import io.klogging.events.LogEvent
 
 /**
- * Logger interface for sending log events inside coroutines.
+ * Logger interface for sending log events from `suspend` functions running in
+ * [Kotlin coroutines](https://kotlinlang.org/docs/coroutines-overview.html).
+ *
+ * Every function is a `suspend` function and should only be called in another
+ * `suspend` function.
+ *
+ * @see NoCoLogger for the corresponding non-coroutine interface.
  */
 public interface Klogger : BaseLogger {
 

@@ -16,10 +16,8 @@
 
 */
 
-package io.klogging.dispatching
+package io.klogging.sending
 
-/** Dispatch an event rendered as a string to the standard output stream. */
-public val STDOUT: DispatchString = { s -> println(s) }
-
-/** Dispatch an event rendered as a string to the standard error stream. */
-public expect val STDERR: DispatchString
+public actual fun graylogServer(endpoint: Endpoint): SendString {
+    TODO("Not yet implemented")
+}

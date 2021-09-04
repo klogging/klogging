@@ -59,7 +59,7 @@ fun logEvent(
 )
 
 /** Crude way to help ensure coroutine processing is complete in tests. */
-suspend fun waitForDispatch(millis: Long = 50) = delay(millis)
+suspend fun waitForSend(millis: Long = 50) = delay(millis)
 
 fun savedEvents(): MutableList<LogEvent> {
     val saved = mutableListOf<LogEvent>()

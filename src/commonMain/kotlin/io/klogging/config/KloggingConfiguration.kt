@@ -21,11 +21,11 @@ package io.klogging.config
 import io.klogging.Level
 import io.klogging.Level.INFO
 import io.klogging.Level.NONE
-import io.klogging.dispatching.DispatchString
 import io.klogging.internal.KloggingEngine
 import io.klogging.internal.info
 import io.klogging.internal.warn
 import io.klogging.rendering.RenderString
+import io.klogging.sending.SendString
 
 /**
  * Set the default Klogging log level from the environment using name
@@ -89,11 +89,11 @@ public class KloggingConfiguration {
      *
      * @param sinkName name used to refer to the sink
      * @param renderer object that renders an event into a string
-     * @param dispatcher object that sends an event as string somewhere
+     * @param sender object that sends an event as string somewhere
      */
     @ConfigDsl
-    public fun sink(sinkName: String, renderer: RenderString, dispatcher: DispatchString) {
-        sinks[sinkName] = SinkConfiguration(renderer, dispatcher)
+    public fun sink(sinkName: String, renderer: RenderString, sender: SendString) {
+        sinks[sinkName] = SinkConfiguration(renderer, sender)
     }
 
     /**

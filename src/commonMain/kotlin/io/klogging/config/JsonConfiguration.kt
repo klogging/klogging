@@ -44,10 +44,18 @@ public data class JsonConfiguration(
     val logging: List<JsonLoggingConfig> = listOf(),
 )
 
-/** Data class for JSON representation of a [SinkConfiguration]. */
+/**
+ * Data class for JSON representation of a [SinkConfiguration].
+ *
+ * @property renderWith name of a built-in renderer
+ * @property sendTo name of a built-in sender
+ * @property seqServer URL of a [Seq](https://datalust.co/seq) log aggregation server
+ */
 @Serializable
 public data class JsonSinkConfiguration(
     val renderWith: String? = null,
+    val sendTo: String? = null,
+    @Deprecated("Use `sendTo` instead")
     val dispatchTo: String? = null,
     val seqServer: String? = null,
 ) {
@@ -55,8 +63,8 @@ public data class JsonSinkConfiguration(
         val renderer = BUILT_IN_RENDERERS[renderWith]
         if (seqServer != null)
             return seq(seqServer, renderer ?: RENDER_CLEF)
-        val dispatcher = BUILT_IN_DISPATCHERS[dispatchTo]
-        return if (renderer != null && dispatcher != null) SinkConfiguration(renderer, dispatcher)
+        val sender = BUILT_IN_SENDERS[sendTo ?: dispatchTo]
+        return if (renderer != null && sender != null) SinkConfiguration(renderer, sender)
         else null
     }
 }

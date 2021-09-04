@@ -16,7 +16,7 @@
 
 */
 
-package io.klogging.dispatching
+package io.klogging.sending
 
-/** Dispatch a rendered string to a Seq server. */
-public expect fun seqServer(server: String): DispatchString
+/** Functional type used for sending a string to a target somewhere. */
+public typealias SendString = (String) -> Unit

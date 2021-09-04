@@ -24,7 +24,7 @@ import io.klogging.context.logContext
 import io.klogging.logger
 import io.klogging.randomString
 import io.klogging.savedEvents
-import io.klogging.waitForDispatch
+import io.klogging.waitForSend
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.maps.shouldContainAll
@@ -38,7 +38,7 @@ class LogEventTest : DescribeSpec({
                 val saved = savedEvents()
                 val logger = logger("LogEventTest")
                 logger.info("Test message")
-                waitForDispatch()
+                waitForSend()
                 saved.first().items.size shouldBe 0
             }
             it("includes any items from the coroutine log context") {
@@ -46,7 +46,7 @@ class LogEventTest : DescribeSpec({
                     val saved = savedEvents()
                     val logger = logger("LogEventTest")
                     logger.info("Test message")
-                    waitForDispatch()
+                    waitForSend()
                     saved.first().items shouldContain ("colour" to "white")
                 }
             }

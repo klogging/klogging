@@ -16,6 +16,6 @@
 
 */
 
-package io.klogging.dispatching
+package io.klogging.sending
 
-public actual val STDERR: DispatchString = TODO("Not yet implemented")
+public actual fun seqServer(server: String): SendString = TODO("Not yet implemented")

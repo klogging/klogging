@@ -19,8 +19,8 @@
 package io.klogging.config
 
 import io.klogging.Level.INFO
-import io.klogging.dispatching.STDOUT
 import io.klogging.rendering.RENDER_SIMPLE
+import io.klogging.sending.STDOUT
 
 /** Simple sink configuration for rendering simple strings to the standard output stream. */
 public val STDOUT_SIMPLE: SinkConfiguration =

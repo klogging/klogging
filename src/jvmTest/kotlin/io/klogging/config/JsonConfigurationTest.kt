@@ -21,11 +21,11 @@ package io.klogging.config
 import io.klogging.Level.DEBUG
 import io.klogging.Level.FATAL
 import io.klogging.Level.INFO
-import io.klogging.dispatching.STDOUT
 import io.klogging.internal.KloggingEngine
 import io.klogging.randomString
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RENDER_SIMPLE
+import io.klogging.sending.STDOUT
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldHaveSize
@@ -58,7 +58,7 @@ internal class JsonConfigurationTest : DescribeSpec({
                     sinks.keys.first() shouldBe "console"
                     with(sinks.values.first()) {
                         renderer shouldBe RENDER_SIMPLE
-                        dispatcher shouldBe STDOUT
+                        stringSender shouldBe STDOUT
                     }
                 }
             }
@@ -69,7 +69,7 @@ internal class JsonConfigurationTest : DescribeSpec({
                       "sinks": {
                         "stdout": {
                           "renderWith": "RENDER_SIMPLE",
-                          "dispatchTo": "STDOUT"
+                          "sendTo": "STDOUT"
                         }
                       }
                     }
@@ -85,7 +85,7 @@ internal class JsonConfigurationTest : DescribeSpec({
                   "sinks": {
                     "stdout": {
                       "renderWith": "RENDER_SIMPLE",
-                      "dispatchTo": "STDOUT"
+                      "sendTo": "STDOUT"
                     }
                   },
                   "logging": [
@@ -112,7 +112,7 @@ internal class JsonConfigurationTest : DescribeSpec({
                     sinks.keys.first() shouldBe "stdout"
                     with(sinks.values.first()) {
                         renderWith shouldBe "RENDER_SIMPLE"
-                        dispatchTo shouldBe "STDOUT"
+                        sendTo shouldBe "STDOUT"
                     }
                     logging shouldHaveSize 1
                     with(logging.first()) {
@@ -134,7 +134,7 @@ internal class JsonConfigurationTest : DescribeSpec({
                     sinks.keys.first() shouldBe "stdout"
                     with(sinks.values.first()) {
                         renderer shouldBe RENDER_SIMPLE
-                        dispatcher shouldBe STDOUT
+                        stringSender shouldBe STDOUT
                     }
                 }
             }
@@ -174,30 +174,30 @@ internal class JsonConfigurationTest : DescribeSpec({
             }
         }
         describe("sink configuration") {
-            describe("using `renderWith` and `dispatchTo` keys") {
+            describe("using `renderWith` and `sendTo` keys") {
                 it("returns a configuration using names of built-in components") {
                     val sinkConfig = Json.decodeFromString<JsonSinkConfiguration>(
                         """{
                         "renderWith": "RENDER_SIMPLE",
-                        "dispatchTo": "STDOUT"
+                        "sendTo": "STDOUT"
                     }
                         """.trimIndent()
                     ).toSinkConfiguration()
 
                     sinkConfig?.renderer shouldBe RENDER_SIMPLE
-                    sinkConfig?.dispatcher shouldBe STDOUT
+                    sinkConfig?.stringSender shouldBe STDOUT
                 }
                 it("returns null if `renderWith` key is missing") {
                     val sinkConfig = Json.decodeFromString<JsonSinkConfiguration>(
                         """{
-                        "dispatchTo": "STDOUT"
+                        "sendTo": "STDOUT"
                     }
                         """.trimIndent()
                     ).toSinkConfiguration()
 
                     sinkConfig shouldBe null
                 }
-                it("returns null if `dispatchTo` key is missing") {
+                it("returns null if `sendTo` key is missing") {
                     val sinkConfig = Json.decodeFromString<JsonSinkConfiguration>(
                         """{
                         "renderWith": "RENDER_SIMPLE"
@@ -211,7 +211,7 @@ internal class JsonConfigurationTest : DescribeSpec({
                     val sinkConfig = Json.decodeFromString<JsonSinkConfiguration>(
                         """{
                         "renderWith": "${randomString()}",
-                        "dispatchTo": "${randomString()}"
+                        "sendTo": "${randomString()}"
                     }
                         """.trimIndent()
                     ).toSinkConfiguration()
@@ -245,12 +245,12 @@ internal class JsonConfigurationTest : DescribeSpec({
                     val sinkConfig = Json.decodeFromString<JsonSinkConfiguration>(
                         """{
                         "seqServer": "http://localhost:5341",
-                        "dispatchTo": "STDOUT"
+                        "sendTo": "STDOUT"
                     }
                         """.trimIndent()
                     ).toSinkConfiguration()
 
-                    sinkConfig?.dispatcher shouldNotBe STDOUT
+                    sinkConfig?.stringSender shouldNotBe STDOUT
                 }
             }
         }

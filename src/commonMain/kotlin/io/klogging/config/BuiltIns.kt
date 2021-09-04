@@ -18,14 +18,14 @@
 
 package io.klogging.config
 
-import io.klogging.dispatching.DispatchString
-import io.klogging.dispatching.STDERR
-import io.klogging.dispatching.STDOUT
 import io.klogging.rendering.RENDER_ANSI
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RENDER_GELF
 import io.klogging.rendering.RENDER_SIMPLE
 import io.klogging.rendering.RenderString
+import io.klogging.sending.STDERR
+import io.klogging.sending.STDOUT
+import io.klogging.sending.SendString
 
 /** Map of built-in configurations by name. */
 internal val BUILT_IN_CONFIGURATIONS: Map<String, KloggingConfiguration.() -> Unit> by lazy {
@@ -44,8 +44,8 @@ internal val BUILT_IN_RENDERERS: Map<String, RenderString> by lazy {
     )
 }
 
-/** Map of built-in dispatchers by name. */
-internal val BUILT_IN_DISPATCHERS: Map<String, DispatchString> by lazy {
+/** Map of built-in senders by name. */
+internal val BUILT_IN_SENDERS: Map<String, SendString> by lazy {
     mapOf(
         "STDOUT" to STDOUT,
         "STDERR" to STDERR,

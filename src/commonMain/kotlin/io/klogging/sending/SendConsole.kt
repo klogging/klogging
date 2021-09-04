@@ -16,6 +16,10 @@
 
 */
 
-package io.klogging.dispatching
+package io.klogging.sending
 
-public actual val STDERR: DispatchString = { s -> System.err.println(s) }
+/** Send an event rendered as a string to the standard output stream. */
+public val STDOUT: SendString = { s -> println(s) }
+
+/** Send an event rendered as a string to the standard error stream. */
+public expect val STDERR: SendString

@@ -26,7 +26,7 @@ import io.klogging.events.timestampNow
 import io.klogging.logEvent
 import io.klogging.randomString
 import io.klogging.savedEvents
-import io.klogging.waitForDispatch
+import io.klogging.waitForSend
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldContain
@@ -45,7 +45,7 @@ class KloggerImplTest : DescribeSpec({
                 val events = savedEvents()
                 val message = randomString()
                 KloggerImpl("KloggerImplTest").warn(message)
-                waitForDispatch()
+                waitForSend()
 
                 events.size shouldBe 1
                 events.first().message shouldBe message
@@ -54,7 +54,7 @@ class KloggerImplTest : DescribeSpec({
                 val events = savedEvents()
                 val event = logEvent()
                 KloggerImpl("KloggerImplTest").warn(event)
-                waitForDispatch()
+                waitForSend()
 
                 events.size shouldBe 1
                 with(events.first()) {
@@ -73,7 +73,7 @@ class KloggerImplTest : DescribeSpec({
                 val event = logEvent()
                 val exception = RuntimeException("Oh noes!")
                 KloggerImpl("KloggerImplTest").error(exception, event)
-                waitForDispatch()
+                waitForSend()
 
                 events.size shouldBe 1
                 with(events.first()) {
@@ -91,7 +91,7 @@ class KloggerImplTest : DescribeSpec({
                 val events = savedEvents()
                 val exception = RuntimeException("Some kind of problem")
                 KloggerImpl("KloggerImplTest").warn(exception)
-                waitForDispatch()
+                waitForSend()
 
                 events.size shouldBe 1
                 events.first().message shouldBe exception.message
@@ -101,7 +101,7 @@ class KloggerImplTest : DescribeSpec({
                 val events = savedEvents()
                 val event = timestampNow()
                 KloggerImpl("KloggerImplTest").info(event)
-                waitForDispatch()
+                waitForSend()
 
                 events.size shouldBe 1
                 events.first().message shouldBe event.toString()
@@ -112,7 +112,7 @@ class KloggerImplTest : DescribeSpec({
             it("does not include stack trace information if an exception is not provided") {
                 val events = savedEvents()
                 KloggerImpl("KloggerImplTest").warn { "Possible trouble" }
-                waitForDispatch()
+                waitForSend()
 
                 events.size shouldBe 1
                 events.first().stackTrace shouldBe null
@@ -120,7 +120,7 @@ class KloggerImplTest : DescribeSpec({
             it("includes stack trace information if an exception is provided as well as other information") {
                 val events = savedEvents()
                 KloggerImpl("KloggerImplTest").warn(RuntimeException("Oh noes!")) { "Big trouble!" }
-                waitForDispatch()
+                waitForSend()
 
                 events.size shouldBe 1
                 events.first().stackTrace shouldNotBe null
@@ -161,7 +161,7 @@ class KloggerImplTest : DescribeSpec({
                 val event = KloggerImpl("KloggerImplTest").e("User {id} logged in", id)
                 withContext(logContext("run" to runId)) {
                     KloggerImpl("KloggerImplTest").emitEvent(INFO, null, event)
-                    waitForDispatch()
+                    waitForSend()
                 }
 
                 events shouldHaveSize 1

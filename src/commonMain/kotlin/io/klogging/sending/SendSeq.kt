@@ -16,6 +16,7 @@
 
 */
 
-package io.klogging.dispatching
+package io.klogging.sending
 
-public actual fun seqServer(server: String): DispatchString = TODO("Not yet implemented")
+/** Send a rendered string to a Seq server. */
+public expect fun seqServer(server: String): SendString

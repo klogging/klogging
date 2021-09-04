@@ -16,7 +16,6 @@
 
 */
 
-package io.klogging.dispatching
+package io.klogging.sending
 
-/** Functional type used for dispatching a string somewhere. */
-public typealias DispatchString = (String) -> Unit
+public actual val STDERR: SendString = { s -> console.error(s) }

@@ -16,6 +16,20 @@
 
 */
 
-package io.klogging.dispatching
+package io.klogging.sending
 
-public actual fun seqServer(server: String): DispatchString = TODO("Not yet implemented")
+import io.klogging.internal.warn
+import java.io.IOException
+import java.net.DatagramPacket
+import java.net.DatagramSocket
+import java.net.InetAddress
+
+public actual fun graylogServer(endpoint: Endpoint): SendString = { eventString ->
+    val bytes = eventString.toByteArray()
+    val packet = DatagramPacket(bytes, 0, bytes.size, InetAddress.getByName(endpoint.host), endpoint.port)
+    try {
+        DatagramSocket().use { it.send(packet) }
+    } catch (e: IOException) {
+        warn("Exception sending GELF message: $e")
+    }
+}

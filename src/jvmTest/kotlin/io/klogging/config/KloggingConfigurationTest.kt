@@ -23,13 +23,13 @@ import io.klogging.Level.FATAL
 import io.klogging.Level.INFO
 import io.klogging.Level.NONE
 import io.klogging.Level.WARN
-import io.klogging.dispatching.STDERR
-import io.klogging.dispatching.STDOUT
 import io.klogging.internal.KloggingEngine
 import io.klogging.randomLevel
 import io.klogging.randomString
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RENDER_SIMPLE
+import io.klogging.sending.STDERR
+import io.klogging.sending.STDOUT
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldContainAll
@@ -128,7 +128,7 @@ internal class KloggingConfigurationTest : DescribeSpec({
                 with(KloggingEngine) {
                     sinkConfigs() shouldHaveSize 3
                     sinkConfigs().keys shouldContainExactly setOf("stdout", "stderr", "seq")
-                    sinkConfigs().values.map { it.dispatcher } shouldContainAll setOf(STDOUT, STDERR)
+                    sinkConfigs().values.map { it.stringSender } shouldContainAll setOf(STDOUT, STDERR)
                     sinkConfigs().values.map { it.renderer }.toSet() shouldContainExactly setOf(
                         RENDER_SIMPLE,
                         RENDER_CLEF

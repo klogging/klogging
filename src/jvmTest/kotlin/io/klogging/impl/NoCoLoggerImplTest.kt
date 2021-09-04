@@ -21,7 +21,7 @@ package io.klogging.impl
 import io.klogging.Level.INFO
 import io.klogging.randomString
 import io.klogging.savedEvents
-import io.klogging.waitForDispatch
+import io.klogging.waitForSend
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
@@ -38,7 +38,7 @@ class NoCoLoggerImplTest : DescribeSpec({
                     event = "Message",
                     contextItems = mapOf("runId" to runId)
                 )
-                waitForDispatch()
+                waitForSend()
 
                 saved shouldHaveSize 1
                 saved.first().items shouldBe mapOf("runId" to runId)

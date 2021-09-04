@@ -48,8 +48,8 @@ public interface BaseLogger {
      * Check whether this logger will emit log events at the specified logging
      * level.
      */
-    public fun isLevelEnabled(level: Level): Boolean = when {
-        NONE == level -> false
+    public fun isLevelEnabled(level: Level): Boolean = when (level) {
+        NONE -> false
         else -> minLevel() <= level
     }
 

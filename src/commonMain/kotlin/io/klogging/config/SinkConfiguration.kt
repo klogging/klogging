@@ -18,18 +18,18 @@
 
 package io.klogging.config
 
-import io.klogging.dispatching.DispatchString
-import io.klogging.dispatching.Endpoint
-import io.klogging.dispatching.graylogServer
-import io.klogging.dispatching.seqServer
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RENDER_GELF
 import io.klogging.rendering.RenderString
+import io.klogging.sending.Endpoint
+import io.klogging.sending.SendString
+import io.klogging.sending.graylogServer
+import io.klogging.sending.seqServer
 
-/** Configuration of a logging sink, comprising a dispatcher and a renderer. */
+/** Configuration of a logging sink, comprising a sender and a renderer. */
 public class SinkConfiguration(
     internal val renderer: RenderString,
-    internal val dispatcher: DispatchString,
+    internal val stringSender: SendString,
 )
 
 /** Sink configuration for a [Seq](https://datalust.co/seq) server. */

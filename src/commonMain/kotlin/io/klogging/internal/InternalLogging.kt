@@ -24,13 +24,13 @@ import io.klogging.Level.ERROR
 import io.klogging.Level.INFO
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
-import io.klogging.dispatching.STDERR
-import io.klogging.dispatching.STDOUT
 import io.klogging.events.LogEvent
 import io.klogging.rendering.RenderString
 import io.klogging.rendering.colour5
 import io.klogging.rendering.localTime
 import io.klogging.rendering.rightAlign
+import io.klogging.sending.STDERR
+import io.klogging.sending.STDOUT
 
 private const val KLOGGING_LOGGER = "Klogging"
 

@@ -69,9 +69,9 @@ public object KloggingEngine {
     /** Map of the current [Sink]s used for sending log events. */
     private val currentSinks: MutableMap<String, Sink> = mutableMapOf()
 
-    /** Extension property on [SinkConfiguration] that returns the equivalend [Sender]. */
+    /** Extension property on [SinkConfiguration] that returns the equivalent [Sender]. */
     private val SinkConfiguration.sender: Sender
-        get() = { e: LogEvent -> dispatcher(renderer(e)) }
+        get() = { e: LogEvent -> stringSender(renderer(e)) }
 
     /** Set new sinks, from configurations. */
     private fun setSinks(sinkConfigs: Map<String, SinkConfiguration>) {
