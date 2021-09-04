@@ -16,7 +16,7 @@
 
 */
 
-package io.klogging.dispatching
+package io.klogging.internal
 
 import io.klogging.Level.DEBUG
 import io.klogging.Level.ERROR
@@ -25,7 +25,6 @@ import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
 import io.klogging.config.DEFAULT_CONSOLE
 import io.klogging.config.loggingConfiguration
-import io.klogging.internal.Dispatcher
 import io.klogging.randomLevel
 import io.klogging.randomString
 import io.klogging.rendering.RENDER_SIMPLE
