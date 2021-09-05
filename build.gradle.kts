@@ -31,7 +31,7 @@ plugins {
 }
 
 group = "io.klogging"
-version = "0.1.1"
+version = "0.1.2-SNAPSHOT"
 
 val jacocoVersion: String by project
 val kloggingVersion: String by project
@@ -41,17 +41,14 @@ val slf4jVersion: String by project
 
 repositories {
     mavenCentral()
-    maven {
-        url = uri("https://s01.oss.sonatype.org/content/repositories/releases/")
-    }
 }
 
 dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    implementation("io.klogging:klogging-jvm:$kloggingVersion")
-    implementation("org.slf4j:slf4j-api:$slf4jVersion")
+    api("io.klogging:klogging-jvm:$kloggingVersion")
+    api("org.slf4j:slf4j-api:$slf4jVersion")
 
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
 }
