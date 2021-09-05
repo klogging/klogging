@@ -29,8 +29,6 @@ import io.klogging.rendering.RenderString
 import io.klogging.rendering.colour5
 import io.klogging.rendering.localTime
 import io.klogging.rendering.rightAlign
-import io.klogging.sending.STDERR
-import io.klogging.sending.STDOUT
 
 private const val KLOGGING_LOGGER = "Klogging"
 
@@ -65,9 +63,11 @@ internal fun log(
         message = message,
         stackTrace = throwable?.stackTraceToString(),
     )
-    if (level <= INFO) STDOUT(RENDER_INTERNAL(event))
-    else STDERR(RENDER_INTERNAL(event))
+    if (level <= INFO) println(RENDER_INTERNAL(event))
+    else printErr(RENDER_INTERNAL(event))
 }
+
+internal expect fun printErr(message: String): Unit
 
 internal fun trace(message: String, throwable: Throwable? = null) {
     log(TRACE, message, throwable)

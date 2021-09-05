@@ -18,16 +18,46 @@
 
 package io.klogging.sending
 
+import io.klogging.internal.trace
 import io.klogging.internal.warn
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
 
+/**
+ * Send GELF event strings to a Graylog server on the JVM using UDP.
+ *
+ * @param endpoint [Endpoint] for the Graylog server.
+ *
+ * @return a [SendString] suspend function that sends each event string in a separate
+ *         coroutine using the IO coroutine dispatcher.
+ */
 public actual fun graylogServer(endpoint: Endpoint): SendString = { eventString ->
+    coroutineScope {
+        launch(Dispatchers.IO) {
+            sendToGraylog(endpoint, eventString)
+        }
+    }
+}
+
+/**
+ * Send a GELF event string to a Graylog server using UDP.
+ *
+ * @param endpoint [Endpoint] of the Graylog server
+ * @param eventString GELF-formatted log event
+ */
+private fun sendToGraylog(endpoint: Endpoint, eventString: String) {
     val bytes = eventString.toByteArray()
-    val packet = DatagramPacket(bytes, 0, bytes.size, InetAddress.getByName(endpoint.host), endpoint.port)
+    val packet = DatagramPacket(
+        bytes, 0, bytes.size, InetAddress.getByName(endpoint.host),
+        endpoint.port
+    )
     try {
+        trace("Sending GELF event in context ${Thread.currentThread().name}")
         DatagramSocket().use { it.send(packet) }
     } catch (e: IOException) {
         warn("Exception sending GELF message: $e")

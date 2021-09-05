@@ -16,7 +16,6 @@
 
 */
 
-package io.klogging.sending
+package io.klogging.internal
 
-/** Functional type used for sending a string to a target somewhere. */
-public typealias SendString = suspend (String) -> Unit
+internal actual fun printErr(message: String): Unit = System.err.println(message)

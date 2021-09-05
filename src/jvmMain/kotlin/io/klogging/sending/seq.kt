@@ -18,25 +18,55 @@
 
 package io.klogging.sending
 
+import io.klogging.internal.trace
 import io.klogging.internal.warn
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
 
+/**
+ * Send CLEF event strings to a Seq server on the JVM.
+ *
+ * @param server URL of the Seq server
+ *
+ * @return a [SendString] suspend function that sends each event string in a separate
+ *         coroutine using the IO coroutine dispatcher.
+ */
 public actual fun seqServer(server: String): SendString = { eventString ->
-    val bytes = eventString.toByteArray()
-    val url = URL("$server/api/events/raw")
-    val conn = url.openConnection() as HttpURLConnection
-    conn.requestMethod = "POST"
-    conn.setRequestProperty("Content-Type", "application/vnd.serilog.clef")
-    conn.doOutput = true
-    try {
-        conn.outputStream.use { it.write(bytes) }
-        val response = conn.inputStream.use { String(it.readAllBytes()) }
-        if (conn.responseCode >= 400) {
-            System.err.println("Error response ${conn.responseCode} sending CLEF message: $response")
+    coroutineScope {
+        launch(Dispatchers.IO) {
+            sendToSeq(server, eventString)
         }
+    }
+}
+
+/**
+ * Send a CLEF event string to a Seq server.
+ *
+ * @param serverUrl URL of the Seq server
+ * @param eventString CLEF-formatted log event
+ */
+private fun sendToSeq(serverUrl: String, eventString: String) {
+    val conn = seqConnection(serverUrl)
+    try {
+        trace("Sending CLEF event in context ${Thread.currentThread().name}")
+        conn.outputStream.use { it.write(eventString.toByteArray()) }
+        val response = conn.inputStream.use { String(it.readAllBytes()) }
+        if (conn.responseCode >= 400)
+            warn("Error response ${conn.responseCode} sending CLEF message: $response")
     } catch (e: IOException) {
         warn("Exception sending CLEF message: $e")
     }
+}
+
+/** Construct an HTTP connection to the Seq server. */
+private fun seqConnection(serverUrl: String): HttpURLConnection {
+    val conn = URL("$serverUrl/api/events/raw").openConnection() as HttpURLConnection
+    conn.requestMethod = "POST"
+    conn.setRequestProperty("Content-Type", "application/vnd.serilog.clef")
+    conn.doOutput = true
+    return conn
 }

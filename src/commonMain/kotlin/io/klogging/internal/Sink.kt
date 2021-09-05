@@ -24,7 +24,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 
 /** Function type for sending a log event somewhere. */
-public typealias Sender = (LogEvent) -> Unit
+public typealias Sender = suspend (LogEvent) -> Unit
 
 /**
  * Runtime management of a sink for [LogEvent]s. It contains a coroutine [Channel]
@@ -39,7 +39,7 @@ internal class Sink(
         val channel = Channel<LogEvent>()
         KLOGGING_SCOPE.launch(CoroutineName("sink-$name")) {
             for (event in channel) {
-                trace("Sending event ${event.id} from sink $name")
+                trace("Sending event ${event.id} to sink $name")
                 sender(event)
             }
         }
