@@ -59,7 +59,7 @@ $dokka.location:io.klogging.config/KloggingConfiguration/kloggingMinLogLevel/#/P
 $dokka.location:io.klogging.config/KloggingConfiguration/logging/#kotlin.Function1[io.klogging.config.LoggingConfig,kotlin.Unit]/PointingToDeclaration/-klogging/io.klogging.config/-klogging-configuration/logging.html
 $dokka.location:io.klogging.config/KloggingConfiguration/minimumLevelOf/#kotlin.String/PointingToDeclaration/-klogging/io.klogging.config/-klogging-configuration/minimum-level-of.html
 $dokka.location:io.klogging.config/KloggingConfiguration/sink/#kotlin.String#io.klogging.config.SinkConfiguration/PointingToDeclaration/-klogging/io.klogging.config/-klogging-configuration/sink.html
-$dokka.location:io.klogging.config/KloggingConfiguration/sink/#kotlin.String#kotlin.Function1[io.klogging.events.LogEvent,kotlin.String]#kotlin.Function1[kotlin.String,kotlin.Unit]/PointingToDeclaration/-klogging/io.klogging.config/-klogging-configuration/sink.html
+$dokka.location:io.klogging.config/KloggingConfiguration/sink/#kotlin.String#kotlin.Function1[io.klogging.events.LogEvent,kotlin.String]#kotlin.coroutines.SuspendFunction1[kotlin.String,kotlin.Unit]/PointingToDeclaration/-klogging/io.klogging.config/-klogging-configuration/sink.html
 $dokka.location:io.klogging.config/KloggingConfiguration/sinks/#/PointingToDeclaration/-klogging/io.klogging.config/-klogging-configuration/sinks.html
 $dokka.location:io.klogging.config/KloggingConfiguration/validateSinks/#/PointingToDeclaration/-klogging/io.klogging.config/-klogging-configuration/validate-sinks.html
 $dokka.location:io.klogging.config/LevelRange///PointingToDeclaration/-klogging/io.klogging.config/-level-range/index.html
@@ -81,7 +81,7 @@ $dokka.location:io.klogging.config/LoggingConfig/nameMatch/#/PointingToDeclarati
 $dokka.location:io.klogging.config/LoggingConfig/ranges/#/PointingToDeclaration/-klogging/io.klogging.config/-logging-config/ranges.html
 $dokka.location:io.klogging.config/LoggingConfig/toSink/#kotlin.String/PointingToDeclaration/-klogging/io.klogging.config/-logging-config/to-sink.html
 $dokka.location:io.klogging.config/SinkConfiguration///PointingToDeclaration/-klogging/io.klogging.config/-sink-configuration/index.html
-$dokka.location:io.klogging.config/SinkConfiguration/SinkConfiguration/#kotlin.Function1[io.klogging.events.LogEvent,kotlin.String]#kotlin.Function1[kotlin.String,kotlin.Unit]/PointingToDeclaration/-klogging/io.klogging.config/-sink-configuration/-sink-configuration.html
+$dokka.location:io.klogging.config/SinkConfiguration/SinkConfiguration/#kotlin.Function1[io.klogging.events.LogEvent,kotlin.String]#kotlin.coroutines.SuspendFunction1[kotlin.String,kotlin.Unit]/PointingToDeclaration/-klogging/io.klogging.config/-sink-configuration/-sink-configuration.html
 $dokka.location:io.klogging.config/SinkConfiguration/renderer/#/PointingToDeclaration/-klogging/io.klogging.config/-sink-configuration/renderer.html
 $dokka.location:io.klogging.config/SinkConfiguration/stringSender/#/PointingToDeclaration/-klogging/io.klogging.config/-sink-configuration/string-sender.html
 $dokka.location:io.klogging.context////PointingToDeclaration/-klogging/io.klogging.context/index.html
@@ -124,6 +124,7 @@ $dokka.location:io.klogging.impl/KloggerImpl/emitEvent/#io.klogging.Level#kotlin
 $dokka.location:io.klogging.impl/KloggerImpl/name/#/PointingToDeclaration/-klogging/io.klogging.impl/-klogger-impl/name.html
 $dokka.location:io.klogging.impl/NoCoLoggerImpl///PointingToDeclaration/-klogging/io.klogging.impl/-no-co-logger-impl/index.html
 $dokka.location:io.klogging.impl/NoCoLoggerImpl/NoCoLoggerImpl/#kotlin.String/PointingToDeclaration/-klogging/io.klogging.impl/-no-co-logger-impl/-no-co-logger-impl.html
+$dokka.location:io.klogging.impl/NoCoLoggerImpl/coroutineContext/#/PointingToDeclaration/-klogging/io.klogging.impl/-no-co-logger-impl/coroutine-context.html
 $dokka.location:io.klogging.impl/NoCoLoggerImpl/e/#kotlin.String#kotlin.Array[kotlin.Any?]/PointingToDeclaration/-klogging/io.klogging.impl/-no-co-logger-impl/e.html
 $dokka.location:io.klogging.impl/NoCoLoggerImpl/emitEvent/#io.klogging.Level#kotlin.Throwable?#kotlin.Any?#kotlin.collections.Map[kotlin.String,kotlin.Any?]/PointingToDeclaration/-klogging/io.klogging.impl/-no-co-logger-impl/emit-event.html
 $dokka.location:io.klogging.impl/NoCoLoggerImpl/name/#/PointingToDeclaration/-klogging/io.klogging.impl/-no-co-logger-impl/name.html
@@ -133,13 +134,17 @@ $dokka.location:io.klogging.internal//RENDER_INTERNAL/#/PointingToDeclaration/-
 $dokka.location:io.klogging.internal//debug/#kotlin.String#kotlin.Throwable?/PointingToDeclaration/-klogging/io.klogging.internal/debug.html
 $dokka.location:io.klogging.internal//error/#kotlin.String#kotlin.Throwable?/PointingToDeclaration/-klogging/io.klogging.internal/error.html
 $dokka.location:io.klogging.internal//info/#kotlin.String#kotlin.Throwable?/PointingToDeclaration/-klogging/io.klogging.internal/info.html
+$dokka.location:io.klogging.internal//kloggingParentJob/#/PointingToDeclaration/-klogging/io.klogging.internal/klogging-parent-job.html
 $dokka.location:io.klogging.internal//log/#io.klogging.Level#kotlin.String#kotlin.Throwable?/PointingToDeclaration/-klogging/io.klogging.internal/log.html
+$dokka.location:io.klogging.internal//printErr/#kotlin.String/PointingToDeclaration/-klogging/io.klogging.internal/print-err.html
 $dokka.location:io.klogging.internal//trace/#kotlin.String#kotlin.Throwable?/PointingToDeclaration/-klogging/io.klogging.internal/trace.html
 $dokka.location:io.klogging.internal//warn/#kotlin.String#kotlin.Throwable?/PointingToDeclaration/-klogging/io.klogging.internal/warn.html
 $dokka.location:io.klogging.internal/Dispatcher///PointingToDeclaration/-klogging/io.klogging.internal/-dispatcher/index.html
+$dokka.location:io.klogging.internal/Dispatcher/coroutineContext/#/PointingToDeclaration/-klogging/io.klogging.internal/-dispatcher/coroutine-context.html
 $dokka.location:io.klogging.internal/Dispatcher/dispatchEvent/#io.klogging.events.LogEvent/PointingToDeclaration/-klogging/io.klogging.internal/-dispatcher/dispatch-event.html
 $dokka.location:io.klogging.internal/Dispatcher/sinksFor/#kotlin.String#io.klogging.Level/PointingToDeclaration/-klogging/io.klogging.internal/-dispatcher/sinks-for.html
 $dokka.location:io.klogging.internal/Emitter///PointingToDeclaration/-klogging/io.klogging.internal/-emitter/index.html
+$dokka.location:io.klogging.internal/Emitter/coroutineContext/#/PointingToDeclaration/-klogging/io.klogging.internal/-emitter/coroutine-context.html
 $dokka.location:io.klogging.internal/Emitter/logEventsChannel/#/PointingToDeclaration/-klogging/io.klogging.internal/-emitter/log-events-channel.html
 $dokka.location:io.klogging.internal/Emitter/sendEvent/#io.klogging.events.LogEvent/PointingToDeclaration/-klogging/io.klogging.internal/-emitter/send-event.html
 $dokka.location:io.klogging.internal/KloggingEngine///PointingToDeclaration/-klogging/io.klogging.internal/-klogging-engine/index.html
@@ -159,7 +164,8 @@ $dokka.location:io.klogging.internal/KloggingEngine/setSinks/#kotlin.collections
 $dokka.location:io.klogging.internal/KloggingEngine/sinkConfigs/#/PointingToDeclaration/-klogging/io.klogging.internal/-klogging-engine/sink-configs.html
 $dokka.location:io.klogging.internal/KloggingEngine/sinks/#/PointingToDeclaration/-klogging/io.klogging.internal/-klogging-engine/sinks.html
 $dokka.location:io.klogging.internal/Sink///PointingToDeclaration/-klogging/io.klogging.internal/-sink/index.html
-$dokka.location:io.klogging.internal/Sink/Sink/#kotlin.String#kotlin.Function1[io.klogging.events.LogEvent,kotlin.Unit]/PointingToDeclaration/-klogging/io.klogging.internal/-sink/-sink.html
+$dokka.location:io.klogging.internal/Sink/Sink/#kotlin.String#kotlin.coroutines.SuspendFunction1[io.klogging.events.LogEvent,kotlin.Unit]/PointingToDeclaration/-klogging/io.klogging.internal/-sink/-sink.html
+$dokka.location:io.klogging.internal/Sink/coroutineContext/#/PointingToDeclaration/-klogging/io.klogging.internal/-sink/coroutine-context.html
 $dokka.location:io.klogging.internal/Sink/emitEvent/#io.klogging.events.LogEvent/PointingToDeclaration/-klogging/io.klogging.internal/-sink/emit-event.html
 $dokka.location:io.klogging.internal/Sink/name/#/PointingToDeclaration/-klogging/io.klogging.internal/-sink/name.html
 $dokka.location:io.klogging.internal/Sink/sender/#/PointingToDeclaration/-klogging/io.klogging.internal/-sink/sender.html
@@ -199,6 +205,9 @@ $dokka.location:io.klogging.sending////PointingToDeclaration/-klogging/io.klogg
 $dokka.location:io.klogging.sending//STDERR/#/PointingToDeclaration/-klogging/io.klogging.sending/-s-t-d-e-r-r.html
 $dokka.location:io.klogging.sending//STDOUT/#/PointingToDeclaration/-klogging/io.klogging.sending/-s-t-d-o-u-t.html
 $dokka.location:io.klogging.sending//graylogServer/#io.klogging.sending.Endpoint/PointingToDeclaration/-klogging/io.klogging.sending/graylog-server.html
+$dokka.location:io.klogging.sending//sendToGraylog/#io.klogging.sending.Endpoint#kotlin.String/PointingToDeclaration/-klogging/io.klogging.sending/send-to-graylog.html
+$dokka.location:io.klogging.sending//sendToSeq/#kotlin.String#kotlin.String/PointingToDeclaration/-klogging/io.klogging.sending/send-to-seq.html
+$dokka.location:io.klogging.sending//seqConnection/#kotlin.String/PointingToDeclaration/-klogging/io.klogging.sending/seq-connection.html
 $dokka.location:io.klogging.sending//seqServer/#kotlin.String/PointingToDeclaration/-klogging/io.klogging.sending/seq-server.html
 $dokka.location:io.klogging.sending/Endpoint///PointingToDeclaration/-klogging/io.klogging.sending/-endpoint/index.html
 $dokka.location:io.klogging.sending/Endpoint/Endpoint/#kotlin.String#kotlin.Int/PointingToDeclaration/-klogging/io.klogging.sending/-endpoint/-endpoint.html
