@@ -38,7 +38,7 @@ internal fun loggerFor(name: String?): Klogger {
     // This property is lazily set by checking for a JSON configuration file.
     // TODO: Can we ensure this is not optimised out of the code?
     KloggingEngine.configuration
-    val loggerName = name ?: "Klogging"
+    val loggerName = name ?: "Klogger"
     return LOGGERS.getOrPut(loggerName) { KloggerImpl(loggerName) }
 }
 

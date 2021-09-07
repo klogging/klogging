@@ -21,13 +21,18 @@ package io.klogging.internal
 import io.klogging.events.LogEvent
 import io.klogging.internal.Dispatcher.dispatchEvent
 import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 /**
  * The main object for managing log event processing.
  */
-internal object Emitter {
+internal object Emitter : CoroutineScope {
+
+    override val coroutineContext: CoroutineContext
+        get() = kloggingParentJob
 
     /**
      * [Channel] between the coroutines where log events are emitted and the
@@ -36,7 +41,7 @@ internal object Emitter {
     private val logEventsChannel by lazy {
         debug("Starting events channel")
         val channel = Channel<LogEvent>()
-        KLOGGING_SCOPE.launch(CoroutineName("events")) {
+        launch(CoroutineName("events")) {
             for (logEvent in channel) {
                 trace("Read event ${logEvent.id} from events channel")
                 dispatchEvent(logEvent)

@@ -20,18 +20,22 @@ package io.klogging.internal
 
 import io.klogging.Level
 import io.klogging.events.LogEvent
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 /** Object that handles dispatching of [LogEvent]s to zero or more sinks. */
-internal object Dispatcher {
+internal object Dispatcher : CoroutineScope {
+
+    override val coroutineContext: CoroutineContext
+        get() = kloggingParentJob
 
     /**
      * Dispatch a [LogEvent] to selected targets.
      *
      * Each is dispatched in a separate coroutine.
      */
-    public suspend fun dispatchEvent(logEvent: LogEvent): Unit = coroutineScope {
+    internal fun dispatchEvent(logEvent: LogEvent) {
         sinksFor(logEvent.logger, logEvent.level)
             .forEach { sink ->
                 launch {

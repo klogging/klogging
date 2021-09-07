@@ -18,14 +18,7 @@
 
 package io.klogging.internal
 
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.SupervisorJob
 
 /** Parent job of all Klogging coroutine jobs. */
-private val kloggingParentJob: Job = Job()
-
-/**
- * Coroutine scope used by Klogging code to launch coroutines.
- */
-internal val KLOGGING_SCOPE: CoroutineScope = CoroutineScope(SupervisorJob(kloggingParentJob))
+internal val kloggingParentJob: Job = Job()
