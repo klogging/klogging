@@ -20,12 +20,6 @@ package io.klogging.internal
 
 import kotlin.coroutines.CoroutineContext
 
-/**
- * Parent job of all Klogging coroutine jobs. Used by coroutine launchers
- * in Klogging: [Dispatcher], [Emitter], [Sink] and [NoCoLoggerImpl].
- */
-internal val kloggingParentContext: CoroutineContext by lazy {
-    parentContext()
+internal actual fun parentContext(): CoroutineContext {
+    TODO("Not yet implemented")
 }
-
-internal expect fun parentContext(): CoroutineContext

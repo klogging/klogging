@@ -24,7 +24,7 @@ import io.klogging.eventFrom
 import io.klogging.events.LogEvent
 import io.klogging.events.timestampNow
 import io.klogging.internal.Emitter
-import io.klogging.internal.kloggingParentJob
+import io.klogging.internal.kloggingParentContext
 import io.klogging.templating.templateItems
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
@@ -36,7 +36,7 @@ public class NoCoLoggerImpl(
 ) : CoroutineScope, NoCoLogger {
 
     override val coroutineContext: CoroutineContext
-        get() = kloggingParentJob
+        get() = kloggingParentContext
 
     override fun emitEvent(
         level: Level,

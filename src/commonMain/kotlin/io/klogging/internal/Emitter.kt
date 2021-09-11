@@ -32,7 +32,7 @@ import kotlin.coroutines.CoroutineContext
 internal object Emitter : CoroutineScope {
 
     override val coroutineContext: CoroutineContext
-        get() = kloggingParentJob
+        get() = kloggingParentContext
 
     /**
      * [Channel] between the coroutines where log events are emitted and the

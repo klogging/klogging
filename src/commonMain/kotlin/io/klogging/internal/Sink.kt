@@ -31,6 +31,8 @@ public typealias Sender = suspend (LogEvent) -> Unit
 /**
  * Runtime management of a sink for [LogEvent]s. It contains a coroutine [Channel]
  * through which all the events for this sink pass.
+ *
+ * [KloggingEngine] holds a mutable map with the current [Sink]s, keyed by sink name.
  */
 internal class Sink(
     internal val name: String,
@@ -38,7 +40,7 @@ internal class Sink(
 ) : CoroutineScope {
 
     override val coroutineContext: CoroutineContext
-        get() = kloggingParentJob
+        get() = kloggingParentContext
 
     private val sinkChannel: Channel<LogEvent> by lazy {
         debug("Starting sink $name")

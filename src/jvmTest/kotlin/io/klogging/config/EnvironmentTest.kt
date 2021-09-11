@@ -16,16 +16,23 @@
 
 */
 
-package io.klogging.internal
+package io.klogging.config
 
-import kotlin.coroutines.CoroutineContext
+import io.klogging.randomString
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 
-/**
- * Parent job of all Klogging coroutine jobs. Used by coroutine launchers
- * in Klogging: [Dispatcher], [Emitter], [Sink] and [NoCoLoggerImpl].
- */
-internal val kloggingParentContext: CoroutineContext by lazy {
-    parentContext()
-}
+class EnvironmentTest : DescribeSpec({
 
-internal expect fun parentContext(): CoroutineContext
+    describe("Functions for environment variables") {
+        it("getenv() returns null if no value is set") {
+            getenv(randomString()) shouldBe null
+        }
+        xit("getenv() returns a string value that has been set") {
+            val key = randomString()
+            val value = randomString()
+
+            getenv(key) shouldBe value
+        }
+    }
+})

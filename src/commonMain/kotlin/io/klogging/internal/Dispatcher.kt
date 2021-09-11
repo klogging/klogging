@@ -28,7 +28,7 @@ import kotlin.coroutines.CoroutineContext
 internal object Dispatcher : CoroutineScope {
 
     override val coroutineContext: CoroutineContext
-        get() = kloggingParentJob
+        get() = kloggingParentContext
 
     /**
      * Dispatch a [LogEvent] to selected targets.
