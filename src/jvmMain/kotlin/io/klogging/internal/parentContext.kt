@@ -18,27 +18,48 @@
 
 package io.klogging.internal
 
-import io.klogging.config.ENV_FLAG_JVM_USE_EXECUTOR_THREAD_POOL
 import io.klogging.config.ENV_KLOGGING_COROUTINE_THREADS
+import io.klogging.config.ENV_KLOGGING_FF_EXECUTOR_THREAD_POOL
 import io.klogging.config.getenvBoolean
 import io.klogging.config.getenvInt
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.asCoroutineDispatcher
+import java.lang.Integer.max
 import java.util.concurrent.Executors
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.coroutines.CoroutineContext
 
+/** Default number of threads in the Klogging JVM thread pool. */
 private const val DEFAULT_KLOGGING_THREAD_COUNT: Int = 10
-private val kloggingThreadCount: Int =
-    getenvInt(ENV_KLOGGING_COROUTINE_THREADS, DEFAULT_KLOGGING_THREAD_COUNT)
 
 /**
- * Parent coroutine [Job] used by Klogger running in the JVM.
+ * Number of threads in the Klogging JVM pool. Value is:
+ *
+ * - from environment variable `KLOGGING_COROUTINE_THREADS` if set and parseable as
+ *   an [Int];
+ * - otherwise [DEFAULT_KLOGGING_THREAD_COUNT].
+ *
+ * The value has a minimum value of 1.
+ */
+private val kloggingThreadPoolSize: Int =
+    max(getenvInt(ENV_KLOGGING_COROUTINE_THREADS, DEFAULT_KLOGGING_THREAD_COUNT), 1)
+
+/** Counter of threads created, used in their names. */
+internal val threadCount = AtomicInteger(0)
+
+/**
+ * Parent [CoroutineContext] used by Klogger running in the JVM.
+ *
+ * - If the feature flag `KLOGGING_FF_EXECUTOR_THREAD_POOL` evaluates to `true`, create
+ *   a fixed thread pool of size [kloggingThreadPoolSize].
+ * - Otherwise, use the default coroutine dispatcher.
  */
 internal actual fun parentContext(): CoroutineContext {
-    if (getenvBoolean(ENV_FLAG_JVM_USE_EXECUTOR_THREAD_POOL, false)) {
-        debug("Creating parent context for Klogging with pool of $kloggingThreadCount threads")
-        return Job() +
-            Executors.newFixedThreadPool(kloggingThreadCount).asCoroutineDispatcher()
+    if (getenvBoolean(ENV_KLOGGING_FF_EXECUTOR_THREAD_POOL, false)) {
+        debug("Creating parent context for Klogging with pool of $kloggingThreadPoolSize threads")
+        return Executors.newFixedThreadPool(kloggingThreadPoolSize) { r ->
+            Thread(r, "klogging-${threadCount.incrementAndGet()}")
+        }.asCoroutineDispatcher()
     } else {
         debug("Creating parent context for Klogging with default dispatcher")
         return Job()

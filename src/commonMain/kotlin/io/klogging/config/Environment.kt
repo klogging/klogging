@@ -22,7 +22,7 @@ internal const val ENV_KLOGGING_MIN_LOG_LEVEL = "KLOGGING_MIN_LOG_LEVEL"
 internal const val ENV_KLOGGING_CONFIG_JSON_PATH = "KLOGGING_CONFIG_JSON_PATH"
 internal const val ENV_KLOGGING_COROUTINE_THREADS = "KLOGGING_COROUTINE_THREADS"
 
-internal const val ENV_FLAG_JVM_USE_EXECUTOR_THREAD_POOL = "FLAG_JVM_USE_EXECUTOR_THREAD_POOL"
+internal const val ENV_KLOGGING_FF_EXECUTOR_THREAD_POOL = "KLOGGING_FF_EXECUTOR_THREAD_POOL"
 
 /**
  * ☠️ This function should be `private`, but as it is implemented in multiplatform, must be
