@@ -19,14 +19,12 @@
 package io.klogging.internal
 
 import io.klogging.events.LogEvent
+import io.klogging.sending.Sender
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
-
-/** Function type for sending a log event somewhere. */
-public typealias Sender = suspend (LogEvent) -> Unit
 
 /**
  * Runtime management of a sink for [LogEvent]s. It contains a coroutine [Channel]

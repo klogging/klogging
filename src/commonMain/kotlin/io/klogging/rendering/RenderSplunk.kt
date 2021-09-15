@@ -16,19 +16,4 @@
 
 */
 
-package io.klogging.sending
-
-/** Model of a Splunk server HEC endpoint. */
-public data class SplunkEndpoint(
-    val hecUrl: String,
-    val hecToken: String,
-    val index: String = "main",
-    val sourceType: String = "klogging",
-    val checkCertificate: Boolean = true,
-)
-
-/**
- * Send an event to a Splunk server using [HTTP event collector
- * (HEC)](https://docs.splunk.com/Documentation/Splunk/8.2.2/Data/HECExamples).
- */
-public expect fun splunkHec(endpoint: SplunkEndpoint): Sender
+package io.klogging.rendering

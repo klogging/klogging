@@ -24,6 +24,7 @@ import io.klogging.config.LoggingConfig
 import io.klogging.config.SinkConfiguration
 import io.klogging.config.configLoadedFromFile
 import io.klogging.events.LogEvent
+import io.klogging.sending.Sender
 
 /**
  * Object that is the centre of Klogging processing.

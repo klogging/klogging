@@ -18,5 +18,10 @@
 
 package io.klogging.sending
 
+import io.klogging.events.LogEvent
+
 /** Functional type used for sending a string to a target somewhere. */
 public typealias SendString = suspend (String) -> Unit
+
+/** Function type for sending a log event somewhere. */
+public typealias Sender = suspend (LogEvent) -> Unit
