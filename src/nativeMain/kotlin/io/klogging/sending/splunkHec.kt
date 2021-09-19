@@ -18,6 +18,6 @@
 
 package io.klogging.sending
 
-public actual fun splunkHec(endpoint: SplunkEndpoint): Sender {
+public actual fun splunkHec(endpoint: SplunkEndpoint): EventSender {
     TODO("Not yet implemented")
 }

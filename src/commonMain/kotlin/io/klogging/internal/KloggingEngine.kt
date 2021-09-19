@@ -24,7 +24,7 @@ import io.klogging.config.LoggingConfig
 import io.klogging.config.SinkConfiguration
 import io.klogging.config.configLoadedFromFile
 import io.klogging.events.LogEvent
-import io.klogging.sending.Sender
+import io.klogging.sending.EventSender
 
 /**
  * Object that is the centre of Klogging processing.
@@ -70,8 +70,8 @@ public object KloggingEngine {
     /** Map of the current [Sink]s used for sending log events. */
     private val currentSinks: MutableMap<String, Sink> = mutableMapOf()
 
-    /** Extension property on [SinkConfiguration] that returns the equivalent [Sender]. */
-    private val SinkConfiguration.sender: Sender
+    /** Extension property on [SinkConfiguration] that returns the equivalent [EventSender]. */
+    private val SinkConfiguration.eventSender: EventSender
         get() = { e: LogEvent -> stringSender(renderer(e)) }
 
     /** Set new sinks, from configurations. */
@@ -79,7 +79,7 @@ public object KloggingEngine {
         currentSinks.clear()
         currentSinks.putAll(
             sinkConfigs.map { (name, config) ->
-                name to Sink(name, config.sender)
+                name to Sink(name, config.eventSender)
             }
         )
     }

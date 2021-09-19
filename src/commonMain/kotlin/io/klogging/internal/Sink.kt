@@ -19,7 +19,7 @@
 package io.klogging.internal
 
 import io.klogging.events.LogEvent
-import io.klogging.sending.Sender
+import io.klogging.sending.EventSender
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
@@ -34,7 +34,7 @@ import kotlin.coroutines.CoroutineContext
  */
 internal class Sink(
     internal val name: String,
-    internal val sender: Sender,
+    internal val eventSender: EventSender,
 ) : CoroutineScope {
 
     override val coroutineContext: CoroutineContext
@@ -46,7 +46,7 @@ internal class Sink(
         launch(CoroutineName("sink-$name")) {
             for (event in channel) {
                 trace("Sending event ${event.id} to sink $name")
-                sender(event)
+                eventSender(event)
             }
         }
         channel

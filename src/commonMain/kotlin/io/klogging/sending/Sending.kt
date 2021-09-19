@@ -24,4 +24,4 @@ import io.klogging.events.LogEvent
 public typealias SendString = suspend (String) -> Unit
 
 /** Function type for sending a log event somewhere. */
-public typealias Sender = suspend (LogEvent) -> Unit
+public typealias EventSender = suspend (LogEvent) -> Unit
