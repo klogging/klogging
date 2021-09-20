@@ -19,7 +19,9 @@
 package io.klogging.internal
 
 import io.klogging.Level
+import io.klogging.Level.TRACE
 import io.klogging.events.LogEvent
+import io.klogging.events.copyWith
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
@@ -36,11 +38,17 @@ internal object Dispatcher : CoroutineScope {
      * Each is dispatched in a separate coroutine.
      */
     internal fun dispatchEvent(logEvent: LogEvent) {
+
+        // If we are tracing Klogging, add event ID to the items map.
+        val event = if (KloggingEngine.kloggingMinLogLevel() == TRACE)
+            logEvent.copyWith(logEvent.level, logEvent.stackTrace, mapOf("eventId" to logEvent.id))
+        else logEvent
+
         sinksFor(logEvent.logger, logEvent.level)
             .forEach { sink ->
                 launch {
-                    debug("Dispatching event ${logEvent.id}")
-                    sink.emitEvent(logEvent)
+                    debug("Dispatching event ${event.id} to ${sink.name}")
+                    sink.emitEvent(event)
                 }
             }
     }
