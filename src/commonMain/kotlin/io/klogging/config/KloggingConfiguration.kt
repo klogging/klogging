@@ -25,6 +25,7 @@ import io.klogging.internal.KloggingEngine
 import io.klogging.internal.info
 import io.klogging.internal.warn
 import io.klogging.rendering.RenderString
+import io.klogging.sending.EventSender
 import io.klogging.sending.SendString
 
 /**
@@ -94,6 +95,11 @@ public class KloggingConfiguration {
     @ConfigDsl
     public fun sink(sinkName: String, renderer: RenderString, sender: SendString) {
         sinks[sinkName] = SinkConfiguration(renderer, sender)
+    }
+
+    @ConfigDsl
+    public fun sink(sinkName: String, eventSender: EventSender) {
+        sinks[sinkName] = SinkConfiguration(eventSender = eventSender)
     }
 
     /**

@@ -21,7 +21,7 @@ package io.klogging.events
 import io.klogging.Level
 import kotlinx.datetime.Instant
 import kotlin.random.Random
-import kotlin.random.nextULong
+import kotlin.random.nextUInt
 
 /** An event at a point in time with information about the running state of a program. */
 public data class LogEvent(
@@ -61,7 +61,7 @@ public data class LogEvent(
  * This implementation generates identifiers that are _compact_ for when they
  * are printed by the internal logger and random enough (64 bits).
  */
-private fun randomId(): String = Random.nextULong().toString(16)
+private fun randomId(): String = Random.nextUInt().toString(16)
 
 /** Name of the executing host, included in all log events. */
 public expect val hostname: String

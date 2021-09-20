@@ -36,7 +36,7 @@ import javax.net.ssl.HttpsURLConnection
  *
  * @param endpoint HEC endpoint definition
  *
- * @return a [SendString] suspend function that sends each event string in a separate
+ * @return an [EventSender] suspend function that sends each event in a separate
  *         coroutine using the IO coroutine dispatcher.
  */
 public actual fun splunkHec(endpoint: SplunkEndpoint): EventSender = { event ->
@@ -92,6 +92,8 @@ public fun splunkEvent(endpoint: SplunkEndpoint, event: LogEvent): String {
 private fun hecConnection(endpoint: SplunkEndpoint): HttpsURLConnection {
     val conn =
         URL("${endpoint.hecUrl}/services/collector/event").openConnection() as HttpsURLConnection
+    if (!endpoint.checkCertificate)
+        TrustModifier.relaxHostChecking(conn)
     conn.requestMethod = "POST"
     conn.setRequestProperty("Content-Type", "application/json")
     conn.setRequestProperty("Authorization", "Splunk ${endpoint.hecToken}")

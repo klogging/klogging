@@ -18,7 +18,10 @@
 
 package io.klogging.sending
 
+import kotlinx.serialization.Serializable
+
 /** Model of a Splunk server HEC endpoint. */
+@Serializable
 public data class SplunkEndpoint(
     val hecUrl: String,
     val hecToken: String,
