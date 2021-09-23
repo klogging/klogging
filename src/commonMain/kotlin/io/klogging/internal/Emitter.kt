@@ -18,6 +18,8 @@
 
 package io.klogging.internal
 
+import io.klogging.config.ENV_KLOGGING_EVENT_CHANNEL_CAPACITY
+import io.klogging.config.getenvInt
 import io.klogging.events.LogEvent
 import io.klogging.internal.Dispatcher.dispatchEvent
 import kotlinx.coroutines.CoroutineName
@@ -25,6 +27,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
+
+internal val eventChannelCapacity: Int = getenvInt(ENV_KLOGGING_EVENT_CHANNEL_CAPACITY, 100)
 
 /**
  * The main object for managing log event processing.
@@ -40,7 +44,7 @@ internal object Emitter : CoroutineScope {
      */
     private val logEventsChannel by lazy {
         debug("Starting events channel")
-        val channel = Channel<LogEvent>()
+        val channel = Channel<LogEvent>(eventChannelCapacity)
         launch(CoroutineName("events")) {
             for (logEvent in channel) {
                 trace("Read event ${logEvent.id} from events channel")

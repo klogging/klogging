@@ -18,6 +18,8 @@
 
 package io.klogging.internal
 
+import io.klogging.config.ENV_KLOGGING_SINK_CHANNEL_CAPACITY
+import io.klogging.config.getenvInt
 import io.klogging.events.LogEvent
 import io.klogging.sending.EventSender
 import kotlinx.coroutines.CoroutineName
@@ -25,6 +27,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
+
+internal val sinkChannelCapacity: Int = getenvInt(ENV_KLOGGING_SINK_CHANNEL_CAPACITY, 10)
 
 /**
  * Runtime management of a sink for [LogEvent]s. It contains a coroutine [Channel]
@@ -42,7 +46,7 @@ internal class Sink(
 
     private val sinkChannel: Channel<LogEvent> by lazy {
         debug("Starting sink $name")
-        val channel = Channel<LogEvent>()
+        val channel = Channel<LogEvent>(sinkChannelCapacity)
         launch(CoroutineName("sink-$name")) {
             for (event in channel) {
                 trace("Sending event ${event.id} to sink $name")
