@@ -56,7 +56,7 @@ internal class Sink(
         channel
     }
 
-    internal suspend fun emitEvent(event: LogEvent) {
+    internal suspend fun forwardEvent(event: LogEvent) {
         trace("Emitting event ${event.id} to sink $name")
         sinkChannel.send(event)
     }
