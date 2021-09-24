@@ -51,7 +51,10 @@ internal class Sink(
         launch(CoroutineName("sink-$name")) {
             while (true) {
                 val batch = receiveBatch(channel)
-                if (batch.isNotEmpty()) eventSender(batch)
+                if (batch.isNotEmpty()) {
+                    trace("Sending ${batch.size} events to sink $name")
+                    eventSender(batch)
+                }
             }
         }
         channel
