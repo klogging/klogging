@@ -18,8 +18,11 @@
 
 package io.klogging.internal
 
+import io.klogging.config.ENV_KLOGGING_BATCH_MAX_SIZE
+import io.klogging.config.ENV_KLOGGING_BATCH_MAX_TIME_MS
 import io.klogging.config.ENV_KLOGGING_SINK_CHANNEL_CAPACITY
 import io.klogging.config.getenvInt
+import io.klogging.config.getenvLong
 import io.klogging.events.LogEvent
 import io.klogging.sending.EventSender
 import io.klogging.sending.receiveBatch
@@ -30,6 +33,8 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 internal val sinkChannelCapacity: Int = getenvInt(ENV_KLOGGING_SINK_CHANNEL_CAPACITY, 10)
+internal val batchMaxTimeMs: Long = getenvLong(ENV_KLOGGING_BATCH_MAX_TIME_MS, 10)
+internal val batchMaxSize: Int = getenvInt(ENV_KLOGGING_BATCH_MAX_SIZE, 100)
 
 /**
  * Runtime management of a sink for [LogEvent]s. It contains a coroutine [Channel]
@@ -50,7 +55,7 @@ internal class Sink(
         val channel = Channel<LogEvent>(sinkChannelCapacity)
         launch(CoroutineName("sink-$name")) {
             while (true) {
-                val batch = receiveBatch(channel)
+                val batch = receiveBatch(channel, batchMaxTimeMs, batchMaxSize)
                 if (batch.isNotEmpty()) {
                     trace("Sending ${batch.size} events to sink $name")
                     eventSender(batch)

@@ -23,6 +23,8 @@ internal const val ENV_KLOGGING_CONFIG_JSON_PATH = "KLOGGING_CONFIG_JSON_PATH"
 internal const val ENV_KLOGGING_COROUTINE_THREADS = "KLOGGING_COROUTINE_THREADS"
 internal const val ENV_KLOGGING_EVENT_CHANNEL_CAPACITY = "KLOGGING_EVENT_CHANNEL_CAPACITY"
 internal const val ENV_KLOGGING_SINK_CHANNEL_CAPACITY = "KLOGGING_SINK_CHANNEL_CAPACITY"
+internal const val ENV_KLOGGING_BATCH_MAX_TIME_MS = "KLOGGING_BATCH_MAX_TIME_MS"
+internal const val ENV_KLOGGING_BATCH_MAX_SIZE = "KLOGGING_BATCH_MAX_SIZE"
 
 internal const val ENV_KLOGGING_FF_EXECUTOR_THREAD_POOL = "KLOGGING_FF_EXECUTOR_THREAD_POOL"
 
@@ -48,6 +50,12 @@ public fun getenv(name: String, default: String): String = ENV[name] ?: default
  * if not found or if the value cannot be parsed as an [Int].
  */
 public fun getenvInt(name: String, default: Int): Int = ENV[name]?.toIntOrNull() ?: default
+
+/**
+ * Return the value of an item in the running environment as a [Long], or a default value
+ * if not found or if the value cannot be parsed as a [Long].
+ */
+public fun getenvLong(name: String, default: Long): Long = ENV[name]?.toLongOrNull() ?: default
 
 /**
  * Return the value of an item in the running environment as a [Boolean], or a default value
