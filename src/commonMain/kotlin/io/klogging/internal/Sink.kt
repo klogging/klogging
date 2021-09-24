@@ -22,6 +22,7 @@ import io.klogging.config.ENV_KLOGGING_SINK_CHANNEL_CAPACITY
 import io.klogging.config.getenvInt
 import io.klogging.events.LogEvent
 import io.klogging.sending.EventSender
+import io.klogging.sending.receiveBatch
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
@@ -48,9 +49,9 @@ internal class Sink(
         debug("Starting sink $name")
         val channel = Channel<LogEvent>(sinkChannelCapacity)
         launch(CoroutineName("sink-$name")) {
-            for (event in channel) {
-                trace("Sending event ${event.id} to sink $name")
-                eventSender(event)
+            while (true) {
+                val batch = receiveBatch(channel)
+                if (batch.isNotEmpty()) eventSender(batch)
             }
         }
         channel

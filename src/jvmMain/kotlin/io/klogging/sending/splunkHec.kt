@@ -39,19 +39,19 @@ import javax.net.ssl.HttpsURLConnection
  * @return an [EventSender] suspend function that sends each event in a separate
  *         coroutine using the IO coroutine dispatcher.
  */
-public actual fun splunkHec(endpoint: SplunkEndpoint): EventSender = { event ->
+public actual fun splunkHec(endpoint: SplunkEndpoint): EventSender = { batch ->
     coroutineScope {
         launch(Dispatchers.IO) {
-            sendToSplunk(endpoint, event)
+            sendToSplunk(endpoint, batch)
         }
     }
 }
 
-private fun sendToSplunk(endpoint: SplunkEndpoint, event: LogEvent) {
+private fun sendToSplunk(endpoint: SplunkEndpoint, batch: List<LogEvent>) {
     val conn = hecConnection(endpoint)
     try {
-        trace("Sending event in context ${Thread.currentThread().name}")
-        conn.outputStream.use { it.write(splunkEvent(endpoint, event).toByteArray()) }
+        trace("Sending ${batch.size} events in context ${Thread.currentThread().name}")
+        conn.outputStream.use { it.write(splunkBatch(endpoint, batch).toByteArray()) }
         val response = conn.inputStream.use { String(it.readAllBytes()) }
         if (conn.responseCode >= 400)
             warn("Error response ${conn.responseCode} sending event to Splunk: $response")
@@ -59,6 +59,10 @@ private fun sendToSplunk(endpoint: SplunkEndpoint, event: LogEvent) {
         warn("Exception sending message to Splunk: $e")
     }
 }
+
+private fun splunkBatch(endpoint: SplunkEndpoint, batch: List<LogEvent>): String = batch
+    .map { splunkEvent(endpoint, it) }
+    .joinToString("\n")
 
 private const val TIME_MARKER = "XXX--TIME-MARKER--XXX"
 
@@ -68,7 +72,7 @@ private val Instant.decimalSeconds
 /**
  * Convert a [LogEvent] to a JSON-formatted string for Splunk
  */
-public fun splunkEvent(endpoint: SplunkEndpoint, event: LogEvent): String {
+private fun splunkEvent(endpoint: SplunkEndpoint, event: LogEvent): String {
     val eventMap: Map<String, Any?> = (
         mapOf(
             "logger" to event.logger,

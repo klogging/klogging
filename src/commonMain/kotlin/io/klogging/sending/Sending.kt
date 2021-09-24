@@ -25,9 +25,9 @@ import io.klogging.rendering.RenderString
 public typealias SendString = suspend (String) -> Unit
 
 /** Function type for sending a log event somewhere. */
-public typealias EventSender = suspend (LogEvent) -> Unit
+public typealias EventSender = suspend (List<LogEvent>) -> Unit
 
 /** Convert a [RenderString] and [SendString] into an [EventSender]. */
-public fun senderFrom(renderer: RenderString, sender: SendString): EventSender = { logEvent ->
-    sender(renderer(logEvent))
+public fun senderFrom(renderer: RenderString, sender: SendString): EventSender = { batch ->
+    sender(batch.map { renderer(it) }.joinToString("\n"))
 }
