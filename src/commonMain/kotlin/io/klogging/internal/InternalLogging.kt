@@ -30,12 +30,10 @@ import io.klogging.rendering.colour5
 import io.klogging.rendering.localTime
 import io.klogging.rendering.rightAlign
 
-private const val KLOGGING_LOGGER = "Klogging"
-
 /** Renderer specifically for internal logging. */
 private val RENDER_INTERNAL: RenderString = { e: LogEvent ->
     val message = "${e.timestamp.localTime} ${e.level.colour5} [${e.context?.rightAlign(20)}]" +
-        " : ${e.logger} : ${e.message}"
+        " : ${e.logger.rightAlign(20)} : ${e.message}"
     val maybeItems = if (e.items.isNotEmpty()) " : ${e.items}" else ""
     val maybeStackTrace = if (e.stackTrace != null) "\n${e.stackTrace}" else ""
     message + maybeItems + maybeStackTrace
@@ -52,13 +50,14 @@ private val RENDER_INTERNAL: RenderString = { e: LogEvent ->
  *   error stream for [WARN] and above levels.
  */
 internal fun log(
+    logger: String,
     level: Level,
     message: String,
-    throwable: Throwable? = null
+    throwable: Throwable? = null,
 ) {
     if (level < KloggingEngine.kloggingMinLogLevel()) return
     val event = LogEvent(
-        logger = KLOGGING_LOGGER,
+        logger = logger,
         level = level,
         message = message,
         stackTrace = throwable?.stackTraceToString(),
@@ -69,22 +68,22 @@ internal fun log(
 
 internal expect fun printErr(message: String): Unit
 
-internal fun trace(message: String, throwable: Throwable? = null) {
-    log(TRACE, message, throwable)
+internal fun trace(logger: String, message: String, throwable: Throwable? = null) {
+    log(logger, TRACE, message, throwable)
 }
 
-internal fun debug(message: String, throwable: Throwable? = null) {
-    log(DEBUG, message, throwable)
+internal fun debug(logger: String, message: String, throwable: Throwable? = null) {
+    log(logger, DEBUG, message, throwable)
 }
 
-internal fun info(message: String, throwable: Throwable? = null) {
-    log(INFO, message, throwable)
+internal fun info(logger: String, message: String, throwable: Throwable? = null) {
+    log(logger, INFO, message, throwable)
 }
 
-internal fun warn(message: String, throwable: Throwable? = null) {
-    log(WARN, message, throwable)
+internal fun warn(logger: String, message: String, throwable: Throwable? = null) {
+    log(logger, WARN, message, throwable)
 }
 
-internal fun error(message: String, throwable: Throwable? = null) {
-    log(ERROR, message, throwable)
+internal fun error(logger: String, message: String, throwable: Throwable? = null) {
+    log(logger, ERROR, message, throwable)
 }

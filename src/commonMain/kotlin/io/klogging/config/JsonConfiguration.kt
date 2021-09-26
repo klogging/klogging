@@ -64,7 +64,7 @@ public data class JsonSinkConfiguration(
         if (seqServer != null)
             return seq(seqServer, renderer ?: RENDER_CLEF)
         if (dispatchTo != null)
-            warn("Please use `sendTo` in JSON config instead of `dispatchTo`, which has been deprecated")
+            warn("Configuration", "Please use `sendTo` in JSON config instead of `dispatchTo`, which has been deprecated")
         val sender = BUILT_IN_SENDERS[sendTo ?: dispatchTo]
         return if (renderer != null && sender != null) SinkConfiguration(renderer, sender)
         else null
@@ -129,7 +129,7 @@ internal fun readConfig(configJson: String): JsonConfiguration? =
     try {
         json.decodeFromString(configJson)
     } catch (ex: SerializationException) {
-        warn("Exception parsing JSON configuration", ex)
+        warn("JsonConfiguration", "Exception parsing JSON", ex)
         null
     }
 
@@ -144,13 +144,13 @@ public fun configureFromJson(configJson: String): KloggingConfiguration? =
 
             sinks.forEach { (key, value) ->
                 value.toSinkConfiguration()?.let {
-                    debug("Setting sink `$key` with $value")
+                    debug("JsonConfiguration", "Setting sink `$key` with $value")
                     config.sinks[key] = it
                 }
             }
 
             logging.forEach {
-                debug("Adding logging config $it")
+                debug("JsonConfiguration", "Adding logging config $it")
                 config.configs.add(it.toLoggingConfig())
             }
         }

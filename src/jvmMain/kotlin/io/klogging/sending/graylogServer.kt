@@ -57,9 +57,9 @@ private fun sendToGraylog(endpoint: Endpoint, eventString: String) {
         endpoint.port
     )
     try {
-        trace("Sending GELF event in context ${Thread.currentThread().name}")
+        trace("Graylog", "Sending GELF event in context ${Thread.currentThread().name}")
         DatagramSocket().use { it.send(packet) }
     } catch (e: IOException) {
-        warn("Exception sending GELF message: $e")
+        warn("Graylog", "Exception sending GELF message: $e")
     }
 }

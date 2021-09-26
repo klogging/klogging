@@ -47,7 +47,7 @@ internal object Dispatcher : CoroutineScope {
         sinksFor(logEvent.logger, logEvent.level)
             .forEach { sink ->
                 launch {
-                    trace("Dispatching event ${event.id} to ${sink.name}")
+                    trace("Dispatcher", "Dispatching event ${event.id} to ${sink.name}")
                     sink.forwardEvent(event)
                 }
             }

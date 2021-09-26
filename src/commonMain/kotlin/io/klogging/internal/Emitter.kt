@@ -43,11 +43,11 @@ internal object Emitter : CoroutineScope {
      * coroutines that dispatch them to sinks.
      */
     private val logEventsChannel by lazy {
-        debug("Starting events channel")
+        debug("Emitter", "Starting events channel")
         val channel = Channel<LogEvent>(eventChannelCapacity)
         launch(CoroutineName("events")) {
             for (logEvent in channel) {
-                trace("Read event ${logEvent.id} from events channel")
+                trace("Emitter", "Read event ${logEvent.id} from events channel")
                 dispatchEvent(logEvent)
             }
         }
@@ -55,7 +55,7 @@ internal object Emitter : CoroutineScope {
     }
 
     suspend fun sendEvent(logEvent: LogEvent) {
-        trace("Sending event ${logEvent.id} to events channel")
+        trace("Emitter", "Emitting event ${logEvent.id} to events channel")
         logEventsChannel.send(logEvent)
     }
 }

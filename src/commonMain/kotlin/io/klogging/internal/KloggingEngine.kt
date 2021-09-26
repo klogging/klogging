@@ -43,7 +43,7 @@ public object KloggingEngine {
 
     /** Lazily loaded property that is only set when we have a Klogging state. */
     internal val configuration: KloggingConfiguration by lazy {
-        debug("Lazy-loading current configuration")
+        debug("KloggingEngine", "Lazy-loading current configuration")
         configLoadedFromFile?.let { setConfig(it) }
         currentConfig
     }

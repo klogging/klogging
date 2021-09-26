@@ -35,7 +35,7 @@ internal fun readResourceText(resourcePath: String): String? =
         .getResourceAsStream(resourcePath)
         ?.bufferedReader(UTF_8)
         ?.let {
-            info("Reading JSON configuration from $resourcePath on the classpath")
+            info("Configuration", "Reading JSON configuration from $resourcePath on the classpath")
             it.readText()
         }
 
@@ -52,10 +52,10 @@ public actual fun findJsonConfigText(): String? {
         ?.let { File(it) }
         ?.let {
             if (it.exists()) {
-                info("Reading JSON configuration from $filePath")
+                info("Configuration", "Reading JSON configuration from $filePath")
                 it.readText(UTF_8)
             } else {
-                warn("Specified JSON configuration file $filePath not found")
+                warn("Configuration", "Specified JSON configuration file $filePath not found")
                 null
             }
         }

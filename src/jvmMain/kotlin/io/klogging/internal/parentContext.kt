@@ -56,12 +56,12 @@ internal val threadCount = AtomicInteger(0)
  */
 internal actual fun parentContext(): CoroutineContext {
     if (getenvBoolean(ENV_KLOGGING_FF_EXECUTOR_THREAD_POOL, false)) {
-        debug("Creating parent context for Klogging with pool of $kloggingThreadPoolSize threads")
+        debug("Coroutines", "Creating parent context for Klogging with pool of $kloggingThreadPoolSize threads")
         return Executors.newFixedThreadPool(kloggingThreadPoolSize) { r ->
             Thread(r, "klogging-${threadCount.incrementAndGet()}")
         }.asCoroutineDispatcher()
     } else {
-        debug("Creating parent context for Klogging with default dispatcher")
+        debug("Coroutines", "Creating parent context for Klogging with default dispatcher")
         return Job()
     }
 }

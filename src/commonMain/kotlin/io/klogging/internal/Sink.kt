@@ -51,13 +51,13 @@ internal class Sink(
         get() = kloggingParentContext
 
     private val sinkChannel: Channel<LogEvent> by lazy {
-        debug("Starting sink $name")
+        debug("Sink", "Starting sink $name")
         val channel = Channel<LogEvent>(sinkChannelCapacity)
         launch(CoroutineName("sink-$name")) {
             while (true) {
                 val batch = receiveBatch(channel, batchMaxTimeMs, batchMaxSize)
                 if (batch.isNotEmpty()) {
-                    trace("Sending ${batch.size} events to sink $name")
+                    trace("Sink", "Sending ${batch.size} events to sink $name")
                     eventSender(batch)
                 }
             }
@@ -66,7 +66,7 @@ internal class Sink(
     }
 
     internal suspend fun forwardEvent(event: LogEvent) {
-        trace("Forwarding event ${event.id} to sink $name")
+        trace("Sink", "Forwarding event ${event.id} to sink $name")
         sinkChannel.send(event)
     }
 }

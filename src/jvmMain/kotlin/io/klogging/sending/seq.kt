@@ -47,18 +47,18 @@ public actual fun seqServer(server: String): SendString = { eventString ->
  * Send a CLEF event string to a Seq server.
  *
  * @param serverUrl URL of the Seq server
- * @param eventString CLEF-formatted log event
+ * @param eventString one or more CLEF-formatted, newline-separated log event(s)
  */
 private fun sendToSeq(serverUrl: String, eventString: String) {
     val conn = seqConnection(serverUrl)
     try {
-        trace("Sending events to Seq in context ${Thread.currentThread().name}")
+        trace("Seq", "Sending events to Seq in context ${Thread.currentThread().name}")
         conn.outputStream.use { it.write(eventString.toByteArray()) }
         val response = conn.inputStream.use { String(it.readAllBytes()) }
         if (conn.responseCode >= 400)
-            warn("Error response ${conn.responseCode} sending CLEF message: $response")
+            warn("Seq", "Error response ${conn.responseCode} sending CLEF message: $response")
     } catch (e: IOException) {
-        warn("Exception sending CLEF message: $e")
+        warn("Seq", "Exception sending CLEF message: $e")
     }
 }
 
