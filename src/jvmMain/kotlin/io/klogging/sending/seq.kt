@@ -52,7 +52,7 @@ public actual fun seqServer(server: String): SendString = { eventString ->
 private fun sendToSeq(serverUrl: String, eventString: String) {
     val conn = seqConnection(serverUrl)
     try {
-        trace("Sending CLEF event in context ${Thread.currentThread().name}")
+        trace("Sending events to Seq in context ${Thread.currentThread().name}")
         conn.outputStream.use { it.write(eventString.toByteArray()) }
         val response = conn.inputStream.use { String(it.readAllBytes()) }
         if (conn.responseCode >= 400)

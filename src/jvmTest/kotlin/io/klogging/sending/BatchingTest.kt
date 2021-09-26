@@ -29,14 +29,14 @@ class BatchingTest : DescribeSpec({
     describe("`receiveBatch()` function") {
         it("returns an empty list if no items are sent in the time") {
             val channel = Channel<Int>()
-            val batch = receiveBatch(channel, maxTimeMs = 10)
+            val batch = receiveBatch(channel, maxTimeMs = 10, maxSize = 10)
 
             batch shouldHaveSize 0
         }
         it("returns items fewer than `maxSize` in a single batch") {
             val channel = Channel<Int>(10)
             repeat(5) { channel.send(it) }
-            val batch = receiveBatch(channel, maxSize = 10)
+            val batch = receiveBatch(channel, maxTimeMs = 10, maxSize = 10)
 
             batch shouldContainExactly listOf(0, 1, 2, 3, 4)
         }
@@ -44,8 +44,8 @@ class BatchingTest : DescribeSpec({
             val channel = Channel<Int>(10)
             repeat(9) { channel.send(it) }
             val batches = listOf(
-                receiveBatch(channel, maxSize = 5),
-                receiveBatch(channel, maxSize = 5),
+                receiveBatch(channel, maxTimeMs = 10, maxSize = 5),
+                receiveBatch(channel, maxTimeMs = 10, maxSize = 5),
             )
 
             batches shouldContainExactly listOf(
@@ -61,8 +61,8 @@ class BatchingTest : DescribeSpec({
                 repeat(5) { channel.send(it + 5) }
             }
             val batches = listOf(
-                receiveBatch(channel, maxTimeMs = 20),
-                receiveBatch(channel, maxTimeMs = 50),
+                receiveBatch(channel, maxTimeMs = 20, maxSize = 10),
+                receiveBatch(channel, maxTimeMs = 50, maxSize = 10),
             )
 
             batches shouldContainExactly listOf(

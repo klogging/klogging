@@ -32,8 +32,8 @@ import kotlinx.coroutines.withTimeoutOrNull
  */
 public suspend fun <E> receiveBatch(
     channel: ReceiveChannel<E>,
-    maxTimeMs: Long = 20,
-    maxSize: Int = 10,
+    maxTimeMs: Long,
+    maxSize: Int,
 ): List<E> {
     val items = mutableListOf<E>()
     withTimeoutOrNull(maxTimeMs) {

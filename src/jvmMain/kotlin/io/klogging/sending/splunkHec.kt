@@ -50,7 +50,7 @@ public actual fun splunkHec(endpoint: SplunkEndpoint): EventSender = { batch ->
 private fun sendToSplunk(endpoint: SplunkEndpoint, batch: List<LogEvent>) {
     val conn = hecConnection(endpoint)
     try {
-        trace("Sending ${batch.size} events in context ${Thread.currentThread().name}")
+        trace("Sending ${batch.size} events to Splunk in context ${Thread.currentThread().name}")
         conn.outputStream.use { it.write(splunkBatch(endpoint, batch).toByteArray()) }
         val response = conn.inputStream.use { String(it.readAllBytes()) }
         if (conn.responseCode >= 400)
