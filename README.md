@@ -63,7 +63,7 @@ implementation details will change** 🚧
 
     ```kotlin
     fun main() = runBlocking {
-        loggingConfiguration { defaultConsole() }
+        loggingConfiguration { DEFAULT_CONSOLE() }
         // ...
     }
     ```
