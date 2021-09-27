@@ -90,6 +90,24 @@ implementation details will change** 🚧
         }
     }
     ```
+   
+### Using snapshot builds
+
+If you want to use the latest snapshot builds, specify these in your `build.gradle.kts`:
+
+```kotlin
+repositories {
+    // ...
+    maven {
+        url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+    }
+}
+
+dependencies {
+    // ...
+    implementation("io.klogging:klogging-jvm:0.4.0-SNAPSHOT")
+}
+```
 
 ## Why another logging library?
 
