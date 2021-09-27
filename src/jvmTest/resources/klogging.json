@@ -6,6 +6,15 @@
     },
     "seq": {
       "seqServer": "http://localhost:5341"
+    },
+    "splunk": {
+      "splunkServer": {
+        "hecUrl": "https://localhost:8088",
+        "hecToken": "507ccdc9-b499-4d3d-b0eb-0b73ba23ce97",
+        "index": "main",
+        "sourceType": "klogging",
+        "checkCertificate": false
+      }
     }
   },
   "logging": [
@@ -15,7 +24,8 @@
           "fromMinLevel": "INFO",
           "toSinks": [
             "stdout",
-            "seq"
+            "seq",
+            "splunk"
           ]
         }
       ]

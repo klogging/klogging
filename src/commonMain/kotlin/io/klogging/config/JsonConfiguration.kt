@@ -24,6 +24,8 @@ import io.klogging.Level.TRACE
 import io.klogging.internal.debug
 import io.klogging.internal.warn
 import io.klogging.rendering.RENDER_CLEF
+import io.klogging.sending.SplunkEndpoint
+import io.klogging.sending.splunkHec
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
@@ -50,6 +52,8 @@ public data class JsonConfiguration(
  * @property renderWith name of a built-in renderer
  * @property sendTo name of a built-in sender
  * @property seqServer URL of a [Seq](https://datalust.co/seq) log aggregation server
+ * @property splunkServer Splunk [HEC](https://docs.splunk.com/Documentation/Splunk/8.2.2/Data/HECExamples)
+ *                        endpoint configuration
  */
 @Serializable
 public data class JsonSinkConfiguration(
@@ -58,8 +62,11 @@ public data class JsonSinkConfiguration(
     @Deprecated("Use `sendTo` instead")
     val dispatchTo: String? = null,
     val seqServer: String? = null,
+    val splunkServer: SplunkEndpoint? = null,
 ) {
     internal fun toSinkConfiguration(): SinkConfiguration? {
+        if (splunkServer != null)
+            return SinkConfiguration(eventSender = splunkHec(splunkServer))
         val renderer = BUILT_IN_RENDERERS[renderWith]
         if (seqServer != null)
             return seq(seqServer, renderer ?: RENDER_CLEF)
