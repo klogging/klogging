@@ -31,26 +31,27 @@ import kotlin.time.TimeSource
  * Receive a batch of items from a channel, up to time and batch size limits.
  *
  * @param channel the channel to receive items from
- * @param maxTimeMs maximum time in milliseconds to wait for items
+ * @param maxTimeMillis maximum time in milliseconds to wait for items
+ * @param maxSize maximum batch size
  *
  * @return the list of items in the order received
  */
 @OptIn(ExperimentalCoroutinesApi::class, ExperimentalTime::class)
 public suspend fun <E> receiveBatch(
     channel: ReceiveChannel<E>,
-    maxTimeMs: Long,
+    maxTimeMillis: Long,
     maxSize: Int,
 ): List<E> {
-    val items = mutableListOf<E>()
+    val batch = mutableListOf<E>()
     val start = TimeSource.Monotonic.markNow()
     whileSelect {
-        onTimeout(maxTimeMs - start.elapsedNow().inWholeMilliseconds) { false }
+        onTimeout(maxTimeMillis - start.elapsedNow().inWholeMilliseconds) { false }
         channel.onReceiveCatching { result ->
             result.onFailure { if (it != null) throw it }
                 .onClosed { return@onReceiveCatching false }
-                .onSuccess { items += it }
-            items.size < maxSize
+                .onSuccess { batch += it }
+            batch.size < maxSize
         }
     }
-    return items
+    return batch
 }
