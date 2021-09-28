@@ -63,3 +63,10 @@ public fun getenvLong(name: String, default: Long): Long = ENV[name]?.toLongOrNu
  */
 public fun getenvBoolean(name: String, default: Boolean): Boolean =
     ENV[name]?.toBoolean() ?: default
+
+/**
+ * Evaluate env vars in a string. Env vars must be surrounded by braces and preceded
+ * with ‘$’, e.g. `${KLOGGING_BLAH}`.
+ */
+public fun evalEnv(string: String, env: Map<String, String> = ENV): String = env.entries
+    .fold(string) { str, (key, value) -> str.replace("\${$key}", value) }
