@@ -30,7 +30,7 @@ import kotlin.random.nextULong
 
 fun randomString() = Random.nextULong().toString(16)
 
-suspend fun waitForDispatch(millis: Long = 50) = delay(millis)
+suspend fun waitForDispatch(millis: Long = 100) = delay(millis)
 
 fun savedEvents(minLevel: Level = TRACE): MutableList<LogEvent> {
     val saved = mutableListOf<LogEvent>()
