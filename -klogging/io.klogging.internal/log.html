@@ -13,7 +13,7 @@
       </div>
       <div id="main">
         <div id="leftToggler"><span class="icon-toggler"></span></div>
-<script type="text/javascript" src="../../scripts/main.js"></script>        <div class="main-content" id="content" pageIds="Klogging::io.klogging.internal//log/#io.klogging.Level#kotlin.String#kotlin.Throwable?/PointingToDeclaration//788909594">
+<script type="text/javascript" src="../../scripts/main.js"></script>        <div class="main-content" id="content" pageIds="Klogging::io.klogging.internal//log/#kotlin.String#io.klogging.Level#kotlin.String#kotlin.Throwable?/PointingToDeclaration//788909594">
           <div class="navigation-wrapper" id="navigation-wrapper">
             <div class="breadcrumbs"><a href="../../index.html">Klogging</a>/<a href="index.html">io.klogging.internal</a>/<a href="log.html">log</a></div>
             <div class="pull-right d-flex">
@@ -27,7 +27,7 @@
 <div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">internal fun <a href="log.html">log</a>(level: <a href="../io.klogging/-level/index.html">Level</a>, message: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, throwable: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html">Throwable</a>? = null)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">internal fun <a href="log.html">log</a>(logger: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, level: <a href="../io.klogging/-level/index.html">Level</a>, message: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, throwable: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html">Throwable</a>? = null)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
 <p class="paragraph">Internal logging for Klogging diagnostics. It uses a <a href="../io.klogging.events/-log-event/index.html">LogEvent</a> with these simplifications:</p><ul><li><p class="paragraph">Structured logging is not available. It can be called only with message strings and an optional error or exception.</p></li><li><p class="paragraph">Events are rendered to strings using <a href="-r-e-n-d-e-r_-i-n-t-e-r-n-a-l.html">RENDER_INTERNAL</a>. They are printed directly to the standard output stream for <a href="../io.klogging/-level/-i-n-f-o/index.html">INFO</a> and lower level, and to the standard error stream for <a href="../io.klogging/-level/-w-a-r-n/index.html">WARN</a> and above levels.</p></li></ul></div>
         </div>
