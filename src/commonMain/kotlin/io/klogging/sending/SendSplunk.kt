@@ -51,8 +51,8 @@ public data class SplunkEndpoint(
 }
 
 /**
- * Send an event to a Splunk server using [HTTP event collector
- * (HEC)](https://docs.splunk.com/Documentation/Splunk/8.2.2/Data/HECExamples).
+ * Send an event to a Splunk server using
+ * [HTTP event collector (HEC)](https://docs.splunk.com/Documentation/Splunk/8.2.2/Data/HECExamples).
  */
 public expect fun splunkHec(endpoint: SplunkEndpoint): EventSender
 
