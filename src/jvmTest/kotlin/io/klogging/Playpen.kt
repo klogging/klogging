@@ -26,6 +26,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import java.util.UUID.randomUUID
+import kotlin.random.Random
 
 /**
  * Main program for experimenting with Klogging features as they are developed.
@@ -33,28 +34,28 @@ import java.util.UUID.randomUUID
 suspend fun main() = coroutineScope {
     val logger = logger("io.klogging.example.KloggerPlaypen")
 
-    launch(logContext("run" to randomUUID())) {
+    val run = randomUUID()
+    launch(logContext("run" to run)) {
         logger.info { "Start" }
         repeat(2) { c ->
             logger.info { e(">> {Counter}", c + 1) }
             launch(logContext("Counter" to (c + 1))) {
                 repeat(2) { i ->
-                    logger.info {
-                        e(
-                            "Event {Iteration} at {RightNow}", i + 1,
-                            timestampNow().toLocalDateTime(TimeZone.currentSystemDefault())
-                        )
-                    }
+                    logger.info(
+                        "Event {Iteration} at {RightNow}", i + 1,
+                        timestampNow().toLocalDateTime(TimeZone.currentSystemDefault())
+                    )
                 }
             }
+            delay(Random.nextLong(100))
             logger.info { e("<< {Counter}", c + 1) }
             functionWithException(logger)
         }
         logger.info { "Finish" }
     }
     // There must be at least one statement outside the coroutine scope.
-    logger.info { "All done" }
-    delay(500)
+    logger.info("All done in {run}", run)
+    delay(5000)
 }
 
 suspend fun functionWithException(logger: Klogger) {
