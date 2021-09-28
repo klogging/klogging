@@ -18,12 +18,15 @@
 
 package io.klogging.events
 
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Clock.System
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import kotlinx.datetime.Instant
 
-/** Timestamp of "now" defined by [clock].  The default is the current system clock (time). */
-public fun timestampNow(clock: Clock = System): Instant = clock.now()
-
-/** Render a Kotlin [Instant] as `seconds.nanos`. */
-public expect val Instant.decimalSeconds: String
+class TimestampsTest : DescribeSpec({
+    describe("`Instant.decimalSeconds` extension property") {
+        it("returns the value set") {
+            val instant = Instant.parse("2021-09-28T10:08:42.123456Z")
+            instant.decimalSeconds shouldBe "1632823722.123456000"
+        }
+    }
+})

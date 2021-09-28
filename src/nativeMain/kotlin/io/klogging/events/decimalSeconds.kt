@@ -18,12 +18,8 @@
 
 package io.klogging.events
 
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Clock.System
 import kotlinx.datetime.Instant
 
-/** Timestamp of "now" defined by [clock].  The default is the current system clock (time). */
-public fun timestampNow(clock: Clock = System): Instant = clock.now()
-
 /** Render a Kotlin [Instant] as `seconds.nanos`. */
-public expect val Instant.decimalSeconds: String
+public actual val Instant.decimalSeconds: String
+    get() = TODO("Not yet implemented")

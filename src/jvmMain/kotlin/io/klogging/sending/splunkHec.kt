@@ -19,6 +19,7 @@
 package io.klogging.sending
 
 import io.klogging.events.LogEvent
+import io.klogging.events.decimalSeconds
 import io.klogging.internal.trace
 import io.klogging.internal.warn
 import io.klogging.rendering.evalTemplate
@@ -26,7 +27,6 @@ import io.klogging.rendering.serializeMap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Instant
 import java.io.IOException
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
@@ -65,9 +65,6 @@ private fun splunkBatch(endpoint: SplunkEndpoint, batch: List<LogEvent>): String
     .joinToString("\n")
 
 private const val TIME_MARKER = "XXX--TIME-MARKER--XXX"
-
-private val Instant.decimalSeconds
-    get() = "%d.%09d".format(epochSeconds, nanosecondsOfSecond)
 
 /**
  * Convert a [LogEvent] to a JSON-formatted string for Splunk
