@@ -10,10 +10,10 @@
     "splunk": {
       "splunkServer": {
         "hecUrl": "https://localhost:8088",
-        "hecToken": "507ccdc9-b499-4d3d-b0eb-0b73ba23ce97",
+        "hecToken": "${SPLUNK_HEC_TOKEN}",
         "index": "main",
         "sourceType": "klogging",
-        "checkCertificate": false
+        "checkCertificate": "false"
       }
     }
   },

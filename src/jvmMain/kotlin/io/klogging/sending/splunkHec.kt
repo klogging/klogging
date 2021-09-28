@@ -96,7 +96,7 @@ private fun splunkEvent(endpoint: SplunkEndpoint, event: LogEvent): String {
 private fun hecConnection(endpoint: SplunkEndpoint): HttpsURLConnection {
     val conn =
         URL("${endpoint.hecUrl}/services/collector/event").openConnection() as HttpsURLConnection
-    if (!endpoint.checkCertificate)
+    if (endpoint.checkCertificate != "true")
         TrustModifier.relaxHostChecking(conn)
     conn.requestMethod = "POST"
     conn.setRequestProperty("Content-Type", "application/json")

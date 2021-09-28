@@ -57,11 +57,11 @@ class BatchingTest : DescribeSpec({
             val channel = Channel<Int>(10)
             launch {
                 repeat(5) { channel.send(it) }
-                delay(30)
+                delay(70)
                 repeat(5) { channel.send(it + 5) }
             }
             val batches = listOf(
-                receiveBatch(channel, maxTimeMillis = 20, maxSize = 10),
+                receiveBatch(channel, maxTimeMillis = 50, maxSize = 10),
                 receiveBatch(channel, maxTimeMillis = 50, maxSize = 10),
             )
 

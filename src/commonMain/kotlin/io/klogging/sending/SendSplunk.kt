@@ -18,6 +18,7 @@
 
 package io.klogging.sending
 
+import io.klogging.config.evalEnv
 import kotlinx.serialization.Serializable
 
 /** Model of a Splunk server HEC endpoint. */
@@ -27,8 +28,16 @@ public data class SplunkEndpoint(
     val hecToken: String,
     val index: String = "main",
     val sourceType: String = "klogging",
-    val checkCertificate: Boolean = true,
-)
+    val checkCertificate: String = "true",
+) {
+    public fun evalEnv(): SplunkEndpoint = SplunkEndpoint(
+        evalEnv(hecUrl),
+        evalEnv(hecToken),
+        evalEnv(index),
+        evalEnv(sourceType),
+        evalEnv(checkCertificate),
+    )
+}
 
 /**
  * Send an event to a Splunk server using [HTTP event collector

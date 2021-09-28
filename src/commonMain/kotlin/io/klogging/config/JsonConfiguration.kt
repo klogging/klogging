@@ -66,7 +66,7 @@ public data class JsonSinkConfiguration(
 ) {
     internal fun toSinkConfiguration(): SinkConfiguration? {
         if (splunkServer != null)
-            return SinkConfiguration(eventSender = splunkHec(splunkServer))
+            return SinkConfiguration(eventSender = splunkHec(splunkServer.evalEnv()))
         val renderer = BUILT_IN_RENDERERS[renderWith]
         if (seqServer != null)
             return seq(seqServer, renderer ?: RENDER_CLEF)
