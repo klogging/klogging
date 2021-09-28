@@ -23,6 +23,7 @@ implementation details will change** 🚧
 
 - [Goals](#goals)
 - [Quick start (JVM)](#quick-start-jvm)
+  - [Using snapshot builds](#using-snapshot-builds)
 - [Why another logging library?](#why-another-logging-library)
   - [Why not Logback or Log4j?](#why-not-logback-or-log4j)
   - [Why not KotlinLogging, Log4j Kotlin, etc.?](#why-not-kotlinlogging-log4j-kotlin-etc)

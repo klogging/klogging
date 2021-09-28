@@ -24,7 +24,6 @@ import io.klogging.config.getenvBoolean
 import io.klogging.config.getenvInt
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.asCoroutineDispatcher
-import java.lang.Integer.max
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.coroutines.CoroutineContext
@@ -42,7 +41,7 @@ private const val DEFAULT_KLOGGING_THREAD_COUNT: Int = 10
  * The value has a minimum value of 1.
  */
 private val kloggingThreadPoolSize: Int =
-    max(getenvInt(ENV_KLOGGING_COROUTINE_THREADS, DEFAULT_KLOGGING_THREAD_COUNT), 1)
+    getenvInt(ENV_KLOGGING_COROUTINE_THREADS, DEFAULT_KLOGGING_THREAD_COUNT)
 
 /** Counter of threads created, used in their names. */
 internal val threadCount = AtomicInteger(0)
@@ -56,7 +55,10 @@ internal val threadCount = AtomicInteger(0)
  */
 internal actual fun parentContext(): CoroutineContext {
     if (getenvBoolean(ENV_KLOGGING_FF_EXECUTOR_THREAD_POOL, false)) {
-        debug("Coroutines", "Creating parent context for Klogging with pool of $kloggingThreadPoolSize threads")
+        debug(
+            "Coroutines",
+            "Creating parent context for Klogging with pool of $kloggingThreadPoolSize threads"
+        )
         return Executors.newFixedThreadPool(kloggingThreadPoolSize) { r ->
             Thread(r, "klogging-${threadCount.incrementAndGet()}")
         }.asCoroutineDispatcher()

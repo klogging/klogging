@@ -18,6 +18,8 @@
 
 package io.klogging.config
 
+import kotlin.math.max
+
 internal const val ENV_KLOGGING_MIN_LOG_LEVEL = "KLOGGING_MIN_LOG_LEVEL"
 internal const val ENV_KLOGGING_CONFIG_JSON_PATH = "KLOGGING_CONFIG_JSON_PATH"
 internal const val ENV_KLOGGING_COROUTINE_THREADS = "KLOGGING_COROUTINE_THREADS"
@@ -48,14 +50,24 @@ public fun getenv(name: String, default: String): String = ENV[name] ?: default
 /**
  * Return the value of an item in the running environment as an [Int], or a default value
  * if not found or if the value cannot be parsed as an [Int].
+ *
+ * @param name name of the environment variable
+ * @param default default value
+ * @param minValue minimum value
  */
-public fun getenvInt(name: String, default: Int): Int = ENV[name]?.toIntOrNull() ?: default
+public fun getenvInt(name: String, default: Int, minValue: Int = 1): Int =
+    max(ENV[name]?.toIntOrNull() ?: default, minValue)
 
 /**
  * Return the value of an item in the running environment as a [Long], or a default value
  * if not found or if the value cannot be parsed as a [Long].
+ *
+ * @param name name of the environment variable
+ * @param default default value
+ * @param minValue minimum value
  */
-public fun getenvLong(name: String, default: Long): Long = ENV[name]?.toLongOrNull() ?: default
+public fun getenvLong(name: String, default: Long, minValue: Long = 1L): Long =
+    max(ENV[name]?.toLongOrNull() ?: default, minValue)
 
 /**
  * Return the value of an item in the running environment as a [Boolean], or a default value
