@@ -28,9 +28,10 @@ import io.klogging.sending.EventSender
 import kotlinx.coroutines.delay
 import kotlinx.datetime.Instant
 import kotlin.random.Random
+import kotlin.random.nextUInt
 import kotlin.random.nextULong
 
-fun randomLoggerName() = Random.nextInt().toString(16)
+fun randomLoggerName() = Random.nextUInt().toString(16)
 
 /**
  * Random string to use in tests where the value is opaque.
@@ -43,7 +44,8 @@ fun randomLevel() = Level.values().random()
 fun logEvent(
     timestamp: Instant = timestampNow(),
     host: String = hostname,
-    name: String = randomLoggerName(),
+    logger: String = randomLoggerName(),
+    context: String? = null,
     level: Level = randomLevel(),
     message: String = randomString(),
     stackTrace: String? = null,
@@ -51,7 +53,8 @@ fun logEvent(
 ) = LogEvent(
     timestamp = timestamp,
     host = host,
-    logger = name,
+    logger = logger,
+    context = context,
     level = level,
     message = message,
     stackTrace = stackTrace,

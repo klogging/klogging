@@ -18,16 +18,6 @@
 
 package io.klogging.sending
 
-import io.klogging.events.LogEvent
-import io.klogging.rendering.RenderString
-
-/** Functional type used for sending a string to a target somewhere. */
-public typealias SendString = suspend (String) -> Unit
-
-/** Function type for sending a batch of log events somewhere. */
-public typealias EventSender = suspend (List<LogEvent>) -> Unit
-
-/** Convert a [RenderString] and [SendString] into an [EventSender]. */
-public fun senderFrom(renderer: RenderString, sender: SendString): EventSender = { batch ->
-    sender(batch.map { renderer(it) }.joinToString("\n"))
+public actual fun elkSender(endpoint: ElkEndpoint): EventSender {
+    TODO("Not yet implemented")
 }

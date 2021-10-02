@@ -8,11 +8,8 @@
       "seqServer": "http://localhost:5341"
     },
     "splunk": {
-      "splunkServer": {
-        "hecUrl": "https://localhost:8088",
-        "hecToken": "${SPLUNK_HEC_TOKEN}",
-        "index": "main",
-        "sourceType": "klogging",
+      "elkServer": {
+        "url": "http://localhost:9200",
         "checkCertificate": "false"
       }
     }
