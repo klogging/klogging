@@ -18,10 +18,13 @@ jobs:
       - name: Build
         run: ./gradlew dokkaHtml
 
+      - name: Copy files
+        uses: actions/github-script@v5
+        script: cp ./gh-pages/* ./build/dokka/html
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build/dokka/html
-          keep_files: true
