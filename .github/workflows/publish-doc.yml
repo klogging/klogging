@@ -20,7 +20,8 @@ jobs:
 
       - name: Copy files
         uses: actions/github-script@v5
-        script: cp ./gh-pages/* ./build/dokka/html
+        with:
+          script: cp ./gh-pages/* ./build/dokka/html
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
