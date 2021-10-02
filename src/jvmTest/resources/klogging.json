@@ -6,12 +6,6 @@
     },
     "seq": {
       "seqServer": "http://localhost:5341"
-    },
-    "splunk": {
-      "elkServer": {
-        "url": "http://localhost:9200",
-        "checkCertificate": "false"
-      }
     }
   },
   "logging": [
@@ -21,8 +15,7 @@
           "fromMinLevel": "INFO",
           "toSinks": [
             "stdout",
-            "seq",
-            "splunk"
+            "seq"
           ]
         }
       ]
