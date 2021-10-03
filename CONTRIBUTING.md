@@ -43,6 +43,8 @@ Build the library jar with:
 
 ## Pull request guidelines
 
+- All commits must be signed.
+
 - All code should have passing unit tests in the `jvmTest` module.
 
 - All code should have comprehensive [KDoc](https://kotlinlang.org/docs/kotlin-doc.html)
