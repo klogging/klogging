@@ -19,38 +19,36 @@
 package io.klogging.rendering
 
 import io.klogging.events.LogEvent
+import io.klogging.events.decimalSeconds
 import io.klogging.syslog
 import kotlinx.datetime.Instant
 
-private const val GELF_TEMPLATE =
-    """{"version":"1.1","host":"{{HOST}}","short_message":"{{SHORT}}",{{EX}}"timestamp":{{TS}},"level":{{LEVEL}},{{ITEMS}}}"""
-private const val STACK_TEMPLATE = """"full_message":"{{ST}}","""
+/**
+ * Marker used to enable decimal timestamps of the form ssssssssss.nnnnnnnnn
+ * (i.e. not strings).
+ */
+private const val TIME_MARKER = "XXX--TIME-MARKER--XXX"
 
 /**
  * Renders a [LogEvent] into [GELF](https://docs.graylog.org/en/latest/pages/gelf.html#gelf-payload-specification)
  * JSON format.
- *
- * It uses very crude string templates because JSON serialisation is
- * unable to convert an [Instant] into a number in `ssssssssssss.nnnnnnnnn`
- * format as required for GELF.
  */
-public val RENDER_GELF: RenderString = { e: LogEvent ->
-    val exception = e.stackTrace?.let { formatStackTrace(it) } ?: ""
-    val itemsJson = (e.items + mapOf("logger" to e.logger))
-        .map { (k, v) -> """"_$k":"$v"""" }
-        .joinToString(",")
+public val RENDER_GELF: RenderString = { event: LogEvent ->
+    val eventMap: Map<String, Any?> = (
+        mapOf(
+            "version" to "1.1",
+            "host" to event.host,
+            "short_message" to event.evalTemplate(),
+            "full_message" to event.stackTrace,
+            "timestamp" to TIME_MARKER,
+            "level" to event.level.syslog,
+            "_logger" to event.logger,
+        ) + event.items.mapKeys { (k, _) -> "_$k" }
+        ).filterValues { it != null }
 
-    GELF_TEMPLATE
-        .replace("{{HOST}}", e.host)
-        .replace("{{SHORT}}", e.message)
-        .replace("{{EX}}", exception)
-        .replace("{{TS}}", e.timestamp.graylogFormat())
-        .replace("{{LEVEL}}", e.level.syslog.toString())
-        .replace("{{ITEMS}}", itemsJson)
+    serializeMap(eventMap)
+        .replace(""""$TIME_MARKER"""", event.timestamp.decimalSeconds)
 }
-
-private fun formatStackTrace(stackTrace: String) = STACK_TEMPLATE
-    .replace("{{ST}}", stackTrace)
 
 public fun Instant.graylogFormat(): String {
     val ns = "000000000$nanosecondsOfSecond"
