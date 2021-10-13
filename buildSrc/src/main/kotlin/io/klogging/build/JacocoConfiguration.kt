@@ -25,6 +25,7 @@ import org.gradle.kotlin.dsl.named
 import org.gradle.testing.jacoco.plugins.JacocoPlugin
 import org.gradle.testing.jacoco.plugins.JacocoPluginExtension
 import org.gradle.testing.jacoco.tasks.JacocoReport
+import java.io.File
 
 fun Project.configureJacoco(jacocoVersion: String) {
     apply<JacocoPlugin>()
@@ -34,6 +35,20 @@ fun Project.configureJacoco(jacocoVersion: String) {
     }
 
     tasks.named<JacocoReport>("jacocoTestReport") {
+        val coverageSourceDirs = arrayOf(
+            "src/commonMain",
+            "src/jvmMain"
+        )
+
+        val classFiles = File("$buildDir/classes/kotlin/jvm/")
+            .walkBottomUp()
+            .toSet()
+
+        classDirectories.setFrom(classFiles)
+        sourceDirectories.setFrom(files(coverageSourceDirs))
+
+        executionData
+            .setFrom(files("$buildDir/jacoco/jvmTest.exec"))
         reports {
             html.required.set(true)
             xml.required.set(true)
