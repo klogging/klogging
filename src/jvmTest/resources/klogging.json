@@ -13,6 +13,7 @@
       "levelRanges": [
         {
           "fromMinLevel": "INFO",
+          "stopOnMatch": true,
           "toSinks": [
             "stdout",
             "seq"

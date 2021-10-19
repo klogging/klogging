@@ -82,6 +82,7 @@ public data class JsonSinkConfiguration(
 @Serializable
 public data class JsonLoggingConfig(
     val fromLoggerBase: String? = null,
+    val stopOnMatch: Boolean? = false,
     val exactLogger: String? = null,
     val levelRanges: List<JsonLevelRange>,
 ) {
@@ -89,8 +90,8 @@ public data class JsonLoggingConfig(
         val config = LoggingConfig()
         when {
             // `exactLogger` has priority over `fromLoggerBase`
-            exactLogger != null -> config.exactLogger(exactLogger)
-            fromLoggerBase != null -> config.fromLoggerBase(fromLoggerBase)
+            exactLogger != null -> config.exactLogger(exactLogger, stopOnMatch ?: false)
+            fromLoggerBase != null -> config.fromLoggerBase(fromLoggerBase, stopOnMatch ?: false)
             // else will match all loggers by default
         }
         config.ranges.addAll(levelRanges.map { it.toLevelRange() })
