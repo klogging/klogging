@@ -64,11 +64,13 @@ fun logEvent(
 /** Crude way to help ensure coroutine processing is complete in tests. */
 suspend fun waitForSend(millis: Long = 50) = delay(millis)
 
+fun eventSaver(saved: MutableList<LogEvent>): EventSender =
+    { batch: List<LogEvent> -> saved.addAll(batch) }
+
 fun savedEvents(): MutableList<LogEvent> {
     val saved = mutableListOf<LogEvent>()
-    val eventSaver: EventSender = { batch: List<LogEvent> -> saved.addAll(batch) }
     loggingConfiguration {
-        sink("test", SinkConfiguration(eventSender = eventSaver))
+        sink("test", SinkConfiguration(eventSender = eventSaver(saved)))
         logging { fromMinLevel(TRACE) { toSink("test") } }
     }
     return saved

@@ -113,5 +113,32 @@ internal class DispatcherTest : DescribeSpec({
                 Dispatcher.sinksFor(randomString(), ERROR) shouldHaveSize 2
             }
         }
+        describe("with stopOnMatch") {
+            beforeTest {
+                loggingConfiguration {
+                    sink("rest", RENDER_SIMPLE, STDOUT)
+                    sink("kord", RENDER_SIMPLE, STDOUT)
+                    sink("svc", RENDER_SIMPLE, STDOUT)
+                    logging {
+                        fromLoggerBase("dev.kord.rest", stopOnMatch = true)
+                        fromMinLevel(ERROR) { toSink("rest") }
+                    }
+                    logging {
+                        fromLoggerBase("dev.kord")
+                        fromMinLevel(DEBUG) { toSink("kord") }
+                    }
+                    logging {
+                        fromLoggerBase("dev.kord.service")
+                        fromMinLevel(INFO) { toSink("svc") }
+                    }
+                }
+            }
+            it("stops selecting sinks after matching a logger base with `stopOnMatch = true`") {
+                Dispatcher.sinksFor("dev.kord.rest.RestClient", ERROR) shouldHaveSize 1
+            }
+            it("keeps selecting sinks after not matching a logger base with `stopOnMatch = true`") {
+                Dispatcher.sinksFor("dev.kord.service.NikkyService", INFO) shouldHaveSize 2
+            }
+        }
     }
 })

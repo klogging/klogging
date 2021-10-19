@@ -31,26 +31,31 @@ public class LoggingConfig {
     internal val matchAllLoggers: String = ".*"
 
     internal var nameMatch: Regex = Regex(matchAllLoggers)
+    internal var stopOnMatch: Boolean = false
     internal val ranges = mutableListOf<LevelRange>()
 
     /**
      * DSL function to specify that logger names should match from the specified base name.
      *
      * @param baseName match logger names from this base
+     * @param stopOnMatch stop using loggers after this one if it matches
      */
     @ConfigDsl
-    public fun fromLoggerBase(baseName: String) {
+    public fun fromLoggerBase(baseName: String, stopOnMatch: Boolean = false) {
         nameMatch = Regex("^$baseName.*")
+        this.stopOnMatch = stopOnMatch
     }
 
     /**
      * DSL function to specify that logger names should match this name exactly.
      *
      * @param exactName match this logger name exactly
+     * @param stopOnMatch stop using loggers after this one if it matches
      */
     @ConfigDsl
-    public fun exactLogger(exactName: String) {
+    public fun exactLogger(exactName: String, stopOnMatch: Boolean = false) {
         nameMatch = Regex("^$exactName\$")
+        this.stopOnMatch = stopOnMatch
     }
 
     /**
