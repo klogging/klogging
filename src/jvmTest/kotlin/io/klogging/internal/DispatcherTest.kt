@@ -27,6 +27,7 @@ import io.klogging.config.DEFAULT_CONSOLE
 import io.klogging.config.loggingConfiguration
 import io.klogging.randomLevel
 import io.klogging.randomString
+import io.klogging.rendering.RENDER_ANSI
 import io.klogging.rendering.RENDER_SIMPLE
 import io.klogging.sending.STDERR
 import io.klogging.sending.STDOUT
@@ -88,6 +89,23 @@ internal class DispatcherTest : DescribeSpec({
             }
             it("returns the sink when the logger name starts with the configuration name") {
                 Dispatcher.sinksFor("com.example.OtherThing\$Subclass", WARN) shouldHaveSize 0
+            }
+        }
+        describe("with regex logger name configuration") {
+            beforeTest {
+                loggingConfiguration {
+                    sink("console", RENDER_ANSI, STDOUT)
+                    logging {
+                        matchLogger("Level-[0-5]")
+                        fromMinLevel(DEBUG) { toSink("console") }
+                    }
+                }
+            }
+            it("returns no sinks when the logger name doesn’t match") {
+                Dispatcher.sinksFor("Level-6", WARN) shouldHaveSize 0
+            }
+            it("returns the sink when the logger name matches ") {
+                Dispatcher.sinksFor("Level-3", INFO) shouldHaveSize 1
             }
         }
         describe("with minimum level specification") {

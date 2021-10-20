@@ -84,14 +84,17 @@ public data class JsonLoggingConfig(
     val fromLoggerBase: String? = null,
     val stopOnMatch: Boolean? = false,
     val exactLogger: String? = null,
+    val matchLogger: String? = null,
     val levelRanges: List<JsonLevelRange>,
 ) {
     internal fun toLoggingConfig(): LoggingConfig {
         val config = LoggingConfig()
         when {
-            // `exactLogger` has priority over `fromLoggerBase`
+            // `exactLogger` has priority over `fromLoggerBase`,
+            // which has priority over `matchLogger`
             exactLogger != null -> config.exactLogger(exactLogger, stopOnMatch ?: false)
             fromLoggerBase != null -> config.fromLoggerBase(fromLoggerBase, stopOnMatch ?: false)
+            matchLogger != null -> config.matchLogger(matchLogger, stopOnMatch ?: false)
             // else will match all loggers by default
         }
         config.ranges.addAll(levelRanges.map { it.toLevelRange() })

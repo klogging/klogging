@@ -63,6 +63,19 @@ public class LoggingConfig {
     }
 
     /**
+     * DSL function to specify that logger names should match this regular
+     * expression pattern.
+     *
+     * @param pattern match logger names using this pattern
+     * @param stopOnMatch stop using loggers after this one if it matches
+     */
+    @ConfigDsl
+    public fun matchLogger(pattern: String, stopOnMatch: Boolean = false) {
+        nameMatcher = { Regex(pattern).matches(it) }
+        this.stopOnMatch = stopOnMatch
+    }
+
+    /**
      * DSL function to specify the minimum level from which to log.
      *
      * @param minLevel inclusive minimum level
