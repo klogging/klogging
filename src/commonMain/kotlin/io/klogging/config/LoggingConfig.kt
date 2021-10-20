@@ -22,17 +22,21 @@ import io.klogging.Level
 import io.klogging.Level.FATAL
 import io.klogging.Level.TRACE
 
+/** Function type for matching a logger name. */
+internal typealias Matcher = (String) -> Boolean
+
+internal val MATCH_ALL: Matcher = { true }
+
 /**
  * Logging configuration with a logger name match and a list of level ranges that
  * maps to a list of sinks for each.
  */
 public class LoggingConfig {
-    /** Default matching is all logger names. */
-    internal val matchAllLoggers: String = ".*"
 
-    internal var nameMatch: Regex = Regex(matchAllLoggers)
     internal var stopOnMatch: Boolean = false
     internal val ranges = mutableListOf<LevelRange>()
+
+    internal var nameMatcher: Matcher = MATCH_ALL
 
     /**
      * DSL function to specify that logger names should match from the specified base name.
@@ -42,7 +46,7 @@ public class LoggingConfig {
      */
     @ConfigDsl
     public fun fromLoggerBase(baseName: String, stopOnMatch: Boolean = false) {
-        nameMatch = Regex("^$baseName.*")
+        nameMatcher = { it.startsWith(baseName) }
         this.stopOnMatch = stopOnMatch
     }
 
@@ -54,7 +58,7 @@ public class LoggingConfig {
      */
     @ConfigDsl
     public fun exactLogger(exactName: String, stopOnMatch: Boolean = false) {
-        nameMatch = Regex("^$exactName\$")
+        nameMatcher = { it == exactName }
         this.stopOnMatch = stopOnMatch
     }
 

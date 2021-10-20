@@ -66,7 +66,7 @@ internal class KloggingConfigurationTest : DescribeSpec({
                     sinkConfigs() shouldContain ("console" to STDOUT_SIMPLE)
                     configs() shouldHaveSize 1
                     with(configs().first()) {
-                        nameMatch.pattern shouldBe matchAllLoggers
+                        nameMatcher shouldBe MATCH_ALL
                         ranges shouldHaveSize 1
                         with(ranges.first()) {
                             sinkNames shouldHaveSize 1
@@ -136,7 +136,6 @@ internal class KloggingConfigurationTest : DescribeSpec({
 
                     configs() shouldHaveSize 2
                     with(configs().first()) {
-                        nameMatch shouldBe Regex("^com.example.*")
                         ranges shouldHaveSize 2
                         ranges.first() shouldBe LevelRange(INFO, INFO)
                         with(ranges.first()) {
@@ -152,7 +151,6 @@ internal class KloggingConfigurationTest : DescribeSpec({
                         }
                     }
                     with(configs().last()) {
-                        nameMatch shouldBe Regex("^com.example.service.FancyService\$")
                         ranges shouldHaveSize 1
                         ranges.first() shouldBe LevelRange(DEBUG, FATAL)
                         with(ranges.first()) {

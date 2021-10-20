@@ -69,7 +69,7 @@ internal object Dispatcher : CoroutineScope {
         var keepMatching = true
         val sinkNames = KloggingEngine.configs()
             .filter { config ->
-                val matches = config.nameMatch.matches(loggerName)
+                val matches = config.nameMatcher(loggerName)
                 (keepMatching && matches).also {
                     keepMatching = keepMatching && !(matches && config.stopOnMatch)
                 }

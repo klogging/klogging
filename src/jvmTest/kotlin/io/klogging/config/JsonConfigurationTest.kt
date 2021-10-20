@@ -145,7 +145,6 @@ internal class JsonConfigurationTest : DescribeSpec({
                 config?.apply {
                     configs shouldHaveSize 1
                     with(configs.first()) {
-                        nameMatch.pattern shouldBe "^com.example.*"
                         ranges shouldHaveSize 1
                         with(ranges.first()) {
                             minLevel shouldBe INFO
