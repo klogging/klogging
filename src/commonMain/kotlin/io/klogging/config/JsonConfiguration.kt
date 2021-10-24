@@ -90,12 +90,13 @@ public data class JsonLoggingConfig(
     internal fun toLoggingConfig(): LoggingConfig {
         val config = LoggingConfig()
         when {
-            // `exactLogger` has priority over `fromLoggerBase`,
+            // `matchLogger` has priority over `exactLogger`, which
+            // has priority over `fromLoggerBase`,
             // which has priority over `matchLogger`
             exactLogger != null -> config.exactLogger(exactLogger, stopOnMatch ?: false)
             fromLoggerBase != null -> config.fromLoggerBase(fromLoggerBase, stopOnMatch ?: false)
             matchLogger != null -> config.matchLogger(matchLogger, stopOnMatch ?: false)
-            // else will match all loggers by default
+            // else match all loggers by default
         }
         config.ranges.addAll(levelRanges.map { it.toLevelRange() })
         return config
