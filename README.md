@@ -7,12 +7,10 @@ and using [Klogging with Spring Boot via SLF4J](https://klogging.io/docs/java/sp
 
 ## Quick start
 
-Currently you need to specify all three imports. Gradle:
+Specify this library as the dependency. Gradle:
 
 ```kotlin
-    implementation("io.klogging:slf4j-klogging:0.2.0")
-    implementation("io.klogging:klogging-jvm:0.4.0")
-    implementation("org.slf4j:slf4j-api:1.7.32")
+    implementation("io.klogging:slf4j-klogging:0.2.2")
 ```
 
 Maven:
@@ -21,18 +19,8 @@ Maven:
 <dependencies>
     <dependency>
         <groupId>io.klogging</groupId>
-        <artifactId>klogging-jvm</artifactId>
-        <version>0.4.0</version>
-    </dependency>
-    <dependency>
-        <groupId>io.klogging</groupId>
         <artifactId>slf4j-klogging</artifactId>
-        <version>0.2.0</version>
-    </dependency>
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>1.7.32</version>
+        <version>0.2.2</version>
     </dependency>
 </dependencies>
 ```
