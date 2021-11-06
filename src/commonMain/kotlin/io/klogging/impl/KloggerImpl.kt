@@ -21,7 +21,6 @@ package io.klogging.impl
 import io.klogging.Klogger
 import io.klogging.Level
 import io.klogging.context.LogContext
-import io.klogging.eventFrom
 import io.klogging.events.LogEvent
 import io.klogging.events.currentContext
 import io.klogging.events.timestampNow

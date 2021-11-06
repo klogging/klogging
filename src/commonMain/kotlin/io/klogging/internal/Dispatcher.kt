@@ -21,7 +21,6 @@ package io.klogging.internal
 import io.klogging.Level
 import io.klogging.Level.TRACE
 import io.klogging.events.LogEvent
-import io.klogging.events.copyWith
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext

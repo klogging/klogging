@@ -53,7 +53,30 @@ public data class LogEvent(
      * hole in the template.
      */
     val items: Map<String, Any?> = mapOf(),
-)
+) {
+    /**
+     * Copy this [LogEvent], setting the level, the stack trace from any error or exception, and
+     * context items.
+     *
+     * This function is used when an event has already been constructed.
+     */
+    internal fun copyWith(
+        newLevel: Level,
+        newStacktrace: String? = null,
+        contextItems: Map<String, Any?> = mapOf()
+    ): LogEvent = LogEvent(
+        id = id,
+        timestamp = timestamp,
+        host = host,
+        logger = logger,
+        context = context ?: currentContext(),
+        level = newLevel,
+        template = template,
+        message = message,
+        stackTrace = newStacktrace,
+        items = contextItems + items,
+    )
+}
 
 /**
  * Random ID for a [LogEvent].
@@ -68,27 +91,3 @@ public expect val hostname: String
 
 /** Thread name or similar current context identifier. */
 internal expect fun currentContext(): String?
-
-/**
- * Copy a [LogEvent], setting the level, the stack trace from any error or exception, and
- * context items.
- *
- * This function is used when an event has already been constructed, for example
- * by the [Klogger#e] and [NoCoLogger#e] functions.
- */
-internal fun LogEvent.copyWith(
-    newLevel: Level,
-    newStacktrace: String? = null,
-    contextItems: Map<String, Any?> = mapOf()
-): LogEvent = LogEvent(
-    id = id,
-    timestamp = timestamp,
-    host = host,
-    logger = logger,
-    context = context ?: currentContext(),
-    level = newLevel,
-    template = template,
-    message = message,
-    stackTrace = newStacktrace,
-    items = contextItems + items,
-)

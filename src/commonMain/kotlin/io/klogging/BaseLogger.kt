@@ -26,7 +26,6 @@ import io.klogging.Level.NONE
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
 import io.klogging.events.LogEvent
-import io.klogging.events.copyWith
 import io.klogging.internal.KloggingEngine
 
 /**
@@ -70,33 +69,33 @@ public interface BaseLogger {
 
     /** Is this logger enabled to emit [FATAL] events? */
     public fun isFatalEnabled(): Boolean = isLevelEnabled(FATAL)
-}
 
-/**
- * Extension function on [BaseLogger] that constructs a [LogEvent] from a range of types.
- *
- * - If the object is an event already, update it with level, stack trace (if present)
- *   and context items.
- * - Otherwise, construct an event with supplied information.
- */
-internal fun BaseLogger.eventFrom(
-    level: Level,
-    throwable: Throwable?,
-    eventObject: Any?,
-    contextItems: Map<String, Any?> = mapOf(),
-): LogEvent {
-    return when (eventObject) {
-        is LogEvent ->
-            eventObject.copyWith(level, throwable?.stackTraceToString(), contextItems)
-        else -> {
-            val (message, stackTrace) = messageAndStackTrace(eventObject, throwable)
-            LogEvent(
-                logger = this.name,
-                level = level,
-                message = message,
-                stackTrace = stackTrace,
-                items = contextItems,
-            )
+    /**
+     * Construct a [LogEvent] from a range of types.
+     *
+     * - If the object is an event already, update it with level, stack trace (if present)
+     *   and context items.
+     * - Otherwise, construct an event with supplied information.
+     */
+    public fun eventFrom(
+        level: Level,
+        throwable: Throwable?,
+        eventObject: Any?,
+        contextItems: Map<String, Any?> = mapOf(),
+    ): LogEvent {
+        return when (eventObject) {
+            is LogEvent ->
+                eventObject.copyWith(level, throwable?.stackTraceToString(), contextItems)
+            else -> {
+                val (message, stackTrace) = messageAndStackTrace(eventObject, throwable)
+                LogEvent(
+                    logger = this.name,
+                    level = level,
+                    message = message,
+                    stackTrace = stackTrace,
+                    items = contextItems,
+                )
+            }
         }
     }
 }
