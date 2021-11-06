@@ -22,10 +22,13 @@ import io.klogging.Level
 import io.klogging.eventSaver
 import io.klogging.events.LogEvent
 import io.klogging.logger
-import io.klogging.waitForSend
+import io.kotest.assertions.timing.eventually
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldContainAll
+import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 class LoggingConfigTest : DescribeSpec({
     describe("`loggingConfiguration` DSL function") {
         it("matches `logging` blocks in order, stopping on match with `stopOnMatch = true`") {
@@ -57,17 +60,17 @@ class LoggingConfigTest : DescribeSpec({
             svcLogger.warn("Should log at WARN")
             svcLogger.error("Should log at ERROR")
 
-            waitForSend(50)
-
-            testEvents.map { Pair(it.logger, it.level) }.shouldContainAll(
-                listOf(
-                    Pair("dev.kord.rest.RestClient", Level.ERROR),
-                    Pair("dev.kord.svc.BlahService", Level.DEBUG),
-                    Pair("dev.kord.svc.BlahService", Level.INFO),
-                    Pair("dev.kord.svc.BlahService", Level.WARN),
-                    Pair("dev.kord.svc.BlahService", Level.ERROR),
+            eventually(Duration.seconds(1)) {
+                testEvents.map { Pair(it.logger, it.level) }.shouldContainAll(
+                    listOf(
+                        Pair("dev.kord.rest.RestClient", Level.ERROR),
+                        Pair("dev.kord.svc.BlahService", Level.DEBUG),
+                        Pair("dev.kord.svc.BlahService", Level.INFO),
+                        Pair("dev.kord.svc.BlahService", Level.WARN),
+                        Pair("dev.kord.svc.BlahService", Level.ERROR),
+                    )
                 )
-            )
+            }
         }
     }
 })

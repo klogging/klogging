@@ -25,7 +25,6 @@ import io.klogging.events.LogEvent
 import io.klogging.events.hostname
 import io.klogging.events.timestampNow
 import io.klogging.sending.EventSender
-import kotlinx.coroutines.delay
 import kotlinx.datetime.Instant
 import kotlin.random.Random
 import kotlin.random.nextUInt
@@ -61,12 +60,12 @@ fun logEvent(
     items = items,
 )
 
-/** Crude way to help ensure coroutine processing is complete in tests. */
-suspend fun waitForSend(millis: Long = 50) = delay(millis)
-
 fun eventSaver(saved: MutableList<LogEvent>): EventSender =
     { batch: List<LogEvent> -> saved.addAll(batch) }
 
+/**
+ * Configuration that saves all logged events into a list for checking by tests.
+ */
 fun savedEvents(): MutableList<LogEvent> {
     val saved = mutableListOf<LogEvent>()
     loggingConfiguration {

@@ -26,7 +26,7 @@ import io.klogging.events.timestampNow
 import io.klogging.logEvent
 import io.klogging.randomString
 import io.klogging.savedEvents
-import io.klogging.waitForSend
+import io.kotest.assertions.timing.eventually
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldContain
@@ -36,7 +36,10 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
+import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 class KloggerImplTest : DescribeSpec({
 
     describe("KloggerImpl implementation of Klogger") {
@@ -45,27 +48,29 @@ class KloggerImplTest : DescribeSpec({
                 val events = savedEvents()
                 val message = randomString()
                 KloggerImpl("KloggerImplTest").warn(message)
-                waitForSend()
 
-                events.size shouldBe 1
-                events.first().message shouldBe message
+                eventually(Duration.seconds(1)) {
+                    events.size shouldBe 1
+                    events.first().message shouldBe message
+                }
             }
             it("logs a LogEvent object with the specified level") {
                 val events = savedEvents()
                 val event = logEvent()
                 KloggerImpl("KloggerImplTest").warn(event)
-                waitForSend()
 
-                events.size shouldBe 1
-                with(events.first()) {
-                    timestamp shouldBe event.timestamp
-                    host shouldBe event.host
-                    logger shouldBe event.logger
-                    level shouldBe WARN
-                    template shouldBe event.template
-                    message shouldBe event.message
-                    stackTrace shouldBe event.stackTrace
-                    items shouldBe event.items
+                eventually(Duration.seconds(1)) {
+                    events.size shouldBe 1
+                    with(events.first()) {
+                        timestamp shouldBe event.timestamp
+                        host shouldBe event.host
+                        logger shouldBe event.logger
+                        level shouldBe WARN
+                        template shouldBe event.template
+                        message shouldBe event.message
+                        stackTrace shouldBe event.stackTrace
+                        items shouldBe event.items
+                    }
                 }
             }
             it("logs a LogEvent object with stack trace from a throwable") {
@@ -73,38 +78,41 @@ class KloggerImplTest : DescribeSpec({
                 val event = logEvent()
                 val exception = RuntimeException("Oh noes!")
                 KloggerImpl("KloggerImplTest").error(exception, event)
-                waitForSend()
 
-                events.size shouldBe 1
-                with(events.first()) {
-                    timestamp shouldBe event.timestamp
-                    host shouldBe event.host
-                    logger shouldBe event.logger
-                    level shouldBe ERROR
-                    template shouldBe event.template
-                    message shouldBe event.message
-                    stackTrace shouldBe exception.stackTraceToString()
-                    items shouldBe event.items
+                eventually(Duration.seconds(1)) {
+                    events.size shouldBe 1
+                    with(events.first()) {
+                        timestamp shouldBe event.timestamp
+                        host shouldBe event.host
+                        logger shouldBe event.logger
+                        level shouldBe ERROR
+                        template shouldBe event.template
+                        message shouldBe event.message
+                        stackTrace shouldBe exception.stackTraceToString()
+                        items shouldBe event.items
+                    }
                 }
             }
             it("logs an exception with message and stack trace") {
                 val events = savedEvents()
                 val exception = RuntimeException("Some kind of problem")
                 KloggerImpl("KloggerImplTest").warn(exception)
-                waitForSend()
 
-                events.size shouldBe 1
-                events.first().message shouldBe exception.message
-                events.first().stackTrace shouldNotBe null
+                eventually(Duration.seconds(1)) {
+                    events.size shouldBe 1
+                    events.first().message shouldBe exception.message
+                    events.first().stackTrace shouldNotBe null
+                }
             }
             it("logs the string representation of anything else in the message field") {
                 val events = savedEvents()
                 val event = timestampNow()
                 KloggerImpl("KloggerImplTest").info(event)
-                waitForSend()
 
-                events.size shouldBe 1
-                events.first().message shouldBe event.toString()
+                eventually(Duration.seconds(1)) {
+                    events.size shouldBe 1
+                    events.first().message shouldBe event.toString()
+                }
             }
         }
 
@@ -112,18 +120,20 @@ class KloggerImplTest : DescribeSpec({
             it("does not include stack trace information if an exception is not provided") {
                 val events = savedEvents()
                 KloggerImpl("KloggerImplTest").warn { "Possible trouble" }
-                waitForSend()
 
-                events.size shouldBe 1
-                events.first().stackTrace shouldBe null
+                eventually(Duration.seconds(1)) {
+                    events.size shouldBe 1
+                    events.first().stackTrace shouldBe null
+                }
             }
             it("includes stack trace information if an exception is provided as well as other information") {
                 val events = savedEvents()
                 KloggerImpl("KloggerImplTest").warn(RuntimeException("Oh noes!")) { "Big trouble!" }
-                waitForSend()
 
-                events.size shouldBe 1
-                events.first().stackTrace shouldNotBe null
+                eventually(Duration.seconds(1)) {
+                    events.size shouldBe 1
+                    events.first().stackTrace shouldNotBe null
+                }
             }
         }
 
@@ -161,14 +171,15 @@ class KloggerImplTest : DescribeSpec({
                 val event = KloggerImpl("KloggerImplTest").e("User {id} logged in", id)
                 withContext(logContext("run" to runId)) {
                     KloggerImpl("KloggerImplTest").emitEvent(INFO, null, event)
-                    waitForSend()
                 }
 
-                events shouldHaveSize 1
-                events.first().items shouldContainAll mapOf(
-                    "run" to runId,
-                    "id" to id,
-                )
+                eventually(Duration.seconds(1)) {
+                    events shouldHaveSize 1
+                    events.first().items shouldContainAll mapOf(
+                        "run" to runId,
+                        "id" to id,
+                    )
+                }
             }
         }
     }

@@ -21,11 +21,14 @@ package io.klogging.impl
 import io.klogging.Level.INFO
 import io.klogging.randomString
 import io.klogging.savedEvents
-import io.klogging.waitForSend
+import io.kotest.assertions.timing.eventually
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
+import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 class NoCoLoggerImplTest : DescribeSpec({
     describe("NoCoLogger implementation") {
         describe("emitEvent() function") {
@@ -38,10 +41,11 @@ class NoCoLoggerImplTest : DescribeSpec({
                     event = "Message",
                     contextItems = mapOf("runId" to runId)
                 )
-                waitForSend()
 
-                saved shouldHaveSize 1
-                saved.first().items shouldBe mapOf("runId" to runId)
+                eventually(Duration.seconds(1)) {
+                    saved shouldHaveSize 1
+                    saved.first().items shouldBe mapOf("runId" to runId)
+                }
             }
         }
     }

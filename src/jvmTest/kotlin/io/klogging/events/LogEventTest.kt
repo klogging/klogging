@@ -24,13 +24,16 @@ import io.klogging.context.logContext
 import io.klogging.logger
 import io.klogging.randomString
 import io.klogging.savedEvents
-import io.klogging.waitForSend
+import io.kotest.assertions.timing.eventually
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.maps.shouldContainAll
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.launch
+import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 class LogEventTest : DescribeSpec({
     describe("Constructing logging events") {
         describe("with context items") {
@@ -38,16 +41,20 @@ class LogEventTest : DescribeSpec({
                 val saved = savedEvents()
                 val logger = logger("LogEventTest")
                 logger.info("Test message")
-                waitForSend()
-                saved.first().items.size shouldBe 0
+
+                eventually(Duration.seconds(1)) {
+                    saved.first().items.size shouldBe 0
+                }
             }
             it("includes any items from the coroutine log context") {
                 launch(logContext("colour" to "white")) {
                     val saved = savedEvents()
                     val logger = logger("LogEventTest")
                     logger.info("Test message")
-                    waitForSend()
-                    saved.first().items shouldContain ("colour" to "white")
+
+                    eventually(Duration.seconds(1)) {
+                        saved.first().items shouldContain ("colour" to "white")
+                    }
                 }
             }
         }
