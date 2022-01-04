@@ -25,10 +25,8 @@ import io.klogging.logger
 import io.kotest.assertions.timing.eventually
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldContainAll
-import kotlin.time.Duration
-import kotlin.time.ExperimentalTime
+import kotlin.time.Duration.Companion.seconds
 
-@OptIn(ExperimentalTime::class)
 class LoggingConfigTest : DescribeSpec({
     describe("`loggingConfiguration` DSL function") {
         it("matches `logging` blocks in order, stopping on match with `stopOnMatch = true`") {
@@ -60,7 +58,7 @@ class LoggingConfigTest : DescribeSpec({
             svcLogger.warn("Should log at WARN")
             svcLogger.error("Should log at ERROR")
 
-            eventually(Duration.seconds(1)) {
+            eventually(1.seconds) {
                 testEvents.map { Pair(it.logger, it.level) }.shouldContainAll(
                     listOf(
                         Pair("dev.kord.rest.RestClient", Level.ERROR),

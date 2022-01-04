@@ -38,6 +38,7 @@ internal class DispatcherTest : DescribeSpec({
     describe("sinksFor() function") {
         describe("when no loggers are configured") {
             it("returns no sinks") {
+                loggingConfiguration { }
                 Dispatcher.sinksFor(randomString(), randomLevel()) shouldHaveSize 0
             }
         }

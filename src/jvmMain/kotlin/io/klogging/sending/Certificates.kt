@@ -29,9 +29,9 @@ import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
 /**
- *
+ * A trust modifier for accepting any TLS certificates.
  */
-internal object TrustModifier {
+internal object Certificates {
 
     private val TRUSTING_HOSTNAME_VERIFIER = TrustingHostnameVerifier()
     private val factory: SSLSocketFactory by lazy { prepFactory() }

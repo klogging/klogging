@@ -25,7 +25,7 @@ import io.kotest.assertions.timing.eventually
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
-import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
@@ -42,7 +42,7 @@ class NoCoLoggerImplTest : DescribeSpec({
                     contextItems = mapOf("runId" to runId)
                 )
 
-                eventually(Duration.seconds(1)) {
+                eventually(1.seconds) {
                     saved shouldHaveSize 1
                     saved.first().items shouldBe mapOf("runId" to runId)
                 }

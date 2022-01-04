@@ -30,10 +30,8 @@ import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.maps.shouldContainAll
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.launch
-import kotlin.time.Duration
-import kotlin.time.ExperimentalTime
+import kotlin.time.Duration.Companion.seconds
 
-@OptIn(ExperimentalTime::class)
 class LogEventTest : DescribeSpec({
     describe("Constructing logging events") {
         describe("with context items") {
@@ -42,7 +40,7 @@ class LogEventTest : DescribeSpec({
                 val logger = logger("LogEventTest")
                 logger.info("Test message")
 
-                eventually(Duration.seconds(1)) {
+                eventually(1.seconds) {
                     saved.first().items.size shouldBe 0
                 }
             }
@@ -52,7 +50,7 @@ class LogEventTest : DescribeSpec({
                     val logger = logger("LogEventTest")
                     logger.info("Test message")
 
-                    eventually(Duration.seconds(1)) {
+                    eventually(1.seconds) {
                         saved.first().items shouldContain ("colour" to "white")
                     }
                 }

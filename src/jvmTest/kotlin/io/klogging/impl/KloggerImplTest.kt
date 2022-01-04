@@ -36,7 +36,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
-import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
@@ -49,7 +49,7 @@ class KloggerImplTest : DescribeSpec({
                 val message = randomString()
                 KloggerImpl("KloggerImplTest").warn(message)
 
-                eventually(Duration.seconds(1)) {
+                eventually(1.seconds) {
                     events.size shouldBe 1
                     events.first().message shouldBe message
                 }
@@ -59,7 +59,7 @@ class KloggerImplTest : DescribeSpec({
                 val event = logEvent()
                 KloggerImpl("KloggerImplTest").warn(event)
 
-                eventually(Duration.seconds(1)) {
+                eventually(1.seconds) {
                     events.size shouldBe 1
                     with(events.first()) {
                         timestamp shouldBe event.timestamp
@@ -79,7 +79,7 @@ class KloggerImplTest : DescribeSpec({
                 val exception = RuntimeException("Oh noes!")
                 KloggerImpl("KloggerImplTest").error(exception, event)
 
-                eventually(Duration.seconds(1)) {
+                eventually(1.seconds) {
                     events.size shouldBe 1
                     with(events.first()) {
                         timestamp shouldBe event.timestamp
@@ -98,7 +98,7 @@ class KloggerImplTest : DescribeSpec({
                 val exception = RuntimeException("Some kind of problem")
                 KloggerImpl("KloggerImplTest").warn(exception)
 
-                eventually(Duration.seconds(1)) {
+                eventually(1.seconds) {
                     events.size shouldBe 1
                     events.first().message shouldBe exception.message
                     events.first().stackTrace shouldNotBe null
@@ -109,7 +109,7 @@ class KloggerImplTest : DescribeSpec({
                 val event = timestampNow()
                 KloggerImpl("KloggerImplTest").info(event)
 
-                eventually(Duration.seconds(1)) {
+                eventually(1.seconds) {
                     events.size shouldBe 1
                     events.first().message shouldBe event.toString()
                 }
@@ -121,7 +121,7 @@ class KloggerImplTest : DescribeSpec({
                 val events = savedEvents()
                 KloggerImpl("KloggerImplTest").warn { "Possible trouble" }
 
-                eventually(Duration.seconds(1)) {
+                eventually(1.seconds) {
                     events.size shouldBe 1
                     events.first().stackTrace shouldBe null
                 }
@@ -130,7 +130,7 @@ class KloggerImplTest : DescribeSpec({
                 val events = savedEvents()
                 KloggerImpl("KloggerImplTest").warn(RuntimeException("Oh noes!")) { "Big trouble!" }
 
-                eventually(Duration.seconds(1)) {
+                eventually(1.seconds) {
                     events.size shouldBe 1
                     events.first().stackTrace shouldNotBe null
                 }
@@ -173,7 +173,7 @@ class KloggerImplTest : DescribeSpec({
                     KloggerImpl("KloggerImplTest").emitEvent(INFO, null, event)
                 }
 
-                eventually(Duration.seconds(1)) {
+                eventually(1.seconds) {
                     events shouldHaveSize 1
                     events.first().items shouldContainAll mapOf(
                         "run" to runId,
