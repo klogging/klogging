@@ -29,7 +29,7 @@ tasks:
     run:
       container: build-env
       # Explicit `jvmTest` so XML files are generated.
-      command: ./gradlew check jvmTest
+      command: ./gradlew jvmTest
 
   build-all-platform-targets:
     run:
