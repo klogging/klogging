@@ -55,7 +55,7 @@ jobs:
         if: success() || failure()
         with:
           name: Kotest report
-          path: ./build/test-results/jvmTest/*.xml
+          path: ./build/test-results/test/*.xml
           reporter: java-junit
 
       - name: Generating code coverage report
