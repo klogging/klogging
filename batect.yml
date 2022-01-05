@@ -28,7 +28,8 @@ tasks:
     description: Run the unit tests and static analysis tools.
     run:
       container: build-env
-      command: ./gradlew check
+      # Explicit `jvmTest` so XML files are generated.
+      command: ./gradlew check jvmTest
 
   build-all-platform-targets:
     run:
