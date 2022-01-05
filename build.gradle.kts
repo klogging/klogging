@@ -94,6 +94,7 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 implementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+                implementation("io.kotest:kotest-extensions-junitxml-jvm:$kotestVersion")
             }
         }
         val jsMain by getting
