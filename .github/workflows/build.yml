@@ -49,6 +49,14 @@ jobs:
       - name: Check
         run: ./batect check
 
+      - name: Test report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: Kotest report
+          path: ./build/test-results/jvmTest/*.xml
+          reporter: java-junit
+
       - name: Generating code coverage report
         run: ./batect generateCodeCoverageReport
 
