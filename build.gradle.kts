@@ -30,7 +30,7 @@ plugins {
 }
 
 group = "io.klogging"
-version = "0.2.3"
+version = "0.3.0-SNAPSHOT"
 
 val jacocoVersion: String by project
 val kloggingVersion: String by project
@@ -56,6 +56,12 @@ kotlin {
     explicitApi()
 }
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
 tasks.register<Jar>("jvmJar") {
     from(sourceSets.main.get().allSource)
 }
@@ -78,5 +84,4 @@ configureJacoco(jacocoVersion)
 configurePublishing()
 configureSpotless(ktlintVersion)
 configureTesting()
-// configureVersioning()
 configureWrapper()
