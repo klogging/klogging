@@ -21,7 +21,6 @@ import io.klogging.build.configureJacoco
 import io.klogging.build.configurePublishing
 import io.klogging.build.configureSpotless
 import io.klogging.build.configureTesting
-import io.klogging.build.configureVersioning
 import io.klogging.build.configureWrapper
 
 plugins {
@@ -31,7 +30,7 @@ plugins {
 }
 
 group = "io.klogging"
-version = "0.2.2"
+version = "0.2.3"
 
 val jacocoVersion: String by project
 val kloggingVersion: String by project
@@ -79,5 +78,5 @@ configureJacoco(jacocoVersion)
 configurePublishing()
 configureSpotless(ktlintVersion)
 configureTesting()
-configureVersioning()
+// configureVersioning()
 configureWrapper()
