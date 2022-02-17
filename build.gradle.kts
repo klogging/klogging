@@ -33,7 +33,7 @@ plugins {
 }
 
 group = "io.klogging"
-version = "0.4.2"
+version = "0.4.3"
 
 repositories {
     mavenCentral()
@@ -132,5 +132,5 @@ configureJacoco(jacocoVersion)
 configurePublishing()
 configureSpotless(ktlintVersion)
 configureTesting()
-configureVersioning()
+//configureVersioning()
 configureWrapper()
