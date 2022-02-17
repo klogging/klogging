@@ -33,7 +33,7 @@ plugins {
 }
 
 group = "io.klogging"
-version = "0.4.1"
+version = "0.4.2"
 
 repositories {
     mavenCentral()
@@ -54,7 +54,7 @@ kotlin {
 
         compilations.all {
             kotlinOptions {
-                jvmTarget = "11"
+                jvmTarget = "1.8"
             }
         }
         testRuns["test"].executionTask.configure {
