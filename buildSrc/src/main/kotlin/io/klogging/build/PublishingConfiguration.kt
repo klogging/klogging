@@ -166,13 +166,13 @@ private fun Project.createReleaseTasks(
         }
     }
 
-    val validateReleaseTask = tasks.register("validateRelease") {
-        doFirst {
-            if (version.toString().contains("-")) {
-                throw RuntimeException("Attempting to publish a release of an untagged commit.")
-            }
-        }
-    }
+//    val validateReleaseTask = tasks.register("validateRelease") {
+//        doFirst {
+//            if (version.toString().contains("-")) {
+//                throw RuntimeException("Attempting to publish a release of an untagged commit.")
+//            }
+//        }
+//    }
 
     tasks.register("publishSnapshot") {
         dependsOn("publishJvmPublicationToSonatypeRepository")
@@ -183,7 +183,7 @@ private fun Project.createReleaseTasks(
     }
 
     tasks.register("publishRelease") {
-        dependsOn(validateReleaseTask)
+//        dependsOn(validateReleaseTask)
         dependsOn("publishJvmPublicationToSonatypeRepository")
         dependsOn("closeAndReleaseSonatypeStagingRepository")
     }
