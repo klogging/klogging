@@ -30,7 +30,7 @@ plugins {
 }
 
 group = "io.klogging"
-version = "0.3.0-SNAPSHOT"
+version = "0.2.4"
 
 val jacocoVersion: String by project
 val kloggingVersion: String by project
