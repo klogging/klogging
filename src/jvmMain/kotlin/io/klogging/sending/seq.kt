@@ -54,7 +54,7 @@ private fun sendToSeq(serverUrl: String, eventString: String) {
     try {
         trace("Seq", "Sending events to Seq in context ${Thread.currentThread().name}")
         conn.outputStream.use { it.write(eventString.toByteArray()) }
-        val response = conn.inputStream.use { String(it.readAllBytes()) }
+        val response = conn.inputStream.use { String(it.readAllTheBytes()) }
         if (conn.responseCode >= 400)
             warn("Seq", "Error response ${conn.responseCode} sending CLEF message: $response")
     } catch (e: IOException) {

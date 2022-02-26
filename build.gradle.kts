@@ -21,7 +21,6 @@ import io.klogging.build.configureJacoco
 import io.klogging.build.configurePublishing
 import io.klogging.build.configureSpotless
 import io.klogging.build.configureTesting
-import io.klogging.build.configureVersioning
 import io.klogging.build.configureWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -45,6 +44,12 @@ val kotlinDateTimeVersion: String by project
 val kotlinSerialisationJsonVersion: String by project
 val kotestVersion: String by project
 val ktlintVersion: String by project
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
+}
 
 kotlin {
     explicitApi()
@@ -132,5 +137,4 @@ configureJacoco(jacocoVersion)
 configurePublishing()
 configureSpotless(ktlintVersion)
 configureTesting()
-//configureVersioning()
 configureWrapper()

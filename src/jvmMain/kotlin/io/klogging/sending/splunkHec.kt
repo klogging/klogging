@@ -49,7 +49,7 @@ private fun sendToSplunk(endpoint: SplunkEndpoint, batch: List<LogEvent>) {
     try {
         trace("Splunk", "Sending events to Splunk in context ${Thread.currentThread().name}")
         conn.outputStream.use { it.write(splunkBatch(endpoint, batch).toByteArray()) }
-        val response = conn.inputStream.use { String(it.readAllBytes()) }
+        val response = conn.inputStream.use { String(it.readAllTheBytes()) }
         if (conn.responseCode >= 400)
             warn("Splunk", "Error response ${conn.responseCode} sending event to Splunk: $response")
     } catch (e: IOException) {
