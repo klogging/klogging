@@ -1,6 +1,6 @@
 /*
 
-   Copyright 2022 Michael Strasser.
+   Copyright 2021-2022 Michael Strasser.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 
 internal class BaseLoggerTest : DescribeSpec({
-    describe("BaseLogger.eventFrom() extension function") {
+    describe("`BaseLogger.eventFrom()` extension function") {
         class TestLogger(
             override val name: String = "A test logger"
         ) : BaseLogger
