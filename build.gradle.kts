@@ -1,6 +1,6 @@
 /*
 
-   Copyright 2021 Michael Strasser.
+   Copyright 2021-2022 Michael Strasser.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -30,13 +30,14 @@ plugins {
 }
 
 group = "io.klogging"
-version = "0.2.4"
+version = "0.2.5"
 
 val jacocoVersion: String by project
 val kloggingVersion: String by project
 val kotestVersion: String by project
 val ktlintVersion: String by project
 val slf4jVersion: String by project
+val kotestReporterVersion: String by project
 
 repositories {
     mavenCentral()
@@ -50,6 +51,7 @@ dependencies {
     api("org.slf4j:slf4j-api:$slf4jVersion")
 
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+    testImplementation("com.michaelstrasser:kotest-html-reporter:$kotestReporterVersion")
 }
 
 kotlin {

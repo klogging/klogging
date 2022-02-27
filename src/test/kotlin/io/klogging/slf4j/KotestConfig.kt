@@ -16,21 +16,15 @@
 
 */
 
-plugins {
-    `kotlin-dsl`
-    id("com.github.ben-manes.versions") version "0.39.0"
-}
+package io.klogging.slf4j
 
-repositories {
-    maven("https://plugins.gradle.org/m2/")
-}
+import io.kotest.core.config.AbstractProjectConfig
+import io.kotest.core.extensions.Extension
+import mjs.kotest.HtmlReporter
 
-val spotlessVersion: String by project
-val reckonVersion: String by project
-val nexusPublishingVersion: String by project
-
-dependencies {
-    implementation("com.diffplug.spotless:spotless-plugin-gradle:$spotlessVersion")
-    implementation("org.ajoberstar.reckon:reckon-gradle:$reckonVersion")
-    implementation("io.github.gradle-nexus:publish-plugin:$nexusPublishingVersion")
+/** Create an HTML report for every test run. */
+object KotestConfig : AbstractProjectConfig() {
+    override fun extensions(): List<Extension> = listOf(
+        HtmlReporter(),
+    )
 }
