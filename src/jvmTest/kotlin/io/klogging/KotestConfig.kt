@@ -21,9 +21,11 @@ package io.klogging
 import io.kotest.core.config.AbstractProjectConfig
 import io.kotest.core.extensions.Extension
 import io.kotest.extensions.junitxml.JunitXmlReporter
+import mjs.kotest.HtmlReporter
 
 class KotestConfig : AbstractProjectConfig() {
     override fun extensions(): List<Extension> = listOf(
-        JunitXmlReporter(useTestPathAsName = true)
+        JunitXmlReporter(useTestPathAsName = true),
+        HtmlReporter(),
     )
 }
