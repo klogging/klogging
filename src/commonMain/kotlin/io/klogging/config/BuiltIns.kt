@@ -31,6 +31,7 @@ import io.klogging.sending.SendString
 internal val BUILT_IN_CONFIGURATIONS: Map<String, KloggingConfiguration.() -> Unit> by lazy {
     mapOf(
         "DEFAULT_CONSOLE" to DEFAULT_CONSOLE,
+        "ANSI_CONSOLE" to ANSI_CONSOLE,
     )
 }
 

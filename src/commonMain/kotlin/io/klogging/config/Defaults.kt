@@ -27,10 +27,6 @@ import io.klogging.sending.STDOUT
 public val STDOUT_SIMPLE: SinkConfiguration =
     SinkConfiguration(RENDER_SIMPLE, STDOUT)
 
-/** Simple sink configuration for rendering ANSI-coloured strings to the standard output stream. */
-public val STDOUT_ANSI: SinkConfiguration =
-    SinkConfiguration(RENDER_ANSI, STDOUT)
-
 /**
  * Simple default configuration for logging to the standard output stream.
  *
@@ -38,6 +34,21 @@ public val STDOUT_ANSI: SinkConfiguration =
  * - All events at [INFO] or higher level are included.
  */
 public val DEFAULT_CONSOLE: KloggingConfiguration.() -> Unit = {
+    sink("console", STDOUT_SIMPLE)
+    logging { fromMinLevel(INFO) { toSink("console") } }
+}
+
+/** Simple sink configuration for rendering ANSI-coloured strings to the standard output stream. */
+public val STDOUT_ANSI: SinkConfiguration =
+    SinkConfiguration(RENDER_ANSI, STDOUT)
+
+/**
+ * Simple default configuration for logging ANSI-coloured strings to the standard output stream.
+ *
+ * - All loggers are included.
+ * - All events at [INFO] or higher level are included.
+ */
+public val ANSI_CONSOLE: KloggingConfiguration.() -> Unit = {
     sink("console", STDOUT_ANSI)
     logging { fromMinLevel(INFO) { toSink("console") } }
 }
