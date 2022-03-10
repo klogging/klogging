@@ -41,6 +41,10 @@ class KloggingTest : DescribeSpec({
         it("is the full name of the class with a companion object that creates a property using the logger() function") {
             ClassWithLoggerInCompanion.logger.name shouldBe "io.klogging.ClassWithLoggerInCompanion"
         }
+        it("is the full name of the reified class used in a call to generic `logger()` function") {
+            logger<ClassUsedInCallWithReifiedGeneric>().name shouldBe
+                "io.klogging.ClassUsedInCallWithReifiedGeneric"
+        }
     }
 })
 
@@ -63,3 +67,5 @@ class ClassWithLoggerInCompanion {
         val logger = logger(ClassWithLoggerInCompanion::class)
     }
 }
+
+class ClassUsedInCallWithReifiedGeneric

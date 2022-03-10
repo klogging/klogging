@@ -45,6 +45,9 @@ public fun noCoLogger(name: String): NoCoLogger = noCoLoggerFor(name)
 /** Returns a [NoCoLogger] with the name of the specified class. */
 public fun noCoLogger(ownerClass: KClass<*>): NoCoLogger = noCoLoggerFor(classNameOf(ownerClass))
 
+/** Returns a [NoCoLogger] with the name of the specified class. */
+public inline fun <reified T> noCoLogger(): NoCoLogger = noCoLogger(T::class)
+
 /**
  * Utility interface that supplies a [NoCoLogger] property called `logger`.
  */

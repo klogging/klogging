@@ -48,6 +48,9 @@ public fun logger(name: String): Klogger = loggerFor(name)
 /** Returns a [Klogger] with the name of the specified class. */
 public fun logger(ownerClass: KClass<*>): Klogger = loggerFor(classNameOf(ownerClass))
 
+/** Returns a [Klogger] with the name of the specified class. */
+public inline fun <reified T> logger(): Klogger = logger(T::class)
+
 /**
  * Utility interface that supplies a [Klogger] property called `logger`.
  */
