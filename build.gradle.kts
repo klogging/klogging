@@ -100,7 +100,7 @@ kotlin {
             dependencies {
                 implementation("io.kotest:kotest-runner-junit5:$kotestVersion")
                 implementation("io.kotest:kotest-extensions-junitxml-jvm:$kotestVersion")
-                implementation("com.michaelstrasser:kotest-html-reporter:0.3.13")
+                implementation("com.michaelstrasser:kotest-html-reporter:0.4.0")
             }
         }
         val jsMain by getting
