@@ -75,24 +75,6 @@ internal class KloggingConfigurationTest : DescribeSpec({
                     }
                 }
             }
-            it("ignores a sink that has not been already defined") {
-                loggingConfiguration {
-                    logging {
-                        sink("console", STDOUT_SIMPLE)
-                        fromLoggerBase("com.example")
-                        fromMinLevel(INFO) {
-                            toSink("console")
-                            toSink("logstash")
-                        }
-                    }
-                }
-
-                with(KloggingEngine) {
-                    configs() shouldHaveSize 1
-                    configs().first().ranges shouldHaveSize 1
-                    configs().first().ranges.first().sinkNames.shouldContain("console")
-                }
-            }
             it("allows for complex logging configuration") {
                 loggingConfiguration {
                     // Dispatch to standout output stream with simple message rendering.
