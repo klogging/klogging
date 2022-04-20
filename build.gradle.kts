@@ -54,6 +54,10 @@ java {
 kotlin {
     explicitApi()
 
+    jvmToolchain {
+        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of("8"))
+    }
+
     jvm {
         withJava() // Needed for jacocoTestReport Gradle target
 
