@@ -90,7 +90,7 @@ internal class KloggingConfigurationTest : DescribeSpec({
                 with(KloggingEngine) {
                     configs() shouldHaveSize 1
                     configs().first().ranges shouldHaveSize 1
-                    configs().first().ranges.first().sinkNames shouldContain "console"
+                    configs().first().ranges.first().sinkNames.shouldContain("console")
                 }
             }
             it("allows for complex logging configuration") {
@@ -128,7 +128,10 @@ internal class KloggingConfigurationTest : DescribeSpec({
                 with(KloggingEngine) {
                     sinkConfigs() shouldHaveSize 3
                     sinkConfigs().keys shouldContainExactly setOf("stdout", "stderr", "seq")
-                    sinkConfigs().values.map { it.stringSender } shouldContainAll setOf(STDOUT, STDERR)
+                    sinkConfigs().values.map { it.stringSender } shouldContainAll setOf(
+                        STDOUT,
+                        STDERR
+                    )
                     sinkConfigs().values.map { it.renderer }.toSet() shouldContainExactly setOf(
                         RENDER_SIMPLE,
                         RENDER_CLEF
