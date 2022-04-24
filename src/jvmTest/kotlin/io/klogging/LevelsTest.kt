@@ -20,23 +20,22 @@ package io.klogging
 
 import io.klogging.events.LogEvent
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.datatest.withData
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 
 internal class LevelsTest : DescribeSpec({
-    describe("at all logger levels") {
-        it("`log()` calls `logMessage()` for all levels") {
-            Level.values().forEach { loggerLevel ->
-                val logger = LevelsTestLogger(loggerLevel)
-                Level.values().forEach { eventLevel ->
-                    randomString().let { message ->
-                        logger.log(eventLevel, message)
+    describe("`log()` only emits events at the logger’s minimum level or above") {
+        withData(Level.values().toList()) { loggerLevel ->
+            val logger = LevelsTestLogger(loggerLevel)
+            withData(Level.values().toList()) { eventLevel ->
+                randomString().let { message ->
+                    logger.log(eventLevel, message)
 
-                        if (logger.isLevelEnabled(eventLevel))
-                            logger.loggedMessage shouldBe message
-                        else
-                            logger.loggedMessage.shouldBeNull()
-                    }
+                    if (logger.isLevelEnabled(eventLevel))
+                        logger.loggedMessage shouldBe message
+                    else
+                        logger.loggedMessage.shouldBeNull()
                 }
             }
         }
