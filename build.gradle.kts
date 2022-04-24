@@ -60,12 +60,6 @@ kotlin {
 
     jvm {
         withJava() // Needed for jacocoTestReport Gradle target
-
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
-        }
         testRuns["test"].executionTask.configure {
             useJUnitPlatform()
         }
