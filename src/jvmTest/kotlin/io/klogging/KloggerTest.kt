@@ -27,6 +27,7 @@ import io.klogging.events.LogEvent
 import io.klogging.events.hostname
 import io.klogging.events.timestampNow
 import io.klogging.templating.templateItems
+import io.kotest.assertions.fail
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.nulls.shouldBeNull
@@ -38,7 +39,7 @@ internal class KloggerTest : DescribeSpec({
         override fun toString() = "foo"
     }
 
-    describe("KtLogger") {
+    describe("KLogger") {
         describe("does not log when level is NONE") {
             it("for a string message") {
                 with(TestLogger()) {
@@ -181,14 +182,19 @@ internal class KloggerTest : DescribeSpec({
                 }
             }
         }
+
+        it("does not call a lambda argument if the level is below the minimum") {
+            val failLambda: suspend Klogger.() -> Nothing = { fail("Should not be called") }
+            TestLogger(INFO).debug(failLambda)
+        }
     }
 })
 
 private class TestLogger(private val minLevel: Level = TRACE) : Klogger {
     override val name: String = "TestLogger"
 
-    internal var thrower: Throwable? = null
-    internal var logged: Any? = null
+    var thrower: Throwable? = null
+    var logged: Any? = null
 
     override fun minLevel() = minLevel
     override suspend fun emitEvent(level: Level, throwable: Throwable?, event: Any?) {
