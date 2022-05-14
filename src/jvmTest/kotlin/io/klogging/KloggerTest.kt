@@ -29,6 +29,7 @@ import io.klogging.events.timestampNow
 import io.klogging.templating.templateItems
 import io.kotest.assertions.fail
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.datatest.withData
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
@@ -183,9 +184,14 @@ internal class KloggerTest : DescribeSpec({
             }
         }
 
-        it("does not call a lambda argument if the level is below the minimum") {
-            val failLambda: suspend Klogger.() -> Nothing = { fail("Should not be called") }
-            TestLogger(INFO).debug(failLambda)
+        describe("does not call a lambda argument if event level is below the logger minimum") {
+            val levelTriangle = Level.values().flatMap { loggerLevel ->
+                Level.values().filter { level -> level.ordinal < loggerLevel.ordinal }
+                    .map { lowerLevel -> Pair(loggerLevel, lowerLevel) }
+            }
+            withData(levelTriangle) { (loggerLevel, eventLevel) ->
+                TestLogger(loggerLevel).log(eventLevel) { fail("Should not be called") }
+            }
         }
     }
 })
