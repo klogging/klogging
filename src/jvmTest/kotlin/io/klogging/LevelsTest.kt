@@ -26,21 +26,38 @@ import io.kotest.matchers.shouldBe
 
 internal class LevelsTest : DescribeSpec({
     describe("`log()` only emits events at the logger’s minimum level or above") {
-        withData(Level.values().toList()) { loggerLevel ->
-            val logger = LevelsTestLogger(loggerLevel)
-            withData(Level.values().toList()) { eventLevel ->
-                randomString().let { message ->
-                    logger.log(eventLevel, message)
-
-                    if (logger.isLevelEnabled(eventLevel))
-                        logger.loggedMessage shouldBe message
-                    else
-                        logger.loggedMessage.shouldBeNull()
+        val allLevels = Level.values()
+            .filter { it != Level.NONE }
+            .flatMap { loggerLevel ->
+                Level.values().map { eventLevel ->
+                    LevelsCase(
+                        loggerLevel,
+                        eventLevel,
+                        if (
+                            loggerLevel == Level.NONE ||
+                            loggerLevel.ordinal > eventLevel.ordinal
+                        ) "no"
+                        else "YES"
+                    )
                 }
             }
+        withData(allLevels) { (loggerLevel, eventLevel, message) ->
+            val logger = LevelsTestLogger(loggerLevel)
+            logger.log(eventLevel, message)
+
+            if (logger.isLevelEnabled(eventLevel))
+                logger.loggedMessage shouldBe "YES"
+            else
+                logger.loggedMessage.shouldBeNull()
         }
     }
 })
+
+private data class LevelsCase(
+    val loggerMin: Level,
+    val event: Level,
+    val emit: String,
+)
 
 private class LevelsTestLogger(private val level: Level) : Klogger {
     override val name = "LevelsTestLogger"

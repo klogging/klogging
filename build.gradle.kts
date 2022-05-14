@@ -99,7 +99,7 @@ kotlin {
                 implementation("io.kotest:kotest-runner-junit5:$kotestVersion")
                 implementation("io.kotest:kotest-extensions-junitxml-jvm:$kotestVersion")
                 implementation("io.kotest:kotest-framework-datatest:$kotestVersion")
-                implementation("com.michaelstrasser:kotest-html-reporter:0.4.0")
+                implementation("com.michaelstrasser:kotest-html-reporter:0.5.0")
             }
         }
         val jsMain by getting
