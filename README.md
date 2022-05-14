@@ -23,10 +23,10 @@ implementation details will change** 🚧
 
 - [Goals](#goals)
 - [Quick start (JVM)](#quick-start-jvm)
-  - [Using snapshot builds](#using-snapshot-builds)
+    - [Using snapshot builds](#using-snapshot-builds)
 - [Why another logging library?](#why-another-logging-library)
-  - [Why not Logback or Log4j?](#why-not-logback-or-log4j)
-  - [Why not KotlinLogging, Log4j Kotlin, etc.?](#why-not-kotlinlogging-log4j-kotlin-etc)
+    - [Why not Logback or Log4j?](#why-not-logback-or-log4j)
+    - [Why not KotlinLogging, Log4j Kotlin, etc.?](#why-not-kotlinlogging-log4j-kotlin-etc)
 
 ## Goals
 
@@ -69,29 +69,32 @@ implementation details will change** 🚧
     }
     ```
 
-3. Create a `logger` attribute for a class, for example by using the `Klogging` interface for logging inside
+3. Create a `logger` attribute for a class, for example by using the `Klogging` interface for
+   logging inside
    coroutines:
 
     ```kotlin
     class ImportantStuff : Klogging {
         suspend fun cleverAction(runId: String, input: String) = coroutineScope {
             launch(logContext("runId" to runId)) {
-                logger.info("cleverAction using {input}", input)
+                logger.info { "cleverAction using $input" }
             }
         }
     }
     ```
-   
+
    Or by using the `NoCoLogging` interface for logging outside coroutines:
 
     ```kotlin
     class OtherStuff : NoCologging {
         fun funkyAction(input: String) {
-            logger.info("funkyAction using {input}", input)
+            logger.info { "funkyAction using $input" }
         }
     }
     ```
-   
+   These examples both call the `logger.info` function with a lambda whose value is only evaluated
+   if `logger` is currently configured to log at `INFO` level or higher.
+
 ### Using snapshot builds
 
 If you want to use the latest snapshot builds, specify these in your `build.gradle.kts`:
@@ -113,7 +116,7 @@ dependencies {
 ## Why another logging library?
 
 Klogging is designed from the ground up to be standalone, pure Kotlin and to
-be used with coroutines. 
+be used with coroutines.
 
 I could not find a logging library for Kotlin that meets these requirements:
 
