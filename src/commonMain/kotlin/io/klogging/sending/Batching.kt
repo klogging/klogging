@@ -45,7 +45,7 @@ public suspend fun <E> receiveBatch(
 ): List<E> {
     val batch = mutableListOf<E>()
     val start = TimeSource.Monotonic.markNow()
-    trace("Batching", "start: $start")
+    trace("Batching", "start: $start ${start::class.qualifiedName}")
     whileSelect {
         onTimeout(maxTimeMillis - start.elapsedNow().inWholeMilliseconds) { false }
         channel.onReceiveCatching { result ->
