@@ -84,7 +84,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinExactVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinDateTimeVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerialisationJsonVersion")
@@ -93,6 +92,7 @@ kotlin {
         val commonTest by getting
         val jvmMain by getting {
             dependencies {
+                implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinExactVersion")
                 implementation(kotlin("reflect"))
             }
         }
