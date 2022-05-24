@@ -44,7 +44,6 @@ val kotlinDateTimeVersion: String by project
 val kotlinSerialisationJsonVersion: String by project
 val kotestVersion: String by project
 val ktlintVersion: String by project
-val kotlinExactVersion: String by project
 
 java {
     toolchain {
@@ -92,7 +91,6 @@ kotlin {
         val commonTest by getting
         val jvmMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinExactVersion")
                 implementation(kotlin("reflect"))
             }
         }
