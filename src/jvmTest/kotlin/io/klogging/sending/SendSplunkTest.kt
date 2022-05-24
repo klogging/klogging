@@ -46,6 +46,7 @@ class SendSplunkTest : DescribeSpec({
             |"context":"test-context",
             |"message":"This is a message",
             |"colour":"green"
-            |}}""".trimMargin().replace("\n", "")
+            |}}
+        """.trimMargin().replace("\n", "")
     }
 })

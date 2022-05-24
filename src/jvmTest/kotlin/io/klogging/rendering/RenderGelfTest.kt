@@ -42,7 +42,8 @@ class RenderGelfTest : DescribeSpec({
                 |"timestamp":${ts.graylogFormat()},
                 |"level":${INFO.syslog},
                 |"_logger":"${event.logger}"
-                |}""".trimMargin().replace("\n", "")
+                |}
+            """.trimMargin().replace("\n", "")
         }
     }
     it("includes full_message with `stackTrace` if present") {
@@ -61,6 +62,7 @@ class RenderGelfTest : DescribeSpec({
                 |"timestamp":${ts.graylogFormat()},
                 |"level":${INFO.syslog},
                 |"_logger":"${event.logger}"
-                |}""".trimMargin().replace("\n", "")
+                |}
+        """.trimMargin().replace("\n", "")
     }
 })

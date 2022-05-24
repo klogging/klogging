@@ -42,7 +42,8 @@ class RenderClefTest : DescribeSpec({
             |"logger":"${event.logger}",
             |"context":"${event.context}",
             |"@m":"${event.message}"
-            |}""".trimMargin().replace("\n", "")
+            |}
+            """.trimMargin().replace("\n", "")
         }
         it("includes @x if `stackTrace` is present") {
             val ts = timestampNow()
@@ -61,7 +62,8 @@ class RenderClefTest : DescribeSpec({
             |"context":"${event.context}",
             |"@m":"${event.message}",
             |"@x":"${event.stackTrace}"
-            |}""".trimMargin().replace("\n", "")
+            |}
+            """.trimMargin().replace("\n", "")
         }
         it("includes @m but not @mt if `template` is null") {
             val ts = timestampNow()
@@ -77,7 +79,8 @@ class RenderClefTest : DescribeSpec({
             |"logger":"${event.logger}",
             |"context":"${event.context}",
             |"@m":"${event.message}"
-            |}""".trimMargin().replace("\n", "")
+            |}
+            """.trimMargin().replace("\n", "")
         }
         it("includes @mt but not @m if `template` is included") {
             val ts = timestampNow()
@@ -95,7 +98,8 @@ class RenderClefTest : DescribeSpec({
             |"Id":"$id",
             |"context":"${event.context}",
             |"@mt":"${event.template}"
-            |}""".trimMargin().replace("\n", "")
+            |}
+            """.trimMargin().replace("\n", "")
         }
         it("omits context if the event `context` is null") {
             val ts = timestampNow()
@@ -110,7 +114,8 @@ class RenderClefTest : DescribeSpec({
             |"host":"${event.host}",
             |"logger":"${event.logger}",
             |"@m":"${event.message}"
-            |}""".trimMargin().replace("\n", "")
+            |}
+            """.trimMargin().replace("\n", "")
         }
     }
 })
