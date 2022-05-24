@@ -18,6 +18,7 @@
 
 package io.klogging.sending
 
+import io.klogging.internal.trace
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.onClosed
@@ -44,6 +45,7 @@ public suspend fun <E> receiveBatch(
 ): List<E> {
     val batch = mutableListOf<E>()
     val start = TimeSource.Monotonic.markNow()
+    trace("Batching", "start: $start")
     whileSelect {
         onTimeout(maxTimeMillis - start.elapsedNow().inWholeMilliseconds) { false }
         channel.onReceiveCatching { result ->
