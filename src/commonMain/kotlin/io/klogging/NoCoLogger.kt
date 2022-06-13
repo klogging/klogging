@@ -24,6 +24,7 @@ import io.klogging.Level.FATAL
 import io.klogging.Level.INFO
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
+import io.klogging.events.EventItems
 import io.klogging.events.LogEvent
 
 /**
@@ -44,7 +45,7 @@ public interface NoCoLogger : BaseLogger {
         level: Level,
         throwable: Throwable?,
         event: Any?,
-        contextItems: Map<String, Any?> = mapOf(),
+        contextItems: EventItems = mapOf(),
     )
 
     public fun log(level: Level, throwable: Throwable, event: Any?): Unit =

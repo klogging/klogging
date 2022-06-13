@@ -18,6 +18,7 @@
 
 package io.klogging.rendering
 
+import io.klogging.events.EventItems
 import io.klogging.events.LogEvent
 import io.klogging.events.decimalSeconds
 import io.klogging.syslog
@@ -34,7 +35,7 @@ private const val TIME_MARKER = "XXX--TIME-MARKER--XXX"
  * JSON format.
  */
 public val RENDER_GELF: RenderString = { event: LogEvent ->
-    val eventMap: Map<String, Any?> = (
+    val eventMap: EventItems = (
         mapOf(
             "version" to "1.1",
             "host" to event.host,

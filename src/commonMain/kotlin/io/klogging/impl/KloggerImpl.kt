@@ -21,6 +21,7 @@ package io.klogging.impl
 import io.klogging.Klogger
 import io.klogging.Level
 import io.klogging.context.LogContext
+import io.klogging.events.EventItems
 import io.klogging.events.LogEvent
 import io.klogging.events.currentContext
 import io.klogging.events.timestampNow
@@ -36,7 +37,7 @@ public class KloggerImpl(
         Emitter.sendEvent(eventToLog)
     }
 
-    private suspend inline fun contextItems() =
+    private suspend inline fun contextItems(): EventItems =
         coroutineContext[LogContext]?.getAll() ?: mapOf()
 
     override suspend fun e(template: String, vararg values: Any?): LogEvent {

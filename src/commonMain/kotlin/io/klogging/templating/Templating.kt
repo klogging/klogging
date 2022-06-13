@@ -18,8 +18,10 @@
 
 package io.klogging.templating
 
+import io.klogging.events.EventItems
+
 /** Extract a map of items from a template and supplied values for the holes. */
-public fun templateItems(template: String, vararg values: Any?): Map<String, Any?> {
+public fun templateItems(template: String, vararg values: Any?): EventItems {
     val itemNames = extractItemNames(template)
     return itemNames.zip(values).toMap()
 }

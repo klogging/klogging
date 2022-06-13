@@ -19,6 +19,7 @@
 package io.klogging.sending
 
 import io.klogging.config.evalEnv
+import io.klogging.events.EventItems
 import io.klogging.events.LogEvent
 import io.klogging.events.decimalSeconds
 import io.klogging.rendering.evalTemplate
@@ -65,7 +66,7 @@ private const val TIME_MARKER = "XXX--TIME-MARKER--XXX"
  * Convert a [LogEvent] to a JSON-formatted string for Splunk
  */
 internal fun splunkEvent(endpoint: SplunkEndpoint, event: LogEvent): String {
-    val eventMap: Map<String, Any?> = (
+    val eventMap: EventItems = (
         mapOf(
             "logger" to event.logger,
             "level" to event.level.name,

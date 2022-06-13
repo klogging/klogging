@@ -21,6 +21,7 @@ package io.klogging
 import io.klogging.Level.TRACE
 import io.klogging.config.SinkConfiguration
 import io.klogging.config.loggingConfiguration
+import io.klogging.events.EventItems
 import io.klogging.events.LogEvent
 import io.klogging.events.hostname
 import io.klogging.events.timestampNow
@@ -48,7 +49,7 @@ fun logEvent(
     level: Level = randomLevel(),
     message: String = randomString(),
     stackTrace: String? = null,
-    items: Map<String, Any?> = mapOf(),
+    items: EventItems = mapOf(),
 ) = LogEvent(
     timestamp = timestamp,
     host = host,

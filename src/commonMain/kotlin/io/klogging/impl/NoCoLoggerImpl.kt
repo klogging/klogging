@@ -20,6 +20,7 @@ package io.klogging.impl
 
 import io.klogging.Level
 import io.klogging.NoCoLogger
+import io.klogging.events.EventItems
 import io.klogging.events.LogEvent
 import io.klogging.events.timestampNow
 import io.klogging.internal.Emitter
@@ -41,7 +42,7 @@ public class NoCoLoggerImpl(
         level: Level,
         throwable: Throwable?,
         event: Any?,
-        contextItems: Map<String, Any?>,
+        contextItems: EventItems,
     ) {
         val eventToLog = eventFrom(level, throwable, event, contextItems)
         launch(CoroutineName("NoCoLogger")) {

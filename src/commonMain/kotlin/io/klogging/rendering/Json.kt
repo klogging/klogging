@@ -18,6 +18,7 @@
 
 package io.klogging.rendering
 
+import io.klogging.events.EventItems
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
@@ -26,7 +27,7 @@ import kotlinx.serialization.json.JsonPrimitive
 /**
  * Serialize a map with string keys to JSON.
  */
-public fun serializeMap(map: Map<String, Any?>): String {
+public fun serializeMap(map: EventItems): String {
     val element = map.toJsonElement()
     return element.toString()
 }

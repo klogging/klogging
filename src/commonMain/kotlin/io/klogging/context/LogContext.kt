@@ -18,6 +18,7 @@
 
 package io.klogging.context
 
+import io.klogging.events.EventItems
 import kotlin.coroutines.AbstractCoroutineContextElement
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.coroutineContext
@@ -36,7 +37,7 @@ public class LogContext internal constructor(
     public fun get(key: String): Any? = items[key]
 
     /** Get all objects from the [LogContext] as a map. */
-    public fun getAll(): Map<String, Any?> = items.toMap()
+    public fun getAll(): EventItems = items.toMap()
 
     /** Put zero or more items into the [LogContext]. */
     internal fun putItems(vararg newItems: Pair<String, Any?>) {

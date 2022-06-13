@@ -23,6 +23,8 @@ import kotlinx.datetime.Instant
 import kotlin.random.Random
 import kotlin.random.nextUInt
 
+public typealias EventItems = Map<String, Any?>
+
 /** An event at a point in time with information about the running state of a program. */
 public data class LogEvent(
     /** Unique identifier for this event. */
@@ -52,7 +54,7 @@ public data class LogEvent(
      * If the message string was constructed from a template, there is one item per
      * hole in the template.
      */
-    val items: Map<String, Any?> = mapOf(),
+    val items: EventItems = mapOf(),
 ) {
     /**
      * Copy this [LogEvent], setting the level, the stack trace from any error or exception, and
@@ -63,7 +65,7 @@ public data class LogEvent(
     internal fun copyWith(
         newLevel: Level,
         newStacktrace: String? = null,
-        contextItems: Map<String, Any?> = mapOf()
+        contextItems: EventItems = mapOf()
     ): LogEvent = LogEvent(
         id = id,
         timestamp = timestamp,

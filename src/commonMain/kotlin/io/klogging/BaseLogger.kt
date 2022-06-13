@@ -25,6 +25,7 @@ import io.klogging.Level.INFO
 import io.klogging.Level.NONE
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
+import io.klogging.events.EventItems
 import io.klogging.events.LogEvent
 import io.klogging.internal.KloggingEngine
 
@@ -81,7 +82,7 @@ public interface BaseLogger {
         level: Level,
         throwable: Throwable?,
         eventObject: Any?,
-        contextItems: Map<String, Any?> = mapOf(),
+        contextItems: EventItems = mapOf(),
     ): LogEvent {
         return when (eventObject) {
             is LogEvent ->
