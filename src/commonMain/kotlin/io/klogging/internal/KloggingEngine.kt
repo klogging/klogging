@@ -62,7 +62,7 @@ public object KloggingEngine {
     }
 
     /** Return the current configuration, ensuring it is never null. */
-    private val currentConfig: KloggingConfiguration
+    internal val currentConfig: KloggingConfiguration
         get() = currentState[CURRENT_STATE] ?: DEFAULT_CONFIG
 
     /** Map of the current [Sink]s used for sending log events. */

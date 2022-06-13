@@ -21,12 +21,14 @@ package io.klogging.config
 import io.klogging.Level
 import io.klogging.Level.INFO
 import io.klogging.Level.NONE
+import io.klogging.context.ContextItemExtractor
 import io.klogging.internal.KloggingEngine
 import io.klogging.internal.info
 import io.klogging.internal.warn
 import io.klogging.rendering.RenderString
 import io.klogging.sending.EventSender
 import io.klogging.sending.SendString
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Set the default Klogging log level from the environment using name
@@ -63,6 +65,8 @@ public class KloggingConfiguration {
 
     internal val sinks = mutableMapOf<String, SinkConfiguration>()
     internal val configs = mutableListOf<LoggingConfig>()
+    internal val otherContextExtractors =
+        mutableMapOf<CoroutineContext.Key<*>, ContextItemExtractor>()
 
     internal var kloggingMinLogLevel: Level = defaultKloggingMinLogLevel
 
@@ -112,6 +116,21 @@ public class KloggingConfiguration {
         configs.add(loggingConfig)
     }
 
+    /**
+     * DSL function to add a [ContextItemExtractor] that extracts an item map from a
+     * coroutine context element.
+     *
+     * @param key key to a coroutine context element
+     * @param extractor lambda
+     */
+    @ConfigDsl
+    public fun addContextItemExtractor(
+        key: CoroutineContext.Key<*>,
+        extractor: ContextItemExtractor
+    ) {
+        otherContextExtractors[key] = extractor
+    }
+
     /** Calculate the minimum level of all level ranges in all configurations. */
     public fun minimumLevelOf(loggerName: String): Level = configs
         .filter { it.nameMatcher(loggerName) }
@@ -125,7 +144,12 @@ public class KloggingConfiguration {
             .flatMap { it.sinkNames }
             .toSet()
         val extraSinks = loggingSinks - sinks.keys
-        extraSinks.forEach { warn("Configuration", "Sink `$it` was not defined and will be ignored") }
+        extraSinks.forEach {
+            warn(
+                "Configuration",
+                "Sink `$it` was not defined and will be ignored"
+            )
+        }
     }
 
     /**
@@ -139,5 +163,6 @@ public class KloggingConfiguration {
         configs.addAll(other.configs)
         if (kloggingMinLogLevel > other.kloggingMinLogLevel)
             kloggingMinLogLevel = other.kloggingMinLogLevel
+        otherContextExtractors.putAll(other.otherContextExtractors)
     }
 }

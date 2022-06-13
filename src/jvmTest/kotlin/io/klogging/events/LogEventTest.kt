@@ -36,8 +36,8 @@ class LogEventTest : DescribeSpec({
     describe("Constructing logging events") {
         describe("with context items") {
             it("does not include context items if there are none") {
-                val saved = savedEvents()
                 val logger = logger("LogEventTest")
+                val saved = savedEvents()
                 logger.info("Test message")
 
                 eventually(1.seconds) {
@@ -46,8 +46,8 @@ class LogEventTest : DescribeSpec({
             }
             it("includes any items from the coroutine log context") {
                 launch(logContext("colour" to "white")) {
-                    val saved = savedEvents()
                     val logger = logger("LogEventTest")
+                    val saved = savedEvents()
                     logger.info("Test message")
 
                     eventually(1.seconds) {
