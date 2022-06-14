@@ -18,17 +18,18 @@
 
 package io.klogging.context
 
+import io.klogging.events.EventItems
 import kotlin.coroutines.CoroutineContext
 
 /**
  * Functional type that returns a map of logging items.
  */
-public typealias ContextItemExtractor = (CoroutineContext.Element) -> Map<String, Any?>
+public typealias ContextItemExtractor = (CoroutineContext.Element) -> EventItems
 
 /**
  * Get other context event items from a coroutine context.
  */
 internal fun <T : CoroutineContext.Element> CoroutineContext.otherContextItems(
     key: CoroutineContext.Key<T>,
-    itemExtractor: (T) -> Map<String, Any?>
-): Map<String, Any?> = get(key)?.let { itemExtractor(it) } ?: mapOf()
+    itemExtractor: (T) -> EventItems
+): EventItems = get(key)?.let { itemExtractor(it) } ?: mapOf()

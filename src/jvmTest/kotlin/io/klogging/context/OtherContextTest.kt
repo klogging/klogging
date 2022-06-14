@@ -68,9 +68,12 @@ class OtherContextTest : DescribeSpec({
                 logger.info("Testing: {name}", "Fred")
             }
 
-            eventually(1.seconds) {
-                saved.first().items shouldContain ("Other" to "Value")
-                saved.first().items shouldContain ("name" to "Fred")
+            val event = eventually(1.seconds) {
+                saved.first()
+            }
+            with(event.items) {
+                shouldContain("Other" to "Value")
+                shouldContain("name" to "Fred")
             }
         }
         it("does not get event items from another context if there are none") {
