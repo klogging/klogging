@@ -24,8 +24,6 @@ import kotlinx.coroutines.channels.onClosed
 import kotlinx.coroutines.channels.onFailure
 import kotlinx.coroutines.channels.onSuccess
 import kotlinx.coroutines.selects.whileSelect
-import kotlin.time.ExperimentalTime
-import kotlin.time.TimeSource
 
 /**
  * Receive a batch of items from a channel, up to time and batch size limits.
@@ -36,16 +34,15 @@ import kotlin.time.TimeSource
  *
  * @return the list of items in the order received
  */
-@OptIn(ExperimentalCoroutinesApi::class, ExperimentalTime::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 public suspend fun <E> receiveBatch(
     channel: ReceiveChannel<E>,
     maxTimeMillis: Long,
     maxSize: Int,
 ): List<E> {
     val batch = mutableListOf<E>()
-    val start = TimeSource.Monotonic.markNow()
     whileSelect {
-        onTimeout(maxTimeMillis - start.elapsedNow().inWholeMilliseconds) { false }
+        onTimeout(maxTimeMillis) { false }
         channel.onReceiveCatching { result ->
             result.onFailure { if (it != null) throw it }
                 .onClosed { return@onReceiveCatching false }
