@@ -2,7 +2,7 @@ project_name: klogging
 
 containers:
   build-env:
-    image: openjdk:17.0.1-jdk-buster@sha256:0d48022027a3b0714e73536ae8ebb9c55582a53ba1dc490fe42f63feb4061bf5
+    image: eclipse-temurin:17.0.3_7-jdk@sha256:f7b969d455abeefb9cad0280477e067d8340c22a081347a94c6fe22d0c67d420
     volumes:
       - local: .
         container: /code
