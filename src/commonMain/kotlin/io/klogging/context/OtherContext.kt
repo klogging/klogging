@@ -24,12 +24,12 @@ import kotlin.coroutines.CoroutineContext
 /**
  * Functional type that returns a map of logging items.
  */
-public typealias ContextItemExtractor = CoroutineContext.Element.() -> EventItems
+public typealias ContextItemExtractor = suspend (CoroutineContext.Element) -> EventItems
 
 /**
  * Get other context event items from a coroutine context.
  */
-internal fun <T : CoroutineContext.Element> CoroutineContext.otherContextItems(
+internal suspend fun <T : CoroutineContext.Element> CoroutineContext.otherContextItems(
     key: CoroutineContext.Key<T>,
-    itemExtractor: T.() -> EventItems
-): EventItems = get(key)?.let { it.itemExtractor() } ?: mapOf()
+    itemExtractor: suspend (T) -> EventItems
+): EventItems = get(key)?.let { itemExtractor(it) } ?: mapOf()
