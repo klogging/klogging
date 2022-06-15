@@ -23,13 +23,15 @@ import io.klogging.config.KloggingConfiguration
 import io.klogging.config.LoggingConfig
 import io.klogging.config.SinkConfiguration
 import io.klogging.config.configLoadedFromFile
+import io.klogging.context.ContextItemExtractor
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Object that is the centre of Klogging processing.
  *
  * All static state should be managed here.
  */
-public object KloggingEngine {
+internal object KloggingEngine {
 
     /** Default, empty configuration. */
     private val DEFAULT_CONFIG = KloggingConfiguration()
@@ -48,6 +50,12 @@ public object KloggingEngine {
         currentConfig
     }
 
+    /**
+     * Map of functions that extract event items from other coroutine context elements.
+     */
+    internal val otherContextExtractors =
+        mutableMapOf<CoroutineContext.Key<*>, ContextItemExtractor>()
+
     /** Set a new configuration, replacing the existing one.  */
     internal fun setConfig(config: KloggingConfiguration) {
         // No synchronisation or locking yet.
@@ -62,7 +70,7 @@ public object KloggingEngine {
     }
 
     /** Return the current configuration, ensuring it is never null. */
-    internal val currentConfig: KloggingConfiguration
+    private val currentConfig: KloggingConfiguration
         get() = currentState[CURRENT_STATE] ?: DEFAULT_CONFIG
 
     /** Map of the current [Sink]s used for sending log events. */

@@ -16,20 +16,28 @@
 
 */
 
-package io.klogging.context
+package io.klogging.config
 
-import io.klogging.events.EventItems
+import io.klogging.context.ContextItemExtractor
+import io.klogging.internal.KloggingEngine
 import kotlin.coroutines.CoroutineContext
 
 /**
- * Functional type that returns a map of logging items.
+ * Object for configuring context information that will be included in log events.
  */
-public typealias ContextItemExtractor = CoroutineContext.Element.() -> EventItems
+public object ContextConfig {
 
-/**
- * Get other context event items from a coroutine context.
- */
-internal fun <T : CoroutineContext.Element> CoroutineContext.otherContextItems(
-    key: CoroutineContext.Key<T>,
-    itemExtractor: T.() -> EventItems
-): EventItems = get(key)?.let { it.itemExtractor() } ?: mapOf()
+    /**
+     * Function to add a [ContextItemExtractor] that extracts an item map from a
+     * coroutine context element.
+     *
+     * @param key key to a coroutine context element
+     * @param extractor lambda
+     */
+    public fun addContextItemExtractor(
+        key: CoroutineContext.Key<*>,
+        extractor: ContextItemExtractor
+    ) {
+        KloggingEngine.otherContextExtractors[key] = extractor
+    }
+}

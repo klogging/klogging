@@ -44,7 +44,7 @@ public class KloggerImpl(
         val logContextItems = coroutineContext[LogContext]?.getAll()
             ?.toMutableMap()
             ?: mutableMapOf()
-        return KloggingEngine.currentConfig.otherContextExtractors.entries
+        return KloggingEngine.otherContextExtractors.entries
             .fold(logContextItems) { items, entry ->
                 items.putAll(currentCoroutineContext().otherContextItems(entry.key, entry.value))
                 items

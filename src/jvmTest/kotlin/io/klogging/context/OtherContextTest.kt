@@ -18,13 +18,12 @@
 
 package io.klogging.context
 
-import io.klogging.config.loggingConfiguration
+import io.klogging.config.ContextConfig
 import io.klogging.logger
 import io.klogging.savedEvents
 import io.kotest.assertions.timing.eventually
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.matchers.maps.shouldContain
-import io.kotest.matchers.shouldBe
+import io.kotest.matchers.maps.shouldContainExactly
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.AbstractCoroutineContextElement
 import kotlin.coroutines.CoroutineContext
@@ -39,7 +38,7 @@ class OtherContextTest : DescribeSpec({
             logger.info("Testing: {name}", "Fred")
 
             eventually(1.seconds) {
-                saved.first().items shouldContain ("name" to "Fred")
+                saved.first().items shouldContainExactly mapOf("name" to "Fred")
             }
         }
         it("ignores context elements with no extractor configured") {
@@ -51,69 +50,58 @@ class OtherContextTest : DescribeSpec({
             }
 
             eventually(1.seconds) {
-                saved.first().items shouldContain ("name" to "Fred")
+                saved.first().items shouldContainExactly mapOf("name" to "Fred")
             }
         }
         it("gets event items from another context if an extractor is configured") {
             val logger = logger<OtherContextTest>()
             val saved = savedEvents()
-            val extractor: ContextItemExtractor = { _ ->
-                mapOf("Other" to "Value")
-            }
-            loggingConfiguration(append = true) {
-                addContextItemExtractor(TestOtherContext, extractor)
-            }
-
-            withContext(TestOtherContext()) {
-                logger.info("Testing: {name}", "Fred")
-            }
-
-            val event = eventually(1.seconds) {
-                saved.first()
-            }
-            with(event.items) {
-                shouldContain("Other" to "Value")
-                shouldContain("name" to "Fred")
-            }
-        }
-        it("does not get event items from another context if there are none") {
-            val logger = logger<OtherContextTest>()
-            val saved = savedEvents()
-            val extractor: ContextItemExtractor = { _ -> emptyMap() }
-            loggingConfiguration(append = true) {
-                addContextItemExtractor(TestOtherContext, extractor)
-            }
+            val extractor: ContextItemExtractor = { mapOf("Other" to "Value") }
+            ContextConfig.addContextItemExtractor(TestOtherContext, extractor)
 
             withContext(TestOtherContext()) {
                 logger.info("Testing: {name}", "Fred")
             }
 
             eventually(1.seconds) {
-                saved.first().items shouldContain ("name" to "Fred")
+                saved.first().items shouldContainExactly mapOf(
+                    "Other" to "Value",
+                    "name" to "Fred",
+                )
+            }
+        }
+        it("does not get event items from another context if there are none") {
+            val logger = logger<OtherContextTest>()
+            val saved = savedEvents()
+            val extractor: ContextItemExtractor = { emptyMap() }
+            ContextConfig.addContextItemExtractor(TestOtherContext, extractor)
+
+            withContext(TestOtherContext()) {
+                logger.info("Testing: {name}", "Fred")
+            }
+
+            eventually(1.seconds) {
+                saved.first().items shouldContainExactly mapOf("name" to "Fred")
             }
         }
         it("combines event items from log context and other context") {
             val logger = logger<OtherContextTest>()
             val saved = savedEvents()
-            val extractor: ContextItemExtractor = { _ ->
+            val extractor: ContextItemExtractor = {
                 mapOf("Other" to "Value")
             }
-            loggingConfiguration(append = true) {
-                addContextItemExtractor(TestOtherContext, extractor)
-            }
+            ContextConfig.addContextItemExtractor(TestOtherContext, extractor)
 
             withContext(TestOtherContext() + logContext("this" to "that")) {
                 logger.info("Testing: {name}", "Fred")
             }
 
-            val event = eventually(1.seconds) {
-                saved.first()
-            }
-            with(event.items) {
-                size shouldBe 3
-                shouldContain("this" to "that")
-                shouldContain("Other" to "Value")
-                shouldContain("name" to "Fred")
+            eventually(1.seconds) {
+                saved.first().items shouldContainExactly mapOf(
+                    "this" to "that",
+                    "Other" to "Value",
+                    "name" to "Fred",
+                )
             }
         }
     }
