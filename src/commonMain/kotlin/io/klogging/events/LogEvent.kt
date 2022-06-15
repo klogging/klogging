@@ -78,6 +78,12 @@ public data class LogEvent(
         stackTrace = newStacktrace,
         items = contextItems + items,
     )
+
+    /**
+     * Add context items to an event, returning a new event.
+     */
+    internal fun addContext(contextItems: EventItems) =
+        copyWith(this.level, this.stackTrace, contextItems)
 }
 
 /**

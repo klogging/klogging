@@ -32,16 +32,19 @@ internal object Dispatcher : CoroutineScope {
         get() = kloggingParentContext
 
     /**
-     * Dispatch a [LogEvent] to selected targets.
+     * Dispatch a [LogEvent] to selected targets. Base context items are included here.
      *
      * Each is dispatched in a separate coroutine.
      */
     internal fun dispatchEvent(logEvent: LogEvent) {
 
         // If we are tracing Klogging, add event ID to the items map.
-        val event = if (KloggingEngine.kloggingMinLogLevel() == TRACE)
-            logEvent.copyWith(logEvent.level, logEvent.stackTrace, mapOf("eventId" to logEvent.id))
-        else logEvent
+        val traceContext = if (KloggingEngine.kloggingMinLogLevel() == TRACE)
+            mapOf("eventId" to logEvent.id)
+        else
+            mapOf()
+
+        val event = logEvent.addContext(traceContext + KloggingEngine.baseContextItems)
 
         sinksFor(logEvent.logger, logEvent.level)
             .forEach { sink ->
