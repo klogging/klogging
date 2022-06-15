@@ -56,6 +56,11 @@ internal object KloggingEngine {
     internal val otherContextExtractors =
         mutableMapOf<CoroutineContext.Key<*>, ContextItemExtractor>()
 
+    /**
+     * Map of context items to include in all log events.
+     */
+    internal val baseContextItems: MutableMap<String, Any?> = mutableMapOf()
+
     /** Set a new configuration, replacing the existing one.  */
     internal fun setConfig(config: KloggingConfiguration) {
         // No synchronisation or locking yet.

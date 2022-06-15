@@ -41,11 +41,11 @@ public class KloggerImpl(
     }
 
     private suspend inline fun contextItems(): EventItems {
-        val logContextItems = coroutineContext[LogContext]?.getAll()
-            ?.toMutableMap()
-            ?: mutableMapOf()
+        val currentItems = mutableMapOf<String, Any?>()
+        currentItems.putAll(KloggingEngine.baseContextItems)
+        currentItems.putAll(coroutineContext[LogContext]?.getAll() ?: mapOf())
         return KloggingEngine.otherContextExtractors.entries
-            .fold(logContextItems) { items, entry ->
+            .fold(currentItems) { items, entry ->
                 items.putAll(currentCoroutineContext().otherContextItems(entry.key, entry.value))
                 items
             }

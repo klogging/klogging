@@ -18,7 +18,7 @@
 
 package io.klogging.context
 
-import io.klogging.config.ContextConfig
+import io.klogging.config.Context
 import io.klogging.logger
 import io.klogging.savedEvents
 import io.kotest.assertions.timing.eventually
@@ -57,7 +57,7 @@ class OtherContextTest : DescribeSpec({
             val logger = logger<OtherContextTest>()
             val saved = savedEvents()
             val extractor: ContextItemExtractor = { mapOf("Other" to "Value") }
-            ContextConfig.addContextItemExtractor(TestOtherContext, extractor)
+            Context.addContextItemExtractor(TestOtherContext, extractor)
 
             withContext(TestOtherContext()) {
                 logger.info("Testing: {name}", "Fred")
@@ -74,7 +74,7 @@ class OtherContextTest : DescribeSpec({
             val logger = logger<OtherContextTest>()
             val saved = savedEvents()
             val extractor: ContextItemExtractor = { emptyMap() }
-            ContextConfig.addContextItemExtractor(TestOtherContext, extractor)
+            Context.addContextItemExtractor(TestOtherContext, extractor)
 
             withContext(TestOtherContext()) {
                 logger.info("Testing: {name}", "Fred")
@@ -90,7 +90,7 @@ class OtherContextTest : DescribeSpec({
             val extractor: ContextItemExtractor = {
                 mapOf("Other" to "Value")
             }
-            ContextConfig.addContextItemExtractor(TestOtherContext, extractor)
+            Context.addContextItemExtractor(TestOtherContext, extractor)
 
             withContext(TestOtherContext() + logContext("this" to "that")) {
                 logger.info("Testing: {name}", "Fred")

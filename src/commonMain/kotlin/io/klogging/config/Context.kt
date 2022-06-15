@@ -25,7 +25,31 @@ import kotlin.coroutines.CoroutineContext
 /**
  * Object for configuring context information that will be included in log events.
  */
-public object ContextConfig {
+public object Context {
+
+    /**
+     * Add one or more items to the base context, to be included in every log event.
+     */
+    public fun addBaseContext(vararg contextItems: Pair<String, Any?>) {
+        KloggingEngine.baseContextItems.putAll(contextItems)
+    }
+
+    /**
+     * Remove one or more items from the base context so they are no longer included
+     * in every log event.
+     */
+    public fun removeBaseContext(vararg keys: String) {
+        keys.forEach { key ->
+            KloggingEngine.baseContextItems.remove(key)
+        }
+    }
+
+    /**
+     * Clear base context items.
+     */
+    public fun clearBaseContext() {
+        KloggingEngine.baseContextItems.clear()
+    }
 
     /**
      * Function to add a [ContextItemExtractor] that extracts an item map from a
