@@ -2,7 +2,7 @@ project_name: slf4j-klogging
 
 containers:
   build-env:
-    image: openjdk:11.0.12-jdk-buster@sha256:a3756c38d41fd14eb370bc299422e2f6867db27ad65b797bda93328d7af62143
+    image: eclipse-temurin:17.0.3_7-jdk@f7b969d455abeefb9cad0280477e067d8340c22a081347a94c6fe22d0c67d420
     volumes:
       - local: .
         container: /code
