@@ -57,7 +57,7 @@ class OtherContextTest : DescribeSpec({
         it("gets event items from another context if an extractor is configured") {
             val logger = logger<OtherContextTest>()
             val saved = savedEvents()
-            Context.addContextItemExtractor(TestOtherContext, ::extractor as ContextItemExtractor)
+            Context.addContextItemExtractor(TestOtherContext, ::extractor)
 
             withContext(TestOtherContext("rhubarb")) {
                 logger.info("Testing: {name}", "Fred")
@@ -73,7 +73,7 @@ class OtherContextTest : DescribeSpec({
         it("does not get event items from another context if there are none") {
             val logger = logger<OtherContextTest>()
             val saved = savedEvents()
-            Context.addContextItemExtractor(TestOtherContext, ::extractor as ContextItemExtractor)
+            Context.addContextItemExtractor(TestOtherContext, ::extractor)
 
             withContext(TestOtherContext()) {
                 logger.info("Testing: {name}", "Fred")
@@ -86,7 +86,7 @@ class OtherContextTest : DescribeSpec({
         it("combines event items from log context and other context") {
             val logger = logger<OtherContextTest>()
             val saved = savedEvents()
-            Context.addContextItemExtractor(TestOtherContext, ::extractor as ContextItemExtractor)
+            Context.addContextItemExtractor(TestOtherContext, ::extractor)
 
             withContext(TestOtherContext("apples") + logContext("this" to "that")) {
                 logger.info("Testing: {name}", "Fred")

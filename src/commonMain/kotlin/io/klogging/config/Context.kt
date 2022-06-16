@@ -19,6 +19,7 @@
 package io.klogging.config
 
 import io.klogging.context.ContextItemExtractor
+import io.klogging.events.EventItems
 import io.klogging.internal.KloggingEngine
 import kotlin.coroutines.CoroutineContext
 
@@ -58,10 +59,11 @@ public object Context {
      * @param key key to a coroutine context element
      * @param extractor lambda
      */
-    public fun addContextItemExtractor(
-        key: CoroutineContext.Key<*>,
-        extractor: ContextItemExtractor
+    public fun <T : CoroutineContext.Element> addContextItemExtractor(
+        key: CoroutineContext.Key<T>,
+        extractor: suspend (T) -> EventItems
     ) {
-        KloggingEngine.otherContextExtractors[key] = extractor
+        @Suppress("UNCHECKED_CAST")
+        KloggingEngine.otherContextExtractors[key] = extractor as ContextItemExtractor
     }
 }
