@@ -23,21 +23,15 @@ import io.klogging.build.configureSpotless
 import io.klogging.build.configureTesting
 import io.klogging.build.configureWrapper
 
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    kotlin("jvm")
+    alias(libs.plugins.kotlin)
     `java-library`
     `maven-publish`
 }
 
 group = "io.klogging"
-version = "0.2.6"
-
-val jacocoVersion: String by project
-val kloggingVersion: String by project
-val kotestVersion: String by project
-val ktlintVersion: String by project
-val slf4jVersion: String by project
-val kotestReporterVersion: String by project
+version = "0.2.7"
 
 repositories {
     mavenCentral()
@@ -47,11 +41,11 @@ dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    api("io.klogging:klogging-jvm:$kloggingVersion")
-    api("org.slf4j:slf4j-api:$slf4jVersion")
+    api(libs.klogging)
+    api(libs.slf4j)
 
-    testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
-    testImplementation("com.michaelstrasser:kotest-html-reporter:$kotestReporterVersion")
+    testImplementation(libs.kotest)
+    testImplementation(libs.html.reporter)
 }
 
 kotlin {
@@ -85,8 +79,8 @@ publishing {
 }
 
 configureAssemble()
-configureJacoco(jacocoVersion)
+configureJacoco(libs.versions.jacoco.get())
 configurePublishing()
-configureSpotless(ktlintVersion)
+configureSpotless(libs.versions.ktlint.get())
 configureTesting()
 configureWrapper()

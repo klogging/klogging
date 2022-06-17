@@ -16,17 +16,10 @@
 
 */
 
-plugins {
-    `kotlin-dsl`
-    alias(libs.plugins.versions)
-}
-
-repositories {
-    maven("https://plugins.gradle.org/m2/")
-}
-
-dependencies {
-    implementation(libs.spotless)
-    implementation(libs.reckon)
-    implementation(libs.publish)
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("libs") {
+            from(files("../libs.versions.toml"))
+        }
+    }
 }

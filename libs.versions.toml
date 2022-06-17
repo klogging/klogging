@@ -1,0 +1,27 @@
+[versions]
+kotlin = "1.7.0"
+klogging = "0.4.9"
+jacoco = "0.8.7"
+kotest = "5.3.1"
+ktlint = "0.41.0"
+slf4j = "1.7.36"
+versions = "0.42.0"
+html-reporter = "0.5.0"
+spotless = "6.0.0"
+reckon = "0.13.0"
+publish = "1.1.0"
+
+[libraries]
+klogging = { module = "io.klogging:klogging-jvm", version.ref = "klogging" }
+slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+kotest = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+html-reporter = { module = "com.michaelstrasser:kotest-html-reporter", version.ref = "html-reporter" }
+spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
+reckon = { module = "org.ajoberstar.reckon:reckon-gradle", version.ref = "reckon" }
+publish = { module = "io.github.gradle-nexus:publish-plugin", version.ref = "publish" }
+
+[bundles]
+
+[plugins]
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+versions = { id = "com.github.ben-manes.versions", version.ref = "versions" }
