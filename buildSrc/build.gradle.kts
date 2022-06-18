@@ -18,19 +18,15 @@
 
 plugins {
     `kotlin-dsl`
-    id("com.github.ben-manes.versions") version "0.42.0"
+    alias(libs.plugins.versions)
 }
 
 repositories {
     maven("https://plugins.gradle.org/m2/")
 }
 
-val spotlessVersion: String by project
-val reckonVersion: String by project
-val nexusPublishingVersion: String by project
-
 dependencies {
-    implementation("com.diffplug.spotless:spotless-plugin-gradle:$spotlessVersion")
-    implementation("org.ajoberstar.reckon:reckon-gradle:$reckonVersion")
-    implementation("io.github.gradle-nexus:publish-plugin:$nexusPublishingVersion")
+    implementation(libs.spotless)
+    implementation(libs.reckon)
+    implementation(libs.publish)
 }

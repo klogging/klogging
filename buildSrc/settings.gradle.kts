@@ -16,25 +16,10 @@
 
 */
 
-rootProject.name = "klogging"
-
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
-            from(files("./libs.versions.toml"))
+            from(files("../libs.versions.toml"))
         }
-    }
-}
-
-pluginManagement {
-    val kotlinVersion: String by settings
-    val versionsPluginVersion: String by settings
-    val dokkaVersion: String by settings
-
-    plugins {
-        kotlin("multiplatform") version kotlinVersion
-        kotlin("plugin.serialization") version kotlinVersion
-        id("com.github.ben-manes.versions") version versionsPluginVersion
-        id("org.jetbrains.dokka") version dokkaVersion
     }
 }

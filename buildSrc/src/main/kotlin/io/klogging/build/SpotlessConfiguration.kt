@@ -86,7 +86,7 @@ fun Project.configureSpotless(ktlintVersion: String) {
             ktlint(ktlintVersion)
 
             @Suppress("INACCESSIBLE_TYPE")
-            licenseHeader(kotlinLicenceHeader, "import|tasks|apply|plugins|rootProject")
+            licenseHeader(kotlinLicenceHeader, "import|tasks|apply|plugins|rootProject|dependencyResolutionManagement")
 
             trimTrailingWhitespace()
             indentWithSpaces()

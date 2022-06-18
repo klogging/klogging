@@ -24,26 +24,20 @@ import io.klogging.build.configureTesting
 import io.klogging.build.configureWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
-    id("com.github.ben-manes.versions")
-    id("org.jetbrains.dokka")
+    alias(libs.plugins.versions)
+    alias(libs.plugins.dokka)
 }
 
 group = "io.klogging"
-version = "0.4.9"
+version = "0.5.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
 }
-
-val jacocoVersion: String by project
-val kotlinCoroutinesVersion: String by project
-val kotlinDateTimeVersion: String by project
-val kotlinSerialisationJsonVersion: String by project
-val kotestVersion: String by project
-val ktlintVersion: String by project
 
 java {
     toolchain {
@@ -83,9 +77,9 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinDateTimeVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerialisationJsonVersion")
+                implementation(libs.kotlin.coroutines)
+                implementation(libs.kotlin.datetime)
+                implementation(libs.kotlin.serialisation.json)
             }
         }
         val commonTest by getting
@@ -96,10 +90,10 @@ kotlin {
         }
         val jvmTest by getting {
             dependencies {
-                implementation("io.kotest:kotest-runner-junit5:$kotestVersion")
-                implementation("io.kotest:kotest-extensions-junitxml-jvm:$kotestVersion")
-                implementation("io.kotest:kotest-framework-datatest:$kotestVersion")
-                implementation("com.michaelstrasser:kotest-html-reporter:0.5.0")
+                implementation(libs.kotest.junit)
+                implementation(libs.kotest.xml)
+                implementation(libs.kotest.datatest)
+                implementation(libs.html.reporter)
             }
         }
         val jsMain by getting
@@ -133,8 +127,8 @@ tasks.dokkaHtml.configure {
 }
 
 configureAssemble()
-configureJacoco(jacocoVersion)
+configureJacoco(libs.versions.jacoco.get())
 configurePublishing()
-configureSpotless(ktlintVersion)
+configureSpotless(libs.versions.ktlint.get())
 configureTesting()
 configureWrapper()
