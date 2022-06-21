@@ -175,7 +175,7 @@ internal class JsonConfigurationTest : DescribeSpec({
         describe("sink configuration") {
             describe("using `renderWith` and `sendTo` keys") {
                 it("returns a configuration using names of built-in components") {
-                    val sinkConfig = Json.decodeFromString<JsonSinkConfiguration>(
+                    val sinkConfig = Json.decodeFromString<FileSinkConfiguration>(
                         """{
                         "renderWith": "RENDER_SIMPLE",
                         "sendTo": "STDOUT"
@@ -187,7 +187,7 @@ internal class JsonConfigurationTest : DescribeSpec({
                     sinkConfig?.stringSender shouldBe STDOUT
                 }
                 it("returns null if `renderWith` key is missing") {
-                    val sinkConfig = Json.decodeFromString<JsonSinkConfiguration>(
+                    val sinkConfig = Json.decodeFromString<FileSinkConfiguration>(
                         """{
                         "sendTo": "STDOUT"
                     }
@@ -197,7 +197,7 @@ internal class JsonConfigurationTest : DescribeSpec({
                     sinkConfig shouldBe null
                 }
                 it("returns null if `sendTo` key is missing") {
-                    val sinkConfig = Json.decodeFromString<JsonSinkConfiguration>(
+                    val sinkConfig = Json.decodeFromString<FileSinkConfiguration>(
                         """{
                         "renderWith": "RENDER_SIMPLE"
                     }
@@ -207,7 +207,7 @@ internal class JsonConfigurationTest : DescribeSpec({
                     sinkConfig shouldBe null
                 }
                 it("returns null if names are not of built-in components") {
-                    val sinkConfig = Json.decodeFromString<JsonSinkConfiguration>(
+                    val sinkConfig = Json.decodeFromString<FileSinkConfiguration>(
                         """{
                         "renderWith": "${randomString()}",
                         "sendTo": "${randomString()}"
@@ -220,7 +220,7 @@ internal class JsonConfigurationTest : DescribeSpec({
             }
             describe("using `seqServer` key") {
                 it("returns a Seq configuration with RENDER_CLEF if only that key is present") {
-                    val sinkConfig = Json.decodeFromString<JsonSinkConfiguration>(
+                    val sinkConfig = Json.decodeFromString<FileSinkConfiguration>(
                         """{
                         "seqServer": "http://localhost:5341"
                     }
@@ -230,7 +230,7 @@ internal class JsonConfigurationTest : DescribeSpec({
                     sinkConfig?.renderer shouldBe RENDER_CLEF
                 }
                 it("returns a Seq configuration with another renderer if specified") {
-                    val sinkConfig = Json.decodeFromString<JsonSinkConfiguration>(
+                    val sinkConfig = Json.decodeFromString<FileSinkConfiguration>(
                         """{
                         "seqServer": "http://localhost:5341",
                         "renderWith": "RENDER_SIMPLE"
@@ -241,7 +241,7 @@ internal class JsonConfigurationTest : DescribeSpec({
                     sinkConfig?.renderer shouldBe RENDER_SIMPLE
                 }
                 it("returns a Seq configuration, overriding any other dispatcher") {
-                    val sinkConfig = Json.decodeFromString<JsonSinkConfiguration>(
+                    val sinkConfig = Json.decodeFromString<FileSinkConfiguration>(
                         """{
                         "seqServer": "http://localhost:5341",
                         "sendTo": "STDOUT"

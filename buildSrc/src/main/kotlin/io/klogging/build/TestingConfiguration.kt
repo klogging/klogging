@@ -38,7 +38,7 @@ fun Project.configureTesting() {
             showExceptions = true
             showStackTraces = true
             showCauses = true
-            exceptionFormat = TestExceptionFormat.FULL
+            exceptionFormat = TestExceptionFormat.SHORT
         }
     }
 }
