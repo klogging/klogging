@@ -40,7 +40,7 @@ internal class JsonConfigurationTest : DescribeSpec({
     describe("Configuration from JSON") {
         describe("invalid JSON") {
             it("does not configure anything") {
-                val config = configureFromJson("*** THIS IS NOT JSON ***")
+                val config = JsonConfiguration.configure("*** THIS IS NOT JSON ***")
 
                 config?.apply {
                     sinks shouldHaveSize 0
@@ -51,7 +51,7 @@ internal class JsonConfigurationTest : DescribeSpec({
         describe("simple, using built-in, named configuration") {
             it("sets up the configuration") {
                 val simpleJsonConfig = """{ "configName": "DEFAULT_CONSOLE" }"""
-                val config = configureFromJson(simpleJsonConfig)
+                val config = JsonConfiguration.configure(simpleJsonConfig)
 
                 config?.apply {
                     sinks shouldHaveSize 1
@@ -74,7 +74,7 @@ internal class JsonConfigurationTest : DescribeSpec({
                       }
                     }
                 """.trimIndent()
-                val config = configureFromJson(jsonConfig)
+                val config = JsonConfiguration.configure(jsonConfig)
 
                 config?.apply { sinks shouldHaveSize 1 }
             }
@@ -104,7 +104,7 @@ internal class JsonConfigurationTest : DescribeSpec({
                 }
             """.trimIndent()
             it("reads the configuration from string") {
-                val jsonConfig = readConfig(simpleJsonConfig)
+                val jsonConfig = JsonConfiguration.readConfig(simpleJsonConfig)
 
                 jsonConfig shouldNotBe null
                 jsonConfig?.apply {
@@ -127,7 +127,7 @@ internal class JsonConfigurationTest : DescribeSpec({
                 }
             }
             it("sets up built-in sinks") {
-                val config = configureFromJson(simpleJsonConfig)
+                val config = JsonConfiguration.configure(simpleJsonConfig)
 
                 config?.apply {
                     sinks shouldHaveSize 1
@@ -139,7 +139,7 @@ internal class JsonConfigurationTest : DescribeSpec({
                 }
             }
             it("sets up the logging configurations") {
-                val config = configureFromJson(simpleJsonConfig)
+                val config = JsonConfiguration.configure(simpleJsonConfig)
 
                 config shouldNotBe null
                 config?.apply {
@@ -160,12 +160,12 @@ internal class JsonConfigurationTest : DescribeSpec({
                 KloggingEngine.setConfig(KloggingConfiguration())
             }
             it("is not changed if not set in JSON") {
-                configureFromJson("""{}""")?.let { KloggingEngine.setConfig(it) }
+                JsonConfiguration.configure("""{}""")?.let { KloggingEngine.setConfig(it) }
 
                 KloggingEngine.kloggingMinLogLevel() shouldBe defaultKloggingMinLogLevel
             }
             it("is changed if set in JSON") {
-                configureFromJson("""{"kloggingMinLogLevel":"DEBUG"}""")?.let {
+                JsonConfiguration.configure("""{"kloggingMinLogLevel":"DEBUG"}""")?.let {
                     KloggingEngine.setConfig(it)
                 }
 

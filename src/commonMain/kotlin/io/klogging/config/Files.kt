@@ -26,5 +26,5 @@ public expect fun findJsonConfigText(): String?
 
 /** Attempt to load configuration from a file. */
 public val configLoadedFromFile: KloggingConfiguration? by lazy {
-    findJsonConfigText()?.let { configureFromJson(it) }
+    findJsonConfigText()?.let { JsonConfiguration.configure(it) }
 }
