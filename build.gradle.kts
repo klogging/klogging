@@ -86,6 +86,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("reflect"))
+                implementation(libs.kotlin.serialisation.hocon)
             }
         }
         val jvmTest by getting {
