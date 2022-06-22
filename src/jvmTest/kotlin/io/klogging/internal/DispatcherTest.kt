@@ -25,14 +25,18 @@ import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
 import io.klogging.config.DEFAULT_CONSOLE
 import io.klogging.config.loggingConfiguration
+import io.klogging.logger
 import io.klogging.randomLevel
 import io.klogging.randomString
 import io.klogging.rendering.RENDER_ANSI
 import io.klogging.rendering.RENDER_SIMPLE
 import io.klogging.sending.STDERR
 import io.klogging.sending.STDOUT
+import io.kotest.assertions.timing.eventually
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
+import kotlin.random.Random
+import kotlin.time.Duration.Companion.milliseconds
 
 internal class DispatcherTest : DescribeSpec({
     describe("sinksFor() function") {
@@ -157,6 +161,27 @@ internal class DispatcherTest : DescribeSpec({
             }
             it("keeps selecting sinks after not matching a logger base with `stopOnMatch = true`") {
                 Dispatcher.sinksFor("dev.kord.service.NikkyService", INFO) shouldHaveSize 2
+            }
+        }
+        describe("simple performance test") {
+            beforeTest {
+                repeat(10_000) { logger("dev.test.Logger-$it") }
+                repeat(10_000) { logger("dev.test.sub.Logger-$it") }
+                loggingConfiguration {
+                    sink("stdout", RENDER_SIMPLE, STDOUT)
+                    logging {
+                        fromLoggerBase("dev.test")
+                        fromMinLevel(INFO) { toSink("stdout") }
+                    }
+                    logging {
+                        fromLoggerBase("org.apache")
+                        fromMinLevel(WARN) { toSink("stdout") }
+                    }
+                }
+            }
+            it("finds the sink for a logger out of 20,000 in less than 5 milliseconds") {
+                val id = Random.nextLong(10_000)
+                eventually(5.milliseconds) { Dispatcher.sinksFor("dev.test.Logger-$id", INFO) }
             }
         }
     }
