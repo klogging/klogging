@@ -40,6 +40,7 @@ internal class JsonConfigurationTest : DescribeSpec({
     describe("Configuration from JSON") {
         describe("invalid JSON") {
             it("does not configure anything") {
+                // configure() catches exceptions and logs
                 val config = JsonConfiguration.configure("*** THIS IS NOT JSON ***")
 
                 config?.apply {

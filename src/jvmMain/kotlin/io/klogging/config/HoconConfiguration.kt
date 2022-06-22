@@ -18,11 +18,11 @@
 
 package io.klogging.config
 
+import com.typesafe.config.ConfigException
 import com.typesafe.config.ConfigFactory
 import io.klogging.internal.debug
 import io.klogging.internal.warn
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.SerializationException
 import kotlinx.serialization.hocon.Hocon
 
 @OptIn(ExperimentalSerializationApi::class)
@@ -40,7 +40,7 @@ public object HoconConfiguration {
         try {
             val config = ConfigFactory.parseString(configHocon)
             hocon.decodeFromConfig(FileConfiguration.serializer(), config)
-        } catch (ex: SerializationException) {
+        } catch (ex: ConfigException) {
             warn("HoconConfiguration", "Exception parsing HOCON", ex)
             null
         }

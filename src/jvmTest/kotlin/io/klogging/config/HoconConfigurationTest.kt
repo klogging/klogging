@@ -18,7 +18,6 @@
 
 package io.klogging.config
 
-import com.typesafe.config.ConfigException
 import com.typesafe.config.ConfigFactory
 import io.klogging.Level.DEBUG
 import io.klogging.Level.FATAL
@@ -28,13 +27,11 @@ import io.klogging.randomString
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RENDER_SIMPLE
 import io.klogging.sending.STDOUT
-import io.kotest.assertions.throwables.shouldThrowAny
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import io.kotest.matchers.types.shouldBeInstanceOf
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.hocon.Hocon
 
@@ -43,11 +40,13 @@ internal class HoconConfigurationTest : DescribeSpec({
     describe("Configuration from HOCON") {
         describe("invalid HOCON") {
             it("does not configure anything") {
-                val exception = shouldThrowAny {
-                    HoconConfiguration.configure("*** THIS IS NOT HOCON ***")
-                }
+                // configure() catches exceptions and logs
+                val config = HoconConfiguration.configure("*** THIS IS NOT HOCON ***")
 
-                exception.shouldBeInstanceOf<ConfigException>()
+                config?.apply {
+                    sinks shouldHaveSize 0
+                    configs shouldHaveSize 0
+                }
             }
         }
         describe("simple, using built-in, named configuration") {
