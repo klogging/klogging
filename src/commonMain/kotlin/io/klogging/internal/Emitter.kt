@@ -21,7 +21,6 @@ package io.klogging.internal
 import io.klogging.config.ENV_KLOGGING_EVENT_CHANNEL_CAPACITY
 import io.klogging.config.getenvInt
 import io.klogging.events.LogEvent
-import io.klogging.internal.Dispatcher.dispatchEvent
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
@@ -48,13 +47,13 @@ internal object Emitter : CoroutineScope {
         launch(CoroutineName("events")) {
             for (logEvent in channel) {
                 trace("Emitter", "Read event ${logEvent.id} from events channel")
-                dispatchEvent(logEvent)
+                Dispatcher.send(logEvent)
             }
         }
         channel
     }
 
-    suspend fun sendEvent(logEvent: LogEvent) {
+    suspend fun send(logEvent: LogEvent) {
         trace("Emitter", "Emitting event ${logEvent.id} to events channel")
         logEventsChannel.send(logEvent)
     }

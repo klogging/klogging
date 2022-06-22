@@ -46,7 +46,7 @@ public class NoCoLoggerImpl(
     ) {
         val eventToLog = eventFrom(level, throwable, event, contextItems)
         launch(CoroutineName("NoCoLogger")) {
-            Emitter.sendEvent(eventToLog)
+            Emitter.send(eventToLog)
         }
     }
 

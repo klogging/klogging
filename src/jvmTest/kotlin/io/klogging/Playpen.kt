@@ -18,6 +18,7 @@
 
 package io.klogging
 
+import io.klogging.config.Context
 import io.klogging.context.logContext
 import io.klogging.events.timestampNow
 import kotlinx.coroutines.coroutineScope
@@ -33,6 +34,7 @@ import kotlin.random.Random
  */
 suspend fun main() = coroutineScope {
     val logger = logger("io.klogging.example.KloggerPlaypen")
+    Context.addBaseContext("app" to "Playpen")
 
     val run = randomUUID()
     launch(logContext("run" to run)) {

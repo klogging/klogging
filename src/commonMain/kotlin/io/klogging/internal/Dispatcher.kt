@@ -36,7 +36,7 @@ internal object Dispatcher : CoroutineScope {
      *
      * Each is dispatched in a separate coroutine.
      */
-    internal fun dispatchEvent(logEvent: LogEvent) {
+    internal fun send(logEvent: LogEvent) {
 
         // If we are tracing Klogging, add event ID to the items map.
         val traceContext = if (KloggingEngine.kloggingMinLogLevel() == TRACE)
@@ -50,7 +50,7 @@ internal object Dispatcher : CoroutineScope {
             .forEach { sink ->
                 launch {
                     trace("Dispatcher", "Dispatching event ${event.id} to ${sink.name}")
-                    sink.forwardEvent(event)
+                    sink.send(event)
                 }
             }
     }
