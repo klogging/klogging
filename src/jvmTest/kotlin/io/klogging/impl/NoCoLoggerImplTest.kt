@@ -26,9 +26,7 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlin.time.Duration.Companion.seconds
-import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
 class NoCoLoggerImplTest : DescribeSpec({
     describe("NoCoLogger implementation") {
         describe("emitEvent() function") {
@@ -45,6 +43,25 @@ class NoCoLoggerImplTest : DescribeSpec({
                 eventually(1.seconds) {
                     saved shouldHaveSize 1
                     saved.first().items shouldBe mapOf("runId" to runId)
+                }
+            }
+        }
+        describe("e() function") {
+            it("includes template items") {
+                val value = randomString()
+                val event = NoCoLoggerImpl("NoCoLoggerImplTest").e("Value is {value}", value)
+                with(event) {
+                    message shouldBe "Value is {value}"
+                    template shouldBe "Value is {value}"
+                    items shouldBe mapOf("value" to value)
+                }
+            }
+            it("works without template items") {
+                val event = NoCoLoggerImpl("NoCoLoggerImplTest").e("Message without template")
+                with(event) {
+                    message shouldBe "Message without template"
+                    template shouldBe "Message without template"
+                    items shouldBe mapOf()
                 }
             }
         }
