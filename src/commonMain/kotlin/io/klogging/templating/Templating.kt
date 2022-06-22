@@ -20,7 +20,18 @@ package io.klogging.templating
 
 import io.klogging.events.EventItems
 
-/** Extract a map of items from a template and supplied values for the holes. */
+/**
+ * Extract a map of items from a template and supplied values for the holes.
+ *
+ * For example, given the call `templateItems("User {userId} signed in", userId)`
+ * it returns `mapOf("userId" to userId)`.
+ *
+ * @param template a template. See [Message templates](https://messagetemplates.org/) for
+ *                 more information.
+ * @param values values to fill the ‘holes’ in a template. There should be one value for
+ *               each hole.
+ * @return a map of the values, keyed by the text in each of the holes.
+ */
 public fun templateItems(template: String, vararg values: Any?): EventItems {
     val itemNames = extractItemNames(template)
     return itemNames.zip(values).toMap()
