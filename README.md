@@ -102,9 +102,7 @@ If you want to use the latest snapshot builds, specify these in your `build.grad
 ```kotlin
 repositories {
     // ...
-    maven {
-        url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-    }
+    maven ("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 }
 
 dependencies {
@@ -142,7 +140,7 @@ years. The limitations I find are:
 
 * Logback is hamstrung by having timestamp resolution limited to milliseconds. This limit is baked
   in to the
-  [core of the library](https://github.com/qos-ch/logback/blob/master/logback-classic/src/main/java/ch/qos/logback/classic/spi/ILoggingEvent.java#L83):
+  [core of the library](https://github.com/qos-ch/logback/blob/a154cd1b564d436c90a26b8cb1a2e8ffff0a4a47/logback-classic/src/main/java/ch/qos/logback/classic/spi/ILoggingEvent.java#L83):
   that `long` value is milliseconds since the Unix Epoch.
 
 ### Why not KotlinLogging, Log4j Kotlin, etc.?
