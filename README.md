@@ -23,6 +23,7 @@ implementation details will change** 🚧
 
 - [Goals](#goals)
 - [Quick start (JVM)](#quick-start-jvm)
+    - [I didn’t see any logs!](#i-didnt-see-any-logs)
     - [Using snapshot builds](#using-snapshot-builds)
 - [Why another logging library?](#why-another-logging-library)
     - [Why not Logback or Log4j?](#why-not-logback-or-log4j)
