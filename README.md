@@ -45,7 +45,7 @@ implementation details will change** 🚧
 1. Include Klogging in your project with Gradle:
 
    ```kotlin
-   implementation("io.klogging:klogging-jvm:0.4.7")
+   implementation("io.klogging:klogging-jvm:0.4.9")
    ```
 
    or Maven:
@@ -54,7 +54,7 @@ implementation details will change** 🚧
    <dependency>
      <groupId>io.klogging</groupId>
      <artifactId>klogging-jvm</artifactId>
-     <version>0.4.7</version>
+     <version>0.4.9</version>
    </dependency>
    ```
 
@@ -94,6 +94,32 @@ implementation details will change** 🚧
     ```
    These examples both call the `logger.info` function with a lambda whose value is only evaluated
    if `logger` is currently configured to log at `INFO` level or higher.
+
+### I didn’t see any logs!
+
+If you try out Klogging in a simple command-line program you might not see all the log messages you
+expect to see. This example will not show the log message on the console:
+
+```kotlin
+suspend fun main() = coroutineScope {
+    loggingConfiguration { DEFAULT_CONSOLE() }
+    val logger = logger("main")
+    logger.info("Hello, world!")
+}
+```
+
+Klogging works asynchronously and the program completes before log events can be
+sent. In this case you need to add a coroutine delay or thread sleep before the program completes,
+for example:
+
+```kotlin
+suspend fun main() = coroutineScope {
+    loggingConfiguration { DEFAULT_CONSOLE() }
+    val logger = logger("main")
+    logger.info("Hello, world!")
+    delay(50)
+}
+```
 
 ### Using snapshot builds
 
