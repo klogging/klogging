@@ -18,14 +18,6 @@
 
 rootProject.name = "klogging"
 
-dependencyResolutionManagement {
-    versionCatalogs {
-        create("libs") {
-            from(files("./libs.versions.toml"))
-        }
-    }
-}
-
 pluginManagement {
     val kotlinVersion: String by settings
     val versionsPluginVersion: String by settings

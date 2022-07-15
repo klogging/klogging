@@ -30,6 +30,7 @@ plugins {
     kotlin("plugin.serialization")
     alias(libs.plugins.versions)
     alias(libs.plugins.dokka)
+    alias(libs.plugins.versionCatalogUpdate)
 }
 
 group = "io.klogging"
