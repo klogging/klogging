@@ -64,9 +64,9 @@ public class NoCoLoggerWrapper(
      * This function processes all combination of null-ness of the two arguments.
      */
     private fun logWithThrowable(level: Level, msg: String?, t: Throwable?) {
-        if (msg != null)
+        if (msg != null) {
             if (t != null) emitEvent(level, t, msg) else emitEvent(level, msg)
-        else if (t != null) emitEvent(level, t)
+        } else if (t != null) emitEvent(level, t)
     }
 
     override fun trace(msg: String?, t: Throwable?) {
@@ -167,10 +167,11 @@ public class NoCoLoggerWrapper(
      */
     private fun emitEvent(level: Level, format: String?, vararg arguments: Any?) {
         val formatted = MessageFormatter.arrayFormat(format, arguments).message
-        if (format == null || arguments.isEmpty())
+        if (format == null || arguments.isEmpty()) {
             noCoLogger.emitEvent(level, null, formatted, contextItems())
-        else
+        } else {
             noCoLogger.emitEvent(level, null, noCoLogger.e(formatted, *arguments), contextItems())
+        }
     }
 
     /**
@@ -179,10 +180,11 @@ public class NoCoLoggerWrapper(
      */
     private fun emitEvent(level: Level, throwable: Throwable?, format: String? = null, vararg arguments: Any?) {
         val formatted = MessageFormatter.arrayFormat(format, arguments).message
-        if (format == null || arguments.isEmpty())
+        if (format == null || arguments.isEmpty()) {
             noCoLogger.emitEvent(level, throwable, formatted, contextItems())
-        else
+        } else {
             noCoLogger.emitEvent(level, null, noCoLogger.e(formatted, *arguments), contextItems())
+        }
     }
 
     private fun contextItems(): Map<String, Any?> = MDC.getCopyOfContextMap() ?: mapOf()
