@@ -32,12 +32,16 @@ import io.klogging.rendering.RENDER_ANSI
 import io.klogging.rendering.RENDER_SIMPLE
 import io.klogging.sending.STDERR
 import io.klogging.sending.STDOUT
-import io.kotest.assertions.timing.eventually
+import io.kotest.common.ExperimentalKotest
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.framework.concurrency.eventually
+import io.kotest.framework.concurrency.fixed
 import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
 
+@OptIn(ExperimentalKotest::class)
 internal class DispatcherTest : DescribeSpec({
     describe("sinksFor() function") {
         describe("when no loggers are configured") {
@@ -179,9 +183,20 @@ internal class DispatcherTest : DescribeSpec({
                     }
                 }
             }
-            it("finds the sink for a logger out of 20,000 in less than 5 milliseconds") {
-                val id = Random.nextLong(10_000)
-                eventually(5.milliseconds) { Dispatcher.sinksFor("dev.test.Logger-$id", INFO) }
+            it("cachedSinksFor() finds the sink for a logger out of 20,000 in less than 5 milliseconds") {
+                repeat(100) {
+                    val id = Random.nextLong(10_000)
+                    repeat(100) {
+                        eventually({
+                            duration = 5
+                            interval = 2.milliseconds.fixed()
+                        }) {
+                            Dispatcher.cachedSinksFor("dev.test.Logger-$id", INFO)
+                                .shouldHaveSize(1)
+                                .first().name.shouldBe("stdout")
+                        }
+                    }
+                }
             }
         }
     }

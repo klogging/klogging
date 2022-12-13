@@ -31,6 +31,8 @@ internal object Dispatcher : CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = kloggingParentContext
 
+    private val sinkCache = mutableMapOf<String, List<Sink>>()
+
     /**
      * Dispatch a [LogEvent] to selected targets. Base context items are included here.
      *
@@ -46,7 +48,7 @@ internal object Dispatcher : CoroutineScope {
 
         val event = logEvent.addContext(traceContext + KloggingEngine.baseContextItems)
 
-        sinksFor(logEvent.logger, logEvent.level)
+        cachedSinksFor(logEvent.logger, logEvent.level)
             .forEach { sink ->
                 launch {
                     trace("Dispatcher", "Dispatching event ${event.id} to ${sink.name}")
@@ -54,6 +56,12 @@ internal object Dispatcher : CoroutineScope {
                 }
             }
     }
+
+    /**
+     * Simple caching wrapper for [sinksFor] function.
+     */
+    internal fun cachedSinksFor(loggerName: String, level: Level): List<Sink> =
+        sinkCache[loggerName] ?: sinksFor(loggerName, level)
 
     /**
      * Calculate the sinks for the specified logger and level.
