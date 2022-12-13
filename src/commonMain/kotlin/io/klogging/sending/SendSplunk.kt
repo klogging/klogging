@@ -33,7 +33,7 @@ public data class SplunkEndpoint(
     val hecToken: String,
     val index: String = "main",
     val sourceType: String = "klogging",
-    val checkCertificate: String = "true",
+    val checkCertificate: String = "true"
 ) {
     /**
      * Evaluate any environment variables into properties of the endpoint configuration.
@@ -47,7 +47,7 @@ public data class SplunkEndpoint(
         evalEnv(hecToken),
         evalEnv(index),
         evalEnv(sourceType),
-        evalEnv(checkCertificate),
+        evalEnv(checkCertificate)
     )
 }
 
@@ -80,7 +80,7 @@ internal fun splunkEvent(endpoint: SplunkEndpoint, event: LogEvent): String {
         "index" to endpoint.index,
         "sourcetype" to endpoint.sourceType,
         "host" to event.host,
-        "event" to eventMap,
+        "event" to eventMap
     )
     return serializeMap(splunkMap)
         .replace(""""$TIME_MARKER"""", event.timestamp.decimalSeconds)

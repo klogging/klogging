@@ -52,8 +52,11 @@ public fun loggingConfiguration(append: Boolean = false, block: KloggingConfigur
     val config = KloggingConfiguration()
     config.apply(block)
     config.validateSinks()
-    if (append) KloggingEngine.appendConfig(config)
-    else KloggingEngine.setConfig(config)
+    if (append) {
+        KloggingEngine.appendConfig(config)
+    } else {
+        KloggingEngine.setConfig(config)
+    }
 }
 
 /**
@@ -142,7 +145,8 @@ public class KloggingConfiguration {
     internal fun append(other: KloggingConfiguration) {
         sinks.putAll(other.sinks)
         configs.addAll(other.configs)
-        if (kloggingMinLogLevel > other.kloggingMinLogLevel)
+        if (kloggingMinLogLevel > other.kloggingMinLogLevel) {
             kloggingMinLogLevel = other.kloggingMinLogLevel
+        }
     }
 }

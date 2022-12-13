@@ -52,7 +52,7 @@ class BaseContextItemsTest : DescribeSpec({
             eventually(1.seconds) {
                 saved.first().items shouldContainExactly mapOf(
                     "name" to "Test",
-                    "base" to "value",
+                    "base" to "value"
                 )
             }
         }
@@ -69,7 +69,7 @@ class BaseContextItemsTest : DescribeSpec({
                 saved.first().items shouldContainExactly mapOf(
                     "name" to "Test",
                     "base" to "base",
-                    "log" to "log",
+                    "log" to "log"
                 )
             }
         }

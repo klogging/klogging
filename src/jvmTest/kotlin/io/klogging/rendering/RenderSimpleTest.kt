@@ -39,7 +39,7 @@ class RenderSimpleTest : DescribeSpec({
                 template = null,
                 message = "Message",
                 stackTrace = null,
-                items = mapOf(),
+                items = mapOf()
             )
 
             RENDER_SIMPLE(event) shouldBe "${ts.localString} INFO [test-thread] Test : Message"
@@ -56,7 +56,7 @@ class RenderSimpleTest : DescribeSpec({
                 template = null,
                 message = "Message",
                 stackTrace = null,
-                items = mapOf("colour" to "green"),
+                items = mapOf("colour" to "green")
             )
 
             RENDER_SIMPLE(event) shouldBe "${ts.localString} WARN [test-thread] Test : Message : {colour=green}"
@@ -75,7 +75,7 @@ class RenderSimpleTest : DescribeSpec({
                     template = null,
                     message = "User {user} logged in and has a role {user_role}",
                     stackTrace = null,
-                    items = mapOf("user" to "Samuel", "user_role" to "admin"),
+                    items = mapOf("user" to "Samuel", "user_role" to "admin")
                 )
 
                 RENDER_SIMPLE(event) shouldBe "${ts.localString} INFO [test-thread] Test : User Samuel logged in and has a role admin : {user=Samuel, user_role=admin}"
@@ -92,7 +92,7 @@ class RenderSimpleTest : DescribeSpec({
                     template = null,
                     message = "User {user} logged in and has a role {user_role}",
                     stackTrace = null,
-                    items = mapOf("user" to "Samuel", "user_role" to null),
+                    items = mapOf("user" to "Samuel", "user_role" to null)
                 )
 
                 RENDER_SIMPLE(event) shouldBe "${ts.localString} INFO [test-thread] Test : User Samuel logged in and has a role {user_role} : {user=Samuel, user_role=null}"
@@ -110,7 +110,7 @@ class RenderSimpleTest : DescribeSpec({
                 template = null,
                 message = "Message",
                 stackTrace = stackTrace,
-                items = mapOf(),
+                items = mapOf()
             )
 
             RENDER_SIMPLE(event) shouldBe "${ts.localString} INFO [test-thread] Test : Message\n$stackTrace"

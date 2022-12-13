@@ -48,7 +48,7 @@ class EnvironmentTest : DescribeSpec({
                 string,
                 mapOf(
                     names[0] to values[0],
-                    names[1] to values[1],
+                    names[1] to values[1]
                 )
             ) shouldBe "start ${values[0]} middle ${values[1]} end"
         }

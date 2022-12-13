@@ -38,7 +38,7 @@ import kotlinx.coroutines.selects.whileSelect
 public suspend fun <E> receiveBatch(
     channel: ReceiveChannel<E>,
     maxTimeMillis: Long,
-    maxSize: Int,
+    maxSize: Int
 ): List<E> {
     val batch = mutableListOf<E>()
     whileSelect {

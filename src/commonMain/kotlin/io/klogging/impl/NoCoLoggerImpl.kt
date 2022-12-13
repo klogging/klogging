@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 public class NoCoLoggerImpl(
-    override val name: String,
+    override val name: String
 ) : CoroutineScope, NoCoLogger {
 
     override val coroutineContext: CoroutineContext
@@ -42,7 +42,7 @@ public class NoCoLoggerImpl(
         level: Level,
         throwable: Throwable?,
         event: Any?,
-        contextItems: EventItems,
+        contextItems: EventItems
     ) {
         val eventToLog = eventFrom(level, throwable, event, contextItems)
         launch(CoroutineName("NoCoLogger")) {
@@ -59,7 +59,7 @@ public class NoCoLoggerImpl(
             template = template,
             message = template,
             stackTrace = null,
-            items = items,
+            items = items
         )
     }
 }

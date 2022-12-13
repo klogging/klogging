@@ -45,7 +45,7 @@ class BatchingTest : DescribeSpec({
             repeat(9) { channel.send(it) }
             val batches = listOf(
                 receiveBatch(channel, maxTimeMillis = 50, maxSize = 5),
-                receiveBatch(channel, maxTimeMillis = 50, maxSize = 5),
+                receiveBatch(channel, maxTimeMillis = 50, maxSize = 5)
             )
 
             batches shouldContainExactly listOf(
@@ -62,12 +62,12 @@ class BatchingTest : DescribeSpec({
             }
             val batches = listOf(
                 receiveBatch(channel, maxTimeMillis = 50, maxSize = 10),
-                receiveBatch(channel, maxTimeMillis = 50, maxSize = 10),
+                receiveBatch(channel, maxTimeMillis = 50, maxSize = 10)
             )
 
             batches shouldContainExactly listOf(
                 listOf(0, 1, 2, 3, 4),
-                listOf(5, 6, 7, 8, 9),
+                listOf(5, 6, 7, 8, 9)
             )
         }
     }

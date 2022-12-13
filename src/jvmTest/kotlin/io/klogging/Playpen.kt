@@ -44,7 +44,8 @@ suspend fun main() = coroutineScope {
             launch(logContext("Counter" to (c + 1))) {
                 repeat(2) { i ->
                     logger.info(
-                        "Event {Iteration} at {RightNow}", i + 1,
+                        "Event {Iteration} at {RightNow}",
+                        i + 1,
                         timestampNow().toLocalDateTime(TimeZone.currentSystemDefault())
                     )
                 }

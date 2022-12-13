@@ -53,17 +53,20 @@ internal fun log(
     logger: String,
     level: Level,
     message: String,
-    throwable: Throwable? = null,
+    throwable: Throwable? = null
 ) {
     if (level < KloggingEngine.kloggingMinLogLevel()) return
     val event = LogEvent(
         logger = logger,
         level = level,
         message = message,
-        stackTrace = throwable?.stackTraceToString(),
+        stackTrace = throwable?.stackTraceToString()
     )
-    if (level <= INFO) println(RENDER_INTERNAL(event))
-    else printErr(RENDER_INTERNAL(event))
+    if (level <= INFO) {
+        println(RENDER_INTERNAL(event))
+    } else {
+        printErr(RENDER_INTERNAL(event))
+    }
 }
 
 internal expect fun printErr(message: String): Unit

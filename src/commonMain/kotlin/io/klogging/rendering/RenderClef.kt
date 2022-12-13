@@ -34,7 +34,7 @@ public val RENDER_CLEF: RenderString = { e: LogEvent ->
             "@t" to e.timestamp.toString(),
             "@l" to e.level.name,
             "host" to e.host,
-            "logger" to e.logger,
+            "logger" to e.logger
         ) + e.items
         ).toMutableMap()
     if (e.context != null) eventMap["context"] = e.context

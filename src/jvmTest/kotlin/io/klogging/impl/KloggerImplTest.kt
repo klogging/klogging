@@ -177,7 +177,7 @@ class KloggerImplTest : DescribeSpec({
                     events shouldHaveSize 1
                     events.first().items shouldContainAll mapOf(
                         "run" to runId,
-                        "id" to id,
+                        "id" to id
                     )
                 }
             }

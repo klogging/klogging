@@ -44,7 +44,7 @@ internal val batchMaxSize: Int = getenvInt(ENV_KLOGGING_BATCH_MAX_SIZE, 100)
  */
 internal class Sink(
     internal val name: String,
-    internal val eventSender: EventSender,
+    internal val eventSender: EventSender
 ) : CoroutineScope {
 
     override val coroutineContext: CoroutineContext

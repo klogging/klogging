@@ -46,7 +46,7 @@ class TemplatingTest : DescribeSpec({
             items shouldContainExactly mapOf(
                 "Name" to "Fred",
                 "IpAddress" to "192.168.1.1",
-                "LoginTime" to 1626091790484,
+                "LoginTime" to 1626091790484
             )
         }
         it("ignores extra items provided") {

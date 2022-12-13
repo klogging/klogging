@@ -23,7 +23,7 @@ import io.klogging.Level
 /** Inclusive range of logging levels with the names of sinks where events will be sent. */
 public data class LevelRange(
     val minLevel: Level,
-    val maxLevel: Level,
+    val maxLevel: Level
 ) : ClosedRange<Level> {
     override val start: Level get() = minLevel
     override val endInclusive: Level get() = maxLevel

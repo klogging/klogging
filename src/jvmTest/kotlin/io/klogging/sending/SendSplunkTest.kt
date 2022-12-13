@@ -28,11 +28,21 @@ class SendSplunkTest : DescribeSpec({
     describe("`splunkEvent()` function") {
         val ts = Instant.fromEpochSeconds(1632804634, 266123000)
         val event = LogEvent(
-            "id", ts, "local", "SendSplunkTest", "test-context", INFO,
-            message = "This is a message", items = mapOf("colour" to "green")
+            "id",
+            ts,
+            "local",
+            "SendSplunkTest",
+            "test-context",
+            INFO,
+            message = "This is a message",
+            items = mapOf("colour" to "green")
         )
         val endpoint = SplunkEndpoint(
-            "https://localhost:8088", "TOKEN", "logging-index", "logging-source", "false"
+            "https://localhost:8088",
+            "TOKEN",
+            "logging-index",
+            "logging-source",
+            "false"
         )
 
         splunkEvent(endpoint, event) shouldBe """{

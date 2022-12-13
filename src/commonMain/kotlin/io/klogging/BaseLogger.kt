@@ -82,7 +82,7 @@ public interface BaseLogger {
         level: Level,
         throwable: Throwable?,
         eventObject: Any?,
-        contextItems: EventItems = mapOf(),
+        contextItems: EventItems = mapOf()
     ): LogEvent {
         return when (eventObject) {
             is LogEvent ->
@@ -94,7 +94,7 @@ public interface BaseLogger {
                     level = level,
                     message = message,
                     stackTrace = stackTrace,
-                    items = contextItems,
+                    items = contextItems
                 )
             }
         }

@@ -26,7 +26,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class ElkEndpoint(
     val url: String,
-    val checkCertificate: String = "true",
+    val checkCertificate: String = "true"
 )
 
 /**

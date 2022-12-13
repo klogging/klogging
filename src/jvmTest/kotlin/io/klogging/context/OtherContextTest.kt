@@ -66,7 +66,7 @@ class OtherContextTest : DescribeSpec({
             eventually(1.seconds) {
                 saved.first().items shouldContainExactly mapOf(
                     "other" to "rhubarb",
-                    "name" to "Fred",
+                    "name" to "Fred"
                 )
             }
         }
@@ -96,7 +96,7 @@ class OtherContextTest : DescribeSpec({
                 saved.first().items shouldContainExactly mapOf(
                     "this" to "that",
                     "other" to "apples",
-                    "name" to "Fred",
+                    "name" to "Fred"
                 )
             }
         }

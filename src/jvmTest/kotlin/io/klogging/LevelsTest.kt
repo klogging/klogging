@@ -36,8 +36,11 @@ internal class LevelsTest : DescribeSpec({
                         if (
                             loggerLevel == Level.NONE ||
                             loggerLevel.ordinal > eventLevel.ordinal
-                        ) "no"
-                        else "YES"
+                        ) {
+                            "no"
+                        } else {
+                            "YES"
+                        }
                     )
                 }
             }
@@ -45,10 +48,11 @@ internal class LevelsTest : DescribeSpec({
             val logger = LevelsTestLogger(loggerLevel)
             logger.log(eventLevel, message)
 
-            if (logger.isLevelEnabled(eventLevel))
+            if (logger.isLevelEnabled(eventLevel)) {
                 logger.loggedMessage shouldBe "YES"
-            else
+            } else {
                 logger.loggedMessage.shouldBeNull()
+            }
         }
     }
 })
@@ -56,7 +60,7 @@ internal class LevelsTest : DescribeSpec({
 private data class LevelsCase(
     val loggerMin: Level,
     val event: Level,
-    val emit: String,
+    val emit: String
 )
 
 private class LevelsTestLogger(private val level: Level) : Klogger {

@@ -66,12 +66,12 @@ class LogEventTest : DescribeSpec({
                 logger = "CopyWithTest",
                 level = INFO,
                 message = randomString(),
-                items = mapOf("id" to id),
+                items = mapOf("id" to id)
             )
             with(event.copyWith(DEBUG, null, mapOf("run" to run))) {
                 items shouldContainAll mapOf(
                     "id" to id,
-                    "run" to run,
+                    "run" to run
                 )
             }
         }
@@ -82,7 +82,7 @@ class LogEventTest : DescribeSpec({
                 logger = "CopyWithTest",
                 level = INFO,
                 message = randomString(),
-                items = mapOf("run" to run1),
+                items = mapOf("run" to run1)
             )
             with(event.copyWith(DEBUG, null, mapOf("run" to run2))) {
                 items shouldBe mapOf("run" to run1)

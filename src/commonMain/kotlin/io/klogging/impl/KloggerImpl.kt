@@ -33,7 +33,7 @@ import kotlinx.coroutines.currentCoroutineContext
 import kotlin.coroutines.coroutineContext
 
 public class KloggerImpl(
-    override val name: String,
+    override val name: String
 ) : Klogger {
     override suspend fun emitEvent(level: Level, throwable: Throwable?, event: Any?) {
         val eventToLog = eventFrom(level, throwable, event, contextItems())
@@ -60,7 +60,7 @@ public class KloggerImpl(
             template = template,
             message = template,
             stackTrace = null,
-            items = items + contextItems(),
+            items = items + contextItems()
         )
     }
 }

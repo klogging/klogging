@@ -49,7 +49,7 @@ fun logEvent(
     level: Level = randomLevel(),
     message: String = randomString(),
     stackTrace: String? = null,
-    items: EventItems = mapOf(),
+    items: EventItems = mapOf()
 ) = LogEvent(
     timestamp = timestamp,
     host = host,
@@ -58,7 +58,7 @@ fun logEvent(
     level = level,
     message = message,
     stackTrace = stackTrace,
-    items = items,
+    items = items
 )
 
 fun eventSaver(saved: MutableList<LogEvent>): EventSender =

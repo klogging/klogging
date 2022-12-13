@@ -49,9 +49,9 @@ public object HoconConfiguration {
     public fun configure(configHocon: String): KloggingConfiguration? =
         readConfig(configHocon)?.let { (configName, minLogLevel, sinks, logging) ->
             val config = KloggingConfiguration()
-            if (configName != null)
+            if (configName != null) {
                 BUILT_IN_CONFIGURATIONS[configName]?.let { config.apply(it) }
-            else {
+            } else {
                 config.kloggingMinLogLevel = minLogLevel
 
                 sinks.forEach { (key, value) ->

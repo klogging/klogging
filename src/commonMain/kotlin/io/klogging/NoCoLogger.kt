@@ -45,7 +45,7 @@ public interface NoCoLogger : BaseLogger {
         level: Level,
         throwable: Throwable?,
         event: Any?,
-        contextItems: EventItems = mapOf(),
+        contextItems: EventItems = mapOf()
     )
 
     public fun log(level: Level, throwable: Throwable, event: Any?): Unit =
@@ -59,12 +59,18 @@ public interface NoCoLogger : BaseLogger {
         template: String,
         vararg values: Any?
     ): Unit =
-        if (values.isEmpty()) emitEvent(level, throwable, template)
-        else emitEvent(level, throwable, e(template, *values))
+        if (values.isEmpty()) {
+            emitEvent(level, throwable, template)
+        } else {
+            emitEvent(level, throwable, e(template, *values))
+        }
 
     public fun log(level: Level, template: String, vararg values: Any?): Unit =
-        if (values.isEmpty()) emitEvent(level, null, template)
-        else emitEvent(level, null, e(template, *values))
+        if (values.isEmpty()) {
+            emitEvent(level, null, template)
+        } else {
+            emitEvent(level, null, e(template, *values))
+        }
 
     public fun trace(event: Any?): Unit = log(TRACE, event)
     public fun debug(event: Any?): Unit = log(DEBUG, event)

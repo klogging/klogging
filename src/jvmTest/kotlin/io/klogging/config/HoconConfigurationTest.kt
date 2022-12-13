@@ -176,7 +176,7 @@ internal class HoconConfigurationTest : DescribeSpec({
         describe("sink configuration") {
             fun parseSinkConfig(config: String) = Hocon.decodeFromConfig(
                 FileSinkConfiguration.serializer(),
-                ConfigFactory.parseString(config),
+                ConfigFactory.parseString(config)
             ).toSinkConfiguration()
             describe("using `renderWith` and `sendTo` keys") {
                 it("returns a configuration using names of built-in components") {

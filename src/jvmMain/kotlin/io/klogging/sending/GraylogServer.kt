@@ -53,7 +53,10 @@ public actual fun graylogServer(endpoint: Endpoint): SendString = { eventString 
 private fun sendToGraylog(endpoint: Endpoint, eventString: String) {
     val bytes = eventString.toByteArray()
     val packet = DatagramPacket(
-        bytes, 0, bytes.size, InetAddress.getByName(endpoint.host),
+        bytes,
+        0,
+        bytes.size,
+        InetAddress.getByName(endpoint.host),
         endpoint.port
     )
     try {

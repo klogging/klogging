@@ -34,7 +34,7 @@ import io.klogging.sending.seqServer
 public class SinkConfiguration(
     internal val renderer: RenderString = RENDER_SIMPLE,
     internal val stringSender: SendString = STDOUT,
-    internal val eventSender: EventSender = senderFrom(renderer, stringSender),
+    internal val eventSender: EventSender = senderFrom(renderer, stringSender)
 )
 
 /** Sink configuration for a [Seq](https://datalust.co/seq) server. */

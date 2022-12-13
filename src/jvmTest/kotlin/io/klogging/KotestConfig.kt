@@ -26,6 +26,6 @@ import mjs.kotest.HtmlReporter
 class KotestConfig : AbstractProjectConfig() {
     override fun extensions(): List<Extension> = listOf(
         JunitXmlReporter(useTestPathAsName = true),
-        HtmlReporter(),
+        HtmlReporter()
     )
 }

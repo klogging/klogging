@@ -57,14 +57,20 @@ public interface Klogger : BaseLogger {
         vararg values: Any?
     ) {
         if (!isLevelEnabled(level)) return
-        if (values.isEmpty()) emitEvent(level, throwable, template)
-        else emitEvent(level, throwable, e(template, *values))
+        if (values.isEmpty()) {
+            emitEvent(level, throwable, template)
+        } else {
+            emitEvent(level, throwable, e(template, *values))
+        }
     }
 
     public suspend fun log(level: Level, template: String, vararg values: Any?) {
         if (!isLevelEnabled(level)) return
-        if (values.isEmpty()) emitEvent(level, null, template)
-        else emitEvent(level, null, e(template, *values))
+        if (values.isEmpty()) {
+            emitEvent(level, null, template)
+        } else {
+            emitEvent(level, null, e(template, *values))
+        }
     }
 
     public suspend fun log(level: Level, throwable: Throwable, event: suspend Klogger.() -> Any?) {

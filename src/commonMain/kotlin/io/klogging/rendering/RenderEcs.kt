@@ -46,12 +46,14 @@ public val RENDER_ECS: RenderString = { e: LogEvent ->
         "log.level" to e.level.name,
         "message" to e.evalTemplate(),
         "error.stack_trace" to e.stackTrace,
-        "error.message" to e.stackTrace?.let { e.evalTemplate() },
+        "error.message" to e.stackTrace?.let { e.evalTemplate() }
     )
-    if (e.context != null)
+    if (e.context != null) {
         eventMap += "labels" to mapOf("context" to e.context)
-    if (e.items.isNotEmpty())
+    }
+    if (e.items.isNotEmpty()) {
         eventMap += "items" to e.items
+    }
 
     serializeMap(eventMap.filterValues { it != null })
 }

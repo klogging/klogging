@@ -65,7 +65,7 @@ class LoggingConfigTest : DescribeSpec({
                         Pair("dev.kord.svc.BlahService", Level.DEBUG),
                         Pair("dev.kord.svc.BlahService", Level.INFO),
                         Pair("dev.kord.svc.BlahService", Level.WARN),
-                        Pair("dev.kord.svc.BlahService", Level.ERROR),
+                        Pair("dev.kord.svc.BlahService", Level.ERROR)
                     )
                 )
             }

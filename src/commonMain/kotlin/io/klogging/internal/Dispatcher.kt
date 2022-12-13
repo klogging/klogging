@@ -37,12 +37,12 @@ internal object Dispatcher : CoroutineScope {
      * Each is dispatched in a separate coroutine.
      */
     internal fun send(logEvent: LogEvent) {
-
         // If we are tracing Klogging, add event ID to the items map.
-        val traceContext = if (KloggingEngine.kloggingMinLogLevel() == TRACE)
+        val traceContext = if (KloggingEngine.kloggingMinLogLevel() == TRACE) {
             mapOf("eventId" to logEvent.id)
-        else
+        } else {
             mapOf()
+        }
 
         val event = logEvent.addContext(traceContext + KloggingEngine.baseContextItems)
 

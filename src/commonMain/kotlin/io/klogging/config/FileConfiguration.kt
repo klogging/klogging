@@ -38,7 +38,7 @@ public data class FileConfiguration(
     val configName: String? = null,
     val kloggingMinLogLevel: Level = defaultKloggingMinLogLevel,
     val sinks: Map<String, FileSinkConfiguration> = mapOf(),
-    val logging: List<FileLoggingConfig> = listOf(),
+    val logging: List<FileLoggingConfig> = listOf()
 )
 
 /**
@@ -55,17 +55,22 @@ public data class FileSinkConfiguration(
     val renderWith: String? = null,
     val sendTo: String? = null,
     val seqServer: String? = null,
-    val splunkServer: SplunkEndpoint? = null,
+    val splunkServer: SplunkEndpoint? = null
 ) {
     internal fun toSinkConfiguration(): SinkConfiguration? {
-        if (splunkServer != null)
+        if (splunkServer != null) {
             return SinkConfiguration(eventSender = splunkHec(splunkServer.evalEnv()))
+        }
         val renderer = BUILT_IN_RENDERERS[renderWith]
-        if (seqServer != null)
+        if (seqServer != null) {
             return seq(seqServer, renderer ?: RENDER_CLEF)
+        }
         val sender = BUILT_IN_SENDERS[sendTo]
-        return if (renderer != null && sender != null) SinkConfiguration(renderer, sender)
-        else null
+        return if (renderer != null && sender != null) {
+            SinkConfiguration(renderer, sender)
+        } else {
+            null
+        }
     }
 }
 
@@ -76,7 +81,7 @@ public data class FileLoggingConfig(
     val stopOnMatch: Boolean? = false,
     val exactLogger: String? = null,
     val matchLogger: String? = null,
-    val levelRanges: List<FileLevelRange>,
+    val levelRanges: List<FileLevelRange>
 ) {
     internal fun toLoggingConfig(): LoggingConfig {
         val config = LoggingConfig()
@@ -99,7 +104,7 @@ public data class FileLoggingConfig(
 public data class FileLevelRange(
     val fromMinLevel: Level? = null,
     val atLevel: Level? = null,
-    val toSinks: List<String>,
+    val toSinks: List<String>
 ) {
     internal fun toLevelRange(): LevelRange {
         val range = when {

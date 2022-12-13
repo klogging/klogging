@@ -43,7 +43,7 @@ public val RENDER_GELF: RenderString = { event: LogEvent ->
             "full_message" to event.stackTrace,
             "timestamp" to TIME_MARKER,
             "level" to event.level.syslog,
-            "_logger" to event.logger,
+            "_logger" to event.logger
         ) + event.items.mapKeys { (k, _) -> "_$k" }
         ).filterValues { it != null }
 

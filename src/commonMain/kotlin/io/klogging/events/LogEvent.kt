@@ -54,7 +54,7 @@ public data class LogEvent(
      * If the message string was constructed from a template, there is one item per
      * hole in the template.
      */
-    val items: EventItems = mapOf(),
+    val items: EventItems = mapOf()
 ) {
     /**
      * Copy this [LogEvent], setting the level, the stack trace from any error or exception, and
@@ -76,7 +76,7 @@ public data class LogEvent(
         template = template,
         message = message,
         stackTrace = newStacktrace,
-        items = contextItems + items,
+        items = contextItems + items
     )
 
     /**
