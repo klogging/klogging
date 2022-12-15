@@ -60,8 +60,10 @@ internal object Dispatcher : CoroutineScope {
     /**
      * Simple caching wrapper for [sinksFor] function.
      */
-    internal fun cachedSinksFor(loggerName: String, level: Level): List<Sink> =
-        sinkCache[Pair(loggerName, level)] ?: sinksFor(loggerName, level)
+    internal fun cachedSinksFor(loggerName: String, level: Level): List<Sink> {
+        val key = Pair(loggerName, level)
+        return sinkCache[key] ?: sinksFor(loggerName, level).also { sinkCache[key] = it }
+    }
 
     /**
      * Calculate the sinks for the specified logger and level.
