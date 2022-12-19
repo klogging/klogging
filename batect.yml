@@ -40,7 +40,9 @@ tasks:
     description: Run 'check' and then re-run when any code changes are detected.
     run:
       container: build-env
-      command: ./gradlew --continuous check
+      environment:
+        KLOGGING_MIN_LOG_LEVEL: WARN
+      command: ./gradlew check
 
   spotlessApply:
     description: Fix code formatting issues identified by Spotless.
