@@ -48,7 +48,7 @@ internal object Dispatcher : CoroutineScope {
 
         val event = logEvent.addContext(traceContext + KloggingEngine.baseContextItems)
 
-        cachedSinksFor(logEvent.logger, logEvent.level)
+        sinksFor(logEvent.logger, logEvent.level)
             .forEach { sink ->
                 launch {
                     trace("Dispatcher", "Dispatching event ${event.id} to ${sink.name}")
