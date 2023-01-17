@@ -31,7 +31,7 @@ import io.klogging.rendering.localTime
 import io.klogging.rendering.rightAlign
 
 /** Renderer specifically for internal logging. */
-private val RENDER_INTERNAL: RenderString = { e: LogEvent ->
+private val renderInternal: RenderString = { e: LogEvent ->
     val message = "${e.timestamp.localTime} ${e.level.colour5} [${e.context?.rightAlign(20)}]" +
         " : ${e.logger.rightAlign(20)} : ${e.message}"
     val maybeItems = if (e.items.isNotEmpty()) " : ${e.items}" else ""
@@ -45,7 +45,7 @@ private val RENDER_INTERNAL: RenderString = { e: LogEvent ->
  * - Structured logging is not available. It can be called only with message strings
  *   and an optional error or exception.
  *
- * - Events are rendered to strings using [RENDER_INTERNAL]. They are printed directly
+ * - Events are rendered to strings using [renderInternal]. They are printed directly
  *   to the standard output stream for [INFO] and lower level, and to the standard
  *   error stream for [WARN] and above levels.
  */
@@ -63,9 +63,9 @@ internal fun log(
         stackTrace = throwable?.stackTraceToString()
     )
     if (level <= INFO) {
-        println(RENDER_INTERNAL(event))
+        println(renderInternal(event))
     } else {
-        printErr(RENDER_INTERNAL(event))
+        printErr(renderInternal(event))
     }
 }
 
