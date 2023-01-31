@@ -33,13 +33,13 @@ jobs:
           fetch-depth: 0
 
       - name: Cache Batect
-        uses: actions/cache@v3.2.3
+        uses: actions/cache@v3.2.4
         with:
           path: ~/.batect/cache
           key: batect-${{ hashFiles('batect') }}
 
       - name: Cache dependencies
-        uses: actions/cache@v3.2.3
+        uses: actions/cache@v3.2.4
         id: cache-dependencies
         with:
           path: .batect/caches
