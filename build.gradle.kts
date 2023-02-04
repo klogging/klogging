@@ -71,6 +71,13 @@ kotlin {
         else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
     }
 
+    sourceSets.all {
+        languageSettings.apply {
+            languageVersion = "1.8"
+            apiVersion = "1.6"
+        }
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
