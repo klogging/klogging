@@ -37,6 +37,7 @@ import kotlinx.serialization.Serializable
 public data class FileConfiguration(
     val configName: String? = null,
     val kloggingMinLogLevel: Level = defaultKloggingMinLogLevel,
+    val minDirectLogLevel: Level = defaultMinDirectLogLevel,
     val sinks: Map<String, FileSinkConfiguration> = mapOf(),
     val logging: List<FileLoggingConfig> = listOf()
 )

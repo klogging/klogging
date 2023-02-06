@@ -21,6 +21,7 @@ package io.klogging.config
 import io.klogging.Level
 import io.klogging.Level.INFO
 import io.klogging.Level.NONE
+import io.klogging.Level.WARN
 import io.klogging.internal.KloggingEngine
 import io.klogging.internal.info
 import io.klogging.internal.warn
@@ -36,6 +37,12 @@ internal val defaultKloggingMinLogLevel: Level = try {
     getenv(ENV_KLOGGING_MIN_LOG_LEVEL)?.let { Level.valueOf(it) } ?: INFO
 } catch (_: Throwable) {
     INFO
+}
+
+internal val defaultMinDirectLogLevel: Level = try {
+    getenv(ENV_KLOGGING_MIN_DIRECT_LOG_LEVEL)?.let { Level.valueOf(it) } ?: WARN
+} catch (_: Throwable) {
+    WARN
 }
 
 /**
@@ -68,6 +75,7 @@ public class KloggingConfiguration {
     internal val configs = mutableListOf<LoggingConfig>()
 
     internal var kloggingMinLogLevel: Level = defaultKloggingMinLogLevel
+    internal var minDirectLogLevel: Level = defaultMinDirectLogLevel
 
     /**
      * DSL function to set minimum logging level for Klogging itself.
@@ -75,6 +83,14 @@ public class KloggingConfiguration {
     @ConfigDsl
     public fun kloggingMinLevel(minLevel: Level) {
         kloggingMinLogLevel = minLevel
+    }
+
+    /**
+     * DSL function to set minimum logging level for sending events directly to sinks.
+     */
+    @ConfigDsl
+    public fun minDirectLogLevel(minLevel: Level) {
+        minDirectLogLevel = minLevel
     }
 
     /**

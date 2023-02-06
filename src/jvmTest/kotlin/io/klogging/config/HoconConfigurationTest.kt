@@ -83,6 +83,7 @@ internal class HoconConfigurationTest : DescribeSpec({
         describe("simple, using built-in, named renderers and senders") {
             val simpleHoconConfig = """
                 {
+                  minDirectLogLevel: INFO,
                   sinks: {
                     stdout: {
                       renderWith: RENDER_SIMPLE,
@@ -109,6 +110,7 @@ internal class HoconConfigurationTest : DescribeSpec({
 
                 hoconConfig shouldNotBe null
                 hoconConfig?.apply {
+                    minDirectLogLevel shouldBe INFO
                     sinks shouldHaveSize 1
                     sinks.keys.first() shouldBe "stdout"
                     with(sinks.values.first()) {

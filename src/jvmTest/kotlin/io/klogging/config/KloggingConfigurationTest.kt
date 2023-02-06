@@ -31,7 +31,6 @@ import io.klogging.rendering.RENDER_SIMPLE
 import io.klogging.sending.STDERR
 import io.klogging.sending.STDOUT
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
@@ -105,6 +104,10 @@ internal class KloggingConfigurationTest : DescribeSpec({
                         // Log from DEBUG to Seq.
                         fromMinLevel(DEBUG) { toSink("seq") }
                     }
+                    // Set minimum level of Klogging internal logging
+                    kloggingMinLevel(DEBUG)
+                    // Set minimum level for sending log events directly
+                    minDirectLogLevel(INFO)
                 }
 
                 with(KloggingEngine) {
@@ -162,7 +165,7 @@ internal class KloggingConfigurationTest : DescribeSpec({
             }
         }
         describe("minimumLevel() function") {
-            it("returns NONE if there is no configuration") {
+            it("returns INFO if there is no configuration") {
                 KloggingEngine.minimumLevelOf(randomString()) shouldBe INFO
             }
             it("returns INFO from the default console configuration") {

@@ -47,12 +47,13 @@ public object HoconConfiguration {
 
     /** Load [KloggingConfiguration] from HOCON configuration string. */
     public fun configure(configHocon: String): KloggingConfiguration? =
-        readConfig(configHocon)?.let { (configName, minLogLevel, sinks, logging) ->
+        readConfig(configHocon)?.let { (configName, minLogLevel, minDirectLogLevel, sinks, logging) ->
             val config = KloggingConfiguration()
             if (configName != null) {
                 BUILT_IN_CONFIGURATIONS[configName]?.let { config.apply(it) }
             } else {
                 config.kloggingMinLogLevel = minLogLevel
+                config.minDirectLogLevel = minDirectLogLevel
 
                 sinks.forEach { (key, value) ->
                     value.toSinkConfiguration()?.let {

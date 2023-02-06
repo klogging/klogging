@@ -20,7 +20,6 @@ package io.klogging.config
 
 import io.klogging.internal.debug
 import io.klogging.internal.warn
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -39,7 +38,6 @@ public object JsonConfiguration {
      *
      * @return an object used to configure Klogging.
      */
-    @OptIn(ExperimentalSerializationApi::class)
     internal fun readConfig(configJson: String): FileConfiguration? =
         try {
             json.decodeFromString(configJson)
@@ -50,12 +48,13 @@ public object JsonConfiguration {
 
     /** Load [KloggingConfiguration] from JSON configuration string. */
     public fun configure(configJson: String): KloggingConfiguration? =
-        readConfig(configJson)?.let { (configName, minLogLevel, sinks, logging) ->
+        readConfig(configJson)?.let { (configName, minLogLevel, minDirectLogLevel, sinks, logging) ->
             val config = KloggingConfiguration()
             if (configName != null) {
                 BUILT_IN_CONFIGURATIONS[configName]?.let { config.apply(it) }
             } else {
                 config.kloggingMinLogLevel = minLogLevel
+                config.minDirectLogLevel = minDirectLogLevel
 
                 sinks.forEach { (key, value) ->
                     value.toSinkConfiguration()?.let {

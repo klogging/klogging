@@ -31,11 +31,9 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-@OptIn(ExperimentalSerializationApi::class)
 internal class JsonConfigurationTest : DescribeSpec({
     describe("Configuration from JSON") {
         describe("invalid JSON") {
@@ -83,6 +81,7 @@ internal class JsonConfigurationTest : DescribeSpec({
         describe("simple, using built-in, named renderers and senders") {
             val simpleJsonConfig = """
                 {
+                  "minDirectLogLevel": "INFO",
                   "sinks": {
                     "stdout": {
                       "renderWith": "RENDER_SIMPLE",
@@ -109,6 +108,7 @@ internal class JsonConfigurationTest : DescribeSpec({
 
                 jsonConfig shouldNotBe null
                 jsonConfig?.apply {
+                    minDirectLogLevel shouldBe INFO
                     sinks shouldHaveSize 1
                     sinks.keys.first() shouldBe "stdout"
                     with(sinks.values.first()) {

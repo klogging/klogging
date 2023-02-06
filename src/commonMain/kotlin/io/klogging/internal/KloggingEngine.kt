@@ -101,4 +101,6 @@ internal object KloggingEngine {
     internal fun configs(): List<LoggingConfig> = currentConfig.configs
 
     internal fun kloggingMinLogLevel(): Level = currentConfig.kloggingMinLogLevel
+
+    internal fun minDirectLogLevel(): Level = currentConfig.minDirectLogLevel
 }
