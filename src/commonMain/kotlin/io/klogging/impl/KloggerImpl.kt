@@ -37,7 +37,7 @@ public class KloggerImpl(
 ) : Klogger {
     override suspend fun emitEvent(level: Level, throwable: Throwable?, event: Any?) {
         val eventToLog = eventFrom(level, throwable, event, contextItems())
-        Emitter.send(eventToLog)
+        Emitter.emit(eventToLog)
     }
 
     private suspend inline fun contextItems(): EventItems {

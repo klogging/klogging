@@ -65,8 +65,19 @@ internal class Sink(
         channel
     }
 
-    internal suspend fun send(event: LogEvent) {
-        trace("Sink", "Forwarding event ${event.id} to sink $name")
-        sinkChannel.send(event)
+    /**
+     * Send a [LogEvent] to the sink’s channel to be processed in batches.
+     */
+    internal suspend fun send(logEvent: LogEvent) {
+        trace("Sink", "Forwarding event ${logEvent.id} to sink $name")
+        sinkChannel.send(logEvent)
+    }
+
+    /**
+     * Send a [LogEvent] directly to the sink’s [eventSender].
+     */
+    internal suspend fun sendDirect(logEvent: LogEvent) {
+        trace("Sink", "Forwarding event ${logEvent.id} directly to sink $name")
+        eventSender(listOf(logEvent))
     }
 }

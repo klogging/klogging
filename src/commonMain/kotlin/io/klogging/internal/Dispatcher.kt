@@ -34,13 +34,7 @@ internal object Dispatcher {
      */
     internal suspend fun send(logEvent: LogEvent) {
         // If we are tracing Klogging, add event ID to the items map.
-        val traceContext = if (KloggingEngine.kloggingMinLogLevel() == TRACE) {
-            mapOf("eventId" to logEvent.id)
-        } else {
-            mapOf()
-        }
-
-        val event = logEvent.addContext(traceContext + KloggingEngine.baseContextItems)
+        val event = logEvent.addContext(traceContext(logEvent) + KloggingEngine.baseContextItems)
 
         sinksFor(logEvent.logger, logEvent.level)
             .forEach { sink ->
@@ -48,6 +42,25 @@ internal object Dispatcher {
                 sink.send(event)
             }
     }
+
+    /**
+     * Dispatch a [LogEvent] directly to each sink.
+     */
+    internal suspend fun sendDirect(logEvent: LogEvent) {
+        val event = logEvent.addContext(traceContext(logEvent) + KloggingEngine.baseContextItems)
+        sinksFor(logEvent.logger, logEvent.level)
+            .forEach { sink ->
+                trace("Dispatcher", "Dispatching event ${event.id} directly to ${sink.name}")
+                sink.sendDirect(logEvent)
+            }
+    }
+
+    private fun traceContext(logEvent: LogEvent) =
+        if (KloggingEngine.kloggingMinLogLevel() == TRACE) {
+            mapOf("eventId" to logEvent.id)
+        } else {
+            mapOf()
+        }
 
     /**
      * Simple caching wrapper for [sinksFor] function.

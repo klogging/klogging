@@ -18,6 +18,7 @@
 
 package io.klogging.internal
 
+import io.klogging.Level.INFO
 import io.klogging.config.ENV_KLOGGING_EVENT_CHANNEL_CAPACITY
 import io.klogging.config.getenvInt
 import io.klogging.events.LogEvent
@@ -53,8 +54,18 @@ internal object Emitter : CoroutineScope {
         channel
     }
 
-    suspend fun send(logEvent: LogEvent) {
-        trace("Emitter", "Emitting event ${logEvent.id} to events channel")
-        logEventsChannel.send(logEvent)
+    /**
+     * Emit a [LogEvent] to dispatching. Events with level greater than INFO are
+     * dispatched directly; others are sent to the [logEventsChannel] to be
+     * processed asynchronously.
+     */
+    suspend fun emit(logEvent: LogEvent) {
+        if (logEvent.level > INFO) {
+            trace("Emitter", "Emitting event ${logEvent.id} directly")
+            Dispatcher.sendDirect(logEvent)
+        } else {
+            trace("Emitter", "Emitting event ${logEvent.id} to events channel")
+            logEventsChannel.send(logEvent)
+        }
     }
 }
