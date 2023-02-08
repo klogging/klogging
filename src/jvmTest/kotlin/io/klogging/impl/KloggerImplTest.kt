@@ -37,9 +37,7 @@ import io.kotest.matchers.shouldNotBe
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.seconds
-import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
 class KloggerImplTest : DescribeSpec({
 
     describe("KloggerImpl implementation of Klogger") {
