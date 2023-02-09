@@ -107,7 +107,7 @@ suspend fun main() = coroutineScope {
 ```
 
 Klogging works asynchronously and the program completes before log events can be
-sent. In this case you need to add a coroutine delay or thread sleep before the program completes,
+sent. In this case you can add a coroutine delay or thread sleep before the program completes,
 for example:
 
 ```kotlin
@@ -118,6 +118,22 @@ suspend fun main() = coroutineScope {
     delay(50)
 }
 ```
+
+Or you can specify that log events with severity above a certain level are sent directly instead of
+via coroutine channels:
+
+```kotlin
+suspend fun main() = coroutineScope {
+    loggingConfiguration {
+        DEFAULT_CONSOLE()
+        minDirectLogLevel(Level.INFO)
+    }
+    val logger = logger("main")
+    logger.info("Hello, world!")
+}
+```
+
+See [Direct logging](https://klogging.io/docs/concepts/direct-logging) for more information.
 
 > Klogging is designed primarily for long-running services and applications.
 >
