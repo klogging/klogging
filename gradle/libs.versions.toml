@@ -2,7 +2,7 @@
 dokka = "1.7.20"
 html-reporter = "0.6.1"
 jacoco = "0.8.8"
-kotest = "5.5.4"
+kotest = "5.5.5"
 kotlin-coroutines = "1.6.4"
 kotlin-datetime = "0.4.0"
 kotlin-serialisation = "1.4.1"

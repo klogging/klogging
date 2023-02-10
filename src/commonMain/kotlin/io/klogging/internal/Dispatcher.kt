@@ -67,7 +67,7 @@ internal object Dispatcher {
      */
     internal fun cachedSinksFor(loggerName: String, level: Level): List<Sink> {
         val key = Pair(loggerName, level)
-        return sinkCache[key] ?: sinksFor(loggerName, level).also { sinkCache[key] = it }
+        return sinkCache.getOrPut(key) { sinksFor(loggerName, level) }
     }
 
     /**
