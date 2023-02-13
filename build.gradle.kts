@@ -34,7 +34,7 @@ plugins {
 }
 
 group = "io.klogging"
-version = "0.4.12"
+version = "0.5.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
