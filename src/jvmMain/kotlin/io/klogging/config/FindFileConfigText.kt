@@ -40,24 +40,28 @@ internal fun readResourceText(resourcePath: String): String? =
         }
 
 /**
- * Look for the JSON configuration file in one of two places:
- * 1. specified by the environment variable [ENV_KLOGGING_CONFIG_JSON_PATH]; or
- * 2. called [JSON_CONFIG_FILENAME] in the classpath.
+ * Look for the JSON or HOCON configuration file in one of two places:
+ * 1. specified by the environment variable [ENV_KLOGGING_CONFIG_JSON_PATH] (deprecated); or
+ * 2. specified by the environment variable [ENV_KLOGGING_CONFIG_PATH]; or
+ * 3. called [JSON_CONFIG_FILENAME] on the classpath; or
+ * 4. called [HOCON_CONFIG_FILENAME] on the classpath.
  *
  * If found, return the contents as UTF-8 text; else return `null`.
  */
 public actual fun findFileConfigText(): String? {
     val filePath = getenv(ENV_KLOGGING_CONFIG_JSON_PATH)
+        ?: getenv(ENV_KLOGGING_CONFIG_PATH)
     return filePath
         ?.let { File(it) }
         ?.let {
             if (it.exists()) {
-                info("Configuration", "Reading JSON configuration from $filePath")
+                info("Configuration", "Reading configuration from $filePath")
                 it.readText(UTF_8)
             } else {
-                warn("Configuration", "Specified JSON configuration file $filePath not found")
+                warn("Configuration", "Specified configuration file $filePath not found")
                 null
             }
         }
         ?: readResourceText(JSON_CONFIG_FILENAME)
+        ?: readResourceText(HOCON_CONFIG_FILENAME)
 }

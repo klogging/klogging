@@ -21,7 +21,10 @@ package io.klogging.config
 /** Name of the JSON configuration file on the classpath. */
 internal const val JSON_CONFIG_FILENAME: String = "klogging.json"
 
-/** Find a JSON configuration file and read its contents, if found. */
+/** Name of the HOCON configuration file on the classpath. */
+internal const val HOCON_CONFIG_FILENAME: String = "klogging.conf"
+
+/** Find a configuration file and read its contents, if found. */
 public expect fun findFileConfigText(): String?
 
 /** Attempt to load configuration from a file. */
