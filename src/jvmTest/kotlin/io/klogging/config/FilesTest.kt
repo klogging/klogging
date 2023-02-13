@@ -24,7 +24,7 @@ import io.kotest.matchers.shouldNotBe
 internal class FilesTest : DescribeSpec({
     describe("Configuration files") {
         it("should find `klogging.json` on the classpath") {
-            val jsonText = findJsonConfigText()
+            val jsonText = findFileConfigText()
 
             jsonText shouldNotBe null
         }

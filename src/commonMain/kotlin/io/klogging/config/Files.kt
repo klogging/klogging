@@ -22,9 +22,9 @@ package io.klogging.config
 internal const val JSON_CONFIG_FILENAME: String = "klogging.json"
 
 /** Find a JSON configuration file and read its contents, if found. */
-public expect fun findJsonConfigText(): String?
+public expect fun findFileConfigText(): String?
 
 /** Attempt to load configuration from a file. */
 public val configLoadedFromFile: KloggingConfiguration? by lazy {
-    findJsonConfigText()?.let { JsonConfiguration.configure(it) }
+    findFileConfigText()?.let { JsonConfiguration.configure(it) }
 }

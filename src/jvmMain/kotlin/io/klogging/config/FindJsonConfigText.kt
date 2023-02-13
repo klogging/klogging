@@ -46,7 +46,7 @@ internal fun readResourceText(resourcePath: String): String? =
  *
  * If found, return the contents as UTF-8 text; else return `null`.
  */
-public actual fun findJsonConfigText(): String? {
+public actual fun findFileConfigText(): String? {
     val filePath = getenv(ENV_KLOGGING_CONFIG_JSON_PATH)
     return filePath
         ?.let { File(it) }

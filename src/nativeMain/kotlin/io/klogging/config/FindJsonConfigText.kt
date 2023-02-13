@@ -18,6 +18,6 @@
 
 package io.klogging.config
 
-public actual fun findJsonConfigText(): String? {
+public actual fun findFileConfigText(): String? {
     TODO("Not yet implemented")
 }
