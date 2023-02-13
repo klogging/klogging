@@ -78,10 +78,10 @@ public class KloggingConfiguration {
     internal var minDirectLogLevel: Level = defaultMinDirectLogLevel
 
     /**
-     * DSL function to set minimum logging level for Klogging itself.
+     * DSL function to set minimum logging level for Klogging’s internal logger.
      */
     @ConfigDsl
-    public fun kloggingMinLevel(minLevel: Level) {
+    public fun kloggingMinLogLevel(minLevel: Level) {
         kloggingMinLogLevel = minLevel
     }
 

@@ -105,7 +105,7 @@ internal class KloggingConfigurationTest : DescribeSpec({
                         fromMinLevel(DEBUG) { toSink("seq") }
                     }
                     // Set minimum level of Klogging internal logging
-                    kloggingMinLevel(DEBUG)
+                    kloggingMinLogLevel(DEBUG)
                     // Set minimum level for sending log events directly
                     minDirectLogLevel(INFO)
                 }
