@@ -162,13 +162,13 @@ internal class HoconConfigurationTest : DescribeSpec({
             beforeTest {
                 KloggingEngine.setConfig(KloggingConfiguration())
             }
-            it("is not changed if not set in JSON") {
+            it("is not changed if not set in HOCON") {
                 HoconConfiguration.configure("""{}""")?.let { KloggingEngine.setConfig(it) }
 
                 KloggingEngine.kloggingMinLogLevel() shouldBe defaultKloggingMinLogLevel
             }
-            it("is changed if set in JSON") {
-                HoconConfiguration.configure("""{"kloggingMinLogLevel":"DEBUG"}""")?.let {
+            it("is changed if set in HOCON") {
+                HoconConfiguration.configure("""{kloggingMinLogLevel:DEBUG}""")?.let {
                     KloggingEngine.setConfig(it)
                 }
 
