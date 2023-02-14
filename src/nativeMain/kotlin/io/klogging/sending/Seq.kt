@@ -18,4 +18,4 @@
 
 package io.klogging.sending
 
-public actual fun seqServer(server: String): SendString = TODO("Not yet implemented")
+internal actual fun seqServer(server: String): SendString = TODO("Not yet implemented")

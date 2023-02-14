@@ -25,4 +25,4 @@ public data class Endpoint(
 )
 
 /** Send a rendered string to a Graylog server. */
-public expect fun graylogServer(endpoint: Endpoint): SendString
+internal expect fun graylogServer(endpoint: Endpoint): SendString

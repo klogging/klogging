@@ -28,7 +28,7 @@ import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
 
-public actual fun elkSender(endpoint: ElkEndpoint): EventSender = { batch ->
+internal actual fun elkSender(endpoint: ElkEndpoint): EventSender = { batch ->
     coroutineScope {
         launch(Dispatchers.IO) {
             sendToElk(endpoint, batch)

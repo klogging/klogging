@@ -21,5 +21,5 @@ package io.klogging.events
 import kotlinx.datetime.Instant
 
 /** Render a Kotlin [Instant] as `seconds.nanos`. */
-public actual val Instant.decimalSeconds: String
+internal actual val Instant.decimalSeconds: String
     get() = "%d.%09d".format(epochSeconds, nanosecondsOfSecond)

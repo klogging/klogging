@@ -36,7 +36,7 @@ import java.net.InetAddress
  * @return a [SendString] suspend function that sends each event string in a separate
  *         coroutine using the IO coroutine dispatcher.
  */
-public actual fun graylogServer(endpoint: Endpoint): SendString = { eventString ->
+internal actual fun graylogServer(endpoint: Endpoint): SendString = { eventString ->
     coroutineScope {
         launch(Dispatchers.IO) {
             sendToGraylog(endpoint, eventString)

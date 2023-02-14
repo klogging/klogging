@@ -26,4 +26,4 @@ import kotlinx.datetime.Instant
 public fun timestampNow(clock: Clock = System): Instant = clock.now()
 
 /** Render a Kotlin [Instant] as `seconds.nanos`. */
-public expect val Instant.decimalSeconds: String
+internal expect val Instant.decimalSeconds: String

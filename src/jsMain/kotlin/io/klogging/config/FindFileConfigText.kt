@@ -18,7 +18,7 @@
 
 package io.klogging.config
 
-public actual fun findFileConfigText(): String? {
+internal actual fun findFileConfigText(): String? {
     TODO("Not yet implemented")
 }
 

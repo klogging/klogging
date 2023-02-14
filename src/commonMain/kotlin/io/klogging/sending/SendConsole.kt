@@ -22,4 +22,4 @@ package io.klogging.sending
 public val STDOUT: SendString = { s -> println(s) }
 
 /** Send an event rendered as a string to the standard error stream. */
-public expect val STDERR: SendString
+internal expect val STDERR: SendString

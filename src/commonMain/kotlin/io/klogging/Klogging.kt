@@ -23,7 +23,7 @@ import io.klogging.internal.KloggingEngine
 import kotlin.reflect.KClass
 
 /** Get the name of a class. */
-public expect fun classNameOf(ownerClass: KClass<*>): String?
+internal expect fun classNameOf(ownerClass: KClass<*>): String?
 
 /**
  * Runtime list of current [Klogger] instances.

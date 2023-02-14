@@ -19,4 +19,4 @@
 package io.klogging.sending
 
 /** Send a rendered string to a Seq server. */
-public expect fun seqServer(server: String): SendString
+internal expect fun seqServer(server: String): SendString

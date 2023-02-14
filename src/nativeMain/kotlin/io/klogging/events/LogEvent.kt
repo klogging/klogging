@@ -18,7 +18,7 @@
 
 package io.klogging.events
 
-public actual val hostname: String = TODO("Not yet implemented")
+internal actual val hostname: String = TODO("Not yet implemented")
 
 internal actual fun currentContext(): String? {
     TODO("Not yet implemented")

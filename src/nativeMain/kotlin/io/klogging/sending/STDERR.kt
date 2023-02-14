@@ -18,4 +18,4 @@
 
 package io.klogging.sending
 
-public actual val STDERR: SendString = TODO("Not yet implemented")
+internal actual val STDERR: SendString = TODO("Not yet implemented")

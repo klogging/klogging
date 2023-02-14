@@ -36,7 +36,7 @@ import javax.net.ssl.HttpsURLConnection
  * @return an [EventSender] suspend function that sends each event in a separate
  *         coroutine using the IO coroutine dispatcher.
  */
-public actual fun splunkHec(endpoint: SplunkEndpoint): EventSender = { batch ->
+internal actual fun splunkHec(endpoint: SplunkEndpoint): EventSender = { batch ->
     coroutineScope {
         launch(Dispatchers.IO) {
             sendToSplunk(endpoint, batch)

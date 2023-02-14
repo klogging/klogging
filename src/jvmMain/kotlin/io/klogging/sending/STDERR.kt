@@ -18,4 +18,4 @@
 
 package io.klogging.sending
 
-public actual val STDERR: SendString = { s -> System.err.println(s) }
+internal actual val STDERR: SendString = { s -> System.err.println(s) }

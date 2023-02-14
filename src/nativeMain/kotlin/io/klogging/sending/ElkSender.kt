@@ -18,6 +18,6 @@
 
 package io.klogging.sending
 
-public actual fun elkSender(endpoint: ElkEndpoint): EventSender {
+internal actual fun elkSender(endpoint: ElkEndpoint): EventSender {
     TODO("Not yet implemented")
 }

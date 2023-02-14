@@ -25,5 +25,5 @@ import kotlin.reflect.KClass
  * 1. The companion class can have a different name than "$Companion"
  * 2. Kotlin reflection is only supported for JVM, not for JS
  */
-public actual fun classNameOf(ownerClass: KClass<*>): String? =
+internal actual fun classNameOf(ownerClass: KClass<*>): String? =
     if (ownerClass.isCompanion) ownerClass.java.enclosingClass.name else ownerClass.java.name

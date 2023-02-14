@@ -95,7 +95,7 @@ public data class LogEvent(
 private fun randomId(): String = Random.nextUInt().toString(16)
 
 /** Name of the executing host, included in all log events. */
-public expect val hostname: String
+internal expect val hostname: String
 
 /** Thread name or similar current context identifier. */
 internal expect fun currentContext(): String?
