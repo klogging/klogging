@@ -27,7 +27,9 @@ internal const val HOCON_CONFIG_FILENAME: String = "klogging.conf"
 /** Find a configuration file and read its contents, if found. */
 public expect fun findFileConfigText(): String?
 
+internal expect fun configureFromFile(fileContents: String): KloggingConfiguration?
+
 /** Attempt to load configuration from a file. */
 public val configLoadedFromFile: KloggingConfiguration? by lazy {
-    findFileConfigText()?.let { JsonConfiguration.configure(it) }
+    findFileConfigText()?.let { configureFromFile(it) }
 }

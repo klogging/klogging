@@ -35,7 +35,7 @@ internal fun readResourceText(resourcePath: String): String? =
         .getResourceAsStream(resourcePath)
         ?.bufferedReader(UTF_8)
         ?.let {
-            info("Configuration", "Reading JSON configuration from $resourcePath on the classpath")
+            info("Configuration", "Reading configuration from $resourcePath on the classpath")
             it.readText()
         }
 
@@ -65,3 +65,6 @@ public actual fun findFileConfigText(): String? {
         ?: readResourceText(JSON_CONFIG_FILENAME)
         ?: readResourceText(HOCON_CONFIG_FILENAME)
 }
+
+internal actual fun configureFromFile(fileContents: String): KloggingConfiguration? =
+    JsonConfiguration.configure(fileContents) ?: HoconConfiguration.configure(fileContents)
