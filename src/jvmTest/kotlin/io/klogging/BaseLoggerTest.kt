@@ -21,23 +21,26 @@ package io.klogging
 import io.klogging.Level.FATAL
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+import mjs.kotest.description
 
 internal class BaseLoggerTest : DescribeSpec({
-    describe("`BaseLogger.eventFrom()` extension function") {
+    description("Abstract base logger class")
+    describe("`BaseLogger.eventFrom()` extension function that constructs a `LogEvent` from a range of types") {
         class TestLogger(
             override val name: String = "A test logger"
         ) : BaseLogger
 
         it("makes an event for an event object") {
+            val testMessage = randomString()
             val event = TestLogger().eventFrom(
                 FATAL,
                 null,
                 object {
-                    override fun toString() = "FUBAR!"
+                    override fun toString() = testMessage
                 }
             )
 
-            event.message shouldBe "FUBAR!"
+            event.message shouldBe testMessage
         }
     }
 })
