@@ -20,6 +20,7 @@ package io.klogging
 
 import io.klogging.impl.NoCoLoggerImpl
 import io.klogging.internal.KloggingEngine
+import io.klogging.internal.trace
 import kotlin.reflect.KClass
 
 /**
@@ -35,8 +36,11 @@ internal fun noCoLoggerFor(name: String?): NoCoLogger {
     // This property is lazily set by checking for a JSON configuration file.
     // TODO: Can we ensure this is not optimised out of the code?
     KloggingEngine.configuration
-    val loggerName = name ?: "Klogger"
-    return NOCO_LOGGERS.getOrPut(loggerName) { NoCoLoggerImpl(loggerName) }
+    val loggerName = name ?: "NoCoLogger"
+    return NOCO_LOGGERS.getOrPut(loggerName) {
+        trace("NoCoLogging", "Adding NoCoLogger $loggerName")
+        NoCoLoggerImpl(loggerName)
+    }
 }
 
 /** Returns a [NoCoLogger] with the specified name. */

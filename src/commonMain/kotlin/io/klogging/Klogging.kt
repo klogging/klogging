@@ -20,6 +20,7 @@ package io.klogging
 
 import io.klogging.impl.KloggerImpl
 import io.klogging.internal.KloggingEngine
+import io.klogging.internal.trace
 import kotlin.reflect.KClass
 
 /** Get the name of a class. */
@@ -39,7 +40,10 @@ internal fun loggerFor(name: String?): Klogger {
     // TODO: Can we ensure this is not optimised out of the code?
     KloggingEngine.configuration
     val loggerName = name ?: "Klogger"
-    return LOGGERS.getOrPut(loggerName) { KloggerImpl(loggerName) }
+    return LOGGERS.getOrPut(loggerName) {
+        trace("Klogging", "Adding Klogger $loggerName")
+        KloggerImpl(loggerName)
+    }
 }
 
 /** Returns a [Klogger] with the specified name. */
