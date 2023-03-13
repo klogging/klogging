@@ -27,6 +27,7 @@ import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.TaskProvider
+import org.gradle.configurationcache.extensions.capitalized
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
@@ -128,7 +129,7 @@ private fun Project.createPublishingTasks(
 
     afterEvaluate {
         publishing.publications.names.forEach { publication ->
-            tasks.named("publish${publication.capitalize()}PublicationToSonatypeRepository").configure {
+            tasks.named("publish${publication.capitalized()}PublicationToSonatypeRepository").configure {
                 dependsOn(validateCredentialsTask)
             }
         }

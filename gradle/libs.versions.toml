@@ -1,13 +1,13 @@
 [versions]
-kotlin = "1.7.21"
-klogging = "0.4.9"
+kotlin = "1.8.10"
+klogging = "0.4.13"
 jacoco = "0.8.8"
-kotest = "5.5.4"
+kotest = "5.5.5"
 ktlint = "0.47.1"
 slf4j = "2.0.5"
 versions = "0.42.0"
 html-reporter = "0.6.1"
-spotless = "6.12.0"
+spotless = "6.16.0"
 reckon = "0.16.1"
 publish = "1.1.0"
 

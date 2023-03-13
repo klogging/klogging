@@ -31,7 +31,7 @@ plugins {
 }
 
 group = "io.klogging"
-version = "0.3.0"
+version = "0.3.1"
 
 repositories {
     mavenCentral()
@@ -52,6 +52,13 @@ kotlin {
     explicitApi()
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(8))
+    }
+
+    sourceSets.all {
+        languageSettings.apply {
+            languageVersion = "1.8"
+            apiVersion = "1.6"
+        }
     }
 }
 
