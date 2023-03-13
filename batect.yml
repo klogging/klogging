@@ -22,7 +22,7 @@ tasks:
     description: Build the library.
     run:
       container: build-env
-      command: ./gradlew assemble
+      command: ./gradlew assemble --info
 
   check:
     description: Run the unit tests and static analysis tools.
