@@ -2,7 +2,7 @@ project_name: klogging
 
 containers:
   build-env:
-    image: eclipse-temurin:17.0.3_7-jdk@sha256:f7b969d455abeefb9cad0280477e067d8340c22a081347a94c6fe22d0c67d420
+    image: eclipse-temurin:19.0.2_7-jdk@sha256:f6b5cf2467413076b72bfb0a850c9ca942bbcf32fb642027a7b22b1187fac927
     volumes:
       - local: .
         container: /code
