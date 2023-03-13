@@ -95,5 +95,15 @@ class LogContextTest : DescribeSpec({
                 }
             }
         }
+        describe("`withLogContext()` function") {
+            it("stores items in a `LogContext` in the current coroutine context") {
+                withLogContext("colour" to "blue", "size" to "large") {
+                    val context = coroutineContext[LogContext]
+                    context shouldNotBe null
+                    context?.get("colour") shouldBe "blue"
+                    context?.get("size") shouldBe "large"
+                }
+            }
+        }
     }
 })

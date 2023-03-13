@@ -19,6 +19,8 @@
 package io.klogging.context
 
 import io.klogging.events.EventItems
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.AbstractCoroutineContextElement
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.coroutineContext
@@ -61,6 +63,17 @@ public suspend fun logContext(vararg items: Pair<String, Any?>): CoroutineContex
         ?: mutableMapOf()
     allItems.putAll(items)
     return LogContext(allItems)
+}
+
+/**
+ * Utility function that stores items into a [LogContext] in the current
+ * coroutine scope.
+ */
+public suspend fun <R> withLogContext(
+    vararg items: Pair<String, Any?>,
+    block: suspend CoroutineScope.() -> R
+): R = withContext(logContext(*items)) {
+    block()
 }
 
 /**
