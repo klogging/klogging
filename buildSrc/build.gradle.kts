@@ -16,7 +16,6 @@
 
 */
 
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.versions)
