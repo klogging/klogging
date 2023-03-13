@@ -7,7 +7,7 @@ ktlint = "0.47.1"
 slf4j = "2.0.5"
 versions = "0.42.0"
 html-reporter = "0.6.1"
-spotless = "6.16.0"
+spotless = "6.17.0"
 reckon = "0.16.1"
 publish = "1.1.0"
 
