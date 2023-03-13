@@ -1,17 +1,17 @@
 [versions]
 dokka = "1.8.10"
-html-reporter = "0.6.1"
+html-reporter = "0.6.3"
 jacoco = "0.8.8"
 kotest = "5.5.5"
 kotlin-coroutines = "1.6.4"
 kotlin-datetime = "0.4.0"
-kotlin-serialisation = "1.4.1"
+kotlin-serialisation = "1.5.0"
 ktlint = "0.47.1"
 publish = "1.1.0"
 reckon = "0.16.1"
-spotless = "6.12.0"
+spotless = "6.16.0"
 version-catalog-update = "0.7.0"
-versions = "0.44.0"
+versions = "0.46.0"
 
 [libraries]
 html-reporter = { module = "com.michaelstrasser:kotest-html-reporter", version.ref = "html-reporter" }
