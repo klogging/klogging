@@ -68,4 +68,9 @@ fun Project.configureAssemble() {
 
         duplicatesStrategy = DuplicatesStrategy.FAIL
     }
+
+    // Set explicit dependency so Gradle works correctly.
+    tasks.named("generateMetadataFileForJvmPublication").configure {
+        dependsOn(tasks.named("jvmJar"))
+    }
 }
