@@ -22,7 +22,6 @@ import io.klogging.build.configurePublishing
 import io.klogging.build.configureSpotless
 import io.klogging.build.configureTesting
 import io.klogging.build.configureWrapper
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
@@ -113,13 +112,6 @@ kotlin {
 // This might be a workaround for a bug in Gradle Kotlin scripts, see:
 // https://youtrack.jetbrains.com/issue/KT-46165
 tasks.withType<ProcessResources> { duplicatesStrategy = DuplicatesStrategy.INCLUDE }
-
-tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions {
-        // Opt in for kotlinx-datetime features (see `Timestamps.kt`)
-        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
-    }
-}
 
 tasks.dokkaHtml.configure {
     moduleName.set("Klogging")
