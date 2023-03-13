@@ -1,6 +1,6 @@
 /*
 
-   Copyright 2021-2022 Michael Strasser.
+   Copyright 2021-2023 Michael Strasser.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 */
 
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.versions)
