@@ -11,7 +11,7 @@ publish = "1.1.0"
 reckon = "0.16.1"
 spotless = "6.16.0"
 version-catalog-update = "0.7.0"
-versions = "0.44.0"
+versions = "0.46.0"
 
 [libraries]
 html-reporter = { module = "com.michaelstrasser:kotest-html-reporter", version.ref = "html-reporter" }
