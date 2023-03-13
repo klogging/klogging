@@ -1,5 +1,5 @@
 [versions]
-dokka = "1.7.20"
+dokka = "1.8.10"
 html-reporter = "0.6.3"
 jacoco = "0.8.8"
 kotest = "5.5.5"
