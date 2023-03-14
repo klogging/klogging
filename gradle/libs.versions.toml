@@ -9,7 +9,7 @@ kotlin-serialisation = "1.5.0"
 ktlint = "0.47.1"
 publish = "1.1.0"
 reckon = "0.16.1"
-spotless = "6.16.0"
+spotless = "6.17.0"
 version-catalog-update = "0.7.0"
 versions = "0.46.0"
 
