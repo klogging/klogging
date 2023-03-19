@@ -32,7 +32,6 @@ fun Project.configureAssemble() {
         group = "Distribution"
 
         project.extensions.getByType<PublishingExtension>().publications.names
-            .filter { it == "jvm" }
             .forEach { publicationName ->
                 from(tasks.named("${publicationName}Jar"))
                 from(tasks.named("${publicationName}JavadocJar"))
