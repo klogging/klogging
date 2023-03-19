@@ -22,8 +22,6 @@ import org.gradle.api.Project
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.tasks.Copy
-import org.gradle.configurationcache.extensions.capitalized
-import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.register
 
 fun Project.configureAssemble() {
@@ -40,7 +38,7 @@ fun Project.configureAssemble() {
                 val filenameRoot = "${project.name}-$publicationName-${project.version}"
                 with(
                     copySpec()
-                        .from(tasks.named("sign${publicationName.capitalized()}Publication"))
+                        .from(tasks.named("sign${publicationName.capitalize()}Publication"))
                         .rename { fileName ->
                             when (fileName) {
                                 "module.json.asc" -> "$filenameRoot.module.json.asc"
@@ -52,13 +50,13 @@ fun Project.configureAssemble() {
 
                 with(
                     copySpec()
-                        .from(tasks.named("generatePomFileFor${publicationName.capitalized()}Publication"))
+                        .from(tasks.named("generatePomFileFor${publicationName.capitalize()}Publication"))
                         .rename { fileName -> if (fileName == "pom-default.xml") "$filenameRoot.pom" else fileName }
                 )
 
                 with(
                     copySpec()
-                        .from(tasks.named("generateMetadataFileFor${publicationName.capitalized()}Publication"))
+                        .from(tasks.named("generateMetadataFileFor${publicationName.capitalize()}Publication"))
                         .rename { fileName -> if (fileName == "module.json") "$filenameRoot.module.json" else fileName }
                 )
             }
