@@ -22,6 +22,7 @@ import org.gradle.api.Project
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.tasks.Copy
+import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.register
 
 fun Project.configureAssemble() {
