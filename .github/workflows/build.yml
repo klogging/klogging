@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TERM: xterm-256color
+      BATECT_CACHE_TYPE: directory
+      BATECT_ENABLE_TELEMETRY: true
       SIGNING_KEY_ID: 40D4E7C6
       OSSRH_USERNAME: mjstrasser
 
@@ -26,17 +28,24 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
-      - name: Setup Java
-        uses: actions/setup-java@v3
+      - name: Cache Batect
+        uses: actions/cache@v3.2.6
         with:
-          distribution: temurin
-          java-version: 17
+          path: ~/.batect/cache
+          key: batect-${{ hashFiles('batect') }}
+
+      - name: Cache dependencies
+        uses: actions/cache@v3.2.6
+        id: cache-dependencies
+        with:
+          path: .batect/caches
+          key: batect-caches-${{ hashFiles('**/*.gradle.kts') }}
 
       - name: Build
-        run: ./gradlew assemble
+        run: ./batect build
 
-      - name: Run checks
-        run: ./gradlew check
+      - name: Check
+        run: ./batect check
 
       - name: Check test output existence
         id: check_test_output
@@ -46,7 +55,7 @@ jobs:
         if: success() || failure()
 
       - name: Generating code coverage report
-        run: ./gradlew jacocoTestReport
+        run: ./batect generateCodeCoverageReport
         if: steps.check_test_outputs.file_exists == 'true'
 
       - name: Upload coverage to codecov.io
@@ -54,14 +63,14 @@ jobs:
         if: steps.check_test_outputs.file_exists == 'true'
 
       - name: Assemble release
-        run: ./gradlew assembleRelease
+        run: ./batect assembleRelease
         env:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         if: github.repository == 'klogging/slf4j-klogging' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')) && github.event_name == 'push'
 
       - name: Publish snapshot
-        run: ./gradlew publishSnapshot
+        run: ./batect publishSnapshot
         env:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
@@ -69,9 +78,29 @@ jobs:
         if: github.repository == 'klogging/slf4j-klogging' && github.ref == 'refs/heads/main' && github.event_name == 'push'
 
       - name: Publish release
-        run: ./gradlew publishRelease
+        run: ./batect publishRelease
         env:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         if: github.repository == 'klogging/slf4j-klogging' && startsWith(github.ref, 'refs/tags/') && github.event_name == 'push'
+
+      - name: Clean up dependencies before caching
+        if: steps.cache-dependencies.outputs.cache-hit != 'true'
+        run: |
+          rm -rf .batect/caches/gradle-cache/caches/modules-2/modules-2.lock
+          rm -rf .batect/caches/gradle-cache/caches/*/plugin-resolution/
+          rm -rf .batect/caches/gradle-cache/caches/*/scripts/
+          rm -rf .batect/caches/gradle-cache/caches/*/scripts-remapped/
+          rm -rf .batect/caches/gradle-cache/caches/*/fileHashes/
+          rm -rf .batect/caches/gradle-cache/caches/*/fileContent/*.lock
+          rm -rf .batect/caches/gradle-cache/caches/*/javaCompile/*.lock
+          rm -rf .batect/caches/gradle-cache/caches/*/executionHistory/*.lock
+          rm -rf .batect/caches/gradle-cache/caches/*/generated-gradle-jars/*.lock
+          rm -rf .batect/caches/gradle-cache/caches/jars-*/*.lock
+          rm -rf .batect/caches/gradle-cache/caches/transforms-1/transforms-1.lock
+          rm -rf .batect/caches/gradle-cache/caches/journal-1/file-access.bin
+          rm -rf .batect/caches/gradle-cache/caches/journal-1/*.lock
+          rm -rf .batect/caches/gradle-cache/daemon/*/*.lock
+          rm -rf .batect/caches/gradle-cache/daemon/*/*.log
+          rm -rf .batect/caches/gradle-cache/kotlin-profile/*
