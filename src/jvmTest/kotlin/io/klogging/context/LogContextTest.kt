@@ -21,6 +21,7 @@ package io.klogging.context
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.types.shouldBeTypeOf
 import kotlinx.coroutines.launch
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -99,10 +100,16 @@ class LogContextTest : DescribeSpec({
             it("stores items in a `LogContext` in the current coroutine context") {
                 withLogContext("colour" to "blue", "size" to "large") {
                     val context = coroutineContext[LogContext]
-                    context shouldNotBe null
-                    context?.get("colour") shouldBe "blue"
-                    context?.get("size") shouldBe "large"
+                    context.shouldBeTypeOf<LogContext>()
+                    context.get("colour") shouldBe "blue"
+                    context.get("size") shouldBe "large"
                 }
+            }
+            it("returns the value of the lambda") {
+                val lambdaValue = withLogContext("colour" to "puce") {
+                    "lambdaValue"
+                }
+                lambdaValue shouldBe "lambdaValue"
             }
         }
     }
