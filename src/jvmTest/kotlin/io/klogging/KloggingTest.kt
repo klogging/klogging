@@ -21,6 +21,7 @@ package io.klogging
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 
+@Suppress("ktlint:max-line-length")
 class KloggingTest : DescribeSpec({
     describe("logger name") {
         it("can be set explicitly") {

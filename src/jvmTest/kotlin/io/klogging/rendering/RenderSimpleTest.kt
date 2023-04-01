@@ -26,6 +26,7 @@ import io.klogging.randomString
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 
+@Suppress("ktlint:max-line-length")
 class RenderSimpleTest : DescribeSpec({
     describe("Render a `LogEvent` to a simple string") {
         it("omits null stack trace") {
