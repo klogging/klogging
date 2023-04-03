@@ -23,6 +23,12 @@ pluginManagement {
     val versionsPluginVersion: String by settings
     val dokkaVersion: String by settings
 
+    // Setup so builds succeed when a new version of Kotlin has only partly propagated to repositories.
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+
     plugins {
         kotlin("multiplatform") version kotlinVersion
         kotlin("plugin.serialization") version kotlinVersion
