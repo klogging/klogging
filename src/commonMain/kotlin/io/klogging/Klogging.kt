@@ -29,7 +29,7 @@ internal expect fun classNameOf(ownerClass: KClass<*>): String?
 /**
  * Runtime list of current [Klogger] instances.
  */
-private val LOGGERS: MutableMap<String, Klogger> = mutableMapOf()
+private val LOGGERS: MutableMap<String, Klogger> = concurrentMap()
 
 /**
  * Returns a [Klogger] for the specified name: returning an existing one

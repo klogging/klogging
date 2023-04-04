@@ -26,7 +26,7 @@ import kotlin.reflect.KClass
 /**
  * Runtime list of current [NoCoLogger] instances.
  */
-private val NOCO_LOGGERS: MutableMap<String, NoCoLogger> = mutableMapOf()
+private val NOCO_LOGGERS: MutableMap<String, NoCoLogger> = concurrentMap()
 
 /**
  * Returns a [NoCoLogger] for the specified name: returning an existing one
