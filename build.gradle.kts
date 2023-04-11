@@ -30,6 +30,7 @@ plugins {
     alias(libs.plugins.versions)
     alias(libs.plugins.dokka)
     alias(libs.plugins.versionCatalogUpdate)
+    alias(libs.plugins.binaryCompatibilityValidator)
 }
 
 group = "io.klogging"

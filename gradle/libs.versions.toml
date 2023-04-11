@@ -1,4 +1,5 @@
 [versions]
+binary-compatibility-validator = "0.13.0"
 dokka = "1.8.10"
 html-reporter = "0.6.3"
 jacoco = "0.8.8"
@@ -27,6 +28,7 @@ reckon = { module = "org.ajoberstar.reckon:reckon-gradle", version.ref = "reckon
 spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
 
 [plugins]
+binaryCompatibilityValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binary-compatibility-validator" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 versionCatalogUpdate = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
 versions = { id = "com.github.ben-manes.versions", version.ref = "versions" }
