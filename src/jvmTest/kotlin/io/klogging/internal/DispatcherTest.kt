@@ -183,7 +183,7 @@ internal class DispatcherTest : DescribeSpec({
                     }
                 }
             }
-            it("cachedSinksFor() finds the sink for a logger out of 20,000 in less than 20 milliseconds") {
+            it("`cachedSinksFor()` finds the sink for a logger out of 10,000 in less than 20 milliseconds") {
                 repeat(100) {
                     val id = Random.nextLong(10_000)
                     repeat(100) {

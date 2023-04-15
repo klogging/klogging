@@ -89,12 +89,12 @@ internal object Dispatcher {
                     keepMatching = keepMatching && !(matches && config.stopOnMatch)
                 }
             }
-            .flatMap { it.ranges }
-            .filter { level in it }
-            .flatMap { it.sinkNames }
+            .flatMap { config -> config.ranges }
+            .filter { range -> level in range }
+            .flatMap { range -> range.sinkNames }
             .distinct()
         return KloggingEngine.sinks()
-            .filterKeys { it in sinkNames }
-            .map { it.value }
+            .filterKeys { key -> key in sinkNames }
+            .map { entry -> entry.value }
     }
 }
