@@ -2,7 +2,7 @@
 kotlin = "1.8.20"
 klogging = "0.4.13"
 jacoco = "0.8.8"
-kotest = "5.6.0"
+kotest = "5.6.1"
 ktlint = "0.47.1"
 slf4j = "2.0.7"
 versions = "0.46.0"
