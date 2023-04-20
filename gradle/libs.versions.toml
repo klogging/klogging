@@ -1,5 +1,5 @@
 [versions]
-binary-compatibility-validator = "0.13.0"
+binary-compatibility-validator = "0.13.1"
 dokka = "1.8.10"
 html-reporter = "0.6.3"
 jacoco = "0.8.8"
