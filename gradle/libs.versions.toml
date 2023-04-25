@@ -1,5 +1,5 @@
 [versions]
-kotlin = "1.8.20"
+kotlin = "1.8.21"
 klogging = "0.4.13"
 jacoco = "0.8.8"
 kotest = "5.6.1"
