@@ -74,7 +74,7 @@ internal class Sink(
     }
 
     /**
-     * Send a [LogEvent] directly to the sink’s [eventSender].
+     * Send a [LogEvent] directly to the sink’s [EventSender].
      */
     internal suspend fun sendDirect(logEvent: LogEvent) {
         trace("Sink", "Forwarding event ${logEvent.id} directly to sink $name")
