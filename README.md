@@ -62,7 +62,7 @@ See [https://klogging.io](https://klogging.io) for more detailed documentation.
 
     ```kotlin
     fun main() = runBlocking {
-        loggingConfiguration { DEFAULT_CONSOLE() }
+        loggingConfiguration { ANSI_CONSOLE() }
         // ...
     }
     ```
@@ -100,7 +100,7 @@ expect to see. This example will not show the log message on the console:
 
 ```kotlin
 suspend fun main() = coroutineScope {
-    loggingConfiguration { DEFAULT_CONSOLE() }
+    loggingConfiguration { ANSI_CONSOLE() }
     val logger = logger("main")
     logger.info("Hello, world!")
 }
@@ -112,7 +112,7 @@ for example:
 
 ```kotlin
 suspend fun main() = coroutineScope {
-    loggingConfiguration { DEFAULT_CONSOLE() }
+    loggingConfiguration { ANSI_CONSOLE() }
     val logger = logger("main")
     logger.info("Hello, world!")
     delay(50)
@@ -125,7 +125,7 @@ via coroutine channels:
 ```kotlin
 suspend fun main() = coroutineScope {
     loggingConfiguration {
-        DEFAULT_CONSOLE()
+        ANSI_CONSOLE()
         minDirectLogLevel(Level.INFO)
     }
     val logger = logger("main")
