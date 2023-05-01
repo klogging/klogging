@@ -36,9 +36,9 @@ internal object Dispatcher {
         // If we are tracing Klogging, add event ID to the items map.
         val event = logEvent.addContext(traceContext(logEvent) + KloggingEngine.baseContextItems)
 
-        sinksFor(logEvent.logger, logEvent.level)
+        cachedSinksFor(logEvent.logger, logEvent.level)
             .forEach { sink ->
-                trace("Dispatcher", "Dispatching event ${event.id} to ${sink.name}")
+                trace("Dispatcher", "Dispatching event ${event.id} to sink ${sink.name}")
                 sink.send(event)
             }
     }
@@ -48,9 +48,9 @@ internal object Dispatcher {
      */
     internal suspend fun sendDirect(logEvent: LogEvent) {
         val event = logEvent.addContext(traceContext(logEvent) + KloggingEngine.baseContextItems)
-        sinksFor(logEvent.logger, logEvent.level)
+        cachedSinksFor(logEvent.logger, logEvent.level)
             .forEach { sink ->
-                trace("Dispatcher", "Dispatching event ${event.id} directly to ${sink.name}")
+                trace("Dispatcher", "Dispatching event ${event.id} directly to sink ${sink.name}")
                 sink.sendDirect(logEvent)
             }
     }
@@ -67,6 +67,14 @@ internal object Dispatcher {
      */
     internal fun cachedSinksFor(loggerName: String, level: Level): List<Sink> =
         sinkCache.getOrPut(Pair(loggerName, level)) { sinksFor(loggerName, level) }
+
+    /**
+     * Clear the internal cache of sinks, to be called whenever the global Klogging
+     * sinks are set [KloggingEngine.setSinks].
+     */
+    internal fun clearCache() {
+        sinkCache.clear()
+    }
 
     /**
      * Calculate the sinks for the specified logger and level.

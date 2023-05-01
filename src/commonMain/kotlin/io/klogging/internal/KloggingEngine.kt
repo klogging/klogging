@@ -89,6 +89,8 @@ internal object KloggingEngine {
                 name to Sink(name, config.eventSender)
             }
         )
+        // Also clear the dispatcher’s cache of sinks.
+        Dispatcher.clearCache()
     }
 
     // Functions returning the current state.
