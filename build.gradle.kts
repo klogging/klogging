@@ -96,8 +96,9 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 implementation(libs.kotest.junit)
-                implementation(libs.kotest.xml)
                 implementation(libs.kotest.datatest)
+                implementation(libs.kotest.xml)
+                implementation(libs.kotest.property)
                 implementation(libs.html.reporter)
             }
         }

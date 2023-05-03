@@ -18,46 +18,50 @@
 
 package io.klogging.config
 
-import io.klogging.randomString
+import io.klogging.genMessage
+import io.klogging.genString
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.property.checkAll
 
 class EnvironmentTest : DescribeSpec({
     describe("`evalEnv()`: evaluate environment variables in strings") {
         it("returns a string as supplied without any env vars in it") {
-            val string = randomString()
-            evalEnv(string) shouldBe string
+            checkAll(genMessage) { string ->
+                evalEnv(string) shouldBe string
+            }
         }
         it("returns a string as supplied with unknown env vars in it") {
-            val string = randomString() + "\${UNKNOWN}" + randomString()
-            evalEnv(string) shouldBe string
+            checkAll(genString, genString) { str1, str2 ->
+                val string = "$str1 \${UNKNOWN} $str2"
+                evalEnv(string) shouldBe string
+            }
         }
         it("evaluates a single env var in a string") {
-            val envName = randomString()
-            val envValue = randomString()
-            val string = "pre \${$envName} post"
-
-            evalEnv(string, mapOf(envName to envValue)) shouldBe "pre $envValue post"
+            checkAll(genString, genString) { envName, envValue ->
+                val string = "pre \${$envName} post"
+                evalEnv(string, mapOf(envName to envValue)) shouldBe "pre $envValue post"
+            }
         }
         it("evaluates multiple env vars in a string") {
-            val names = listOf(randomString(), randomString())
-            val values = listOf(randomString(), randomString())
-            val string = "start \${${names[0]}} middle \${${names[1]}} end"
+            checkAll(genString, genString, genString, genString) { name1, value1, name2, value2 ->
+                val string = "start \${$name1} middle \${$name2} end"
 
-            evalEnv(
-                string,
-                mapOf(
-                    names[0] to values[0],
-                    names[1] to values[1]
-                )
-            ) shouldBe "start ${values[0]} middle ${values[1]} end"
+                evalEnv(
+                    string,
+                    mapOf(
+                        name1 to value1,
+                        name2 to value2
+                    )
+                ) shouldBe "start $value1 middle $value2 end"
+            }
         }
         it("evaluates an env var every time it occurs in a string") {
-            val name = randomString()
-            val value = randomString()
-            val string = "start \${$name} middle \${$name} end"
+            checkAll(genString, genString) { name, value ->
+                val string = "start \${$name} middle \${$name} end"
 
-            evalEnv(string, mapOf(name to value)) shouldBe "start $value middle $value end"
+                evalEnv(string, mapOf(name to value)) shouldBe "start $value middle $value end"
+            }
         }
     }
 })

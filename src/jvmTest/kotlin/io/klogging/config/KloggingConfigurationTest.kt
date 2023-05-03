@@ -23,9 +23,9 @@ import io.klogging.Level.FATAL
 import io.klogging.Level.INFO
 import io.klogging.Level.NONE
 import io.klogging.Level.WARN
+import io.klogging.genLevel
+import io.klogging.genLoggerName
 import io.klogging.internal.KloggingEngine
-import io.klogging.randomLevel
-import io.klogging.randomString
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RENDER_SIMPLE
 import io.klogging.sending.STDERR
@@ -37,6 +37,8 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.shouldBe
+import io.kotest.property.arbitrary.next
+import io.kotest.property.checkAll
 
 internal class KloggingConfigurationTest : DescribeSpec({
     describe("Klogging configuration") {
@@ -166,43 +168,42 @@ internal class KloggingConfigurationTest : DescribeSpec({
         }
         describe("minimumLevel() function") {
             it("returns INFO if there is no configuration") {
-                KloggingEngine.minimumLevelOf(randomString()) shouldBe INFO
+                KloggingEngine.minimumLevelOf(genLoggerName.next()) shouldBe INFO
             }
             it("returns INFO from the default console configuration") {
                 loggingConfiguration { DEFAULT_CONSOLE() }
-                KloggingEngine.minimumLevelOf(randomString()) shouldBe INFO
+                KloggingEngine.minimumLevelOf(genLoggerName.next()) shouldBe INFO
             }
             it("returns the level of a single configuration that matches the logger name") {
-                val name = randomString()
-                val level = randomLevel()
-                loggingConfiguration {
-                    sink("stdout", RENDER_SIMPLE, STDOUT)
-                    logging {
-                        exactLogger(name)
-                        atLevel(level) { toSink("stdout") }
+                checkAll(genLoggerName, genLevel) { name, level ->
+                    loggingConfiguration {
+                        sink("stdout", RENDER_SIMPLE, STDOUT)
+                        logging {
+                            exactLogger(name)
+                            atLevel(level) { toSink("stdout") }
+                        }
                     }
+                    KloggingEngine.minimumLevelOf(name) shouldBe level
                 }
-
-                KloggingEngine.minimumLevelOf(name) shouldBe level
             }
             it("returns the minimum level of configurations that match the event name") {
-                val name = randomString()
-                loggingConfiguration {
-                    sink("stdout", RENDER_SIMPLE, STDOUT)
-                    logging { atLevel(WARN) { toSink("stdout") } }
-                    logging { exactLogger(name); atLevel(INFO) { toSink("stdout") } }
+                checkAll(genLoggerName) { name ->
+                    loggingConfiguration {
+                        sink("stdout", RENDER_SIMPLE, STDOUT)
+                        logging { atLevel(WARN) { toSink("stdout") } }
+                        logging { exactLogger(name); atLevel(INFO) { toSink("stdout") } }
+                    }
+                    KloggingEngine.minimumLevelOf(name) shouldBe INFO
                 }
-
-                KloggingEngine.minimumLevelOf(name) shouldBe INFO
             }
             it("returns NONE if no configurations match the event name") {
-                val name = randomString()
-                loggingConfiguration {
-                    sink("stdout", RENDER_SIMPLE, STDOUT)
-                    logging { exactLogger(name); atLevel(INFO) { toSink("stdout") } }
+                checkAll(genLoggerName) { name ->
+                    loggingConfiguration {
+                        sink("stdout", RENDER_SIMPLE, STDOUT)
+                        logging { exactLogger(name); atLevel(INFO) { toSink("stdout") } }
+                    }
+                    KloggingEngine.minimumLevelOf("$name$name") shouldBe NONE
                 }
-
-                KloggingEngine.minimumLevelOf(randomString()) shouldBe NONE
             }
         }
         describe("append() function") {

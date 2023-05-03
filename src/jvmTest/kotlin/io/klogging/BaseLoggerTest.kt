@@ -21,6 +21,7 @@ package io.klogging
 import io.klogging.Level.FATAL
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.property.checkAll
 import mjs.kotest.description
 
 internal class BaseLoggerTest : DescribeSpec({
@@ -31,16 +32,17 @@ internal class BaseLoggerTest : DescribeSpec({
         ) : BaseLogger
 
         it("makes an event for an event object") {
-            val testMessage = randomString()
-            val event = TestLogger().eventFrom(
-                FATAL,
-                null,
-                object {
-                    override fun toString() = testMessage
-                }
-            )
+            checkAll(genMessage) { message ->
+                val event = TestLogger().eventFrom(
+                    FATAL,
+                    null,
+                    object {
+                        override fun toString() = message
+                    }
+                )
 
-            event.message shouldBe testMessage
+                event.message shouldBe message
+            }
         }
     }
 })

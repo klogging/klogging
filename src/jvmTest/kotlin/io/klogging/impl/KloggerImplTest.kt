@@ -23,8 +23,11 @@ import io.klogging.Level.INFO
 import io.klogging.Level.WARN
 import io.klogging.context.logContext
 import io.klogging.events.timestampNow
-import io.klogging.logEvent
-import io.klogging.randomString
+import io.klogging.genException
+import io.klogging.genLogEvent
+import io.klogging.genLoggerName
+import io.klogging.genMessage
+import io.klogging.genString
 import io.klogging.savedEvents
 import io.kotest.assertions.timing.eventually
 import io.kotest.core.spec.style.DescribeSpec
@@ -34,6 +37,10 @@ import io.kotest.matchers.maps.shouldContainAll
 import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.kotest.property.Arb
+import io.kotest.property.arbitrary.next
+import io.kotest.property.arbitrary.uuid
+import io.kotest.property.checkAll
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.seconds
@@ -43,63 +50,66 @@ class KloggerImplTest : DescribeSpec({
     describe("KloggerImpl implementation of Klogger") {
         describe("logs any object") {
             it("logs a string in the message field") {
-                val events = savedEvents()
-                val message = randomString()
-                KloggerImpl("KloggerImplTest").warn(message)
+                checkAll(genLoggerName, genMessage) { name, message ->
+                    val events = savedEvents()
+                    KloggerImpl(name).warn(message)
 
-                eventually(1.seconds) {
-                    events.size shouldBe 1
-                    events.first().message shouldBe message
+                    eventually(1.seconds) {
+                        events.size shouldBe 1
+                        events.first().message shouldBe message
+                    }
                 }
             }
             it("logs a LogEvent object with the specified level") {
-                val events = savedEvents()
-                val event = logEvent()
-                KloggerImpl("KloggerImplTest").warn(event)
+                checkAll(genLoggerName, genLogEvent) { name, event ->
+                    val events = savedEvents()
+                    KloggerImpl(name).warn(event)
 
-                eventually(1.seconds) {
-                    events.size shouldBe 1
-                    with(events.first()) {
-                        timestamp shouldBe event.timestamp
-                        host shouldBe event.host
-                        logger shouldBe event.logger
-                        level shouldBe WARN
-                        template shouldBe event.template
-                        message shouldBe event.message
-                        stackTrace shouldBe event.stackTrace
-                        items shouldBe event.items
+                    eventually(1.seconds) {
+                        events.size shouldBe 1
+                        with(events.first()) {
+                            timestamp shouldBe event.timestamp
+                            host shouldBe event.host
+                            logger shouldBe event.logger
+                            level shouldBe WARN
+                            template shouldBe event.template
+                            message shouldBe event.message
+                            stackTrace shouldBe event.stackTrace
+                            items shouldBe event.items
+                        }
                     }
                 }
             }
             it("logs a LogEvent object with stack trace from a throwable") {
-                val events = savedEvents()
-                val event = logEvent()
-                val exception = RuntimeException("Oh noes!")
-                KloggerImpl("KloggerImplTest").error(exception, event)
+                checkAll(genLoggerName, genLogEvent, genException) { name, event, exception ->
+                    val events = savedEvents()
+                    KloggerImpl("KloggerImplTest").error(exception, event)
 
-                eventually(1.seconds) {
-                    events.size shouldBe 1
-                    with(events.first()) {
-                        timestamp shouldBe event.timestamp
-                        host shouldBe event.host
-                        logger shouldBe event.logger
-                        level shouldBe ERROR
-                        template shouldBe event.template
-                        message shouldBe event.message
-                        stackTrace shouldBe exception.stackTraceToString()
-                        items shouldBe event.items
+                    eventually(1.seconds) {
+                        events.size shouldBe 1
+                        with(events.first()) {
+                            timestamp shouldBe event.timestamp
+                            host shouldBe event.host
+                            logger shouldBe event.logger
+                            level shouldBe ERROR
+                            template shouldBe event.template
+                            message shouldBe event.message
+                            stackTrace shouldBe exception.stackTraceToString()
+                            items shouldBe event.items
+                        }
                     }
                 }
             }
             it("logs an exception with message and stack trace") {
-                val events = savedEvents()
-                val exception = RuntimeException("Some kind of problem")
-                KloggerImpl("KloggerImplTest").warn(exception)
+                checkAll(genLoggerName, genException) { name, exception ->
+                    val events = savedEvents()
+                    KloggerImpl(name).warn(exception)
 
-                eventually(1.seconds) {
-                    events.size shouldBe 1
-                    events.first().message shouldBe exception.message
-                    events.first().stackTrace shouldNotBe null
+                    eventually(1.seconds) {
+                        events.size shouldBe 1
+                        events.first().message shouldBe exception.message
+                        events.first().stackTrace shouldNotBe null
+                    }
                 }
             }
             it("logs the string representation of anything else in the message field") {
@@ -137,23 +147,25 @@ class KloggerImplTest : DescribeSpec({
 
         describe("event construction function e()") {
             it("uses the template unchanged as message if there are no items") {
-                val tmpl = randomString()
-                with(KloggerImpl("KloggerImplTest").e(tmpl)) {
-                    message shouldBe tmpl
-                    template shouldBe tmpl
+                checkAll(genLoggerName, genMessage) { name, tmpl ->
+                    with(KloggerImpl(name).e(tmpl)) {
+                        message shouldBe tmpl
+                        template shouldBe tmpl
+                    }
                 }
             }
             it("uses message templating to complete the message") {
                 val tmpl = "Hello {User}!"
-                val item = randomString()
-                with(KloggerImpl("KloggerImplTest").e(tmpl, item)) {
-                    message shouldBe tmpl
-                    template shouldBe tmpl
-                    items shouldContain ("User" to item)
+                checkAll(genLoggerName, genString) { name, item ->
+                    with(KloggerImpl(name).e(tmpl, item)) {
+                        message shouldBe tmpl
+                        template shouldBe tmpl
+                        items shouldContain ("User" to item)
+                    }
                 }
             }
             it("extracts values into items") {
-                val name = randomString()
+                val name = genString.next()
                 val age = Random.nextInt(50)
                 with(KloggerImpl("KloggerImplTest").e("{name} is {age} years old", name, age)) {
                     items shouldContainExactly mapOf("name" to name, "age" to age)
@@ -163,20 +175,20 @@ class KloggerImplTest : DescribeSpec({
 
         describe("emitEvent() function") {
             it("combines context items with event items") {
-                val events = savedEvents()
-                val runId = randomString()
-                val id = randomString()
-                val event = KloggerImpl("KloggerImplTest").e("User {id} logged in", id)
-                withContext(logContext("run" to runId)) {
-                    KloggerImpl("KloggerImplTest").emitEvent(INFO, null, event)
-                }
+                checkAll(50, genLoggerName, genString, Arb.uuid()) { name, id, runId ->
+                    val events = savedEvents()
+                    val event = KloggerImpl(name).e("User {id} logged in", id)
+                    withContext(logContext("run" to runId)) {
+                        KloggerImpl(name).emitEvent(INFO, null, event)
+                    }
 
-                eventually(1.seconds) {
-                    events shouldHaveSize 1
-                    events.first().items shouldContainAll mapOf(
-                        "run" to runId,
-                        "id" to id
-                    )
+                    eventually(1.seconds) {
+                        events shouldHaveSize 1
+                        events.first().items shouldContainAll mapOf(
+                            "run" to runId,
+                            "id" to id
+                        )
+                    }
                 }
             }
         }

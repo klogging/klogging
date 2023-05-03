@@ -25,9 +25,9 @@ import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
 import io.klogging.config.DEFAULT_CONSOLE
 import io.klogging.config.loggingConfiguration
+import io.klogging.genLevel
+import io.klogging.genLoggerName
 import io.klogging.logger
-import io.klogging.randomLevel
-import io.klogging.randomString
 import io.klogging.rendering.RENDER_ANSI
 import io.klogging.rendering.RENDER_SIMPLE
 import io.klogging.sending.STDERR
@@ -38,6 +38,7 @@ import io.kotest.framework.concurrency.eventually
 import io.kotest.framework.concurrency.fixed
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
+import io.kotest.property.checkAll
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -46,18 +47,24 @@ internal class DispatcherTest : DescribeSpec({
     describe("sinksFor() function") {
         describe("when no loggers are configured") {
             it("returns no sinks") {
-                loggingConfiguration { }
-                Dispatcher.sinksFor(randomString(), randomLevel()) shouldHaveSize 0
+                checkAll(100, genLoggerName, genLevel) { name, level ->
+                    loggingConfiguration { }
+                    Dispatcher.sinksFor(name, level) shouldHaveSize 0
+                }
             }
         }
         describe("with default console configuration") {
             it("returns the sink for INFO") {
-                loggingConfiguration { DEFAULT_CONSOLE() }
-                Dispatcher.sinksFor(randomString(), INFO) shouldHaveSize 1
+                checkAll(100, genLoggerName) { name ->
+                    loggingConfiguration { DEFAULT_CONSOLE() }
+                    Dispatcher.sinksFor(name, INFO) shouldHaveSize 1
+                }
             }
             it("returns no sinks for DEBUG") {
-                loggingConfiguration { DEFAULT_CONSOLE() }
-                Dispatcher.sinksFor(randomString(), DEBUG) shouldHaveSize 0
+                checkAll(100, genLoggerName) { name ->
+                    loggingConfiguration { DEFAULT_CONSOLE() }
+                    Dispatcher.sinksFor(name, DEBUG) shouldHaveSize 0
+                }
             }
         }
         describe("with base logger name configuration") {
@@ -71,7 +78,9 @@ internal class DispatcherTest : DescribeSpec({
                 }
             }
             it("returns no sinks when the logger name is different to the configuration name") {
-                Dispatcher.sinksFor(randomString(), DEBUG) shouldHaveSize 0
+                checkAll(100, genLoggerName) { name ->
+                    Dispatcher.sinksFor(name, DEBUG) shouldHaveSize 0
+                }
             }
             it("returns the sink when the logger name matches the configuration name exactly") {
                 Dispatcher.sinksFor("com.example.Thing", INFO) shouldHaveSize 1
@@ -91,7 +100,9 @@ internal class DispatcherTest : DescribeSpec({
                 }
             }
             it("returns no sinks when the logger name is different to the configuration name") {
-                Dispatcher.sinksFor(randomString(), DEBUG) shouldHaveSize 0
+                checkAll(100, genLoggerName) { name ->
+                    Dispatcher.sinksFor(name, DEBUG) shouldHaveSize 0
+                }
             }
             it("returns the sink when the logger name matches the configuration name exactly") {
                 Dispatcher.sinksFor("com.example.OtherThing", INFO) shouldHaveSize 1
@@ -131,13 +142,19 @@ internal class DispatcherTest : DescribeSpec({
                 }
             }
             it("returns no sinks when the level is below the configured level") {
-                Dispatcher.sinksFor(randomString(), TRACE) shouldHaveSize 0
+                checkAll(100, genLoggerName) { name ->
+                    Dispatcher.sinksFor(name, TRACE) shouldHaveSize 0
+                }
             }
             it("returns the sinks when the level is at the configured level") {
-                Dispatcher.sinksFor(randomString(), INFO) shouldHaveSize 2
+                checkAll(100, genLoggerName) { name ->
+                    Dispatcher.sinksFor(name, INFO) shouldHaveSize 2
+                }
             }
             it("returns the sinks when the level is above the configured level") {
-                Dispatcher.sinksFor(randomString(), ERROR) shouldHaveSize 2
+                checkAll(100, genLoggerName) { name ->
+                    Dispatcher.sinksFor(name, ERROR) shouldHaveSize 2
+                }
             }
         }
         describe("with stopOnMatch") {

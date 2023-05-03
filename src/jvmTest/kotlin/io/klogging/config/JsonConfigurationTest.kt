@@ -21,8 +21,8 @@ package io.klogging.config
 import io.klogging.Level.DEBUG
 import io.klogging.Level.FATAL
 import io.klogging.Level.INFO
+import io.klogging.genString
 import io.klogging.internal.KloggingEngine
-import io.klogging.randomString
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RENDER_SIMPLE
 import io.klogging.sending.STDOUT
@@ -31,6 +31,7 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.kotest.property.arbitrary.next
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
@@ -210,8 +211,8 @@ internal class JsonConfigurationTest : DescribeSpec({
                 it("returns null if names are not of built-in components") {
                     val sinkConfig = Json.decodeFromString<FileSinkConfiguration>(
                         """{
-                        "renderWith": "${randomString()}",
-                        "sendTo": "${randomString()}"
+                        "renderWith": "${genString.next()}",
+                        "sendTo": "${genString.next()}"
                     }
                         """.trimIndent()
                     ).toSinkConfiguration()

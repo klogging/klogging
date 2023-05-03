@@ -24,8 +24,6 @@ import io.klogging.Level.NONE
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
 import io.klogging.events.LogEvent
-import io.klogging.events.hostname
-import io.klogging.events.timestampNow
 import io.klogging.templating.templateItems
 import io.kotest.assertions.fail
 import io.kotest.core.spec.style.DescribeSpec
@@ -33,11 +31,12 @@ import io.kotest.datatest.withData
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
-import java.lang.Thread.currentThread
+import io.kotest.property.arbitrary.next
+import io.kotest.property.checkAll
 
 internal class KloggerTest : DescribeSpec({
     val thing = object {
-        override fun toString() = "foo"
+        override fun toString() = genMessage.next()
     }
 
     describe("KLogger") {
@@ -70,35 +69,37 @@ internal class KloggerTest : DescribeSpec({
 
         describe("for different logging styles") {
             it("logs a string message") {
-                val message = randomString()
-                with(TestLogger()) {
-                    log(INFO, message)
-                    logged shouldBe message
+                checkAll(genMessage) { message ->
+                    with(TestLogger()) {
+                        log(INFO, message)
+                        logged shouldBe message
+                    }
                 }
             }
             it("logs a string message with an exception") {
-                val message = randomString()
-                val exception = TestException(randomString())
-                with(TestLogger()) {
-                    log(WARN, exception, message)
-                    thrower shouldBe exception
-                    logged shouldBe message
+                checkAll(genMessage, genException) { message, exception ->
+                    with(TestLogger()) {
+                        log(WARN, exception, message)
+                        thrower shouldBe exception
+                        logged shouldBe message
+                    }
                 }
             }
             it("logs a string message in a code block") {
-                val message = randomString()
-                with(TestLogger()) {
-                    info { message }
-                    logged shouldBe message
+                checkAll(genMessage) { message ->
+                    with(TestLogger()) {
+                        info { message }
+                        logged shouldBe message
+                    }
                 }
             }
             it("logs a string message in a code block with an exception") {
-                val message = randomString()
-                val exception = TestException(randomString())
-                with(TestLogger()) {
-                    warn(exception) { message }
-                    logged shouldBe message
-                    thrower shouldBe exception
+                checkAll(genMessage, genException) { message, exception ->
+                    with(TestLogger()) {
+                        warn(exception) { message }
+                        logged shouldBe message
+                        thrower shouldBe exception
+                    }
                 }
             }
             it("logs an object") {
@@ -108,11 +109,13 @@ internal class KloggerTest : DescribeSpec({
                 }
             }
             it("logs an object with an exception") {
-                val exception = TestException(randomString())
-                with(TestLogger()) {
-                    log(WARN, exception, thing)
-                    thrower shouldBe exception
-                    logged shouldBe thing
+                checkAll(genMessage) { message ->
+                    val exception = TestException(message)
+                    with(TestLogger()) {
+                        log(WARN, exception, thing)
+                        thrower shouldBe exception
+                        logged shouldBe thing
+                    }
                 }
             }
             it("logs an object in a code block") {
@@ -122,63 +125,67 @@ internal class KloggerTest : DescribeSpec({
                 }
             }
             it("logs an object in a lambda with an exception") {
-                val exception = TestException(randomString())
-                with(TestLogger()) {
-                    error(exception) { thing }
-                    thrower shouldBe exception
-                    logged shouldBe thing
+                checkAll(genException) { exception ->
+                    with(TestLogger()) {
+                        error(exception) { thing }
+                        thrower shouldBe exception
+                        logged shouldBe thing
+                    }
                 }
             }
             it("logs a templated event") {
                 val template = "Id is {Id}"
-                val id = randomString()
-                with(TestLogger()) {
-                    debug("Id is {Id}", id)
+                checkAll(genString) { id ->
+                    with(TestLogger()) {
+                        debug(template, id)
 
-                    (logged as LogEvent).let {
-                        it.message shouldBe template
-                        it.template shouldBe template
-                        it.items shouldContain ("Id" to id)
+                        (logged as LogEvent).let {
+                            it.message shouldBe template
+                            it.template shouldBe template
+                            it.items shouldContain ("Id" to id)
+                        }
                     }
                 }
             }
             it("logs a templated event with an exception") {
                 val template = "Id is {Id}"
-                val id = randomString()
-                val exception = TestException(randomString())
-                with(TestLogger()) {
-                    fatal(exception, "Id is {Id}", id)
+                checkAll(genString, genException) { id, exception ->
+                    with(TestLogger()) {
+                        fatal(exception, template, id)
 
-                    thrower shouldBe exception
-                    (logged as LogEvent).let {
-                        it.message shouldBe template
-                        it.template shouldBe template
-                        it.items shouldContain ("Id" to id)
+                        thrower shouldBe exception
+                        (logged as LogEvent).let {
+                            it.message shouldBe template
+                            it.template shouldBe template
+                            it.items shouldContain ("Id" to id)
+                        }
                     }
                 }
             }
             it("logs a templated event using `e()` function in a code block") {
                 val template = "Id is {Id}"
-                val id = randomString()
-                with(TestLogger()) {
-                    info { e(template, id) }
-                    (logged as LogEvent).let {
-                        it.message shouldBe template
-                        it.template shouldBe template
-                        it.items shouldContain ("Id" to id)
+                checkAll(genString) { id ->
+                    with(TestLogger()) {
+                        info { e(template, id) }
+                        (logged as LogEvent).let {
+                            it.message shouldBe template
+                            it.template shouldBe template
+                            it.items shouldContain ("Id" to id)
+                        }
                     }
                 }
             }
             it("logs a templated event using `e()` function in a code block with an exception") {
-                val id = randomString()
-                val exception = TestException(randomString())
-                with(TestLogger()) {
-                    warn(exception) { e("Id is {Id}", id) }
-                    thrower shouldBe exception
-                    (logged as LogEvent).let {
-                        it.message shouldBe "Id is {Id}"
-                        it.template shouldBe "Id is {Id}"
-                        it.items shouldContain ("Id" to id)
+                val template = "Id is {Id}"
+                checkAll(genString, genException) { id, exception ->
+                    with(TestLogger()) {
+                        warn(exception) { e(template, id) }
+                        thrower shouldBe exception
+                        (logged as LogEvent).let {
+                            it.message shouldBe template
+                            it.template shouldBe template
+                            it.items shouldContain ("Id" to id)
+                        }
                     }
                 }
             }
@@ -197,7 +204,7 @@ internal class KloggerTest : DescribeSpec({
 })
 
 private class TestLogger(private val minLevel: Level = TRACE) : Klogger {
-    override val name: String = "TestLogger"
+    override val name: String = genLoggerName.next()
 
     var thrower: Throwable? = null
     var logged: Any? = null
@@ -210,17 +217,10 @@ private class TestLogger(private val minLevel: Level = TRACE) : Klogger {
 
     override suspend fun e(template: String, vararg values: Any?): LogEvent =
         LogEvent(
-            randomString(),
-            timestampNow(),
-            hostname,
-            "TestLogger",
-            currentThread().name,
-            NONE,
-            template,
-            template,
-            null,
-            templateItems(template, *values).mapValues { e -> e.value.toString() }
+            logger = name,
+            level = NONE,
+            template = template,
+            message = template,
+            items = templateItems(template, *values).mapValues { e -> e.value.toString() }
         )
 }
-
-private class TestException(message: String) : Exception(message)

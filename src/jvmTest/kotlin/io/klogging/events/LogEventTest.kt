@@ -21,14 +21,19 @@ package io.klogging.events
 import io.klogging.Level.DEBUG
 import io.klogging.Level.INFO
 import io.klogging.context.logContext
+import io.klogging.genLoggerName
+import io.klogging.genMessage
+import io.klogging.genString
 import io.klogging.logger
-import io.klogging.randomString
 import io.klogging.savedEvents
 import io.kotest.assertions.timing.eventually
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.maps.shouldContainAll
 import io.kotest.matchers.shouldBe
+import io.kotest.property.Arb
+import io.kotest.property.arbitrary.uuid
+import io.kotest.property.checkAll
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
@@ -60,32 +65,32 @@ class LogEventTest : DescribeSpec({
 
     describe("LogEvent.copyWith() extension function") {
         it("appends supplied items to those already in the event") {
-            val id = randomString()
-            val run = randomString()
-            val event = LogEvent(
-                logger = "CopyWithTest",
-                level = INFO,
-                message = randomString(),
-                items = mapOf("id" to id)
-            )
-            with(event.copyWith(DEBUG, null, mapOf("run" to run))) {
-                items shouldContainAll mapOf(
-                    "id" to id,
-                    "run" to run
+            checkAll(genLoggerName, genString, Arb.uuid(), genMessage) { name, id, run, message ->
+                val event = LogEvent(
+                    logger = name,
+                    level = INFO,
+                    message = message,
+                    items = mapOf("id" to id)
                 )
+                with(event.copyWith(DEBUG, null, mapOf("run" to run))) {
+                    items shouldContainAll mapOf(
+                        "id" to id,
+                        "run" to run
+                    )
+                }
             }
         }
         it("ignores any supplied items with the same keys as those already present") {
-            val run1 = randomString()
-            val run2 = randomString()
-            val event = LogEvent(
-                logger = "CopyWithTest",
-                level = INFO,
-                message = randomString(),
-                items = mapOf("run" to run1)
-            )
-            with(event.copyWith(DEBUG, null, mapOf("run" to run2))) {
-                items shouldBe mapOf("run" to run1)
+            checkAll(genLoggerName, genMessage, Arb.uuid(), Arb.uuid()) { name, msg, run1, run2 ->
+                val event = LogEvent(
+                    logger = name,
+                    level = INFO,
+                    message = msg,
+                    items = mapOf("run" to run1)
+                )
+                with(event.copyWith(DEBUG, null, mapOf("run" to run2))) {
+                    items shouldBe mapOf("run" to run1)
+                }
             }
         }
     }

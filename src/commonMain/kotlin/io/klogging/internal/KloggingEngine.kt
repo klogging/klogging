@@ -94,7 +94,7 @@ internal object KloggingEngine {
     }
 
     // Functions returning the current state.
-    internal fun minimumLevelOf(name: String): Level = currentConfig.minimumLevelOf(name)
+    internal fun minimumLevelOf(loggerName: String): Level = currentConfig.minimumLevelOf(loggerName)
 
     internal fun sinks(): Map<String, Sink> = currentSinks
 

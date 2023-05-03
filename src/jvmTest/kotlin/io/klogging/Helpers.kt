@@ -26,12 +26,11 @@ import io.klogging.events.LogEvent
 import io.klogging.events.hostname
 import io.klogging.events.timestampNow
 import io.klogging.sending.EventSender
+import io.kotest.property.arbitrary.next
 import kotlinx.datetime.Instant
 import kotlin.random.Random
 import kotlin.random.nextUInt
 import kotlin.random.nextULong
-
-fun randomLoggerName() = Random.nextUInt().toString(16)
 
 /**
  * Random string to use in tests where the value is opaque.
@@ -39,15 +38,14 @@ fun randomLoggerName() = Random.nextUInt().toString(16)
  * or where you test that the value has been copied somewhere.
  */
 fun randomString() = Random.nextULong().toString(16)
-fun randomLevel() = Level.values().random()
 
 fun logEvent(
     timestamp: Instant = timestampNow(),
     host: String = hostname,
-    logger: String = randomLoggerName(),
+    logger: String = genLoggerName.next(),
     context: String? = null,
-    level: Level = randomLevel(),
-    message: String = randomString(),
+    level: Level = genLevel.toArb().next(),
+    message: String = genMessage.next(),
     stackTrace: String? = null,
     items: EventItems = mapOf()
 ) = LogEvent(
