@@ -18,6 +18,7 @@
 
 package io.klogging.internal
 
+import io.klogging.FlowMap
 import io.klogging.Level
 import io.klogging.config.KloggingConfiguration
 import io.klogging.config.LoggingConfig
@@ -41,7 +42,7 @@ internal object KloggingEngine {
 
     /** Map with the current Klogging configuration. */
     private val currentState: MutableMap<String, KloggingConfiguration> =
-        mutableMapOf(CURRENT_STATE to DEFAULT_CONFIG)
+        FlowMap(CURRENT_STATE to DEFAULT_CONFIG)
 
     /** Lazily loaded property that is only set when we have a Klogging state. */
     internal val configuration: KloggingConfiguration by lazy {
