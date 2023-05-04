@@ -18,7 +18,7 @@
 
 package io.klogging.config
 
-import io.klogging.FlowList
+import io.klogging.AtomicMutableList
 import io.klogging.Level
 
 /** Inclusive range of logging levels with the names of sinks where events will be sent. */
@@ -29,7 +29,7 @@ public data class LevelRange(
     override val start: Level get() = minLevel
     override val endInclusive: Level get() = maxLevel
 
-    internal val sinkNames = FlowList<String>()
+    internal val sinkNames = AtomicMutableList<String>()
 
     /**
      * DSL function to specify a sink where events for this [LoggingConfig] should be sent.

@@ -18,8 +18,8 @@
 
 package io.klogging.config
 
-import io.klogging.FlowList
-import io.klogging.FlowMap
+import io.klogging.AtomicMutableMap
+import io.klogging.AtomicMutableList
 import io.klogging.Level
 import io.klogging.Level.INFO
 import io.klogging.Level.NONE
@@ -73,8 +73,8 @@ public fun loggingConfiguration(append: Boolean = false, block: KloggingConfigur
  */
 public class KloggingConfiguration {
 
-    internal val sinks = FlowMap<String, SinkConfiguration>()
-    internal val configs = FlowList<LoggingConfig>()
+    internal val sinks = AtomicMutableMap<String, SinkConfiguration>()
+    internal val configs = AtomicMutableList<LoggingConfig>()
 
     internal var kloggingMinLogLevel: Level = defaultKloggingMinLogLevel
     internal var minDirectLogLevel: Level = defaultMinDirectLogLevel

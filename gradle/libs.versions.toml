@@ -1,4 +1,5 @@
 [versions]
+atomicfu = "0.20.0"
 binary-compatibility-validator = "0.13.1"
 dokka = "1.8.10"
 html-reporter = "0.6.3"
@@ -20,6 +21,7 @@ kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref 
 kotest-junit = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
 kotest-xml = { module = "io.kotest:kotest-extensions-junitxml-jvm", version.ref = "kotest" }
+kotlin-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu"}
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-datetime" }
 kotlin-serialisation-hocon = { module = "org.jetbrains.kotlinx:kotlinx-serialization-hocon", version.ref = "kotlin-serialisation" }

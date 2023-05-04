@@ -18,7 +18,7 @@
 
 package io.klogging.internal
 
-import io.klogging.FlowMap
+import io.klogging.AtomicMutableMap
 import io.klogging.Level
 import io.klogging.Level.TRACE
 import io.klogging.events.LogEvent
@@ -26,7 +26,7 @@ import io.klogging.events.LogEvent
 /** Object that handles dispatching of [LogEvent]s to zero or more sinks. */
 internal object Dispatcher {
 
-    private val sinkCache = FlowMap<Pair<String, Level>, List<Sink>>()
+    private val sinkCache = AtomicMutableMap<Pair<String, Level>, List<Sink>>()
 
     /**
      * Dispatch a [LogEvent] to selected targets. Base context items are included here.

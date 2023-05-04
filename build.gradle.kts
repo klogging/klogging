@@ -84,6 +84,7 @@ kotlin {
                 implementation(libs.kotlin.coroutines)
                 implementation(libs.kotlin.datetime)
                 implementation(libs.kotlin.serialisation.json)
+                implementation(libs.kotlin.atomicfu)
             }
         }
         val commonTest by getting
