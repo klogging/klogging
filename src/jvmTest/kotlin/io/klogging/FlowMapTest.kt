@@ -25,7 +25,7 @@ import io.kotest.property.checkAll
 import mjs.kotest.description
 
 class FlowMapTest : DescribeSpec({
-    description("Multiplatform, thread-safe mutable map, implemented using `MutableStateFlow`")
+    description("Multiplatform, thread-safe mutable map, implemented using a `MutableStateFlow` delegate")
 
     describe("with empty constructor") {
         it("returns size, keys and values") {

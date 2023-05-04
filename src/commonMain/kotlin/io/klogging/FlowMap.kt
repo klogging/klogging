@@ -19,47 +19,12 @@
 package io.klogging
 
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 
 /**
- * A multiplatform, thread-safe [MutableMap], implemented using a [MutableStateFlow].
+ * A multiplatform, thread-safe [MutableMap], implemented using a [MutableStateFlow] delegate.
  */
 internal class FlowMap<K, V>(
     vararg pairs: Pair<K, V>
-) : MutableMap<K, V> {
-
-    private val _mapFlow = MutableStateFlow(mutableMapOf(*pairs))
-
-    override val entries: MutableSet<MutableMap.MutableEntry<K, V>>
-        get() = _mapFlow.value.entries
-    override val keys: MutableSet<K>
-        get() = _mapFlow.value.keys
-    override val size: Int
-        get() = _mapFlow.value.size
-    override val values: MutableCollection<V>
-        get() = _mapFlow.value.values
-
-    override fun clear(): Unit = _mapFlow.update { it.apply { clear() } }
-
-    override fun isEmpty(): Boolean = _mapFlow.value.isEmpty()
-
-    override fun remove(key: K): V? {
-        var previousValue: V? = null
-        _mapFlow.update { it.apply { previousValue = remove(key) } }
-        return previousValue
-    }
-
-    override fun putAll(from: Map<out K, V>): Unit = _mapFlow.update { it.apply { putAll(from) } }
-
-    override fun put(key: K, value: V): V? {
-        var previousValue: V? = null
-        _mapFlow.update { it.apply { previousValue = put(key, value) } }
-        return previousValue
-    }
-
-    override fun get(key: K): V? = _mapFlow.value.get(key)
-
-    override fun containsValue(value: V): Boolean = _mapFlow.value.containsValue(value)
-
-    override fun containsKey(key: K): Boolean = _mapFlow.value.containsKey(key)
-}
+) : MutableMap<K, V> by MutableStateFlow(
+    mutableMapOf(*pairs)
+).value
