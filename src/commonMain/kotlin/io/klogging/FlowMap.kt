@@ -30,12 +30,16 @@ internal class FlowMap<K, V>(
 
     private val _mapFlow = MutableStateFlow(mutableMapOf(*pairs))
 
-    override val entries: MutableSet<MutableMap.MutableEntry<K, V>> = _mapFlow.value.entries
-    override val keys: MutableSet<K> = _mapFlow.value.keys
-    override val size: Int = _mapFlow.value.size
-    override val values: MutableCollection<V> = _mapFlow.value.values
+    override val entries: MutableSet<MutableMap.MutableEntry<K, V>>
+        get() = _mapFlow.value.entries
+    override val keys: MutableSet<K>
+        get() = _mapFlow.value.keys
+    override val size: Int
+        get() = _mapFlow.value.size
+    override val values: MutableCollection<V>
+        get() = _mapFlow.value.values
 
-    override fun clear() = _mapFlow.update { it.apply { clear() } }
+    override fun clear(): Unit = _mapFlow.update { it.apply { clear() } }
 
     override fun isEmpty(): Boolean = _mapFlow.value.isEmpty()
 
@@ -45,7 +49,7 @@ internal class FlowMap<K, V>(
         return previousValue
     }
 
-    override fun putAll(from: Map<out K, V>) = _mapFlow.update { it.apply { putAll(from) } }
+    override fun putAll(from: Map<out K, V>): Unit = _mapFlow.update { it.apply { putAll(from) } }
 
     override fun put(key: K, value: V): V? {
         var previousValue: V? = null
