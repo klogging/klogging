@@ -44,14 +44,16 @@ class EnvironmentTest : DescribeSpec({
             }
         }
         it("evaluates multiple env vars in a string") {
-            checkAll(genString, genString, genString, genString) { name1, value1, name2, value2 ->
-                val string = "start \${$name1} middle \${$name2} end"
+            checkAll(genString, genString, genString) { name, value1, value2 ->
+                // Ensure the two names are different: sometimes Kotest property tests
+                // generate same values for names.
+                val string = "start \${X$name} middle \${Y$name} end"
 
                 evalEnv(
                     string,
                     mapOf(
-                        name1 to value1,
-                        name2 to value2
+                        "X$name" to value1,
+                        "Y$name" to value2
                     )
                 ) shouldBe "start $value1 middle $value2 end"
             }

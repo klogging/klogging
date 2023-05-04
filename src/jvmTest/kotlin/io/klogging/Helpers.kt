@@ -29,7 +29,6 @@ import io.klogging.sending.EventSender
 import io.kotest.property.arbitrary.next
 import kotlinx.datetime.Instant
 import kotlin.random.Random
-import kotlin.random.nextUInt
 import kotlin.random.nextULong
 
 /**
