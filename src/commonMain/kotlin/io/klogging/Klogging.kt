@@ -26,7 +26,7 @@ import kotlin.reflect.KClass
 /**
  * Runtime list of current [Klogger] instances.
  */
-private val LOGGERS: MutableMap<String, Klogger> = concurrentMap()
+private val LOGGERS: MutableMap<String, Klogger> = FlowMap()
 
 /**
  * Returns a [Klogger] for the specified name: returning an existing one
