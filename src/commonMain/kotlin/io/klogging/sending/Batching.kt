@@ -24,6 +24,7 @@ import kotlinx.coroutines.channels.onClosed
 import kotlinx.coroutines.channels.onFailure
 import kotlinx.coroutines.channels.onSuccess
 import kotlinx.coroutines.selects.whileSelect
+import kotlinx.coroutines.selects.onTimeout
 
 /**
  * Receive a batch of items from a channel, up to time and batch size limits.
