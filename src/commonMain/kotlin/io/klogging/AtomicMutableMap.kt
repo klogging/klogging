@@ -28,34 +28,49 @@ internal class AtomicMutableMap<K, V>(
     vararg pairs: Pair<K, V>
 ) : MutableMap<K, V> {
 
-    private val map = atomic(mutableMapOf(*pairs))
+    private val map = atomic(mapOf(*pairs))
 
     override val entries: MutableSet<MutableMap.MutableEntry<K, V>>
-        get() = map.value.entries
+        get() = map.value.toMutableMap().entries
     override val keys: MutableSet<K>
-        get() = map.value.keys
+        get() = map.value.toMutableMap().keys
     override val size: Int
         get() = map.value.size
     override val values: MutableCollection<V>
-        get() = map.value.values
+        get() = map.value.toMutableMap().values
 
     override fun clear() {
-        map.update { it.apply { clear() } }
+        map.update { emptyMap() }
     }
 
     override fun isEmpty(): Boolean = map.value.isEmpty()
 
     override fun remove(key: K): V? {
         var removedValue: V? = null
-        map.update { it.apply { removedValue = remove(key) } }
+        map.update { current ->
+            buildMap {
+                putAll(current)
+                removedValue = remove(key)
+            }
+        }
         return removedValue
     }
 
-    override fun putAll(from: Map<out K, V>) = map.update { it.apply { putAll(from) } }
+    override fun putAll(from: Map<out K, V>) = map.update { current ->
+        buildMap {
+            putAll(current)
+            putAll(from)
+        }
+    }
 
     override fun put(key: K, value: V): V? {
         var previousValue: V? = null
-        map.update { it.apply { previousValue = put(key, value) } }
+        map.update { current ->
+            buildMap {
+                putAll(current)
+                previousValue = put(key, value)
+            }
+        }
         return previousValue
     }
 
