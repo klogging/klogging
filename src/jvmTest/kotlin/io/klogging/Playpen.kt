@@ -21,6 +21,7 @@ package io.klogging
 import io.klogging.config.Context
 import io.klogging.context.logContext
 import io.klogging.events.timestampNow
+import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -37,7 +38,7 @@ suspend fun main() = coroutineScope {
     Context.addBaseContext("app" to "Playpen")
 
     val run = randomUUID()
-    launch(logContext("run" to run)) {
+    launch(logContext("run" to run) + CoroutineName("Playpen")) {
         logger.info { "Start" }
         repeat(2) { c ->
             logger.info { e(">> {Counter}", c + 1) }

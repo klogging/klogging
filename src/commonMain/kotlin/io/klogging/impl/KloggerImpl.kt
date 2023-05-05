@@ -24,7 +24,7 @@ import io.klogging.context.LogContext
 import io.klogging.context.otherContextItems
 import io.klogging.events.EventItems
 import io.klogging.events.LogEvent
-import io.klogging.events.currentContext
+import io.klogging.events.contextName
 import io.klogging.events.timestampNow
 import io.klogging.internal.Emitter
 import io.klogging.internal.KloggingEngine
@@ -55,7 +55,7 @@ public class KloggerImpl(
         return LogEvent(
             timestamp = timestampNow(),
             logger = this.name,
-            context = currentContext(),
+            context = contextName(),
             level = minLevel(),
             template = template,
             message = template,

@@ -19,7 +19,9 @@
 package io.klogging.events
 
 import io.klogging.Level
+import kotlinx.coroutines.CoroutineName
 import kotlinx.datetime.Instant
+import kotlin.coroutines.coroutineContext
 import kotlin.random.Random
 import kotlin.random.nextUInt
 
@@ -36,7 +38,7 @@ public data class LogEvent(
     /** Name of the logger that emitted the event. */
     val logger: String,
     /** Name of the thread or similar context identifier where the event was emitted. */
-    val context: String? = currentContext(),
+    val context: String? = threadContext(),
     /** Severity [Level] of the event. */
     val level: Level,
     /** [Message template](https://messagetemplates.org), if any, used to construct the message. */
@@ -71,7 +73,7 @@ public data class LogEvent(
         timestamp = timestamp,
         host = host,
         logger = logger,
-        context = context ?: currentContext(),
+        context = context ?: threadContext(),
         level = newLevel,
         template = template,
         message = message,
@@ -98,4 +100,10 @@ private fun randomId(): String = Random.nextUInt().toString(16)
 internal expect val hostname: String
 
 /** Thread name or similar current context identifier. */
-internal expect fun currentContext(): String?
+internal expect fun threadContext(): String?
+
+/**
+ * Construct a context name from thread context and coroutine name, if set.
+ */
+internal suspend fun contextName(): String =
+    listOfNotNull(threadContext(), coroutineContext[CoroutineName]?.name).joinToString("+")

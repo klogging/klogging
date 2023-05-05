@@ -18,4 +18,4 @@
 
 package io.klogging.events
 
-internal actual fun currentContext(): String? = Thread.currentThread().name
+internal actual fun threadContext(): String? = Thread.currentThread().name

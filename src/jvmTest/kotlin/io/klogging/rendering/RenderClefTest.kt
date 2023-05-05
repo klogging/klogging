@@ -20,7 +20,7 @@ package io.klogging.rendering
 
 import io.klogging.Level.INFO
 import io.klogging.events.LogEvent
-import io.klogging.events.currentContext
+import io.klogging.events.threadContext
 import io.klogging.events.timestampNow
 import io.klogging.randomString
 import io.kotest.core.spec.style.DescribeSpec
@@ -31,7 +31,7 @@ class RenderClefTest : DescribeSpec({
         it("omits @x if `stackTrace` is null") {
             val ts = timestampNow()
             val event = LogEvent(
-                randomString(), ts, "test.local", "Test", currentContext(), INFO,
+                randomString(), ts, "test.local", "Test", threadContext(), INFO,
                 null, "Message", null, mapOf()
             )
 
@@ -50,7 +50,7 @@ class RenderClefTest : DescribeSpec({
             val trace = randomString()
             val event =
                 LogEvent(
-                    randomString(), ts, "test.local", "Test", currentContext(), INFO,
+                    randomString(), ts, "test.local", "Test", threadContext(), INFO,
                     null, "Message", trace, mapOf()
                 )
 
@@ -68,7 +68,7 @@ class RenderClefTest : DescribeSpec({
         it("includes @m but not @mt if `template` is null") {
             val ts = timestampNow()
             val event = LogEvent(
-                randomString(), ts, "test.local", "Test", currentContext(), INFO,
+                randomString(), ts, "test.local", "Test", threadContext(), INFO,
                 null, "Message", null, mapOf()
             )
 
@@ -86,7 +86,7 @@ class RenderClefTest : DescribeSpec({
             val ts = timestampNow()
             val id = randomString()
             val event = LogEvent(
-                randomString(), ts, "test.local", "Test", currentContext(), INFO,
+                randomString(), ts, "test.local", "Test", threadContext(), INFO,
                 "Id={Id}", "Id={Id}", null, mapOf("Id" to id)
             )
 
