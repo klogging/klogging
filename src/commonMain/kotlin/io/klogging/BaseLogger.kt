@@ -79,6 +79,7 @@ public interface BaseLogger {
      * - Otherwise, construct an event with supplied information.
      */
     public fun eventFrom(
+        context: String?,
         level: Level,
         throwable: Throwable?,
         eventObject: Any?,
@@ -87,10 +88,12 @@ public interface BaseLogger {
         return when (eventObject) {
             is LogEvent ->
                 eventObject.copyWith(level, throwable?.stackTraceToString(), contextItems)
+
             else -> {
                 val (message, stackTrace) = messageAndStackTrace(eventObject, throwable)
                 LogEvent(
                     logger = this.name,
+                    context = context,
                     level = level,
                     message = message,
                     stackTrace = stackTrace,

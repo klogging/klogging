@@ -22,6 +22,7 @@ import io.klogging.Level
 import io.klogging.NoCoLogger
 import io.klogging.events.EventItems
 import io.klogging.events.LogEvent
+import io.klogging.events.threadContext
 import io.klogging.events.timestampNow
 import io.klogging.internal.Emitter
 import io.klogging.internal.kloggingParentContext
@@ -44,7 +45,7 @@ public class NoCoLoggerImpl(
         event: Any?,
         contextItems: EventItems
     ) {
-        val eventToLog = eventFrom(level, throwable, event, contextItems)
+        val eventToLog = eventFrom(threadContext(), level, throwable, event, contextItems)
         launch(CoroutineName("NoCoLogger")) {
             Emitter.emit(eventToLog)
         }

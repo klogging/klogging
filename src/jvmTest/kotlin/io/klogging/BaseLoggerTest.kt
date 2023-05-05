@@ -32,8 +32,9 @@ internal class BaseLoggerTest : DescribeSpec({
         ) : BaseLogger
 
         it("makes an event for an event object") {
-            checkAll(genMessage) { message ->
+            checkAll(genString, genMessage) { context, message ->
                 val event = TestLogger().eventFrom(
+                    context,
                     FATAL,
                     null,
                     object {
