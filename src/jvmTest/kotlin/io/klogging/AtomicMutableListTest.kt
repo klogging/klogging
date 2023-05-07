@@ -43,10 +43,22 @@ class AtomicMutableListTest : DescribeSpec({
                 list.contains(element) shouldBe false
             }
         }
-        it("gets elements by index") {
+        it("throws `IndexOutOfBoundsException` when trying to get an element by index") {
             checkAll(Arb.int()) { index ->
                 shouldThrow<IndexOutOfBoundsException> {
                     AtomicMutableList<String>()[index]
+                }
+            }
+        }
+        it("returns false when trying to remove an element") {
+            checkAll(genString) { element ->
+                AtomicMutableList<String>().remove(element) shouldBe false
+            }
+        }
+        it("throws `IndexOutOfBoundsException` when trying to remove an element by index") {
+            checkAll(Arb.int()) { index ->
+                shouldThrow<IndexOutOfBoundsException> {
+                    AtomicMutableList<String>().removeAt(index)
                 }
             }
         }

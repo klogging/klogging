@@ -153,7 +153,7 @@ internal class AtomicMutableList<E>(
     override fun contains(element: E): Boolean = list.value.contains(element)
 
     /**
-     * Copied from Kotlin AbstractList code.
+     * Copied from Kotlin [AbstractList] internal code.
      */
     private fun checkElementIndex(index: Int, size: Int) {
         if (index < 0 || index >= size) {
