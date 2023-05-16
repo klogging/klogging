@@ -63,7 +63,7 @@ jobs:
         if: steps.check_test_outputs.file_exists == 'true'
 
       - name: Upload coverage to codecov.io
-        uses: codecov/codecov-action@v3.1.3
+        uses: codecov/codecov-action@v3.1.4
         if: steps.check_test_outputs.file_exists == 'true'
 
       - name: Assemble release
