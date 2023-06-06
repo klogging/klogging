@@ -1,7 +1,7 @@
 [versions]
 atomicfu = "0.20.2"
 binary-compatibility-validator = "0.13.2"
-dokka = "1.8.10"
+dokka = "1.8.20"
 html-reporter = "0.6.4"
 jacoco = "0.8.8"
 kotest = "5.6.2"
