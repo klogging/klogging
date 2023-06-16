@@ -2,7 +2,7 @@
 atomicfu = "0.20.2"
 binary-compatibility-validator = "0.13.2"
 dokka = "1.8.20"
-html-reporter = "0.6.4"
+html-reporter = "0.7.0"
 jacoco = "0.8.8"
 kotest = "5.6.2"
 kotlin-coroutines = "1.7.1"
