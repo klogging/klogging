@@ -1,5 +1,5 @@
 public abstract interface class io/klogging/BaseLogger {
-	public abstract fun eventFrom (Lio/klogging/Level;Ljava/lang/Throwable;Ljava/lang/Object;Ljava/util/Map;)Lio/klogging/events/LogEvent;
+	public abstract fun eventFrom (Ljava/lang/String;Lio/klogging/Level;Ljava/lang/Throwable;Ljava/lang/Object;Ljava/util/Map;)Lio/klogging/events/LogEvent;
 	public abstract fun getName ()Ljava/lang/String;
 	public abstract fun isDebugEnabled ()Z
 	public abstract fun isErrorEnabled ()Z
@@ -12,8 +12,8 @@ public abstract interface class io/klogging/BaseLogger {
 }
 
 public final class io/klogging/BaseLogger$DefaultImpls {
-	public static fun eventFrom (Lio/klogging/BaseLogger;Lio/klogging/Level;Ljava/lang/Throwable;Ljava/lang/Object;Ljava/util/Map;)Lio/klogging/events/LogEvent;
-	public static synthetic fun eventFrom$default (Lio/klogging/BaseLogger;Lio/klogging/Level;Ljava/lang/Throwable;Ljava/lang/Object;Ljava/util/Map;ILjava/lang/Object;)Lio/klogging/events/LogEvent;
+	public static fun eventFrom (Lio/klogging/BaseLogger;Ljava/lang/String;Lio/klogging/Level;Ljava/lang/Throwable;Ljava/lang/Object;Ljava/util/Map;)Lio/klogging/events/LogEvent;
+	public static synthetic fun eventFrom$default (Lio/klogging/BaseLogger;Ljava/lang/String;Lio/klogging/Level;Ljava/lang/Throwable;Ljava/lang/Object;Ljava/util/Map;ILjava/lang/Object;)Lio/klogging/events/LogEvent;
 	public static fun isDebugEnabled (Lio/klogging/BaseLogger;)Z
 	public static fun isErrorEnabled (Lio/klogging/BaseLogger;)Z
 	public static fun isFatalEnabled (Lio/klogging/BaseLogger;)Z
@@ -84,7 +84,7 @@ public final class io/klogging/Klogger$DefaultImpls {
 	public static fun error (Lio/klogging/Klogger;Ljava/lang/Throwable;Ljava/lang/String;[Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static fun error (Lio/klogging/Klogger;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static fun error (Lio/klogging/Klogger;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static fun eventFrom (Lio/klogging/Klogger;Lio/klogging/Level;Ljava/lang/Throwable;Ljava/lang/Object;Ljava/util/Map;)Lio/klogging/events/LogEvent;
+	public static fun eventFrom (Lio/klogging/Klogger;Ljava/lang/String;Lio/klogging/Level;Ljava/lang/Throwable;Ljava/lang/Object;Ljava/util/Map;)Lio/klogging/events/LogEvent;
 	public static fun fatal (Lio/klogging/Klogger;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static fun fatal (Lio/klogging/Klogger;Ljava/lang/String;[Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static fun fatal (Lio/klogging/Klogger;Ljava/lang/Throwable;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -220,7 +220,7 @@ public final class io/klogging/NoCoLogger$DefaultImpls {
 	public static fun error (Lio/klogging/NoCoLogger;Ljava/lang/Throwable;Ljava/lang/String;[Ljava/lang/Object;)V
 	public static fun error (Lio/klogging/NoCoLogger;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
 	public static fun error (Lio/klogging/NoCoLogger;Lkotlin/jvm/functions/Function1;)V
-	public static fun eventFrom (Lio/klogging/NoCoLogger;Lio/klogging/Level;Ljava/lang/Throwable;Ljava/lang/Object;Ljava/util/Map;)Lio/klogging/events/LogEvent;
+	public static fun eventFrom (Lio/klogging/NoCoLogger;Ljava/lang/String;Lio/klogging/Level;Ljava/lang/Throwable;Ljava/lang/Object;Ljava/util/Map;)Lio/klogging/events/LogEvent;
 	public static fun fatal (Lio/klogging/NoCoLogger;Ljava/lang/Object;)V
 	public static fun fatal (Lio/klogging/NoCoLogger;Ljava/lang/String;[Ljava/lang/Object;)V
 	public static fun fatal (Lio/klogging/NoCoLogger;Ljava/lang/Throwable;Ljava/lang/Object;)V
@@ -597,7 +597,7 @@ public final class io/klogging/impl/KloggerImpl : io/klogging/Klogger {
 	public fun error (Ljava/lang/Throwable;Ljava/lang/String;[Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun error (Ljava/lang/Throwable;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun error (Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public fun eventFrom (Lio/klogging/Level;Ljava/lang/Throwable;Ljava/lang/Object;Ljava/util/Map;)Lio/klogging/events/LogEvent;
+	public fun eventFrom (Ljava/lang/String;Lio/klogging/Level;Ljava/lang/Throwable;Ljava/lang/Object;Ljava/util/Map;)Lio/klogging/events/LogEvent;
 	public fun fatal (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun fatal (Ljava/lang/String;[Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun fatal (Ljava/lang/Throwable;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -655,7 +655,7 @@ public final class io/klogging/impl/NoCoLoggerImpl : io/klogging/NoCoLogger, kot
 	public fun error (Ljava/lang/Throwable;Ljava/lang/String;[Ljava/lang/Object;)V
 	public fun error (Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
 	public fun error (Lkotlin/jvm/functions/Function1;)V
-	public fun eventFrom (Lio/klogging/Level;Ljava/lang/Throwable;Ljava/lang/Object;Ljava/util/Map;)Lio/klogging/events/LogEvent;
+	public fun eventFrom (Ljava/lang/String;Lio/klogging/Level;Ljava/lang/Throwable;Ljava/lang/Object;Ljava/util/Map;)Lio/klogging/events/LogEvent;
 	public fun fatal (Ljava/lang/Object;)V
 	public fun fatal (Ljava/lang/String;[Ljava/lang/Object;)V
 	public fun fatal (Ljava/lang/Throwable;Ljava/lang/Object;)V
