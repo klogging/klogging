@@ -28,7 +28,9 @@ fun Project.configureVersioning() {
     apply<ReckonPlugin>()
 
     configure<ReckonExtension> {
-        setScopeCalc(calcScopeFromProp().or(calcScopeFromCommitMessages()))
+        setDefaultInferredScope("minor")
+        snapshots()
         setStageCalc(calcStageFromProp())
+        setScopeCalc(calcScopeFromProp())
     }
 }

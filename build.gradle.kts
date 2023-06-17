@@ -35,7 +35,6 @@ plugins {
 }
 
 group = "io.klogging"
-version = "0.5.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -111,10 +110,10 @@ tasks.dokkaHtml.configure {
     }
 }
 
-configureVersioning()
 configureAssemble()
 configureJacoco(libs.versions.jacoco.get())
 configurePublishing()
 configureSpotless(libs.versions.ktlint.get())
 configureTesting()
+configureVersioning()
 configureWrapper()
