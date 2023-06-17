@@ -22,7 +22,7 @@ import java.io.ByteArrayOutputStream
 import java.io.InputStream
 
 /**
- * Java 8 replacement for [InputStream.readAllBytes] available in Java 9.
+ * Java 8 replacement for `InputStream.readAllBytes` available in Java 9.
  */
 internal fun InputStream.readAllTheBytes(): ByteArray {
     val outputStream = ByteArrayOutputStream()
