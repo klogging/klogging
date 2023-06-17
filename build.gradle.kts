@@ -21,6 +21,7 @@ import io.klogging.build.configureJacoco
 import io.klogging.build.configurePublishing
 import io.klogging.build.configureSpotless
 import io.klogging.build.configureTesting
+import io.klogging.build.configureVersioning
 import io.klogging.build.configureWrapper
 
 @Suppress("DSL_SCOPE_VIOLATION")
@@ -110,6 +111,7 @@ tasks.dokkaHtml.configure {
     }
 }
 
+configureVersioning()
 configureAssemble()
 configureJacoco(libs.versions.jacoco.get())
 configurePublishing()
