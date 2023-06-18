@@ -16,7 +16,6 @@
 
 */
 
-import io.klogging.build.configureAssemble
 import io.klogging.build.configureJacoco
 import io.klogging.build.configureSpotless
 import io.klogging.build.configureTesting
@@ -103,7 +102,6 @@ tasks.dokkaHtml.configure {
     }
 }
 
-configureAssemble()
 configureJacoco(libs.versions.jacoco.get())
 configureSpotless(libs.versions.ktlint.get())
 configureTesting()

@@ -16,6 +16,7 @@
 
 */
 
+import io.klogging.build.configureAssemble
 import io.klogging.build.configurePublishing
 import io.klogging.build.configureVersioning
 import io.klogging.build.configureWrapper
@@ -33,6 +34,7 @@ repositories {
     mavenCentral()
 }
 
+configureAssemble()
 configurePublishing()
 configureVersioning()
 configureWrapper()
