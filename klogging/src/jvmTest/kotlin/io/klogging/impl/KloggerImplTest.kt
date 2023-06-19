@@ -83,7 +83,7 @@ class KloggerImplTest : DescribeSpec({
             it("logs a LogEvent object with stack trace from a throwable") {
                 checkAll(genLoggerName, genLogEvent, genException) { name, event, exception ->
                     val events = savedEvents()
-                    KloggerImpl("KloggerImplTest").error(exception, event)
+                    KloggerImpl(name).error(exception, event)
 
                     eventually(1.seconds) {
                         events.size shouldBe 1
