@@ -17,6 +17,7 @@
 */
 
 import io.klogging.build.configurePublishing
+import io.klogging.build.configureSigning
 import io.klogging.build.configureVersioning
 import io.klogging.build.configureWrapper
 
@@ -36,3 +37,4 @@ repositories {
 configurePublishing()
 configureVersioning()
 configureWrapper()
+configureSigning()

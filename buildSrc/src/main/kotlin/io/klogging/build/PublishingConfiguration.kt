@@ -25,21 +25,14 @@ import org.gradle.api.Task
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
-import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.configurationcache.extensions.capitalized
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.extra
-import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
-import org.gradle.plugins.signing.Sign
-import org.gradle.plugins.signing.SigningExtension
 import org.gradle.plugins.signing.SigningPlugin
-import java.nio.file.Files
-import java.util.Base64
 
 fun Project.configurePublishing() {
     apply<MavenPublishPlugin>()
@@ -64,7 +57,6 @@ fun Project.configurePublishing() {
     }
 
     createPublishingTasks(repoUsername, repoPassword, validateCredentialsTask)
-    createSigningTasks()
     createReleaseTasks(validateCredentialsTask)
 }
 
@@ -135,29 +127,6 @@ private fun Project.createPublishingTasks(
     }
 }
 
-private fun Project.createSigningTasks() {
-    configure<SigningExtension> {
-        sign(publishing.publications)
-    }
-
-    tasks.withType<Sign>().configureEach {
-        doFirst {
-            val keyId = getEnvironmentVariableOrThrow("SIGNING_KEY_ID")
-            val keyRing = getEnvironmentVariableOrThrow("SIGNING_KEY")
-            val keyPassphrase = getEnvironmentVariableOrThrow("SIGNING_PASSWORD")
-
-            val keyRingFilePath = Files.createTempFile("klogger-signing", ".gpg")
-            keyRingFilePath.toFile().deleteOnExit()
-
-            Files.write(keyRingFilePath, Base64.getDecoder().decode(keyRing))
-
-            project.extra["signing.keyId"] = keyId
-            project.extra["signing.secretKeyRingFile"] = keyRingFilePath.toString()
-            project.extra["signing.password"] = keyPassphrase
-        }
-    }
-}
-
 private fun Project.createReleaseTasks(
     validateCredentialsTask: TaskProvider<Task>
 ) {
@@ -188,14 +157,4 @@ private fun Project.createReleaseTasks(
         dependsOn("publishJvmPublicationToSonatypeRepository")
         dependsOn("closeAndReleaseSonatypeStagingRepository")
     }
-}
-
-private val Project.sourceSets: SourceSetContainer
-    get() = extensions.getByName("sourceSets") as SourceSetContainer
-
-private val Project.publishing: PublishingExtension
-    get() = extensions.getByType()
-
-private fun getEnvironmentVariableOrThrow(name: String): String = System.getenv().getOrElse(name) {
-    throw RuntimeException("Environment variable '$name' not set.")
 }
