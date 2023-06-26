@@ -18,6 +18,7 @@
 
 package io.klogging.config
 
+import io.klogging.Level
 import io.klogging.Level.DEBUG
 import io.klogging.Level.FATAL
 import io.klogging.Level.INFO
@@ -32,13 +33,15 @@ import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.property.arbitrary.next
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 internal class JsonConfigurationTest : DescribeSpec({
     describe("Configuration from JSON") {
         describe("invalid JSON") {
             it("does not configure anything") {
+                // Suppress warning message from internal logger
+                loggingConfiguration { kloggingMinLogLevel = Level.ERROR }
+
                 // configure() catches exceptions and logs
                 val config = JsonConfiguration.configure("*** THIS IS NOT JSON ***")
 

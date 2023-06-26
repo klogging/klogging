@@ -19,6 +19,7 @@
 package io.klogging.config
 
 import com.typesafe.config.ConfigFactory
+import io.klogging.Level
 import io.klogging.Level.DEBUG
 import io.klogging.Level.FATAL
 import io.klogging.Level.INFO
@@ -41,6 +42,9 @@ internal class HoconConfigurationTest : DescribeSpec({
     describe("Configuration from HOCON") {
         describe("invalid HOCON") {
             it("does not configure anything") {
+                // Suppress warning message from internal logger
+                loggingConfiguration { kloggingMinLogLevel = Level.ERROR }
+
                 // configure() catches exceptions and logs
                 val config = HoconConfiguration.configure("*** THIS IS NOT HOCON ***")
 
