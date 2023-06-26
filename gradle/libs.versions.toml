@@ -12,6 +12,7 @@ ktlint = "0.47.1"
 publish = "1.1.0"
 reckon = "0.18.0"
 spotless = "6.19.0"
+test-logger = "3.2.0"
 version-catalog-update = "0.8.0"
 versions = "0.47.0"
 
@@ -21,7 +22,7 @@ kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref 
 kotest-junit = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
 kotest-xml = { module = "io.kotest:kotest-extensions-junitxml-jvm", version.ref = "kotest" }
-kotlin-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu"}
+kotlin-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu" }
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-datetime" }
 kotlin-serialisation-hocon = { module = "org.jetbrains.kotlinx:kotlinx-serialization-hocon", version.ref = "kotlin-serialisation" }
@@ -33,5 +34,6 @@ spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.re
 [plugins]
 binaryCompatibilityValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binary-compatibility-validator" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+testLogger = { id = "com.adarshr.test-logger", version.ref = "test-logger" }
 versionCatalogUpdate = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
 versions = { id = "com.github.ben-manes.versions", version.ref = "versions" }
