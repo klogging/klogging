@@ -16,23 +16,9 @@
 
 */
 
-//plugins {
-//    `kotlin-dsl`
-//    alias(libs.plugins.versions)
-//}
-//
-//repositories {
-//    maven("https://plugins.gradle.org/m2/")
-//}
-//
-//dependencies {
-//    implementation(libs.spotless)
-//    implementation(libs.reckon)
-//    implementation(libs.publish)
-//}
-
 plugins {
-    `kotlin-dsl`
+    kotlin("multiplatform")
+    id("com.adarshr.test-logger")
 }
 
 repositories {
@@ -40,11 +26,32 @@ repositories {
     gradlePluginPortal()
 }
 
-kotlin {
-    jvmToolchain(17)
+testlogger {
+    showPassed = false
 }
 
-dependencies {
-    implementation(libs.testlogger.gradle.plugin)
-    implementation(libs.kotlin.gradle.plugin)
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+    filter {
+        isFailOnNoMatchingTests = false
+    }
+}
+
+kotlin {
+    jvmToolchain(8)
+
+    sourceSets.configureEach {
+        languageSettings {
+            optIn("kotlin.time.ExperimentalTime")
+            optIn("kotlin.experimental.ExperimentalTypeInference")
+            optIn("kotlin.contracts.ExperimentalContracts")
+        }
+    }
+
+    sourceSets.all {
+        languageSettings.apply {
+            languageVersion = "1.8"
+            apiVersion = "1.6"
+        }
+    }
 }

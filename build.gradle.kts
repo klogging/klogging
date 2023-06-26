@@ -16,15 +16,6 @@
 
 */
 
-import com.adarshr.gradle.testlogger.theme.ThemeType
-import io.klogging.build.configureAssemble
-import io.klogging.build.configureJacoco
-import io.klogging.build.configurePublishing
-import io.klogging.build.configureSpotless
-import io.klogging.build.configureTesting
-import io.klogging.build.configureVersioning
-import io.klogging.build.configureWrapper
-
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     kotlin("multiplatform")
@@ -33,7 +24,6 @@ plugins {
     alias(libs.plugins.dokka)
     alias(libs.plugins.versionCatalogUpdate)
     alias(libs.plugins.binaryCompatibilityValidator)
-    alias(libs.plugins.testLogger)
 }
 
 group = "io.klogging"
@@ -111,31 +101,3 @@ tasks.dokkaHtml.configure {
         }
     }
 }
-
-testlogger {
-    theme = ThemeType.STANDARD
-    showExceptions = true
-    showStackTraces = false
-    showFullStackTraces = false
-    showCauses = true
-    slowThreshold = 2000
-    showSummary = true
-    showSimpleNames = false
-    showPassed = true
-    showSkipped = true
-    showFailed = true
-    showOnlySlow = false
-    showStandardStreams = false
-    showPassedStandardStreams = true
-    showSkippedStandardStreams = true
-    showFailedStandardStreams = true
-    logLevel = LogLevel.LIFECYCLE
-}
-
-configureAssemble()
-configureJacoco(libs.versions.jacoco.get())
-configurePublishing()
-configureSpotless(libs.versions.ktlint.get())
-configureTesting()
-configureVersioning()
-configureWrapper()
