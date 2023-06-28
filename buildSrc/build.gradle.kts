@@ -16,21 +16,6 @@
 
 */
 
-//plugins {
-//    `kotlin-dsl`
-//    alias(libs.plugins.versions)
-//}
-//
-//repositories {
-//    maven("https://plugins.gradle.org/m2/")
-//}
-//
-//dependencies {
-//    implementation(libs.spotless)
-//    implementation(libs.reckon)
-//    implementation(libs.publish)
-//}
-
 plugins {
     `kotlin-dsl`
 }
@@ -40,11 +25,8 @@ repositories {
     gradlePluginPortal()
 }
 
-kotlin {
-    jvmToolchain(17)
-}
-
 dependencies {
     implementation(libs.testlogger.gradle.plugin)
     implementation(libs.kotlin.gradle.plugin)
+    implementation(libs.dokka.gradle.plugin)
 }

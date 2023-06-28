@@ -18,6 +18,7 @@
 
 plugins {
     kotlin("multiplatform")
+    id("org.jetbrains.dokka")
     id("com.adarshr.test-logger")
 }
 
@@ -38,13 +39,14 @@ tasks.withType<Test>().configureEach {
 }
 
 kotlin {
+    explicitApi()
+
     jvmToolchain(8)
 
-    sourceSets.configureEach {
-        languageSettings {
-            optIn("kotlin.time.ExperimentalTime")
-            optIn("kotlin.experimental.ExperimentalTypeInference")
-            optIn("kotlin.contracts.ExperimentalContracts")
+    jvm {
+        withJava() // Needed for jacocoTestReport Gradle target
+        testRuns["test"].executionTask.configure {
+            useJUnitPlatform()
         }
     }
 
@@ -52,6 +54,16 @@ kotlin {
         languageSettings.apply {
             languageVersion = "1.8"
             apiVersion = "1.6"
+        }
+    }
+}
+
+tasks.dokkaHtml.configure {
+    moduleName.set("Klogging")
+    dokkaSourceSets {
+        configureEach {
+            includeNonPublic.set(true)
+            includes.from("src/commonMain/kotlin/packages.md")
         }
     }
 }
