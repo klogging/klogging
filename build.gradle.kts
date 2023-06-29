@@ -21,8 +21,6 @@
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
-    alias(libs.plugins.versions)
-    alias(libs.plugins.versionCatalogUpdate)
     alias(libs.plugins.binaryCompatibilityValidator)
 }
 

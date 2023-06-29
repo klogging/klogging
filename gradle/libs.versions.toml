@@ -14,8 +14,6 @@ publish = "1.1.0"
 reckon = "0.18.0"
 spotless = "6.19.0"
 test-logger = "3.2.0"
-version-catalog-update = "0.8.0"
-versions = "0.47.0"
 
 [libraries]
 html-reporter = { module = "com.michaelstrasser:kotest-html-reporter", version.ref = "html-reporter" }
@@ -40,5 +38,3 @@ dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", vers
 binaryCompatibilityValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binary-compatibility-validator" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 testLogger = { id = "com.adarshr.test-logger", version.ref = "test-logger" }
-versionCatalogUpdate = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
-versions = { id = "com.github.ben-manes.versions", version.ref = "versions" }
