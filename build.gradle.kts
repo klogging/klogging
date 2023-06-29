@@ -34,7 +34,12 @@ repositories {
 
 kotlin {
 
-    jvm()
+    jvm {
+        withJava() // Needed for jacocoTestReport Gradle target
+        testRuns["test"].executionTask.configure {
+            useJUnitPlatform()
+        }
+    }
 
     js(IR) {
         nodejs()

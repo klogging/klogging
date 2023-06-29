@@ -43,13 +43,6 @@ kotlin {
 
     jvmToolchain(8)
 
-    jvm {
-        withJava() // Needed for jacocoTestReport Gradle target
-        testRuns["test"].executionTask.configure {
-            useJUnitPlatform()
-        }
-    }
-
     sourceSets.all {
         languageSettings.apply {
             languageVersion = "1.8"
