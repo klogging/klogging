@@ -24,9 +24,8 @@ plugins {
     alias(libs.plugins.binaryCompatibilityValidator)
     id("kotlin-conventions")
     id("spotless")
+    id("klogging-publishing")
 }
-
-group = "io.klogging"
 
 repositories {
     mavenCentral()
