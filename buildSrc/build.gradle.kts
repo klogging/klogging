@@ -29,4 +29,5 @@ dependencies {
     implementation(libs.testlogger.gradle.plugin)
     implementation(libs.kotlin.gradle.plugin)
     implementation(libs.dokka.gradle.plugin)
+    implementation(libs.spotless.gradle.plugin)
 }

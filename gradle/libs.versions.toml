@@ -28,11 +28,11 @@ kotlin-serialisation-hocon = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 kotlin-serialisation-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialisation" }
 publish = { module = "io.github.gradle-nexus:publish-plugin", version.ref = "publish" }
 reckon = { module = "org.ajoberstar.reckon:reckon-gradle", version.ref = "reckon" }
-spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
 
+dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 testlogger-gradle-plugin = { module = "com.adarshr:gradle-test-logger-plugin", version.ref = "test-logger" }
-dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
+spotless-gradle-plugin = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
 
 [plugins]
 binaryCompatibilityValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binary-compatibility-validator" }

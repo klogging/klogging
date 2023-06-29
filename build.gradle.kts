@@ -23,6 +23,7 @@ plugins {
     kotlin("plugin.serialization")
     alias(libs.plugins.binaryCompatibilityValidator)
     id("kotlin-conventions")
+    id("spotless")
 }
 
 group = "io.klogging"
