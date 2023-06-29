@@ -22,11 +22,6 @@ plugins {
     id("com.adarshr.test-logger")
 }
 
-repositories {
-    mavenCentral()
-    gradlePluginPortal()
-}
-
 testlogger {
     showPassed = false
 }
@@ -40,6 +35,13 @@ tasks.withType<Test>().configureEach {
 
 kotlin {
     explicitApi()
+
+    jvm {
+        withJava() // Needed for jacocoTestReport Gradle target
+        testRuns["test"].executionTask.configure {
+            useJUnitPlatform()
+        }
+    }
 
     jvmToolchain(8)
 

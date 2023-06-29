@@ -22,6 +22,7 @@ plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
     alias(libs.plugins.binaryCompatibilityValidator)
+    id("kotlin-conventions")
 }
 
 group = "io.klogging"
@@ -31,13 +32,6 @@ repositories {
 }
 
 kotlin {
-
-    jvm {
-        withJava() // Needed for jacocoTestReport Gradle target
-        testRuns["test"].executionTask.configure {
-            useJUnitPlatform()
-        }
-    }
 
     js(IR) {
         nodejs()
