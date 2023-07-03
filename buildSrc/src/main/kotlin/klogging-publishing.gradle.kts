@@ -1,3 +1,6 @@
+import java.nio.file.Files
+import java.util.Base64
+
 plugins {
     signing
     `java-library`
@@ -28,14 +31,28 @@ publishing {
 
 val ossrhUsername: String by project
 val ossrhPassword: String by project
-val signingKey: String? by project
-val signingPassword: String? by project
+val signingKeyId: String by project
+val signingKey: String by project
+val signingPassword: String by project
 
 signing {
-    useGpgCmd()
-    if (signingKey != null && signingPassword != null) {
-        useInMemoryPgpKeys(signingKey, signingPassword)
-    }
+    val keyId = System.getenv("SIGNING_KEY_ID") ?: signingKeyId
+    val keyRing = System.getenv("SIGNING_KEY") ?: signingKey
+    val keyPassphrase = System.getenv("SIGNING_PASSWORD") ?: signingPassword
+
+    val keyRingFilePath = Files.createTempFile("klogging-signing", ".gpg")
+    keyRingFilePath.toFile().deleteOnExit()
+
+    Files.write(keyRingFilePath, Base64.getDecoder().decode(keyRing))
+
+    project.extra["signing.keyId"] = keyId
+    project.extra["signing.secretKeyRingFile"] = keyRingFilePath.toString()
+    project.extra["signing.password"] = keyPassphrase
+
+//    useGpgCmd()
+//    val key = System.getenv("SIGNING_KEY") ?: signingKey
+//    val pass = System.getenv("SIGNING_PASSWORD") ?: signingPassword
+//    useInMemoryPgpKeys(signingKey, signingPassword)
     sign(publications)
 }
 
@@ -44,8 +61,8 @@ nexusPublishing {
         sonatype {
             nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
             snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-            username.set(ossrhUsername)
-            password.set(ossrhPassword)
+            username.set(System.getenv("OSSRH_USERNAME") ?: ossrhUsername)
+            password.set(System.getenv("OSSRH_PASSWORD") ?: ossrhPassword)
         }
     }
 }
