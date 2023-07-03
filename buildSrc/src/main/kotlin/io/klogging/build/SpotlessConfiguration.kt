@@ -51,31 +51,15 @@ fun Project.configureSpotless(ktlintVersion: String) {
 
     configure<SpotlessExtension> {
         format("markdown") {
-            target(
-                fileTree(
-                    mapOf(
-                        "dir" to ".",
-                        "include" to listOf("**/*.md"),
-                        "exclude" to listOf(".gradle/**", ".gradle-cache/**", ".batect/**", "build/**")
-                    )
-                )
-            )
-
+            target("**/*.md")
+            targetExclude(".gradle/**", ".gradle-cache/**", ".batect/**", "build/**")
             indentWithSpaces()
             endWithNewline()
         }
 
         format("misc") {
-            target(
-                fileTree(
-                    mapOf(
-                        "dir" to ".",
-                        "include" to listOf("**/.gitignore", "**/*.yaml", "**/*.yml", "**/*.sh", "**/Dockerfile"),
-                        "exclude" to listOf("**/*.md", ".gradle/**", ".gradle-cache/**", ".batect/**", "build/**")
-                    )
-                )
-            )
-
+            target("**/.gitignore", "**/*.yaml", "**/*.yml", "**/*.sh", "**/Dockerfile")
+            targetExclude("**/*.md", ".gradle/**", ".gradle-cache/**", ".batect/**", "build/**")
             trimTrailingWhitespace()
             indentWithSpaces()
             endWithNewline()
@@ -85,8 +69,10 @@ fun Project.configureSpotless(ktlintVersion: String) {
             target("*.gradle.kts", "gradle/*.gradle.kts", "buildSrc/*.gradle.kts")
             ktlint(ktlintVersion)
 
-            @Suppress("INACCESSIBLE_TYPE")
-            licenseHeader(kotlinLicenceHeader, "import|tasks|apply|plugins|rootProject|dependencyResolutionManagement")
+            licenseHeader(
+                kotlinLicenceHeader,
+                "@file|import|tasks|apply|plugins|rootProject|dependencyResolutionManagement"
+            )
 
             trimTrailingWhitespace()
             indentWithSpaces()
@@ -95,9 +81,9 @@ fun Project.configureSpotless(ktlintVersion: String) {
 
         kotlin {
             target("src/**/*.kt", "buildSrc/**/*.kt")
+            targetExclude("buildSrc/build/**")
             ktlint(ktlintVersion)
 
-            @Suppress("INACCESSIBLE_TYPE")
             licenseHeader(kotlinLicenceHeader)
 
             trimTrailingWhitespace()
@@ -108,7 +94,6 @@ fun Project.configureSpotless(ktlintVersion: String) {
         java {
             target("src/**/*.java")
 
-            @Suppress("INACCESSIBLE_TYPE")
             licenseHeader(kotlinLicenceHeader)
 
             trimTrailingWhitespace()

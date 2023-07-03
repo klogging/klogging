@@ -16,6 +16,8 @@
 
 */
 
+@file:Suppress("UNUSED_VARIABLE")
+
 import com.adarshr.gradle.testlogger.theme.ThemeType
 import io.klogging.build.configureAssemble
 import io.klogging.build.configureJacoco
