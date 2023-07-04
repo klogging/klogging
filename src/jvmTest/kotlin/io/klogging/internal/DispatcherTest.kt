@@ -23,13 +23,17 @@ import io.klogging.Level.ERROR
 import io.klogging.Level.INFO
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
+import io.klogging.config.Context
 import io.klogging.config.DEFAULT_CONSOLE
 import io.klogging.config.loggingConfiguration
 import io.klogging.genLevel
 import io.klogging.genLoggerName
+import io.klogging.logEvent
 import io.klogging.logger
+import io.klogging.randomString
 import io.klogging.rendering.RENDER_ANSI
 import io.klogging.rendering.RENDER_SIMPLE
+import io.klogging.savedEvents
 import io.klogging.sending.STDERR
 import io.klogging.sending.STDOUT
 import io.kotest.common.ExperimentalKotest
@@ -41,6 +45,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.property.checkAll
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalKotest::class)
 internal class DispatcherTest : DescribeSpec({
@@ -215,6 +220,56 @@ internal class DispatcherTest : DescribeSpec({
                     }
                 }
             }
+        }
+    }
+    describe("send() function") {
+        it("adds base context items to the log event") {
+            val events = savedEvents()
+            val event = logEvent(level = INFO)
+            Context.clearBaseContext()
+            val key = randomString()
+            val value = randomString()
+            Context.addBaseContext(key to value)
+            Dispatcher.send(event)
+            eventually(1.seconds) {
+                events.size shouldBe 1
+                events.first().items[key] shouldBe value
+            }
+        }
+        it("adds internal logger ID to the log event if Klogging min. log level is TRACE") {
+            val events = savedEvents()
+            loggingConfiguration(append = true) {
+                kloggingMinLogLevel = TRACE
+            }
+            val event = logEvent(level = INFO)
+            Dispatcher.send(event)
+            eventually(1.seconds) {
+                events.size shouldBe 1
+                events.first().items["eventId"] shouldBe event.id
+            }
+        }
+    }
+    describe("sendDirect() function") {
+        it("adds base context items to the log event") {
+            val events = savedEvents()
+            val event = logEvent(level = INFO)
+            Context.clearBaseContext()
+            val key = randomString()
+            val value = randomString()
+            Context.addBaseContext(key to value)
+            Dispatcher.sendDirect(event)
+            events.size shouldBe 1
+            events.first().items[key] shouldBe value
+        }
+        it("adds internal logger ID to the log event if Klogging min. log level is TRACE") {
+            val events = savedEvents()
+            loggingConfiguration(append = true) {
+                kloggingMinLogLevel = TRACE
+            }
+            val event = logEvent(level = INFO)
+            Dispatcher.sendDirect(event)
+            events.size shouldBe 1
+            events.first().items["eventId"] shouldBe event.id
         }
     }
 })
