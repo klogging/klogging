@@ -28,7 +28,9 @@ fun Project.configureVersioning() {
     apply<ReckonPlugin>()
 
     configure<ReckonExtension> {
-        scopeFromProp()
-        snapshotFromProp()
+        setDefaultInferredScope("minor")
+        snapshots()
+        setStageCalc(calcStageFromProp())
+        setScopeCalc(calcScopeFromProp())
     }
 }
