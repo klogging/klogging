@@ -149,7 +149,12 @@ class NoCoLoggerWrapperTest : DescribeSpec({
                 val id = randomString()
                 val name = randomString()
                 val age = Random.nextInt(50)
-                LoggerFactory.getLogger(randomString()).info("User {id} called {name} is {age}", id, name, age)
+                LoggerFactory.getLogger(randomString()).info(
+                    "User {id} called {name} is {age}",
+                    id,
+                    name,
+                    age
+                )
                 waitForDispatch()
 
                 saved shouldHaveSize 1
@@ -224,7 +229,10 @@ class NoCoLoggerWrapperTest : DescribeSpec({
 
         it("passes `Throwable` object") {
             val saved = savedEvents()
-            LoggerFactory.getLogger(randomString()).warn(randomString(), java.lang.RuntimeException(randomString()))
+            LoggerFactory.getLogger(randomString()).warn(
+                randomString(),
+                java.lang.RuntimeException(randomString())
+            )
             waitForDispatch()
 
             saved shouldHaveSize 1

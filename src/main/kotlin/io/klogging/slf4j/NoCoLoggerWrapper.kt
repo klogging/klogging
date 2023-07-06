@@ -178,7 +178,12 @@ public class NoCoLoggerWrapper(
      * Forward an event and exception with context items from [MDC], handling null [format] and
      * absence of [arguments].
      */
-    private fun emitEvent(level: Level, throwable: Throwable?, format: String? = null, vararg arguments: Any?) {
+    private fun emitEvent(
+        level: Level,
+        throwable: Throwable?,
+        format: String? = null,
+        vararg arguments: Any?
+    ) {
         val formatted = MessageFormatter.arrayFormat(format, arguments).message
         if (format == null || arguments.isEmpty()) {
             noCoLogger.emitEvent(level, throwable, formatted, contextItems())
