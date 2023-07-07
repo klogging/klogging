@@ -18,6 +18,8 @@
 
 rootProject.name = "klogging"
 
+include("library")
+
 pluginManagement {
     val kotlinVersion: String by settings
     val versionsPluginVersion: String by settings

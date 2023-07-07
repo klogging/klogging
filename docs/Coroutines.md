@@ -4,7 +4,7 @@ Kotlin coroutines provide two blessings to Klogging.
 
 ## Contextual information management
 
-The [`LogContext`](../src/commonMain/kotlin/io/klogging/context/LogContext.kt)
+The [`LogContext`](../library/src/commonMain/kotlin/io/klogging/context/LogContext.kt)
 class is designed to hold a map of contextual information in a
 coroutine context. For example:
 
