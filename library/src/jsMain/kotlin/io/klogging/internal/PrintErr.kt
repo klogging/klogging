@@ -18,4 +18,6 @@
 
 package io.klogging.internal
 
-internal actual fun printErr(message: String): Unit = console.error(message)
+internal actual fun printErr(message: String) {
+    console.error(message)
+}

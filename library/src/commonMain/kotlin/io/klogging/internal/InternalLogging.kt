@@ -69,7 +69,7 @@ internal fun log(
     }
 }
 
-internal expect fun printErr(message: String): Unit
+internal expect fun printErr(message: String)
 
 internal fun trace(logger: String, message: String, throwable: Throwable? = null) {
     log(logger, TRACE, message, throwable)

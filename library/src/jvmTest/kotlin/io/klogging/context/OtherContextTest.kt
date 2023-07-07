@@ -109,5 +109,5 @@ class TestOtherContext(
     companion object Key : CoroutineContext.Key<TestOtherContext>
 }
 
-suspend fun extractor(element: TestOtherContext): EventItems =
+fun extractor(element: TestOtherContext): EventItems =
     element.value?.let { mapOf("other" to it) } ?: mapOf()

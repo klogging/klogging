@@ -21,7 +21,6 @@ package io.klogging.config
 import io.klogging.internal.debug
 import io.klogging.internal.warn
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 public object JsonConfiguration {

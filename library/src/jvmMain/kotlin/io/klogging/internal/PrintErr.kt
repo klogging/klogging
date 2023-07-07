@@ -18,4 +18,6 @@
 
 package io.klogging.internal
 
-internal actual fun printErr(message: String): Unit = System.err.println(message)
+internal actual fun printErr(message: String) {
+    System.err.println(message)
+}

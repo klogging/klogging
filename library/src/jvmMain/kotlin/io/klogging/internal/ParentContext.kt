@@ -59,20 +59,19 @@ internal val threadCount = AtomicInteger(0)
  * - Otherwise, use the default coroutine dispatcher.
  */
 @OptIn(DelicateCoroutinesApi::class)
-internal actual fun parentContext(): CoroutineContext {
+internal actual fun parentContext(): CoroutineContext =
     if (getenvBoolean(ENV_KLOGGING_FF_EXECUTOR_THREAD_POOL, false)) {
         debug(
             "Coroutines",
             "Creating parent context for Klogging with pool of $kloggingThreadPoolSize threads"
         )
-        return Executors.newFixedThreadPool(kloggingThreadPoolSize) { r ->
+        Executors.newFixedThreadPool(kloggingThreadPoolSize) { r ->
             Thread(r, "klogging-${threadCount.incrementAndGet()}")
         }.asCoroutineDispatcher()
     } else if (getenvBoolean(ENV_KLOGGING_FF_GLOBAL_SCOPE, false)) {
         debug("Coroutines", "Creating parent context for Klogging using GlobalScope")
-        return GlobalScope.coroutineContext
+        GlobalScope.coroutineContext
     } else {
         debug("Coroutines", "Creating parent context for Klogging with default dispatcher")
-        return Job()
+        Job()
     }
-}
