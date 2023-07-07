@@ -112,7 +112,7 @@ internal class DispatcherTest : DescribeSpec({
             it("returns the sink when the logger name matches the configuration name exactly") {
                 Dispatcher.sinksFor("com.example.OtherThing", INFO) shouldHaveSize 1
             }
-            it("returns the sink when the logger name starts with the configuration name") {
+            it("returns no sinks when the logger name starts with the configuration name") {
                 Dispatcher.sinksFor("com.example.OtherThing\$Subclass", WARN) shouldHaveSize 0
             }
         }
