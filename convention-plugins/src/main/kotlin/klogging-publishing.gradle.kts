@@ -69,8 +69,16 @@ publishing {
     // Configure maven central repository
     repositories {
         maven {
-            name = "sonatype"
+            name = "snapshots"
             setUrl("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+            credentials {
+                username = getExtraString("ossrhUsername")
+                password = getExtraString("ossrhPassword")
+            }
+        }
+        maven {
+            name = "releases"
+            setUrl("https://s01.oss.sonatype.org/service/local/")
             credentials {
                 username = getExtraString("ossrhUsername")
                 password = getExtraString("ossrhPassword")
