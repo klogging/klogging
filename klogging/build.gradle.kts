@@ -27,8 +27,6 @@ plugins {
     alias(libs.plugins.binaryCompatibilityValidator)
 }
 
-group = "io.klogging"
-
 repositories {
     mavenCentral()
 }
