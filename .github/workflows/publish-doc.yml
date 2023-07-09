@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
@@ -19,11 +19,11 @@ jobs:
         run: ./gradlew dokkaHtml
 
       - name: Copy files
-        run: cp ./gh-pages/* ./build/dokka/html
+        run: cp ./klogging/gh-pages/* ./klogging/build/dokka/html
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build/dokka/html
+          publish_dir: ./klogging/build/dokka/html
