@@ -1,7 +1,3 @@
 [**]
 end_of_line = lf
 max_line_length = 120
-
-[*.{kt,kts}]
-# Oh, the irony.  IntelliJ insists on sorting java* imports last
-ktlint_disabled_rules = import-ordering

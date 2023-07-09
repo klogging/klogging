@@ -3,18 +3,14 @@ atomicfu = "0.21.0"
 binary-compatibility-validator = "0.13.2"
 dokka = "1.8.20"
 html-reporter = "0.7.0"
-jacoco = "0.8.8"
+kotlin = "1.9.0"
 kotest = "5.6.2"
 kotlin-coroutines = "1.7.2"
 kotlin-datetime = "0.4.0"
 kotlin-serialisation = "1.5.1"
-ktlint = "0.47.1"
-publish = "1.1.0"
 reckon = "0.18.0"
 spotless = "6.19.0"
 test-logger = "3.2.0"
-version-catalog-update = "0.8.0"
-versions = "0.47.0"
 
 [libraries]
 html-reporter = { module = "com.michaelstrasser:kotest-html-reporter", version.ref = "html-reporter" }
@@ -27,13 +23,16 @@ kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", 
 kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-datetime" }
 kotlin-serialisation-hocon = { module = "org.jetbrains.kotlinx:kotlinx-serialization-hocon", version.ref = "kotlin-serialisation" }
 kotlin-serialisation-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialisation" }
-publish = { module = "io.github.gradle-nexus:publish-plugin", version.ref = "publish" }
-reckon = { module = "org.ajoberstar.reckon:reckon-gradle", version.ref = "reckon" }
-spotless = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
+
+# Gradle plugins used by convention plugins
+kotlin-dokka-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+reckon-gradle-plugin = { module = "org.ajoberstar.reckon:reckon-gradle", version.ref = "reckon" }
+spotless-gradle-plugin = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
+testlogger-gradle-plugin = { module = "com.adarshr:gradle-test-logger-plugin", version.ref = "test-logger" }
 
 [plugins]
 binaryCompatibilityValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binary-compatibility-validator" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+serialisation = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 testLogger = { id = "com.adarshr.test-logger", version.ref = "test-logger" }
-versionCatalogUpdate = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
-versions = { id = "com.github.ben-manes.versions", version.ref = "versions" }

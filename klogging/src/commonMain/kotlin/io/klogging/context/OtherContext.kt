@@ -16,6 +16,20 @@
 
 */
 
-repositories {
-    mavenCentral()
-}
+package io.klogging.context
+
+import io.klogging.events.EventItems
+import kotlin.coroutines.CoroutineContext
+
+/**
+ * Functional type that returns a map of logging items.
+ */
+internal typealias ContextItemExtractor = suspend (CoroutineContext.Element) -> EventItems
+
+/**
+ * Get other context event items from a coroutine context.
+ */
+internal suspend fun <T : CoroutineContext.Element> CoroutineContext.otherContextItems(
+    key: CoroutineContext.Key<T>,
+    itemExtractor: suspend (T) -> EventItems,
+): EventItems = get(key)?.let { itemExtractor(it) } ?: mapOf()

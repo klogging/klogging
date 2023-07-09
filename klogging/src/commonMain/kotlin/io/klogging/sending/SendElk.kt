@@ -16,6 +16,23 @@
 
 */
 
-repositories {
-    mavenCentral()
-}
+package io.klogging.sending
+
+import io.klogging.events.LogEvent
+import io.klogging.rendering.RENDER_ECS
+import kotlinx.serialization.Serializable
+
+/** Model of an ELK server endpoint */
+@Serializable
+public data class ElkEndpoint(
+    val url: String,
+    val checkCertificate: String = "true",
+)
+
+/**
+ * Send a batch of events to an Elk server in ECS format.
+ */
+internal expect fun elkSender(endpoint: ElkEndpoint): EventSender
+
+internal fun elkBatch(batch: List<LogEvent>): String = batch
+    .joinToString("\n") { RENDER_ECS(it) }

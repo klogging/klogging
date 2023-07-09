@@ -16,6 +16,13 @@
 
 */
 
-repositories {
-    mavenCentral()
-}
+package io.klogging.sending
+
+/** Model of a Graylog server endpoint. */
+public data class Endpoint(
+    val host: String = "localhost",
+    val port: Int = 12201,
+)
+
+/** Send a rendered string to a Graylog server. */
+internal expect fun graylogServer(endpoint: Endpoint): SendString

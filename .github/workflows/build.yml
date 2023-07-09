@@ -61,33 +61,10 @@ jobs:
           reporter: java-junit
         if: steps.check_test_outputs.file_exists == 'true'
 
-      - name: Generating code coverage report
-        run: ./gradlew jacocoTestReport
-        if: steps.check_test_outputs.file_exists == 'true'
-
-      - name: Upload coverage to codecov.io
-        uses: codecov/codecov-action@v3.1.4
-        if: steps.check_test_outputs.file_exists == 'true'
-
-      - name: Assemble release
-        run: ./gradlew assembleRelease
-        env:
-          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-        if: github.repository == 'klogging/klogging' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')) && github.event_name == 'push'
-
-      - name: Publish snapshot
-        run: ./gradlew publishSnapshot
+      - name: Publish snapshots
+        run: ./gradlew publishJvmPublicationToSonatypeRepository
         env:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         if: github.repository == 'klogging/klogging' && github.ref == 'refs/heads/main' && github.event_name == 'push'
-
-      - name: Publish release
-        run: ./gradlew publishRelease
-        env:
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-        if: github.repository == 'klogging/klogging' && startsWith(github.ref, 'refs/tags/') && github.event_name == 'push'

@@ -18,21 +18,17 @@
 
 rootProject.name = "klogging"
 
-pluginManagement {
-    val kotlinVersion: String by settings
-    val versionsPluginVersion: String by settings
-    val dokkaVersion: String by settings
+includeBuild("convention-plugins")
 
-    // Setup so builds succeed when a new version of Kotlin has only partly propagated to repositories.
-    repositories {
-        mavenCentral()
-        gradlePluginPortal()
-    }
+include("klogging")
 
-    plugins {
-        kotlin("multiplatform") version kotlinVersion
-        kotlin("plugin.serialization") version kotlinVersion
-        id("com.github.ben-manes.versions") version versionsPluginVersion
-        id("org.jetbrains.dokka") version dokkaVersion
-    }
+plugins {
+    id("org.ajoberstar.reckon.settings") version "0.18.0"
+}
+
+extensions.configure<org.ajoberstar.reckon.gradle.ReckonExtension> {
+    setDefaultInferredScope("minor")
+    snapshots()
+    setStageCalc(calcStageFromProp())
+    setScopeCalc(calcScopeFromProp())
 }
