@@ -39,7 +39,7 @@ public interface NoCoLogger : BaseLogger {
      *
      * This is different to [Klogger#emitEvent] in that it optionally accepts a map of
      * items from the context. This mechanism is used by the
-     * [SLF4J binding](https://github.com/klogging/slf4j-klogging).
+     * [SLF4J provider](https://github.com/klogging/slf4j-klogging).
      */
     public fun emitEvent(
         level: Level,

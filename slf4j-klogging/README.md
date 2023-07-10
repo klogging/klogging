@@ -4,7 +4,7 @@
 [![Build](https://github.com/klogging/slf4j-klogging/actions/workflows/build.yml/badge.svg)](https://github.com/klogging/klogging/actions/workflows/build.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/io.klogging/slf4j-klogging.svg?label=maven%20central)](https://search.maven.org/search?q=g:%22io.klogging%22%20AND%20a:%22slf4j-klogging%22)
 
-A simple [SLF4J](https://www.slf4j.org) binding to use with Klogging.
+A simple [SLF4J](https://www.slf4j.org) provider to use with Klogging.
 
 For more details, please see [the Klogging SLF4J documentation](https://klogging.io/docs/java/slf4j)
 and [using Klogging with Spring Boot via SLF4J](https://klogging.io/docs/java/spring-boot).
@@ -29,4 +29,4 @@ Maven:
 </dependencies>
 ```
 
-This binding does not currently support Markers.
+This provider does not currently support Markers.

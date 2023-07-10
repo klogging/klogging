@@ -33,7 +33,7 @@ public class StaticLoggerBinder internal constructor(
 ) : LoggerFactoryBinder {
 
     public companion object {
-        /** Version of SLF4J used to create this binding. */
+        /** Version of SLF4J used to create this provider. */
         public const val REQUEST_API_VERSION: String = "1.7.32"
 
         /** Instance of this class available to Java via `StaticLoggingBinder.getSingleton()`. */
