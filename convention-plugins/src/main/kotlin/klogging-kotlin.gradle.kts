@@ -40,9 +40,6 @@ kotlin {
             useJUnitPlatform()
         }
     }
-    js(IR) {
-        nodejs()
-    }
 
     sourceSets.all {
         languageSettings.apply {
