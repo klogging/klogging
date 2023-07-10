@@ -29,7 +29,7 @@ import org.slf4j.spi.LoggerFactoryBinder
  * before 1.8.
  */
 public class StaticLoggerBinder internal constructor(
-    private val loggerFactory: ILoggerFactory
+    private val loggerFactory: ILoggerFactory,
 ) : LoggerFactoryBinder {
 
     public companion object {

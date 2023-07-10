@@ -16,20 +16,15 @@
 
 */
 
-rootProject.name = "slf4j-klogging"
+package io.klogging.slf4j
 
-pluginManagement {
-    val kotlinVersion: String by settings
-    val versionsPluginVersion: String by settings
+import io.kotest.core.config.AbstractProjectConfig
+import io.kotest.core.extensions.Extension
+import mjs.kotest.HtmlReporter
 
-    // Setup so builds succeed when a new version of Kotlin has only partly propagated to repositories.
-    repositories {
-        mavenCentral()
-        gradlePluginPortal()
-    }
-
-    plugins {
-        kotlin("jvm") version kotlinVersion
-        id("com.github.ben-manes.versions") version versionsPluginVersion
-    }
+/** Create an HTML report for every test run. */
+object KotestConfig : AbstractProjectConfig() {
+    override fun extensions(): List<Extension> = listOf(
+        HtmlReporter(),
+    )
 }

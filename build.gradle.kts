@@ -16,6 +16,10 @@
 
 */
 
+plugins {
+    id("klogging-kotlin") apply false
+}
+
 repositories {
     mavenCentral()
 }

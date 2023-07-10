@@ -3,17 +3,20 @@ atomicfu = "0.21.0"
 binary-compatibility-validator = "0.13.2"
 dokka = "1.8.20"
 html-reporter = "0.7.0"
+klogging = "0.4.15"
 kotlin = "1.9.0"
 kotest = "5.6.2"
 kotlin-coroutines = "1.7.2"
 kotlin-datetime = "0.4.0"
 kotlin-serialisation = "1.5.1"
 reckon = "0.18.0"
+slf4j = "2.0.7"
 spotless = "6.19.0"
 test-logger = "3.2.0"
 
 [libraries]
 html-reporter = { module = "com.michaelstrasser:kotest-html-reporter", version.ref = "html-reporter" }
+klogging = { module = "io.klogging:klogging-jvm", version.ref = "klogging" }
 kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
 kotest-junit = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
@@ -23,6 +26,7 @@ kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", 
 kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-datetime" }
 kotlin-serialisation-hocon = { module = "org.jetbrains.kotlinx:kotlinx-serialization-hocon", version.ref = "kotlin-serialisation" }
 kotlin-serialisation-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialisation" }
+slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 
 # Gradle plugins used by convention plugins
 kotlin-dokka-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }

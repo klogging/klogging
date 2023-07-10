@@ -16,50 +16,16 @@
 
 */
 
-import io.klogging.build.configureAssemble
-import io.klogging.build.configureJacoco
-import io.klogging.build.configurePublishing
-import io.klogging.build.configureSpotless
-import io.klogging.build.configureTesting
-import io.klogging.build.configureVersioning
-import io.klogging.build.configureWrapper
+@file:Suppress("UNUSED_VARIABLE")
 
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    alias(libs.plugins.kotlin)
-    `java-library`
-    `maven-publish`
+    id("klogging-kotlin")
+    id("klogging-spotless")
+    id("klogging-publishing")
 }
-
-group = "io.klogging"
 
 repositories {
     mavenCentral()
-}
-
-dependencies {
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-
-    api(libs.klogging)
-    api(libs.slf4j)
-
-    testImplementation(libs.kotest)
-    testImplementation(libs.html.reporter)
-}
-
-kotlin {
-    explicitApi()
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
-
-    sourceSets.all {
-        languageSettings.apply {
-            languageVersion = "1.8"
-            apiVersion = "1.6"
-        }
-    }
 }
 
 java {
@@ -68,27 +34,39 @@ java {
     }
 }
 
-tasks.register<Jar>("jvmJar") {
-    from(sourceSets.main.get().allSource)
-}
+kotlin {
+    explicitApi()
 
-tasks.register<Jar>("jvmSourcesJar") {
-    archiveClassifier.set("sources")
-    from(sourceSets.main.get().allSource)
-}
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
 
-publishing {
-    publications {
-        create<MavenPublication>("jvm") {
-            from(components["java"])
+    jvm {
+        withJava()
+        testRuns["test"].executionTask.configure {
+            useJUnitPlatform()
+        }
+    }
+
+    sourceSets.all {
+        languageSettings.apply {
+            languageVersion = "1.8"
+            apiVersion = "1.6"
+        }
+    }
+
+    sourceSets {
+        val jvmMain by getting {
+            dependencies {
+                api(libs.klogging)
+                api(libs.slf4j)
+            }
+        }
+        val jvmTest by getting {
+            dependencies {
+                implementation(libs.kotest.junit)
+                implementation(libs.html.reporter)
+            }
         }
     }
 }
-
-configureAssemble()
-configureJacoco(libs.versions.jacoco.get())
-configurePublishing()
-configureSpotless(libs.versions.ktlint.get())
-configureTesting()
-configureWrapper()
-configureVersioning()

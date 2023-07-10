@@ -20,12 +20,12 @@ rootProject.name = "klogging"
 
 includeBuild("convention-plugins")
 
-include("klogging")
+include("klogging", "slf4j-klogging")
 
+// Reckon plugin to set version based on Git tags.
 plugins {
     id("org.ajoberstar.reckon.settings") version "0.18.0"
 }
-
 extensions.configure<org.ajoberstar.reckon.gradle.ReckonExtension> {
     setDefaultInferredScope("minor")
     snapshots()

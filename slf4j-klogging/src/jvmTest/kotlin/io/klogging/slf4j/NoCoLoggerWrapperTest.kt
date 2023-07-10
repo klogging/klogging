@@ -153,7 +153,7 @@ class NoCoLoggerWrapperTest : DescribeSpec({
                     "User {id} called {name} is {age}",
                     id,
                     name,
-                    age
+                    age,
                 )
                 waitForDispatch()
 
@@ -231,7 +231,7 @@ class NoCoLoggerWrapperTest : DescribeSpec({
             val saved = savedEvents()
             LoggerFactory.getLogger(randomString()).warn(
                 randomString(),
-                java.lang.RuntimeException(randomString())
+                java.lang.RuntimeException(randomString()),
             )
             waitForDispatch()
 
