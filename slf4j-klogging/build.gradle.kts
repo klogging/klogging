@@ -22,6 +22,7 @@ plugins {
     id("klogging-kotlin")
     id("klogging-spotless")
     id("klogging-publishing")
+    alias(libs.plugins.binaryCompatibilityValidator)
 }
 
 repositories {
