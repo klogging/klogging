@@ -25,21 +25,25 @@ import org.slf4j.helpers.BasicMarkerFactory
 import org.slf4j.spi.MDCAdapter
 import org.slf4j.spi.SLF4JServiceProvider
 
-public const val REQUEST_API_VERSION: String = "2.0.99"
+public const val REQUESTED_API_VERSION: String = "2.0.99"
 
 public class KloggingServiceProvider : SLF4JServiceProvider {
 
     private lateinit var loggerFactory: ILoggerFactory
+    private lateinit var markerFactory: IMarkerFactory
+    private lateinit var mdcAdapter: MDCAdapter
 
     override fun getLoggerFactory(): ILoggerFactory = loggerFactory
 
-    override fun getMarkerFactory(): IMarkerFactory = BasicMarkerFactory()
+    override fun getMarkerFactory(): IMarkerFactory = markerFactory
 
-    override fun getMDCAdapter(): MDCAdapter = BasicMDCAdapter()
+    override fun getMDCAdapter(): MDCAdapter = mdcAdapter
 
-    override fun getRequestedApiVersion(): String = REQUEST_API_VERSION
+    override fun getRequestedApiVersion(): String = REQUESTED_API_VERSION
 
     override fun initialize() {
         loggerFactory = NoCoLoggerFactory()
+        markerFactory = BasicMarkerFactory()
+        mdcAdapter = BasicMDCAdapter()
     }
 }

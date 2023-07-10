@@ -40,6 +40,8 @@ public class NoCoLoggerWrapper(
     private val noCoLogger: NoCoLogger,
 ) : LegacyAbstractLogger() {
 
+    private val self = NoCoLoggerWrapper::class.java.name
+
     override fun getName(): String = noCoLogger.name
 
     override fun isTraceEnabled(): Boolean = noCoLogger.isTraceEnabled()
@@ -163,14 +165,14 @@ public class NoCoLoggerWrapper(
         logWithThrowable(ERROR, msg, t)
     }
 
-    override fun getFullyQualifiedCallerName(): String? = null
+    override fun getFullyQualifiedCallerName(): String? = self
 
     override fun handleNormalizedLoggingCall(
         level: org.slf4j.event.Level?,
         marker: Marker?,
         messagePattern: String?,
         arguments: Array<out Any>?,
-        throwable: Throwable?
+        throwable: Throwable?,
     ) {
         emitEvent(kloggingLevel(level), throwable, messagePattern, arguments)
     }
