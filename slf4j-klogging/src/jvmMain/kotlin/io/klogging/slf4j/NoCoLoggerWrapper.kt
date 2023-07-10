@@ -22,21 +22,23 @@ import io.klogging.Level
 import io.klogging.Level.DEBUG
 import io.klogging.Level.ERROR
 import io.klogging.Level.INFO
+import io.klogging.Level.NONE
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
 import io.klogging.NoCoLogger
 import org.slf4j.MDC
-import org.slf4j.helpers.MarkerIgnoringBase
+import org.slf4j.Marker
+import org.slf4j.helpers.LegacyAbstractLogger
 import org.slf4j.helpers.MessageFormatter
 
 /**
  * Implementation of [org.slf4j.Logger] that wraps an [io.klogging.NoCoLogger].
  *
- * It extends [MarkerIgnoringBase] because Klogging does not handle markers.
+ * Klogging does not handle markers.
  */
 public class NoCoLoggerWrapper(
     private val noCoLogger: NoCoLogger,
-) : MarkerIgnoringBase() {
+) : LegacyAbstractLogger() {
 
     override fun getName(): String = noCoLogger.name
 
@@ -161,6 +163,18 @@ public class NoCoLoggerWrapper(
         logWithThrowable(ERROR, msg, t)
     }
 
+    override fun getFullyQualifiedCallerName(): String? = null
+
+    override fun handleNormalizedLoggingCall(
+        level: org.slf4j.event.Level?,
+        marker: Marker?,
+        messagePattern: String?,
+        arguments: Array<out Any>?,
+        throwable: Throwable?
+    ) {
+        emitEvent(kloggingLevel(level), throwable, messagePattern, arguments)
+    }
+
     /**
      * Forward an event with context items from [MDC], handling null [format] and
      * absence of [arguments].
@@ -193,4 +207,13 @@ public class NoCoLoggerWrapper(
     }
 
     private fun contextItems(): Map<String, Any?> = MDC.getCopyOfContextMap() ?: mapOf()
+}
+
+internal fun kloggingLevel(slf4jLevel: org.slf4j.event.Level?): Level = when (slf4jLevel) {
+    org.slf4j.event.Level.TRACE -> TRACE
+    org.slf4j.event.Level.DEBUG -> DEBUG
+    org.slf4j.event.Level.INFO -> INFO
+    org.slf4j.event.Level.WARN -> WARN
+    org.slf4j.event.Level.ERROR -> ERROR
+    else -> NONE
 }

@@ -21,12 +21,15 @@ package io.klogging.slf4j
 import io.klogging.Level.DEBUG
 import io.klogging.Level.ERROR
 import io.klogging.Level.INFO
+import io.klogging.Level.NONE
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.datatest.withData
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.maps.shouldHaveSize
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.slf4j.LoggerFactory
@@ -249,6 +252,14 @@ class NoCoLoggerWrapperTest : DescribeSpec({
 
             saved shouldHaveSize 1
             saved.first().items shouldContainExactly mapOf("runId" to runId)
+        }
+
+        describe("maps SLF4J log levels to Klogging levels") {
+            withData(listOf("ERROR", "WARN", "INFO", "DEBUG", "TRACE")) { levelName ->
+                val slf4jLevel = org.slf4j.event.Level.valueOf(levelName)
+                kloggingLevel(slf4jLevel).shouldNotBeNull().toString() shouldBe levelName
+            }
+            kloggingLevel(null) shouldBe NONE
         }
     }
 })
