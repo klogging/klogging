@@ -1,0 +1,53 @@
+public final class io/klogging/slf4j/KloggingServiceProvider : org/slf4j/spi/SLF4JServiceProvider {
+	public fun <init> ()V
+	public fun getLoggerFactory ()Lorg/slf4j/ILoggerFactory;
+	public fun getMDCAdapter ()Lorg/slf4j/spi/MDCAdapter;
+	public fun getMarkerFactory ()Lorg/slf4j/IMarkerFactory;
+	public fun getRequestedApiVersion ()Ljava/lang/String;
+	public fun initialize ()V
+}
+
+public final class io/klogging/slf4j/KloggingServiceProviderKt {
+	public static final field REQUESTED_API_VERSION Ljava/lang/String;
+}
+
+public final class io/klogging/slf4j/NoCoLoggerFactory : org/slf4j/ILoggerFactory {
+	public fun <init> ()V
+	public fun getLogger (Ljava/lang/String;)Lorg/slf4j/Logger;
+}
+
+public final class io/klogging/slf4j/NoCoLoggerWrapper : org/slf4j/helpers/LegacyAbstractLogger {
+	public fun <init> (Lio/klogging/NoCoLogger;)V
+	public fun debug (Ljava/lang/String;)V
+	public fun debug (Ljava/lang/String;Ljava/lang/Object;)V
+	public fun debug (Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+	public fun debug (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public fun debug (Ljava/lang/String;[Ljava/lang/Object;)V
+	public fun error (Ljava/lang/String;)V
+	public fun error (Ljava/lang/String;Ljava/lang/Object;)V
+	public fun error (Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+	public fun error (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public fun error (Ljava/lang/String;[Ljava/lang/Object;)V
+	public fun getName ()Ljava/lang/String;
+	public fun info (Ljava/lang/String;)V
+	public fun info (Ljava/lang/String;Ljava/lang/Object;)V
+	public fun info (Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+	public fun info (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public fun info (Ljava/lang/String;[Ljava/lang/Object;)V
+	public fun isDebugEnabled ()Z
+	public fun isErrorEnabled ()Z
+	public fun isInfoEnabled ()Z
+	public fun isTraceEnabled ()Z
+	public fun isWarnEnabled ()Z
+	public fun trace (Ljava/lang/String;)V
+	public fun trace (Ljava/lang/String;Ljava/lang/Object;)V
+	public fun trace (Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+	public fun trace (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public fun trace (Ljava/lang/String;[Ljava/lang/Object;)V
+	public fun warn (Ljava/lang/String;)V
+	public fun warn (Ljava/lang/String;Ljava/lang/Object;)V
+	public fun warn (Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+	public fun warn (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public fun warn (Ljava/lang/String;[Ljava/lang/Object;)V
+}
+

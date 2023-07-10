@@ -16,19 +16,15 @@
 
 */
 
-rootProject.name = "klogging"
+package io.klogging.slf4j
 
-includeBuild("convention-plugins")
+import io.kotest.core.config.AbstractProjectConfig
+import io.kotest.core.extensions.Extension
+import mjs.kotest.HtmlReporter
 
-include("klogging", "slf4j-klogging")
-
-// Reckon plugin to set version based on Git tags.
-plugins {
-    id("org.ajoberstar.reckon.settings") version "0.18.0"
-}
-extensions.configure<org.ajoberstar.reckon.gradle.ReckonExtension> {
-    setDefaultInferredScope("minor")
-    snapshots()
-    setStageCalc(calcStageFromProp())
-    setScopeCalc(calcScopeFromProp())
+/** Create an HTML report for every test run. */
+object KotestConfig : AbstractProjectConfig() {
+    override fun extensions(): List<Extension> = listOf(
+        HtmlReporter(),
+    )
 }
