@@ -31,34 +31,9 @@ repositories {
     mavenCentral()
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
-}
-
 kotlin {
-    explicitApi()
-
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of("8"))
-    }
-
-    jvm {
-        withJava() // Needed for jacocoTestReport Gradle target
-        testRuns["test"].executionTask.configure {
-            useJUnitPlatform()
-        }
-    }
     js(IR) {
         nodejs()
-    }
-
-    sourceSets.all {
-        languageSettings.apply {
-            languageVersion = "1.8"
-            apiVersion = "1.6"
-        }
     }
 
     sourceSets {
