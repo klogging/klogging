@@ -18,7 +18,6 @@
 
 plugins {
     kotlin("multiplatform")
-    id("com.adarshr.test-logger")
 }
 
 java {
@@ -47,10 +46,4 @@ kotlin {
             apiVersion = "1.6"
         }
     }
-}
-
-testlogger {
-    showPassed = false
-    showSkipped = true
-    showFailed = true
 }
