@@ -18,8 +18,15 @@
 
 plugins {
     id("klogging-kotlin") apply false
+    alias(libs.plugins.testLogger)
 }
 
 repositories {
     mavenCentral()
+}
+
+testlogger {
+    showPassed = false
+    showSkipped = true
+    showFailed = true
 }
