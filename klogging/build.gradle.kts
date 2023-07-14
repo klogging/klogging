@@ -19,7 +19,7 @@
 @file:Suppress("UNUSED_VARIABLE")
 
 plugins {
-    id("klogging-kotlin")
+    id("klogging-kotlin-multiplatform")
     id("klogging-spotless")
     id("klogging-publishing")
     alias(libs.plugins.dokka)

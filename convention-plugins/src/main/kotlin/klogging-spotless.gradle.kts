@@ -98,5 +98,5 @@ spotless {
 }
 
 tasks.named("spotlessKotlinCheck") {
-    mustRunAfter("jvmTest")
+    mustRunAfter(tasks.withType<Test>().names)
 }

@@ -19,6 +19,9 @@ jobs:
       TERM: xterm-256color
       SIGNING_KEY_ID: 40D4E7C6
       OSSRH_USERNAME: mjstrasser
+      OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+      SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
       KLOGGING_MIN_LOG_LEVEL: WARN # Reduce noise in test output
 
     permissions:
@@ -43,36 +46,54 @@ jobs:
       - name: Build
         run: ./gradlew assemble
 
-      - name: Run tests
-        run: ./gradlew jvmTest
+      - name: Run Klogging tests
+        run: ./gradlew :klogging:jvmTest
 
-      - name: Check test output existence
+      - name: Check Klogging test output existence
         id: check_test_output
         uses: andstor/file-existence-action@v2
         with:
           files: ./klogging/build/test-results/test/*.xml
         if: success() || failure()
 
-      - name: Test report
+      - name: Klogging test report
         uses: dorny/test-reporter@v1
         with:
-          name: Kotest report
+          name: Klogging Kotest report
           path: ./klogging/build/test-results/test/*.xml
           reporter: java-junit
         if: steps.check_test_outputs.file_exists == 'true'
 
-      - name: Publish snapshot
-        run: ./gradlew publishJvmPublicationToSnapshotsRepository
-        env:
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+      - name: Publish Klogging snapshot
+        run: ./gradlew :klogging:publishJvmPublicationToSnapshotsRepository
         if: github.repository == 'klogging/klogging' && github.ref == 'refs/heads/main' && github.event_name == 'push'
 
-      - name: Publish release
+      - name: Publish Klogging release
         run: ./gradlew publishJvmPublicationToReleasesRepository
-        env:
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+        if: github.repository == 'klogging/klogging' && startsWith(github.ref, 'refs/tags/') && github.event_name == 'push'
+
+      - name: Run SFL4J provider tests
+        run: ./gradlew :slf4j-klogging:test
+
+      - name: Check SFL4J provider test output existence
+        id: check_test_output
+        uses: andstor/file-existence-action@v2
+        with:
+          files: ./slf4j-klogging/build/test-results/test/*.xml
+        if: success() || failure()
+
+      - name: SFL4J provider test report
+        uses: dorny/test-reporter@v1
+        with:
+          name: SFL4J provider Kotest report
+          path: ./slf4j-klogging/build/test-results/test/*.xml
+          reporter: java-junit
+        if: steps.check_test_outputs.file_exists == 'true'
+
+      - name: Publish SFL4J provider snapshot
+        run: ./gradlew :slf4j-klogging:publishAllPublicationsToSnapshotsRepository
+        if: github.repository == 'klogging/klogging' && github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+      - name: Publish SFL4J provider release
+        run: ./gradlew :slf4j-klogging:publishAllPublicationsToReleasesRepository
         if: github.repository == 'klogging/klogging' && startsWith(github.ref, 'refs/tags/') && github.event_name == 'push'

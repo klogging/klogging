@@ -17,7 +17,7 @@
 */
 
 plugins {
-    id("klogging-kotlin") apply false
+    id("klogging-kotlin-multiplatform") apply false
     alias(libs.plugins.testLogger)
 }
 

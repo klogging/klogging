@@ -16,23 +16,33 @@
 
 */
 
-@file:Suppress("UNUSED_VARIABLE")
-
 plugins {
-    id("klogging-kotlin-jvm")
-    id("klogging-spotless")
-    id("klogging-publishing")
+    kotlin("jvm")
 }
 
-repositories {
-    mavenCentral()
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
 }
 
-dependencies {
-    api(libs.klogging)
-    api(libs.slf4j)
+kotlin {
+    explicitApi()
 
-    testImplementation(libs.kotest.junit)
-    testImplementation(libs.kotest.datatest)
-    testImplementation(libs.html.reporter)
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of("8"))
+    }
+
+    sourceSets.all {
+        languageSettings.apply {
+            languageVersion = "1.8"
+            apiVersion = "1.6"
+        }
+    }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform {
+        includeEngines("kotest")
+    }
 }
