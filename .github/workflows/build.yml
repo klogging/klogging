@@ -59,17 +59,17 @@ jobs:
           name: Kotest report
           path: ./klogging/build/test-results/test/*.xml
           reporter: java-junit
-        if: steps.check_test_outputs.file_exists == 'true'
+        if: steps.check_test_output.file_exists == 'true'
 
-      - name: Publish snapshot
-        run: ./gradlew publishJvmPublicationToSnapshotsRepository
+      - name: Publish Klogging snapshot
+        run: ./gradlew :klogging:publishJvmPublicationToSnapshotsRepository
         env:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         if: github.repository == 'klogging/klogging' && github.ref == 'refs/heads/main' && github.event_name == 'push'
 
-      - name: Publish release
+      - name: Publish Klogging release
         run: ./gradlew publishJvmPublicationToReleasesRepository
         env:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
