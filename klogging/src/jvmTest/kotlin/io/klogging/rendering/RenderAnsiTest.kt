@@ -36,6 +36,9 @@ class RenderAnsiTest : DescribeSpec({
         it("ignores consecutive delimiters") {
             shortenName("OkHttp http://localhost:4317/...") shouldBe "O h://l:4317/..."
         }
+        it("truncates a single string without delimiters") {
+            shortenName("Triantiwontigongalope") shouldBe "Triantiwontigongalop"
+        }
     }
 
     describe("right20 extension property") {

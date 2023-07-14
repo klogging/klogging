@@ -76,7 +76,7 @@ public fun shortenName(name: CharSequence, width: Int = 20): CharSequence {
             return name.substring(0, 1) + char + shortenName(name.substring(idx + 1), width - 2)
         }
     }
-    return name.substring(name.length - width)
+    return name.substring(0, width)
 }
 
 /**
