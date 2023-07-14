@@ -70,7 +70,7 @@ jobs:
         if: github.repository == 'klogging/klogging' && github.ref == 'refs/heads/main' && github.event_name == 'push'
 
       - name: Publish Klogging release
-        run: ./gradlew publishJvmPublicationToReleasesRepository
+        run: ./gradlew :klogging:publishJvmPublicationToReleasesRepository
         env:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
