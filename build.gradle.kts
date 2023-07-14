@@ -18,6 +18,7 @@
 
 plugins {
     id("klogging-kotlin") apply false
+    alias(libs.plugins.binaryCompatibilityValidator)
 }
 
 repositories {

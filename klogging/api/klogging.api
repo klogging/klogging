@@ -710,8 +710,6 @@ public final class io/klogging/rendering/JsonKt {
 
 public final class io/klogging/rendering/RenderAnsiKt {
 	public static final fun brightRed (Ljava/lang/String;)Ljava/lang/String;
-	public static final fun compressLoggerName (Ljava/lang/String;I)Ljava/lang/String;
-	public static synthetic fun compressLoggerName$default (Ljava/lang/String;IILjava/lang/Object;)Ljava/lang/String;
 	public static final fun getColour5 (Lio/klogging/Level;)Ljava/lang/String;
 	public static final fun getLocalTime (Lkotlinx/datetime/Instant;)Ljava/lang/String;
 	public static final fun getRENDER_ANSI ()Lkotlin/jvm/functions/Function1;
@@ -719,6 +717,8 @@ public final class io/klogging/rendering/RenderAnsiKt {
 	public static final fun green (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun grey (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun red (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun shortenName (Ljava/lang/CharSequence;I)Ljava/lang/CharSequence;
+	public static synthetic fun shortenName$default (Ljava/lang/CharSequence;IILjava/lang/Object;)Ljava/lang/CharSequence;
 	public static final fun yellow (Ljava/lang/String;)Ljava/lang/String;
 }
 
