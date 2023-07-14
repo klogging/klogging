@@ -57,17 +57,26 @@ public val Level.colour5: String
     }
 
 public val String.right20: String
-    get() = "                    ${compressLoggerName(this, 20)}"
+    get() = "                    ${shortenName(this, 20)}"
         .let { it.substring(it.length - 20) }
 
-public fun compressLoggerName(name: String, width: Int = 20): String {
-    if (name.length <= width) return name
+private const val delimiters = ". /:-+"
 
-    val words = name.split(".")
-    val partWords = words.mapIndexed { idx, word ->
-        if (idx < (words.size - 1)) word.substring(0, 1) else word
+/**
+ * Shortens the given name if it exceeds the specified width.
+ *
+ * @param name The name to be shortened.
+ * @param width The maximum width of the shortened name. Defaults to 20.
+ * @return The shortened name if it exceeds the width, otherwise the original name.
+ */
+public fun shortenName(name: CharSequence, width: Int = 20): CharSequence {
+    if (name.length <= width) return name
+    name.forEachIndexed { idx, char ->
+        if (char in delimiters && idx > 0) {
+            return name.substring(0, 1) + char + shortenName(name.substring(idx + 1), width - 2)
+        }
     }
-    return partWords.joinToString(".")
+    return name.substring(name.length - width)
 }
 
 /**

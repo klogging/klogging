@@ -23,12 +23,18 @@ import io.kotest.matchers.shouldBe
 
 class RenderAnsiTest : DescribeSpec({
 
-    describe("compressLoggerName() function") {
+    describe("shortenName() function") {
         it("keeps a short name as it is") {
-            compressLoggerName("main") shouldBe "main"
+            shortenName("main", 20) shouldBe "main"
         }
-        it("shortens dotted parts of names") {
-            compressLoggerName("io.klogging.events.LogEvent") shouldBe "i.k.e.LogEvent"
+        it("shortens dotted parts of class names") {
+            shortenName("io.klogging.events.LogEvent", 20) shouldBe "i.k.events.LogEvent"
+        }
+        it("shortens complex thread names") {
+            shortenName("DefaultDispatcher-worker-3+Playpen") shouldBe "D-worker-3+Playpen"
+        }
+        it("ignores consecutive delimiters") {
+            shortenName("OkHttp http://localhost:4317/...") shouldBe "O h://l:4317/..."
         }
     }
 
@@ -40,7 +46,7 @@ class RenderAnsiTest : DescribeSpec({
             "io.klogging.Klogging".right20 shouldBe "io.klogging.Klogging"
         }
         it("shortens package names in a too-long name") {
-            "io.klogging.events.LogEvent".right20 shouldBe "      i.k.e.LogEvent"
+            "io.klogging.events.LogEvent".right20 shouldBe " i.k.events.LogEvent"
         }
     }
 })
