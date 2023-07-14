@@ -25,19 +25,7 @@ import io.klogging.Level.INFO
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
 import io.klogging.events.LogEvent
-import io.klogging.rendering.RenderString
-import io.klogging.rendering.colour5
-import io.klogging.rendering.localTime
-import io.klogging.rendering.rightAlign
-
-/** Renderer specifically for internal logging. */
-private val renderInternal: RenderString = { e: LogEvent ->
-    val message = "${e.timestamp.localTime} ${e.level.colour5} [${e.context?.rightAlign(20)}]" +
-        " : ${e.logger.rightAlign(20)} : ${e.message}"
-    val maybeItems = if (e.items.isNotEmpty()) " : ${e.items}" else ""
-    val maybeStackTrace = if (e.stackTrace != null) "\n${e.stackTrace}" else ""
-    message + maybeItems + maybeStackTrace
-}
+import io.klogging.rendering.RENDER_ANSI
 
 /**
  * Internal logging for Klogging diagnostics. It uses a [LogEvent] with these simplifications:
@@ -63,9 +51,9 @@ internal fun log(
         stackTrace = throwable?.stackTraceToString(),
     )
     if (level <= INFO) {
-        println(renderInternal(event))
+        println(RENDER_ANSI(event))
     } else {
-        printErr(renderInternal(event))
+        printErr(RENDER_ANSI(event))
     }
 }
 
