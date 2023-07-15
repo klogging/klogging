@@ -24,6 +24,7 @@ plugins {
     id("klogging-publishing")
     alias(libs.plugins.dokka)
     alias(libs.plugins.serialisation)
+    alias(libs.plugins.testLogger)
 }
 
 repositories {
@@ -73,4 +74,10 @@ tasks.dokkaHtml.configure {
             includes.from("src/commonMain/kotlin/packages.md")
         }
     }
+}
+
+testlogger {
+    showPassed = false
+    showSkipped = true
+    showFailed = true
 }
