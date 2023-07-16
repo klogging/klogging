@@ -173,7 +173,7 @@ I could not find a logging library for Kotlin that meets these requirements:
 These solid, but venerable Java libraries have formed the backbone of Java logging for more than 10
 years. The limitations I find are:
 
-* They are designed to log strings of text. Whe you want to search for or filter logs by values
+* They are designed to log strings of text. When you want to search for or filter logs by values
   within those messages you need to search within, or parse the strings.
 
 * There are add-ons for including structured data in logs, for example
