@@ -156,7 +156,6 @@ public final class io/klogging/Level$Companion {
 }
 
 public final class io/klogging/LevelKt {
-	public static final fun getOtelSeverity (Lio/klogging/Level;)I
 	public static final fun getSyslog (Lio/klogging/Level;)I
 }
 
