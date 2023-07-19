@@ -59,7 +59,7 @@ jobs:
           name: Kotest report
           path: ./klogging/build/test-results/test/*.xml
           reporter: java-junit
-        if: steps.check_test_output.file_exists == 'true'
+        if: steps.check_test_output.outputs.file_exists == 'true'
 
       - name: Publish Klogging snapshot
         run: ./gradlew :klogging:publishJvmPublicationToSnapshotsRepository
