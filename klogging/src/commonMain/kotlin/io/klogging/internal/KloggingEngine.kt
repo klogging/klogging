@@ -64,7 +64,6 @@ internal object KloggingEngine {
 
     /** Set a new configuration, replacing the existing one.  */
     internal fun setConfig(config: KloggingConfiguration) {
-        // No synchronisation or locking yet.
         currentState[CURRENT_STATE] = config
         setSinks(config.sinks)
     }
