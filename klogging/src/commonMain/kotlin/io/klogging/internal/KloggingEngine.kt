@@ -24,6 +24,7 @@ import io.klogging.config.KloggingConfiguration
 import io.klogging.config.LoggingConfig
 import io.klogging.config.SinkConfiguration
 import io.klogging.config.configLoadedFromFile
+import io.klogging.config.updateFromEnvironment
 import io.klogging.context.ContextItemExtractor
 import kotlin.coroutines.CoroutineContext
 
@@ -64,13 +65,14 @@ internal object KloggingEngine {
 
     /** Set a new configuration, replacing the existing one.  */
     internal fun setConfig(config: KloggingConfiguration) {
-        currentState[CURRENT_STATE] = config
-        setSinks(config.sinks)
+        val updatedConfig = config.updateFromEnvironment()
+        currentState[CURRENT_STATE] = updatedConfig
+        setSinks(updatedConfig.sinks)
     }
 
     /** Append a new configuration to the existing one. */
     internal fun appendConfig(config: KloggingConfiguration) {
-        currentConfig.append(config)
+        currentConfig.append(config.updateFromEnvironment())
         setSinks(currentConfig.sinks)
     }
 
@@ -79,7 +81,7 @@ internal object KloggingEngine {
         get() = currentState[CURRENT_STATE] ?: DEFAULT_CONFIG
 
     /** Map of the current [Sink]s used for sending log events. */
-    private val currentSinks: MutableMap<String, Sink> = mutableMapOf()
+    private val currentSinks: MutableMap<String, Sink> = AtomicMutableMap()
 
     /** Set new sinks, from configurations. */
     private fun setSinks(sinkConfigs: Map<String, SinkConfiguration>) {

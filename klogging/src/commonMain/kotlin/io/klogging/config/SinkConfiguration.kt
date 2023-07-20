@@ -31,7 +31,7 @@ import io.klogging.sending.senderFrom
 import io.klogging.sending.seqServer
 
 /** Configuration of a logging sink, comprising a sender and a renderer. */
-public class SinkConfiguration(
+public data class SinkConfiguration(
     internal val renderer: RenderString = RENDER_SIMPLE,
     internal val stringSender: SendString = STDOUT,
     internal val eventSender: EventSender = senderFrom(renderer, stringSender),

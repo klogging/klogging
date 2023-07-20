@@ -29,5 +29,5 @@ public typealias EventSender = suspend (List<LogEvent>) -> Unit
 
 /** Convert a [RenderString] and [SendString] into an [EventSender]. */
 public fun senderFrom(renderer: RenderString, sender: SendString): EventSender = { batch ->
-    sender(batch.map { renderer(it) }.joinToString("\n"))
+    sender(batch.joinToString("\n") { renderer(it) })
 }
