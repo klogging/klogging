@@ -83,7 +83,7 @@ public fun shortenName(name: CharSequence, width: Int = 20): CharSequence {
  * Implementation of [RenderString] like that for Log4J2 with ANSI colouring of
  * level output to a console.
  */
-public val RENDER_ANSI: Renderer = Renderer("ANSI") { e: LogEvent ->
+public val RENDER_ANSI: RenderString = { e: LogEvent ->
     val message = "${e.timestamp.localTime} ${e.level.colour5} [${e.context?.right20}] :" +
         " ${e.logger.right20} : ${e.evalTemplate()}"
     val maybeItems = if (e.items.isNotEmpty()) " : ${e.items}" else ""

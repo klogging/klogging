@@ -23,23 +23,6 @@ import io.klogging.events.LogEvent
 /** Functional type for rendering a [LogEvent] to a String. */
 public typealias RenderString = (LogEvent) -> String
 
-/**
- * Named renderer that renders a LogEvent into a string.
- *
- * @property name The name of the Renderer.
- * @property renderer The function that performs the rendering.
- */
-public data class Renderer(val name: String, private val renderer: RenderString) {
-    /**
-     * Invokes the method with the given LogEvent as input and returns the result as a String.
-     *
-     * @param logEvent The LogEvent object to pass as input to the method.
-     *
-     * @return The result of the invocation as a String.
-     */
-    public operator fun invoke(logEvent: LogEvent): String = renderer(logEvent)
-}
-
 /** Right-align the string into a fixed-width space. */
 public fun String.rightAlign(width: Int): String =
     (" ".repeat(width) + this).let { it.substring(it.length - width) }

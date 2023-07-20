@@ -20,7 +20,6 @@ package io.klogging.sending
 
 import io.klogging.events.LogEvent
 import io.klogging.rendering.RenderString
-import io.klogging.rendering.Renderer
 
 /** Functional type used for sending a string to a target somewhere. */
 public typealias SendString = suspend (String) -> Unit
@@ -29,6 +28,6 @@ public typealias SendString = suspend (String) -> Unit
 public typealias EventSender = suspend (List<LogEvent>) -> Unit
 
 /** Convert a [RenderString] and [SendString] into an [EventSender]. */
-public fun senderFrom(renderer: Renderer, sender: SendString): EventSender = { batch ->
+public fun senderFrom(renderer: RenderString, sender: SendString): EventSender = { batch ->
     sender(batch.map { renderer(it) }.joinToString("\n"))
 }

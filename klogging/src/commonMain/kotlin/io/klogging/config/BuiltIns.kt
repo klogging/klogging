@@ -22,7 +22,7 @@ import io.klogging.rendering.RENDER_ANSI
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RENDER_GELF
 import io.klogging.rendering.RENDER_SIMPLE
-import io.klogging.rendering.Renderer
+import io.klogging.rendering.RenderString
 import io.klogging.sending.STDERR
 import io.klogging.sending.STDOUT
 import io.klogging.sending.SendString
@@ -36,7 +36,7 @@ internal val BUILT_IN_CONFIGURATIONS: Map<String, KloggingConfiguration.() -> Un
 }
 
 /** Map of built-in renderers by name. */
-internal val BUILT_IN_RENDERERS: Map<String, Renderer> by lazy {
+internal val BUILT_IN_RENDERERS: Map<String, RenderString> by lazy {
     mapOf(
         "RENDER_SIMPLE" to RENDER_SIMPLE,
         "RENDER_ANSI" to RENDER_ANSI,
