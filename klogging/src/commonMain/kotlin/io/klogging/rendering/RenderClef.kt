@@ -28,7 +28,7 @@ import io.klogging.events.LogEvent
  * - If `template` is not null, include it with key `@mt`, else include `message` with key `@m`.
  * - If `stackTrace` is not null, include it with key `@x`.
  */
-public val RENDER_CLEF: RenderString = { e: LogEvent ->
+public val RENDER_CLEF: Renderer = Renderer("CLEF") { e: LogEvent ->
     val eventMap: MutableMap<String, Any?> = (
         mapOf(
             "@t" to e.timestamp.toString(),

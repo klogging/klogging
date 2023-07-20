@@ -34,7 +34,7 @@ private const val TIME_MARKER = "XXX--TIME-MARKER--XXX"
  * Renders a [LogEvent] into [GELF](https://docs.graylog.org/en/latest/pages/gelf.html#gelf-payload-specification)
  * JSON format.
  */
-public val RENDER_GELF: RenderString = { event: LogEvent ->
+public val RENDER_GELF: Renderer = Renderer("GELF") { event: LogEvent ->
     val eventMap: EventItems = (
         mapOf(
             "version" to "1.1",
