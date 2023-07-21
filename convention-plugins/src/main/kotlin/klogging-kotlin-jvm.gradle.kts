@@ -17,14 +17,7 @@
 */
 
 plugins {
-    id("klogging-kotlin-jvm")
-    id("klogging-spotless")
-    id("klogging-publishing")
-    alias(libs.plugins.testLogger)
-}
-
-repositories {
-    mavenCentral()
+    kotlin("jvm")
 }
 
 java {
@@ -37,7 +30,7 @@ kotlin {
     explicitApi()
 
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
+        languageVersion.set(JavaLanguageVersion.of("8"))
     }
 
     sourceSets.all {
@@ -46,23 +39,4 @@ kotlin {
             apiVersion = "1.6"
         }
     }
-}
-
-dependencies {
-    api(libs.klogging)
-    api(libs.slf4j)
-
-    testImplementation(libs.kotest.junit)
-    testImplementation(libs.kotest.datatest)
-    testImplementation(libs.html.reporter)
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
-
-testlogger {
-    showPassed = false
-    showSkipped = true
-    showFailed = true
 }
