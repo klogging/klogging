@@ -24,6 +24,7 @@ plugins {
     id("klogging-publishing")
     alias(libs.plugins.dokka)
     alias(libs.plugins.serialisation)
+    alias(libs.plugins.binaryCompatibilityValidator)
     alias(libs.plugins.testLogger)
 }
 
