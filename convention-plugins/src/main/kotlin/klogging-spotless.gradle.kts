@@ -61,7 +61,7 @@ spotless {
     }
 
     kotlinGradle {
-        target("*.gradle.kts", "gradle/*.gradle.kts", "buildSrc/*.gradle.kts")
+        target("**/*.gradle.kts")
         ktlint(ktlintVersion)
 
         licenseHeader(
@@ -75,8 +75,7 @@ spotless {
     }
 
     kotlin {
-        target("src/**/*.kt", "buildSrc/**/*.kt")
-        targetExclude("buildSrc/build/**")
+        target("src/**/*.kt")
         ktlint(ktlintVersion)
 
         licenseHeader(kotlinLicenceHeader)

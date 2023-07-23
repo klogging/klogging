@@ -16,48 +16,12 @@
 
 */
 
-import java.nio.file.Files
-import java.util.Base64
-import java.util.Properties
-
 plugins {
     `maven-publish`
-    signing
+    id("klogging-signing")
 }
 
 group = "io.klogging"
-
-// Stub secrets to let the project sync and build without the publication values set up
-ext["signing.keyId"] = null
-ext["signing.password"] = null
-ext["signing.secretKeyRingFile"] = null
-ext["ossrhUsername"] = null
-ext["ossrhPassword"] = null
-
-// Grabbing secrets from local.properties file or from environment variables, which could be used on CI
-val secretPropsFile: File = project.rootProject.file("local.properties")
-if (secretPropsFile.exists()) {
-    secretPropsFile.reader().use {
-        Properties().apply {
-            load(it)
-        }
-    }.onEach { (name, value) ->
-        ext[name.toString()] = value
-    }
-} else {
-    ext["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
-    ext["signing.password"] = System.getenv("SIGNING_PASSWORD")
-    ext["ossrhUsername"] = System.getenv("OSSRH_USERNAME")
-    ext["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
-
-    // Base64-encoded signing key must be in environment variable.
-    System.getenv("SIGNING_KEY")?.let { keyRing ->
-        val keyRingFilePath = Files.createTempFile("klogger-signing", ".gpg")
-        keyRingFilePath.toFile().deleteOnExit()
-        Files.write(keyRingFilePath, Base64.getDecoder().decode(keyRing))
-        ext["signing.secretKeyRingFile"] = keyRingFilePath.toString()
-    }
-}
 
 val javadocJar by tasks.registering(Jar::class) {
     archiveClassifier.set("javadoc")
@@ -115,9 +79,4 @@ publishing {
             }
         }
     }
-}
-
-// Signing artifacts. Signing.* extra properties values will be used
-signing {
-    sign(publishing.publications)
 }
