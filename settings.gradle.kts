@@ -20,7 +20,7 @@ rootProject.name = "klogging"
 
 includeBuild("convention-plugins")
 
-include("klogging", "slf4j-klogging")
+include("klogging", "slf4j-klogging", "klogging-spring-boot-starter")
 
 // Reckon plugin to set version based on Git tags.
 plugins {
