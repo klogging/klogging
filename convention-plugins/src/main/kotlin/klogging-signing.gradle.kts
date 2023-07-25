@@ -16,14 +16,12 @@
 
 */
 
-import gradle.kotlin.dsl.accessors._b6bea14fb88fd11e46d6fb1ebe601eab.ext
-import gradle.kotlin.dsl.accessors._b6bea14fb88fd11e46d6fb1ebe601eab.publishing
-import gradle.kotlin.dsl.accessors._b6bea14fb88fd11e46d6fb1ebe601eab.signing
 import java.nio.file.Files
 import java.util.Base64
 import java.util.Properties
 
 plugins {
+    `maven-publish`
     signing
 }
 
