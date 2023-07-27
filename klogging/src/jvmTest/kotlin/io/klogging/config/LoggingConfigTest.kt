@@ -25,6 +25,7 @@ import io.klogging.logger
 import io.kotest.assertions.timing.eventually
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldContainAll
+import io.kotest.matchers.shouldBe
 import kotlin.time.Duration.Companion.seconds
 
 class LoggingConfigTest : DescribeSpec({
@@ -69,6 +70,52 @@ class LoggingConfigTest : DescribeSpec({
                     ),
                 )
             }
+        }
+    }
+    describe("`logging` DSL function") {
+        fun testConfig(sinkName: String, levelsConfig: LoggingConfig.() -> Unit): MutableList<LogEvent> {
+            val events = mutableListOf<LogEvent>()
+            loggingConfiguration {
+                minDirectLogLevel(Level.TRACE)
+                sink(sinkName, SinkConfiguration(eventSender = eventSaver(events)))
+                logging { levelsConfig() }
+            }
+            return events
+        }
+        val logger = logger("test")
+        it("`fromMinLevel` function specifies minimum inclusive level") {
+            val testEvents = testConfig("test") {
+                fromMinLevel(Level.INFO) { toSink("test") }
+            }
+            logger.debug("Should not log at DEBUG")
+            logger.info("Should log at INFO")
+            logger.info("Should log at WARN")
+
+            testEvents.size shouldBe 2
+            testEvents.map { it.message }.shouldContainAll("Should log at INFO", "Should log at WARN")
+        }
+        it("`atLevel` function specifies exact logging level") {
+            val testEvents = testConfig("test") {
+                atLevel(Level.WARN) { toSink("test") }
+            }
+            logger.info("Should not log at INFO")
+            logger.warn("Should log at WARN")
+            logger.error("Should not log at ERROR")
+
+            testEvents.size shouldBe 1
+            testEvents.map { it.message }.shouldContainAll("Should log at WARN")
+        }
+        it("`inLevelRange` function specifies a closed range of logging levels") {
+            val testEvents = testConfig("test") {
+                inLevelRange(Level.DEBUG, Level.INFO) { toSink("test") }
+            }
+            logger.trace("Should not log at TRACE")
+            logger.debug("Should log at DEBUG")
+            logger.info("Should log at INFO")
+            logger.warn("Should not log at WARN")
+
+            testEvents.size shouldBe 2
+            testEvents.map { it.message }.shouldContainAll("Should log at DEBUG", "Should log at INFO")
         }
     }
 })

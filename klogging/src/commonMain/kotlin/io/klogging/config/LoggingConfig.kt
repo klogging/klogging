@@ -105,6 +105,20 @@ public class LoggingConfig {
     }
 
     /**
+     * DSL function to specify an inclusive range of levels at which to log.
+     *
+     * @param minLevel lower level of inclusive range
+     * @param maxLevel upper level of inclusive range
+     * @param configBlock configuration for this range of levels
+     */
+    @ConfigDsl
+    public fun inLevelRange(minLevel: Level, maxLevel: Level, configBlock: LevelRange.() -> Unit) {
+        val range = LevelRange(minLevel, maxLevel)
+        range.apply(configBlock)
+        if (range.sinkNames.isNotEmpty()) ranges.add(range)
+    }
+
+    /**
      * DSL function to specify a sink where events for all logging levels should be sent.
      *
      * @param sinkName name of the sink
