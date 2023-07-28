@@ -345,17 +345,20 @@ public final class io/klogging/config/FileConfiguration$Companion {
 
 public final class io/klogging/config/FileLevelRange {
 	public static final field Companion Lio/klogging/config/FileLevelRange$Companion;
-	public synthetic fun <init> (ILio/klogging/Level;Lio/klogging/Level;Ljava/util/List;Lkotlinx/serialization/internal/SerializationConstructorMarker;)V
-	public fun <init> (Lio/klogging/Level;Lio/klogging/Level;Ljava/util/List;)V
-	public synthetic fun <init> (Lio/klogging/Level;Lio/klogging/Level;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> ()V
+	public synthetic fun <init> (ILio/klogging/Level;Lio/klogging/Level;Lio/klogging/Level;Ljava/util/List;Lkotlinx/serialization/internal/SerializationConstructorMarker;)V
+	public fun <init> (Lio/klogging/Level;Lio/klogging/Level;Lio/klogging/Level;Ljava/util/List;)V
+	public synthetic fun <init> (Lio/klogging/Level;Lio/klogging/Level;Lio/klogging/Level;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Lio/klogging/Level;
 	public final fun component2 ()Lio/klogging/Level;
-	public final fun component3 ()Ljava/util/List;
-	public final fun copy (Lio/klogging/Level;Lio/klogging/Level;Ljava/util/List;)Lio/klogging/config/FileLevelRange;
-	public static synthetic fun copy$default (Lio/klogging/config/FileLevelRange;Lio/klogging/Level;Lio/klogging/Level;Ljava/util/List;ILjava/lang/Object;)Lio/klogging/config/FileLevelRange;
+	public final fun component3 ()Lio/klogging/Level;
+	public final fun component4 ()Ljava/util/List;
+	public final fun copy (Lio/klogging/Level;Lio/klogging/Level;Lio/klogging/Level;Ljava/util/List;)Lio/klogging/config/FileLevelRange;
+	public static synthetic fun copy$default (Lio/klogging/config/FileLevelRange;Lio/klogging/Level;Lio/klogging/Level;Lio/klogging/Level;Ljava/util/List;ILjava/lang/Object;)Lio/klogging/config/FileLevelRange;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAtLevel ()Lio/klogging/Level;
 	public final fun getFromMinLevel ()Lio/klogging/Level;
+	public final fun getToMaxLevel ()Lio/klogging/Level;
 	public final fun getToSinks ()Ljava/util/List;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
@@ -483,7 +486,8 @@ public final class io/klogging/config/KloggingConfigurationKt {
 }
 
 public final class io/klogging/config/LevelRange : kotlin/ranges/ClosedRange {
-	public fun <init> (Lio/klogging/Level;Lio/klogging/Level;)V
+	public static final field Companion Lio/klogging/config/LevelRange$Companion;
+	public synthetic fun <init> (Lio/klogging/Level;Lio/klogging/Level;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Lio/klogging/Level;
 	public final fun component2 ()Lio/klogging/Level;
 	public fun contains (Lio/klogging/Level;)Z
@@ -503,6 +507,10 @@ public final class io/klogging/config/LevelRange : kotlin/ranges/ClosedRange {
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class io/klogging/config/LevelRange$Companion {
+	public final fun invoke (Lio/klogging/Level;Lio/klogging/Level;)Lio/klogging/config/LevelRange;
+}
+
 public final class io/klogging/config/LoggingConfig {
 	public fun <init> ()V
 	public final fun atLevel (Lio/klogging/Level;Lkotlin/jvm/functions/Function1;)V
@@ -511,8 +519,10 @@ public final class io/klogging/config/LoggingConfig {
 	public final fun fromLoggerBase (Ljava/lang/String;Z)V
 	public static synthetic fun fromLoggerBase$default (Lio/klogging/config/LoggingConfig;Ljava/lang/String;ZILjava/lang/Object;)V
 	public final fun fromMinLevel (Lio/klogging/Level;Lkotlin/jvm/functions/Function1;)V
+	public final fun inLevelRange (Lio/klogging/Level;Lio/klogging/Level;Lkotlin/jvm/functions/Function1;)V
 	public final fun matchLogger (Ljava/lang/String;Z)V
 	public static synthetic fun matchLogger$default (Lio/klogging/config/LoggingConfig;Ljava/lang/String;ZILjava/lang/Object;)V
+	public final fun toMaxLevel (Lio/klogging/Level;Lkotlin/jvm/functions/Function1;)V
 	public final fun toSink (Ljava/lang/String;)V
 }
 
@@ -738,6 +748,10 @@ public final class io/klogging/rendering/RenderEcsKt {
 public final class io/klogging/rendering/RenderGelfKt {
 	public static final fun getRENDER_GELF ()Lkotlin/jvm/functions/Function1;
 	public static final fun graylogFormat (Lkotlinx/datetime/Instant;)Ljava/lang/String;
+}
+
+public final class io/klogging/rendering/RenderIso8601Kt {
+	public static final fun getRENDER_ISO8601 ()Lkotlin/jvm/functions/Function1;
 }
 
 public final class io/klogging/rendering/RenderKt {
