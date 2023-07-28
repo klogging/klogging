@@ -203,11 +203,6 @@ internal class JsonConfigurationTest : DescribeSpec({
                     """{"fromMinLevel": "DEBUG", "toMaxLevel": "INFO"}""",
                 ).toLevelRange() shouldBe LevelRange(DEBUG, INFO)
             }
-            it("reads `inLevelRange`") {
-                Json.decodeFromString<FileLevelRange>(
-                    """{"inLevelRange": ["INFO", "ERROR"]}""",
-                ).toLevelRange() shouldBe LevelRange(INFO, ERROR)
-            }
         }
         describe("sink configuration") {
             describe("using `renderWith` and `sendTo` keys") {

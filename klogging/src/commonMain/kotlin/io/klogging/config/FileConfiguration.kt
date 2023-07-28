@@ -107,15 +107,12 @@ public data class FileLevelRange(
     val fromMinLevel: Level? = null,
     val toMaxLevel: Level? = null,
     val atLevel: Level? = null,
-    val inLevelRange: List<Level>? = null,
     val toSinks: List<String>? = null,
 ) {
     internal fun toLevelRange(): LevelRange {
         val range = when {
             // `atLevel` has priority over everything else
             atLevel != null -> LevelRange(atLevel, atLevel)
-            // `inLevelRange` has priority over `fromMinLevel` and `toMaxLevel`
-            inLevelRange != null && inLevelRange.size > 1 -> LevelRange(inLevelRange[0], inLevelRange[1])
             // min and max levels
             else -> LevelRange(fromMinLevel ?: TRACE, toMaxLevel ?: FATAL)
         }

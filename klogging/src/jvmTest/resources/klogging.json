@@ -12,7 +12,8 @@
     {
       "levelRanges": [
         {
-          "inLevelRange": ["INFO", "ERROR"],
+          "fromMinLevel": "INFO",
+          "toMaxLevel": "ERROR",
           "stopOnMatch": true,
           "toSinks": [
             "stdout",

@@ -46,10 +46,6 @@ class FileConfigurationTest : DescribeSpec({
                 atLevel = INFO,
                 toMaxLevel = ERROR,
             ).toLevelRange() shouldBe LevelRange(INFO, INFO)
-            FileLevelRange(
-                atLevel = INFO,
-                inLevelRange = listOf(DEBUG, WARN),
-            ).toLevelRange() shouldBe LevelRange(INFO, INFO)
         }
         it("sets lower bound if only `fromMinLevel` is set") {
             FileLevelRange(
@@ -61,28 +57,11 @@ class FileConfigurationTest : DescribeSpec({
                 toMaxLevel = INFO,
             ).toLevelRange() shouldBe LevelRange(TRACE, INFO)
         }
-        it("sets a range if only `fromMinLevel` and `toMaxLevel` are set") {
+        it("sets a range if `fromMinLevel` and `toMaxLevel` are set") {
             FileLevelRange(
                 fromMinLevel = INFO,
                 toMaxLevel = WARN,
             ).toLevelRange() shouldBe LevelRange(INFO, WARN)
-        }
-        it("sets a range if only `inLevelRange` is set to two values") {
-            FileLevelRange(
-                inLevelRange = listOf(DEBUG, INFO),
-            ).toLevelRange() shouldBe LevelRange(DEBUG, INFO)
-        }
-        it("sets the range from `inLevelRange` even if `fromMinLevel` and/or `toMaxLevel` are set") {
-            FileLevelRange(
-                fromMinLevel = DEBUG,
-                toMaxLevel = INFO,
-                inLevelRange = listOf(WARN, ERROR),
-            ).toLevelRange() shouldBe LevelRange(WARN, ERROR)
-        }
-        it("sets full range if `inLevelRange` is not complete") {
-            FileLevelRange(
-                inLevelRange = listOf(INFO),
-            ).toLevelRange() shouldBe LevelRange(TRACE, FATAL)
         }
     }
 })
