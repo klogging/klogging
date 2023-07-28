@@ -18,10 +18,11 @@
 
 package io.klogging.config
 
-import io.klogging.Level
 import io.klogging.Level.DEBUG
+import io.klogging.Level.ERROR
 import io.klogging.Level.FATAL
 import io.klogging.Level.INFO
+import io.klogging.Level.TRACE
 import io.klogging.genString
 import io.klogging.internal.KloggingEngine
 import io.klogging.rendering.RENDER_CLEF
@@ -41,7 +42,7 @@ internal class JsonConfigurationTest : DescribeSpec({
         describe("invalid JSON") {
             it("does not configure anything") {
                 // Suppress warning message from internal logger
-                loggingConfiguration { kloggingMinLogLevel = Level.ERROR }
+                loggingConfiguration { kloggingMinLogLevel = ERROR }
 
                 // configure() catches exceptions and logs
                 val config = JsonConfiguration.configure("*** THIS IS NOT JSON ***")
@@ -179,6 +180,33 @@ internal class JsonConfigurationTest : DescribeSpec({
                 }
 
                 KloggingEngine.kloggingMinLogLevel() shouldBe DEBUG
+            }
+        }
+        describe("`logging` level range") {
+            it("reads `atLevel`") {
+                Json.decodeFromString<FileLevelRange>(
+                    """{"atLevel": "INFO"}""",
+                ).toLevelRange() shouldBe LevelRange(INFO, INFO)
+            }
+            it("reads `fromMinLevel`") {
+                Json.decodeFromString<FileLevelRange>(
+                    """{"fromMinLevel": "INFO"}""",
+                ).toLevelRange() shouldBe LevelRange(INFO, FATAL)
+            }
+            it("reads `toMaxLevel`") {
+                Json.decodeFromString<FileLevelRange>(
+                    """{"toMaxLevel": "INFO"}""",
+                ).toLevelRange() shouldBe LevelRange(TRACE, INFO)
+            }
+            it("reads `fromMinLevel` and `toMaxLevel`") {
+                Json.decodeFromString<FileLevelRange>(
+                    """{"fromMinLevel": "DEBUG", "toMaxLevel": "INFO"}""",
+                ).toLevelRange() shouldBe LevelRange(DEBUG, INFO)
+            }
+            it("reads `inLevelRange`") {
+                Json.decodeFromString<FileLevelRange>(
+                    """{"inLevelRange": ["INFO", "ERROR"]}""",
+                ).toLevelRange() shouldBe LevelRange(INFO, ERROR)
             }
         }
         describe("sink configuration") {
