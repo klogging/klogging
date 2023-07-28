@@ -12,7 +12,7 @@
     {
       "levelRanges": [
         {
-          "inLevelRange": ["INFO", "INFO"],
+          "inLevelRange": ["INFO", "ERROR"],
           "stopOnMatch": true,
           "toSinks": [
             "stdout",

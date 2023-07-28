@@ -120,7 +120,7 @@ public data class FileLevelRange(
             else -> LevelRange(fromMinLevel ?: TRACE, toMaxLevel ?: FATAL)
         }
         toSinks?.let { range.sinkNames.addAll(it) }
-        debug("Configuration", "Setting log levels range $range for sinks $toSinks")
+        debug("File Configuration", "Setting log levels range $range for sinks $toSinks")
         return range
     }
 }
