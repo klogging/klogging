@@ -21,6 +21,7 @@ package io.klogging.config
 import io.klogging.Level
 import io.klogging.Level.FATAL
 import io.klogging.Level.TRACE
+import io.klogging.internal.debug
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.sending.SplunkEndpoint
 import io.klogging.sending.splunkHec
@@ -104,18 +105,22 @@ public data class FileLoggingConfig(
 @Serializable
 public data class FileLevelRange(
     val fromMinLevel: Level? = null,
+    val toMaxLevel: Level? = null,
     val atLevel: Level? = null,
-    val toSinks: List<String>,
+    val inLevelRange: List<Level>? = null,
+    val toSinks: List<String>? = null,
 ) {
     internal fun toLevelRange(): LevelRange {
         val range = when {
-            // `atLevel` has priority over `fromMinLevel`
+            // `atLevel` has priority over everything else
             atLevel != null -> LevelRange(atLevel, atLevel)
-            fromMinLevel != null -> LevelRange(fromMinLevel, FATAL)
-            // All levels
-            else -> LevelRange(TRACE, FATAL)
+            // `inLevelRange` has priority over `fromMinLevel` and `toMaxLevel`
+            inLevelRange != null && inLevelRange.size > 1 -> LevelRange(inLevelRange[0], inLevelRange[1])
+            // min and max levels
+            else -> LevelRange(fromMinLevel ?: TRACE, toMaxLevel ?: FATAL)
         }
-        range.sinkNames.addAll(toSinks)
+        toSinks?.let { range.sinkNames.addAll(it) }
+        debug("Configuration", "Setting log levels range $range for sinks $toSinks")
         return range
     }
 }

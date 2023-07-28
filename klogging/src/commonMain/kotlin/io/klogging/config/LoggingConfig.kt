@@ -92,6 +92,22 @@ public class LoggingConfig {
     }
 
     /**
+     * DSL function to specify the maximum level at which to log.
+     *
+     * @param maxLevel inclusive maximum level
+     * @param configBlock configuration for this range of levels
+     */
+    @ConfigDsl
+    public fun toMaxLevel(
+        maxLevel: Level,
+        configBlock: LevelRange.() -> Unit,
+    ) {
+        val range = LevelRange(TRACE, maxLevel)
+        range.apply(configBlock)
+        if (range.sinkNames.isNotEmpty()) ranges.add(range)
+    }
+
+    /**
      * DSL function to specify a specific level at which to log.
      *
      * @param level exact level

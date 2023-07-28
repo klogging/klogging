@@ -31,6 +31,7 @@ import io.klogging.sending.STDOUT
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldHaveSize
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.property.arbitrary.next
@@ -128,8 +129,11 @@ internal class HoconConfigurationTest : DescribeSpec({
                         levelRanges shouldHaveSize 1
                         with(levelRanges.first()) {
                             fromMinLevel shouldBe INFO
-                            toSinks shouldHaveSize 1
-                            toSinks.first() shouldBe "stdout"
+                            with(toSinks) {
+                                shouldNotBeNull()
+                                shouldHaveSize(1)
+                                first() shouldBe "stdout"
+                            }
                         }
                     }
                 }

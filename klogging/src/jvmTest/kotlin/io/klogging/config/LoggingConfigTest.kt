@@ -89,10 +89,21 @@ class LoggingConfigTest : DescribeSpec({
             }
             logger.debug("Should not log at DEBUG")
             logger.info("Should log at INFO")
-            logger.info("Should log at WARN")
+            logger.warn("Should log at WARN")
 
             testEvents.size shouldBe 2
             testEvents.map { it.message }.shouldContainAll("Should log at INFO", "Should log at WARN")
+        }
+        it("`toMaxLevel` function specifies minimum inclusive level") {
+            val testEvents = testConfig("test") {
+                toMaxLevel(Level.INFO) { toSink("test") }
+            }
+            logger.debug("Should log at DEBUG")
+            logger.info("Should log at INFO")
+            logger.warn("Should not log at WARN")
+
+            testEvents.size shouldBe 2
+            testEvents.map { it.message }.shouldContainAll("Should log at DEBUG", "Should log at INFO")
         }
         it("`atLevel` function specifies exact logging level") {
             val testEvents = testConfig("test") {
