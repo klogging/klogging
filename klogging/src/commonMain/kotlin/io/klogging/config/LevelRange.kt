@@ -20,12 +20,26 @@ package io.klogging.config
 
 import io.klogging.AtomicMutableList
 import io.klogging.Level
+import io.klogging.internal.warn
 
 /** Inclusive range of logging levels with the names of sinks where events will be sent. */
-public data class LevelRange(
+@Suppress("DataClassPrivateConstructor")
+public data class LevelRange private constructor(
     val minLevel: Level,
     val maxLevel: Level,
 ) : ClosedRange<Level> {
+
+    public companion object {
+        public operator fun invoke(min: Level, max: Level): LevelRange =
+            if (min > max) {
+                LevelRange(max, min).also {
+                    warn("Configuration", "LevelRange maxLevel must be greater than minLevel. Constructing as $it")
+                }
+            } else {
+                LevelRange(min, max)
+            }
+    }
+
     override val start: Level get() = minLevel
     override val endInclusive: Level get() = maxLevel
 
