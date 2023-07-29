@@ -70,8 +70,8 @@ publishing {
                     }
                 }
                 scm {
-                    connection.set("scm:git:git://github.com/klogging/klogging-spring-boot-starter.git")
-                    url.set("https://github.com/klogging/klogging-spring-boot-starter")
+                    connection.set("scm:git:git://github.com/klogging/klogging.git")
+                    url.set("https://github.com/klogging/klogging")
                 }
             }
             pom.withXml {

@@ -1,18 +1,6 @@
 name: Publish Spring Boot starter POM
 
 on:
-  push:
-    branches:
-      - main
-    tags:
-      - '*'
-    paths:
-      - klogging/**
-      - slf4j-klogging/**
-      - klogging-spring-boot-starter/**
-  pull_request:
-    branches:
-      - '*'
   workflow_dispatch:
 
 jobs:
@@ -42,9 +30,9 @@ jobs:
         uses: gradle/gradle-build-action@v2.7.0
 
       - name: Publish Spring Boot starter snapshot
-        run: ./gradlew :slf4j-klogging:publishJvmPublicationToSnapshotsRepository
+        run: ./gradlew :klogging-spring-boot-starter:publishPomPublicationToSnapshotsRepository
         if: github.repository == 'klogging/klogging' && github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
 
       - name: Publish Spring Boot starter release
-        run: ./gradlew :slf4j-klogging:publishJvmPublicationToReleasesRepository
+        run: ./gradlew :klogging-spring-boot-starter:publishPomPublicationToReleasesRepository
         if: github.repository == 'klogging/klogging' && startsWith(github.ref, 'refs/tags/') && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
