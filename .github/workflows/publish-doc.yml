@@ -1,4 +1,4 @@
-name: Publish Documentation to GitHub Pages
+name: publish-dokka-github-pages
 
 on:
   workflow_dispatch:

@@ -1,4 +1,4 @@
-name: Build and publish Klogging SLF4J provider
+name: build-publish-slf4j-klogging
 
 on:
   push:

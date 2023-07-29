@@ -1,4 +1,4 @@
-name: Publish Spring Boot starter POM
+name: publish-spring-boot-starter
 
 on:
   workflow_dispatch:
