@@ -66,3 +66,12 @@ testlogger {
     showSkipped = true
     showFailed = true
 }
+
+// Create a publication to sign to publish.
+publishing {
+    publications {
+        create<MavenPublication>("jvm") {
+            from(components["kotlin"])
+        }
+    }
+}
