@@ -1,0 +1,50 @@
+name: Publish Spring Boot starter POM
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+    paths:
+      - klogging/**
+      - slf4j-klogging/**
+      - klogging-spring-boot-starter/**
+  pull_request:
+    branches:
+      - '*'
+  workflow_dispatch:
+
+jobs:
+
+  build-slf4j-klogging:
+    name: Publish Spring Boot starter POM
+    runs-on: ubuntu-latest
+    env:
+      SIGNING_KEY_ID: 40D4E7C6
+      OSSRH_USERNAME: mjstrasser
+      OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+      SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+      TERM: xterm-256color
+
+    permissions:
+      contents: write # Required to be able to publish releases, see https://docs.github.com/en/rest/reference/permissions-required-for-github-apps#permission-on-contents
+      checks: write # Required to write test reports.
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Check out everything including tags
+
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2.7.0
+
+      - name: Publish Spring Boot starter snapshot
+        run: ./gradlew :slf4j-klogging:publishJvmPublicationToSnapshotsRepository
+        if: github.repository == 'klogging/klogging' && github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
+
+      - name: Publish Spring Boot starter release
+        run: ./gradlew :slf4j-klogging:publishJvmPublicationToReleasesRepository
+        if: github.repository == 'klogging/klogging' && startsWith(github.ref, 'refs/tags/') && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')

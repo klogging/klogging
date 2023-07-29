@@ -18,7 +18,6 @@
 
 plugins {
     `maven-publish`
-//    `java-library`
     id("klogging-signing")
 }
 
@@ -52,7 +51,7 @@ publishing {
     }
 
     publications {
-        create<MavenPublication>("starterPom") {
+        create<MavenPublication>("pom") {
             pom {
                 name.set("klogging-spring-boot-starter")
                 description.set("Spring Boot starter for Klogging logging library")
