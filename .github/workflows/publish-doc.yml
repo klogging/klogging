@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - klogging/**
 
 jobs:
   deploy:
@@ -15,8 +17,11 @@ jobs:
           submodules: true
           fetch-depth: 0
 
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2.7.0
+
       - name: Build
-        run: ./gradlew dokkaHtml
+        run: ./gradlew :klogging:dokkaHtml
 
       - name: Copy files
         run: cp ./klogging/gh-pages/* ./klogging/build/dokka/html
