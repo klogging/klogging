@@ -25,6 +25,9 @@ plugins {
 
 repositories {
     mavenCentral()
+    // Direct links to Sonatype repositories where Klogging artifacts are directly published.
+    maven("https://s01.oss.sonatype.org/content/repositories/releases/")
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 }
 
 java {
@@ -49,7 +52,8 @@ kotlin {
 }
 
 dependencies {
-    api(libs.klogging)
+    // Match the dependency version to the current one.
+    api("io.klogging:klogging-jvm:${project.version}")
     api(libs.slf4j)
 
     testImplementation(libs.kotest.junit)

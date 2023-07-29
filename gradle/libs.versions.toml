@@ -3,7 +3,6 @@ atomicfu = "0.21.0"
 binary-compatibility-validator = "0.13.2"
 dokka = "1.8.20"
 html-reporter = "0.7.1"
-klogging = "0.4.22"
 kotlin = "1.9.0"
 kotest = "5.6.2"
 kotlin-coroutines = "1.7.3"
@@ -16,7 +15,6 @@ test-logger = "3.2.0"
 
 [libraries]
 html-reporter = { module = "com.michaelstrasser:kotest-html-reporter", version.ref = "html-reporter" }
-klogging = { module = "io.klogging:klogging-jvm", version.ref = "klogging" }
 kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
 kotest-junit = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
