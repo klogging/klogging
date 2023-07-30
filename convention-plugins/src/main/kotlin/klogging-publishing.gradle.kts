@@ -59,7 +59,7 @@ publishing {
         pom {
             name.set("klogging")
             description.set("Kotlin logging library with structured logging and coroutines support")
-            url.set("https://github.com/klogging/klogging")
+            url.set("https://klogging.io")
             licenses {
                 license {
                     name.set("The Apache License, Version 2.0")
