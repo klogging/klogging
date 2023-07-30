@@ -76,6 +76,10 @@ publishing {
     publications {
         create<MavenPublication>("jvm") {
             from(components["kotlin"])
+            pom {
+                name.set("slf4j-klogging")
+                description.set("SLF4J provider implemented with Klogging logging library")
+            }
         }
     }
 }
