@@ -1,8 +1,8 @@
 # Spring Boot starter for Klogging
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Build](https://github.com/klogging/klogging-spring-boot-starter/actions/workflows/build.yml/badge.svg)](https://github.com/klogging/klogging/actions/workflows/build.yml)
-[![Maven Central](https://img.shields.io/maven-central/v/io.klogging/klogging-spring-boot-starter.svg?label=maven%20central)](https://search.maven.org/search?q=g:%22io.klogging%22%20AND%20a:%klogging-spring-boot-starter%22)
+[![Build](https://github.com/klogging/klogging/actions/workflows/build-spring-boot-starter.yml/badge.svg)](https://github.com/klogging/klogging/actions/workflows/build-spring-boot-starter.yml)
+[![Maven Central](https://img.shields.io/maven-central/v/io.klogging/klogging-spring-boot-starter.svg?label=maven%20central)](https://central.sonatype.com/search?smo=true&q=io.klogging%3Aklogging-spring-boot-starter)
 
 See [Klogging documentation](https://klogging.io/docs/java/spring-boot) for more details.
 
@@ -13,7 +13,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter") {
         exclude(group = "ch.qos.logback")
     }
-    implementation("io.klogging:klogging-spring-boot-starter:0.3.5")
+    implementation("io.klogging:klogging-spring-boot-starter:0.5.0")
     // Other runtime dependencies.
     
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
