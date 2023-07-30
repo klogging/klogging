@@ -28,7 +28,7 @@ repositories {
     mavenCentral()
 }
 
-fun getExtraString(name: String) = ext[name]?.toString()
+fun getExtraString(name: String) = extra[name]?.toString()
 
 publishing {
     repositories {

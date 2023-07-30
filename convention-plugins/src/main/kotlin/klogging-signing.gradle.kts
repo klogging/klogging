@@ -26,11 +26,11 @@ plugins {
 }
 
 // Stub secrets to let the project sync and build without the publication values set up
-ext["signing.keyId"] = null
-ext["signing.password"] = null
-ext["signing.secretKeyRingFile"] = null
-ext["ossrhUsername"] = null
-ext["ossrhPassword"] = null
+extra["signing.keyId"] = null
+extra["signing.password"] = null
+extra["signing.secretKeyRingFile"] = null
+extra["ossrhUsername"] = null
+extra["ossrhPassword"] = null
 
 // Grabbing secrets from local.properties file or from environment variables, which could be used on CI
 val secretPropsFile: File = project.rootProject.file("local.properties")
@@ -40,20 +40,20 @@ if (secretPropsFile.exists()) {
             load(it)
         }
     }.onEach { (name, value) ->
-        ext[name.toString()] = value
+        extra[name.toString()] = value
     }
 } else {
-    ext["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
-    ext["signing.password"] = System.getenv("SIGNING_PASSWORD")
-    ext["ossrhUsername"] = System.getenv("OSSRH_USERNAME")
-    ext["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
+    extra["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
+    extra["signing.password"] = System.getenv("SIGNING_PASSWORD")
+    extra["ossrhUsername"] = System.getenv("OSSRH_USERNAME")
+    extra["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
 
     // Base64-encoded signing key must be in environment variable.
     System.getenv("SIGNING_KEY")?.let { keyRing ->
         val keyRingFilePath = Files.createTempFile("klogger-signing", ".gpg")
         keyRingFilePath.toFile().deleteOnExit()
         Files.write(keyRingFilePath, Base64.getDecoder().decode(keyRing))
-        ext["signing.secretKeyRingFile"] = keyRingFilePath.toString()
+        extra["signing.secretKeyRingFile"] = keyRingFilePath.toString()
     }
 }
 
