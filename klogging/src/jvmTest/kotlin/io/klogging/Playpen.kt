@@ -19,8 +19,13 @@
 package io.klogging
 
 import io.klogging.config.Context
+import io.klogging.config.SinkConfiguration
+import io.klogging.config.getenv
+import io.klogging.config.loggingConfiguration
 import io.klogging.context.logContext
 import io.klogging.events.timestampNow
+import io.klogging.sending.SplunkEndpoint
+import io.klogging.sending.splunkHec
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -37,13 +42,38 @@ suspend fun main() = coroutineScope {
     val logger = logger("io.klogging.example.KloggerPlaypen")
     Context.addBaseContext("app" to "Playpen")
 
+    if (System.getenv("LOCAL_SPLUNK") == "true") {
+        loggingConfiguration(append = true) {
+            sink(
+                "splunk",
+                SinkConfiguration(
+                    eventSender = splunkHec(
+                        SplunkEndpoint(
+                            hecUrl = "https://localhost:8088",
+                            hecToken = getenv("SPLUNK_HEC_TOKEN")!!,
+                            checkCertificate = "false",
+                        ),
+                    ),
+                ),
+            )
+            logging {
+                fromMinLevel(Level.INFO) {
+                    toSink("splunk")
+                }
+            }
+        }
+    }
+
+    val outerCount = 2
+    val innerCount = 2
+
     val run = randomUUID()
     launch(logContext("run" to run) + CoroutineName("Playpen")) {
         logger.info { "Start" }
-        repeat(2) { c ->
+        repeat(outerCount) { c ->
             logger.info { e(">> {Counter}", c + 1) }
             launch(logContext("Counter" to (c + 1))) {
-                repeat(2) { i ->
+                repeat(innerCount) { i ->
                     logger.info(
                         "Event {Iteration} at {RightNow}",
                         i + 1,
@@ -59,7 +89,7 @@ suspend fun main() = coroutineScope {
     }
     // There must be at least one statement outside the coroutine scope.
     logger.info("All done in {run}", run)
-    delay(5000)
+    delay(500)
 }
 
 suspend fun functionWithException(logger: Klogger) {
