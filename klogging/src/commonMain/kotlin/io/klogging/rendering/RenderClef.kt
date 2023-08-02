@@ -21,8 +21,7 @@ package io.klogging.rendering
 import io.klogging.events.LogEvent
 
 /**
- * Render a [LogEvent] into [CLEF](https://docs.datalust.co/docs/posting-raw-events#compact-json-format)
- * compact JSON format.
+ * Render a [LogEvent] into [CLEF](https://clef-json.org) compact JSON format.
  *
  * - If `context` is not null, include it with key `context`.
  * - If `template` is not null, include it with key `@mt`, else include `message` with key `@m`.
