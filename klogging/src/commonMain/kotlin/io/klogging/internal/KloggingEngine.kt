@@ -48,7 +48,10 @@ internal object KloggingEngine {
     /** Lazily loaded property that is only set when we have a Klogging state. */
     internal val configuration: KloggingConfiguration by lazy {
         debug("KloggingEngine", "Lazy-loading current configuration")
-        configLoadedFromFile?.let { setConfig(it) }
+        configLoadedFromFile?.let { config ->
+            setConfig(config)
+            info("Configuration", "Configuration read from file")
+        }
         currentConfig
     }
 

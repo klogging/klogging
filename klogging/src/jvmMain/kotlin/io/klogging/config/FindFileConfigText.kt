@@ -18,7 +18,7 @@
 
 package io.klogging.config
 
-import io.klogging.internal.info
+import io.klogging.internal.debug
 import io.klogging.internal.warn
 import java.io.File
 import kotlin.text.Charsets.UTF_8
@@ -35,7 +35,7 @@ internal fun readResourceText(resourcePath: String): String? =
         .getResourceAsStream(resourcePath)
         ?.bufferedReader(UTF_8)
         ?.let {
-            info("Configuration", "Reading configuration from $resourcePath on the classpath")
+            debug("Configuration", "Reading configuration from $resourcePath on the classpath")
             it.readText()
         }
 
@@ -55,7 +55,7 @@ internal actual fun findFileConfigText(): String? {
         ?.let { File(it) }
         ?.let {
             if (it.exists()) {
-                info("Configuration", "Reading configuration from $filePath")
+                debug("Configuration", "Reading configuration from $filePath")
                 it.readText(UTF_8)
             } else {
                 warn("Configuration", "Specified configuration file $filePath not found")

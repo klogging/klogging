@@ -57,7 +57,6 @@ internal val defaultMinDirectLogLevel: Level = try {
  */
 @ConfigDsl
 public fun loggingConfiguration(append: Boolean = false, block: KloggingConfiguration.() -> Unit) {
-    info("Configuration", "Setting configuration using the DSL with append=$append")
     val config = KloggingConfiguration()
     config.apply(block)
     config.validateSinks()
@@ -66,6 +65,7 @@ public fun loggingConfiguration(append: Boolean = false, block: KloggingConfigur
     } else {
         KloggingEngine.setConfig(config)
     }
+    info("Configuration", "Configuration set using the DSL with append=$append")
 }
 
 /**
