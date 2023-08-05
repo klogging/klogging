@@ -24,6 +24,11 @@ import io.klogging.internal.KloggingEngine
 import kotlin.coroutines.CoroutineContext
 
 /**
+ * Functional type that returns a map of event items.
+ */
+public typealias ItemExtractor = () -> EventItems
+
+/**
  * Object for configuring context information that will be included in log events.
  */
 public object Context {
@@ -65,5 +70,26 @@ public object Context {
     ) {
         @Suppress("UNCHECKED_CAST")
         KloggingEngine.otherContextExtractors[key] = extractor as ContextItemExtractor
+    }
+
+    /**
+     * Clear any [ContextItemExtractor] functions.
+     */
+    public fun clearContextItemExtractors() {
+        KloggingEngine.otherContextExtractors.clear()
+    }
+
+    /**
+     * Add an [ItemExtractor] that will be used to add items to every log event.
+     */
+    public fun addItemExtractor(extractor: ItemExtractor) {
+        KloggingEngine.otherItemExtractors.add(extractor)
+    }
+
+    /**
+     * Clear any [ItemExtractor] functions.
+     */
+    public fun clearItemExtractors() {
+        KloggingEngine.otherItemExtractors.clear()
     }
 }

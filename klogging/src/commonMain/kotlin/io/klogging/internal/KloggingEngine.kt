@@ -18,8 +18,10 @@
 
 package io.klogging.internal
 
+import io.klogging.AtomicMutableList
 import io.klogging.AtomicMutableMap
 import io.klogging.Level
+import io.klogging.config.ItemExtractor
 import io.klogging.config.KloggingConfiguration
 import io.klogging.config.LoggingConfig
 import io.klogging.config.SinkConfiguration
@@ -59,7 +61,9 @@ internal object KloggingEngine {
      * Map of functions that extract event items from other coroutine context elements.
      */
     internal val otherContextExtractors =
-        mutableMapOf<CoroutineContext.Key<*>, ContextItemExtractor>()
+        AtomicMutableMap<CoroutineContext.Key<*>, ContextItemExtractor>()
+
+    internal val otherItemExtractors = AtomicMutableList<ItemExtractor>()
 
     /**
      * Map of context items to include in all log events.

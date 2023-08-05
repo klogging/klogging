@@ -29,6 +29,7 @@ import kotlin.coroutines.AbstractCoroutineContextElement
 import kotlin.coroutines.CoroutineContext
 
 class OtherContextTest : DescribeSpec({
+    afterTest { Context.clearContextItemExtractors() }
     describe("can extract event items from other coroutine context elements") {
         it("works as before if there are no other context elements") {
             val logger = logger<OtherContextTest>()
