@@ -25,6 +25,7 @@ import io.klogging.events.LogEvent
 import io.klogging.events.threadContext
 import io.klogging.events.timestampNow
 import io.klogging.internal.Emitter
+import io.klogging.internal.KloggingEngine
 import io.klogging.internal.kloggingParentContext
 import io.klogging.templating.templateItems
 import kotlinx.coroutines.CoroutineName
@@ -45,11 +46,17 @@ public class NoCoLoggerImpl(
         event: Any?,
         contextItems: EventItems,
     ) {
-        val eventToLog = eventFrom(threadContext(), level, throwable, event, contextItems)
+        val eventToLog = eventFrom(threadContext(), level, throwable, event, contextItems + otherItems())
         launch(CoroutineName("NoCoLogger")) {
             Emitter.emit(eventToLog)
         }
     }
+
+    private fun otherItems(): EventItems = KloggingEngine.otherItemExtractors
+        .fold(mutableMapOf()) { items, extractor ->
+            items.putAll(extractor())
+            items
+        }
 
     override fun e(template: String, vararg values: Any?): LogEvent {
         val items = templateItems(template, *values)

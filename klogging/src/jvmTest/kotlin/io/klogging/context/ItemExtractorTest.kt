@@ -21,10 +21,13 @@ package io.klogging.context
 import io.klogging.config.Context
 import io.klogging.config.ItemExtractor
 import io.klogging.logger
+import io.klogging.noCoLogger
 import io.klogging.savedEvents
+import io.kotest.assertions.timing.eventually
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.maps.shouldContainExactly
+import kotlin.time.Duration.Companion.seconds
 
 class ItemExtractorTest : DescribeSpec({
     afterTest { Context.clearItemExtractors() }
@@ -37,7 +40,15 @@ class ItemExtractorTest : DescribeSpec({
 
             saved.first().items.shouldBeEmpty()
         }
-        it("adds to log event items if set") {
+        it("adds to Klogger events with simple text messages") {
+            val saved = savedEvents()
+            Context.addItemExtractor { mapOf("one" to "two") }
+
+            logger.info("An event")
+
+            saved.first().items.shouldContainExactly(mapOf("one" to "two"))
+        }
+        it("adds to Klogger events with templated messages") {
             val saved = savedEvents()
             Context.addItemExtractor { mapOf("one" to "two") }
 
@@ -45,7 +56,7 @@ class ItemExtractorTest : DescribeSpec({
 
             saved.first().items.shouldContainExactly(mapOf("one" to "two", "name" to "Fred"))
         }
-        it("can work with Java thread-local values") {
+        it("can add Java thread-local values") {
             val saved = savedEvents()
             val threadLocal = JavaThreadLocalExtractor("value")
             Context.addItemExtractor(threadLocal.itemExtractor("item"))
@@ -54,6 +65,30 @@ class ItemExtractorTest : DescribeSpec({
 
             saved.first().items.shouldContainExactly(mapOf("name" to "John", "item" to "value"))
             threadLocal.clear()
+        }
+        it("adds items to NoCoLogger events with simple text messages") {
+            val ncLogger = noCoLogger<ItemExtractorTest>()
+            val saved = savedEvents()
+            Context.addItemExtractor { mapOf("coroutine?" to "nope") }
+
+            ncLogger.info("This happened")
+
+            // TODO Remove waiting code after fixing direct sending for NoCoLogger
+            eventually(1.seconds) {
+                saved.first().items.shouldContainExactly(mapOf("coroutine?" to "nope"))
+            }
+        }
+        it("adds items to NoCoLogger events with templated messages") {
+            val ncLogger = noCoLogger<ItemExtractorTest>()
+            val saved = savedEvents()
+            Context.addItemExtractor { mapOf("coroutine?" to "nope") }
+
+            ncLogger.info("This happened to {whom}", "Wallace")
+
+            // TODO Remove waiting code after fixing direct sending for NoCoLogger
+            eventually(1.seconds) {
+                saved.first().items.shouldContainExactly(mapOf("coroutine?" to "nope", "whom" to "Wallace"))
+            }
         }
     }
 })
