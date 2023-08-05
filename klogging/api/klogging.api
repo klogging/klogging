@@ -281,7 +281,10 @@ public final class io/klogging/config/Context {
 	public static final field INSTANCE Lio/klogging/config/Context;
 	public final fun addBaseContext ([Lkotlin/Pair;)V
 	public final fun addContextItemExtractor (Lkotlin/coroutines/CoroutineContext$Key;Lkotlin/jvm/functions/Function2;)V
+	public final fun addItemExtractor (Lkotlin/jvm/functions/Function0;)V
 	public final fun clearBaseContext ()V
+	public final fun clearContextItemExtractors ()V
+	public final fun clearItemExtractors ()V
 	public final fun removeBaseContext ([Ljava/lang/String;)V
 }
 
