@@ -1,13 +1,8 @@
 # Klogging changes
 
-## Version 0.4.0
+## Version 0.5.1
 
-- New architecture with multiple coroutine channels for handling log events.
-- Batching events to send to sink destinations.
-- Configure with `sendTo` instead of `dispatchTo`.
-- Sink for sending log events to Splunk servers.
-- More comprehensive diagnostics using internal logger.
-- Coloured, column-aligned output in console renderer.
+- Send internal logger INFO messages after configuration is set
 
 ## Version 0.5.0
 
@@ -22,3 +17,13 @@ A number of bug fixes and improvements.
 - [One-line renderer with ISO8601 timestamps](https://klogging.io/docs/configuration/built-ins#render_iso8601)
 - [Env var for setting built-in renderer for a sink](https://klogging.io/docs/internals/environment-variables)
 - [`toMaxLevel` function for defining loggers](https://klogging.io/docs/configuration/dsl#fromminlevel-tomaxlevel-atlevel-and-inlevelrange)
+
+
+## Version 0.4.0
+
+- New architecture with multiple coroutine channels for handling log events.
+- Batching events to send to sink destinations.
+- Configure with `sendTo` instead of `dispatchTo`.
+- Sink for sending log events to Splunk servers.
+- More comprehensive diagnostics using internal logger.
+- Coloured, column-aligned output in console renderer.
