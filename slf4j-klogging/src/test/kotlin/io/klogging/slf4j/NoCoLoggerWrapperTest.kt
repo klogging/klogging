@@ -24,6 +24,8 @@ import io.klogging.Level.INFO
 import io.klogging.Level.NONE
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
+import io.klogging.logger
+import io.klogging.noCoLogger
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.datatest.withData
 import io.kotest.matchers.collections.shouldHaveSize
@@ -251,6 +253,28 @@ class NoCoLoggerWrapperTest : DescribeSpec({
             waitForDispatch()
 
             saved shouldHaveSize 1
+            saved.first().items shouldContainExactly mapOf("runId" to runId)
+        }
+
+        it("includes MDC items in events from Klogger instances") {
+            val saved = savedEvents()
+            val runId = randomString()
+            MDC.putCloseable("runId", runId).use {
+                logger<NoCoLoggerWrapperTest>().info(randomString())
+            }
+            waitForDispatch()
+
+            saved.first().items shouldContainExactly mapOf("runId" to runId)
+        }
+
+        it("includes MDC items in events from non-SLF4J NoCoLogger instances") {
+            val saved = savedEvents()
+            val runId = randomString()
+            MDC.putCloseable("runId", runId).use {
+                noCoLogger<NoCoLoggerWrapperTest>().info(randomString())
+            }
+            waitForDispatch()
+
             saved.first().items shouldContainExactly mapOf("runId" to runId)
         }
 

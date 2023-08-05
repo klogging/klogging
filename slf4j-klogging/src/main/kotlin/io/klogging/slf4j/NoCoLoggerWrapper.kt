@@ -184,9 +184,9 @@ public class NoCoLoggerWrapper(
     private fun emitEvent(level: Level, format: String?, vararg arguments: Any?) {
         val formatted = MessageFormatter.arrayFormat(format, arguments).message
         if (format == null || arguments.isEmpty()) {
-            noCoLogger.emitEvent(level, null, formatted, contextItems())
+            noCoLogger.emitEvent(level, null, formatted)
         } else {
-            noCoLogger.emitEvent(level, null, noCoLogger.e(formatted, *arguments), contextItems())
+            noCoLogger.emitEvent(level, null, noCoLogger.e(formatted, *arguments))
         }
     }
 
@@ -202,13 +202,11 @@ public class NoCoLoggerWrapper(
     ) {
         val formatted = MessageFormatter.arrayFormat(format, arguments).message
         if (format == null || arguments.isEmpty()) {
-            noCoLogger.emitEvent(level, throwable, formatted, contextItems())
+            noCoLogger.emitEvent(level, throwable, formatted)
         } else {
-            noCoLogger.emitEvent(level, null, noCoLogger.e(formatted, *arguments), contextItems())
+            noCoLogger.emitEvent(level, null, noCoLogger.e(formatted, *arguments))
         }
     }
-
-    private fun contextItems(): Map<String, Any?> = MDC.getCopyOfContextMap() ?: mapOf()
 }
 
 internal fun kloggingLevel(slf4jLevel: org.slf4j.event.Level?): Level = when (slf4jLevel) {

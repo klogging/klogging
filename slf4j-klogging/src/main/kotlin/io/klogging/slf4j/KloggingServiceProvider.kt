@@ -18,8 +18,10 @@
 
 package io.klogging.slf4j
 
+import io.klogging.config.Context
 import org.slf4j.ILoggerFactory
 import org.slf4j.IMarkerFactory
+import org.slf4j.MDC
 import org.slf4j.helpers.BasicMDCAdapter
 import org.slf4j.helpers.BasicMarkerFactory
 import org.slf4j.spi.MDCAdapter
@@ -45,5 +47,10 @@ public class KloggingServiceProvider : SLF4JServiceProvider {
         loggerFactory = NoCoLoggerFactory()
         markerFactory = BasicMarkerFactory()
         mdcAdapter = BasicMDCAdapter()
+
+        // Ensure any MDC items are included in every log event, whether an `NoCoLoggerWrapper` or not.
+        Context.addItemExtractor {
+            MDC.getCopyOfContextMap() ?: mapOf()
+        }
     }
 }
