@@ -22,13 +22,11 @@ import io.klogging.config.Context
 import io.klogging.events.EventItems
 import io.klogging.logger
 import io.klogging.savedEvents
-import io.kotest.assertions.timing.eventually
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContainExactly
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.AbstractCoroutineContextElement
 import kotlin.coroutines.CoroutineContext
-import kotlin.time.Duration.Companion.seconds
 
 class OtherContextTest : DescribeSpec({
     describe("can extract event items from other coroutine context elements") {
@@ -38,9 +36,7 @@ class OtherContextTest : DescribeSpec({
 
             logger.info("Testing: {name}", "Fred")
 
-            eventually(1.seconds) {
-                saved.first().items shouldContainExactly mapOf("name" to "Fred")
-            }
+            saved.first().items shouldContainExactly mapOf("name" to "Fred")
         }
         it("ignores context elements with no extractor configured") {
             val logger = logger<OtherContextTest>()
@@ -50,9 +46,7 @@ class OtherContextTest : DescribeSpec({
                 logger.info("Testing: {name}", "Fred")
             }
 
-            eventually(1.seconds) {
-                saved.first().items shouldContainExactly mapOf("name" to "Fred")
-            }
+            saved.first().items shouldContainExactly mapOf("name" to "Fred")
         }
         it("gets event items from another context if an extractor is configured") {
             val logger = logger<OtherContextTest>()
@@ -63,12 +57,10 @@ class OtherContextTest : DescribeSpec({
                 logger.info("Testing: {name}", "Fred")
             }
 
-            eventually(1.seconds) {
-                saved.first().items shouldContainExactly mapOf(
-                    "other" to "rhubarb",
-                    "name" to "Fred",
-                )
-            }
+            saved.first().items shouldContainExactly mapOf(
+                "other" to "rhubarb",
+                "name" to "Fred",
+            )
         }
         it("does not get event items from another context if there are none") {
             val logger = logger<OtherContextTest>()
@@ -79,9 +71,7 @@ class OtherContextTest : DescribeSpec({
                 logger.info("Testing: {name}", "Fred")
             }
 
-            eventually(1.seconds) {
-                saved.first().items shouldContainExactly mapOf("name" to "Fred")
-            }
+            saved.first().items shouldContainExactly mapOf("name" to "Fred")
         }
         it("combines event items from log context and other context") {
             val logger = logger<OtherContextTest>()
@@ -92,13 +82,11 @@ class OtherContextTest : DescribeSpec({
                 logger.info("Testing: {name}", "Fred")
             }
 
-            eventually(1.seconds) {
-                saved.first().items shouldContainExactly mapOf(
-                    "this" to "that",
-                    "other" to "apples",
-                    "name" to "Fred",
-                )
-            }
+            saved.first().items shouldContainExactly mapOf(
+                "this" to "that",
+                "other" to "apples",
+                "name" to "Fred",
+            )
         }
     }
 })

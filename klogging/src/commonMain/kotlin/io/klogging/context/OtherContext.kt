@@ -22,7 +22,7 @@ import io.klogging.events.EventItems
 import kotlin.coroutines.CoroutineContext
 
 /**
- * Functional type that returns a map of logging items.
+ * Functional type that returns a map of logging items from a coroutine context.
  */
 internal typealias ContextItemExtractor = suspend (CoroutineContext.Element) -> EventItems
 
