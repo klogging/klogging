@@ -64,9 +64,10 @@ fun eventSaver(saved: MutableList<LogEvent>): EventSender =
 /**
  * Configuration that saves all logged events into a list for checking by tests.
  */
-fun savedEvents(append: Boolean = false): MutableList<LogEvent> {
+fun savedEvents(append: Boolean = false, logDirect: Boolean = true): MutableList<LogEvent> {
     val saved = mutableListOf<LogEvent>()
     loggingConfiguration(append) {
+        if (logDirect) minDirectLogLevel(TRACE)
         sink("test", SinkConfiguration(eventSender = eventSaver(saved)))
         logging { fromMinLevel(TRACE) { toSink("test") } }
     }
