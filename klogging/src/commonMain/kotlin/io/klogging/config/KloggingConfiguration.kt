@@ -79,6 +79,16 @@ public class KloggingConfiguration {
     internal var kloggingMinLogLevel: Level = defaultKloggingMinLogLevel
     internal var minDirectLogLevel: Level = defaultMinDirectLogLevel
 
+    @ConfigDsl
+    public fun loggingConfigPath(configPath: String) {
+        findFileConfigText(configPath)
+            ?.let { configureFromFile(it) }
+            ?.let { config ->
+                KloggingEngine.setConfig(config)
+                info("Configuration", "Configuration read from $configPath")
+            }
+    }
+
     /**
      * DSL function to set minimum logging level for Klogging’s internal logger.
      */

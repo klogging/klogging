@@ -25,7 +25,7 @@ internal const val JSON_CONFIG_FILENAME: String = "klogging.json"
 internal const val HOCON_CONFIG_FILENAME: String = "klogging.conf"
 
 /** Find a configuration file and read its contents, if found. */
-internal expect fun findFileConfigText(): String?
+internal expect fun findFileConfigText(configPath: String? = null): String?
 
 internal expect fun configureFromFile(fileContents: String): KloggingConfiguration?
 
