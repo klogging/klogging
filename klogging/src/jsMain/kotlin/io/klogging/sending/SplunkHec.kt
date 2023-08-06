@@ -18,6 +18,8 @@
 
 package io.klogging.sending
 
-internal actual fun splunkHec(endpoint: SplunkEndpoint): EventSender {
+import io.klogging.events.LogEvent
+
+internal actual fun sendToSplunk(endpoint: SplunkEndpoint, batch: List<LogEvent>) {
     TODO("Not yet implemented")
 }

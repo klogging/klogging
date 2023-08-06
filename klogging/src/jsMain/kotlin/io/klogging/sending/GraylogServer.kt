@@ -18,6 +18,6 @@
 
 package io.klogging.sending
 
-internal actual fun graylogServer(endpoint: Endpoint): SendString {
+internal actual fun sendToGraylog(endpoint: Endpoint, eventString: String) {
     TODO("Not yet implemented")
 }

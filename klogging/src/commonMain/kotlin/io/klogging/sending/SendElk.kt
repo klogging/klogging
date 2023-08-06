@@ -32,7 +32,13 @@ public data class ElkEndpoint(
 /**
  * Send a batch of events to an Elk server in ECS format.
  */
-internal expect fun elkSender(endpoint: ElkEndpoint): EventSender
+internal fun elkSender(endpoint: ElkEndpoint): EventSender = { batch ->
+    SendingLauncher.launch {
+        sendToElk(endpoint, batch)
+    }
+}
+
+internal expect fun sendToElk(endpoint: ElkEndpoint, batch: List<LogEvent>)
 
 internal fun elkBatch(batch: List<LogEvent>): String = batch
     .joinToString("\n") { RENDER_ECS(it) }

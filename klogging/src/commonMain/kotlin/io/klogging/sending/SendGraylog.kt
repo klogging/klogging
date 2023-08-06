@@ -25,4 +25,10 @@ public data class Endpoint(
 )
 
 /** Send a rendered string to a Graylog server. */
-internal expect fun graylogServer(endpoint: Endpoint): SendString
+internal fun graylogServer(endpoint: Endpoint): SendString = { eventString ->
+    SendingLauncher.launch {
+        sendToGraylog(endpoint, eventString)
+    }
+}
+
+internal expect fun sendToGraylog(endpoint: Endpoint, eventString: String)

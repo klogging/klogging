@@ -18,8 +18,18 @@
 
 package io.klogging.sending
 
-import io.klogging.events.LogEvent
+import io.klogging.internal.kloggingParentContext
+import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
-internal actual fun sendToElk(endpoint: ElkEndpoint, batch: List<LogEvent>) {
-    TODO("Not yet implemented")
+internal object SendingLauncher : CoroutineScope {
+
+    override val coroutineContext: CoroutineContext
+        get() = kloggingParentContext
+
+    internal fun launch(block: () -> Unit) = launch(CoroutineName("SendingLauncher")) {
+        block()
+    }
 }

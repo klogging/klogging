@@ -20,28 +20,9 @@ package io.klogging.sending
 
 import io.klogging.internal.trace
 import io.klogging.internal.warn
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
-
-/**
- * Send CLEF event strings to a Seq server on the JVM.
- *
- * @param server URL of the Seq server
- *
- * @return a [SendString] suspend function that sends each event string in a separate
- *         coroutine using the IO coroutine dispatcher.
- */
-internal actual fun seqServer(server: String): SendString = { eventString ->
-    coroutineScope {
-        launch(Dispatchers.IO) {
-            sendToSeq(server, eventString)
-        }
-    }
-}
 
 /**
  * Send a CLEF event string to a Seq server.
@@ -49,7 +30,7 @@ internal actual fun seqServer(server: String): SendString = { eventString ->
  * @param serverUrl URL of the Seq server
  * @param eventString one or more CLEF-formatted, newline-separated log event(s)
  */
-private fun sendToSeq(serverUrl: String, eventString: String) {
+internal actual fun sendToSeq(serverUrl: String, eventString: String) {
     val conn = seqConnection(serverUrl)
     try {
         trace("Seq", "Sending events to Seq in context ${Thread.currentThread().name}")

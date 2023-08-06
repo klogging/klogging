@@ -55,7 +55,13 @@ public data class SplunkEndpoint(
  * Send a batch of events to a Splunk server using
  * [HTTP event collector (HEC)](https://docs.splunk.com/Documentation/Splunk/8.2.2/Data/HECExamples).
  */
-internal expect fun splunkHec(endpoint: SplunkEndpoint): EventSender
+internal fun splunkHec(endpoint: SplunkEndpoint): EventSender = { batch ->
+    SendingLauncher.launch {
+        sendToSplunk(endpoint, batch)
+    }
+}
+
+internal expect fun sendToSplunk(endpoint: SplunkEndpoint, batch: List<LogEvent>)
 
 internal fun splunkBatch(endpoint: SplunkEndpoint, batch: List<LogEvent>): String =
     batch.joinToString("\n") { splunkEvent(endpoint, it) }
