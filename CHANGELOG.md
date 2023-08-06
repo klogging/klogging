@@ -3,7 +3,7 @@
 ## Version 0.5.2
 
 - `ItemExtractor` functions that can add items to any log events
-- SLF4J provider uses `ItemExtractor` function to include MDC items in all log events, including those from
+- [#149](https://github.com/klogging/klogging/issues/149) SLF4J provider uses `ItemExtractor` function to include MDC items in all log events, including those from
   non-SLF4J loggers
 
 ## Version 0.5.1
