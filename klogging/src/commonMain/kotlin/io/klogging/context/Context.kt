@@ -16,9 +16,8 @@
 
 */
 
-package io.klogging.config
+package io.klogging.context
 
-import io.klogging.context.ContextItemExtractor
 import io.klogging.events.EventItems
 import io.klogging.internal.KloggingEngine
 import kotlin.coroutines.CoroutineContext

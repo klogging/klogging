@@ -18,8 +18,6 @@
 
 package io.klogging.context
 
-import io.klogging.config.Context
-import io.klogging.config.ItemExtractor
 import io.klogging.logger
 import io.klogging.noCoLogger
 import io.klogging.savedEvents

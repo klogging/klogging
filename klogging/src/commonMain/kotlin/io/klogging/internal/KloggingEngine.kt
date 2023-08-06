@@ -21,13 +21,13 @@ package io.klogging.internal
 import io.klogging.AtomicMutableList
 import io.klogging.AtomicMutableMap
 import io.klogging.Level
-import io.klogging.config.ItemExtractor
 import io.klogging.config.KloggingConfiguration
 import io.klogging.config.LoggingConfig
 import io.klogging.config.SinkConfiguration
 import io.klogging.config.configLoadedFromFile
 import io.klogging.config.updateFromEnvironment
 import io.klogging.context.ContextItemExtractor
+import io.klogging.context.ItemExtractor
 import kotlin.coroutines.CoroutineContext
 
 /**

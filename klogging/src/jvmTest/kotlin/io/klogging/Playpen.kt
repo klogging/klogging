@@ -18,10 +18,10 @@
 
 package io.klogging
 
-import io.klogging.config.Context
 import io.klogging.config.SinkConfiguration
 import io.klogging.config.getenv
 import io.klogging.config.loggingConfiguration
+import io.klogging.context.Context
 import io.klogging.context.logContext
 import io.klogging.events.timestampNow
 import io.klogging.sending.SplunkEndpoint

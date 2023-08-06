@@ -18,7 +18,6 @@
 
 package io.klogging.context
 
-import io.klogging.config.Context
 import io.klogging.logger
 import io.klogging.savedEvents
 import io.kotest.core.spec.style.DescribeSpec

@@ -23,9 +23,9 @@ import io.klogging.Level.ERROR
 import io.klogging.Level.INFO
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
-import io.klogging.config.Context
 import io.klogging.config.DEFAULT_CONSOLE
 import io.klogging.config.loggingConfiguration
+import io.klogging.context.Context
 import io.klogging.genLevel
 import io.klogging.genLoggerName
 import io.klogging.logEvent

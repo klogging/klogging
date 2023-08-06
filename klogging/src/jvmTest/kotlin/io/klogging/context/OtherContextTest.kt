@@ -18,7 +18,6 @@
 
 package io.klogging.context
 
-import io.klogging.config.Context
 import io.klogging.events.EventItems
 import io.klogging.logger
 import io.klogging.savedEvents
