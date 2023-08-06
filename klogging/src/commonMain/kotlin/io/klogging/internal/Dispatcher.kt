@@ -47,7 +47,7 @@ internal object Dispatcher {
     /**
      * Dispatch a [LogEvent] directly to each sink.
      */
-    internal suspend fun sendDirect(logEvent: LogEvent) {
+    internal fun sendDirect(logEvent: LogEvent) {
         // If we are tracing Klogging, add event ID to the items map.
         val event = logEvent.addContext(traceContext(logEvent) + KloggingEngine.baseContextItems)
 

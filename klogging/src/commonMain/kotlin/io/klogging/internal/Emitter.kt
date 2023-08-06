@@ -54,20 +54,18 @@ internal object Emitter : CoroutineScope {
     }
 
     /**
-     * Emit a [LogEvent] to dispatching.
-     *
-     * - Events with level below the minimum level for sending direct are sent to the
-     *   [logEventsChannel] to be processed asynchronously.
-     *
-     * - Higher-level events are sent to be dispatched directly to the sinks.
+     * Emit a [LogEvent] to the [logEventsChannel] to be processed asynchronously.
      */
     suspend fun emit(logEvent: LogEvent) {
-        if (logEvent.level < KloggingEngine.minDirectLogLevel()) {
-            trace("Emitter", "Emitting event ${logEvent.id} to events channel")
-            logEventsChannel.send(logEvent)
-        } else {
-            trace("Emitter", "Emitting event ${logEvent.id} directly")
-            Dispatcher.sendDirect(logEvent)
-        }
+        trace("Emitter", "Emitting event ${logEvent.id} to events channel")
+        logEventsChannel.send(logEvent)
+    }
+
+    /**
+     * Emit a [LogEvent] directly to be processed synchronously.
+     */
+    fun emitDirect(logEvent: LogEvent) {
+        trace("Emitter", "Emitting event ${logEvent.id} directly")
+        Dispatcher.sendDirect(logEvent)
     }
 }
