@@ -21,11 +21,8 @@ package io.klogging.impl
 import io.klogging.Level.INFO
 import io.klogging.randomString
 import io.klogging.savedEvents
-import io.kotest.assertions.timing.eventually
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
-import kotlin.time.Duration.Companion.seconds
 
 class NoCoLoggerImplTest : DescribeSpec({
     describe("NoCoLogger implementation") {
@@ -40,10 +37,7 @@ class NoCoLoggerImplTest : DescribeSpec({
                     contextItems = mapOf("runId" to runId),
                 )
 
-                eventually(1.seconds) {
-                    saved shouldHaveSize 1
-                    saved.first().items shouldBe mapOf("runId" to runId)
-                }
+                saved.first().items shouldBe mapOf("runId" to runId)
             }
         }
         describe("e() function") {

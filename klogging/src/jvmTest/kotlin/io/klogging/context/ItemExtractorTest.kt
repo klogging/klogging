@@ -23,11 +23,9 @@ import io.klogging.config.ItemExtractor
 import io.klogging.logger
 import io.klogging.noCoLogger
 import io.klogging.savedEvents
-import io.kotest.assertions.timing.eventually
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.maps.shouldContainExactly
-import kotlin.time.Duration.Companion.seconds
 
 class ItemExtractorTest : DescribeSpec({
     afterTest { Context.clearItemExtractors() }
@@ -73,10 +71,7 @@ class ItemExtractorTest : DescribeSpec({
 
             ncLogger.info("This happened")
 
-            // TODO Remove waiting code after fixing direct sending for NoCoLogger
-            eventually(1.seconds) {
-                saved.first().items.shouldContainExactly(mapOf("coroutine?" to "nope"))
-            }
+            saved.first().items.shouldContainExactly(mapOf("coroutine?" to "nope"))
         }
         it("adds items to NoCoLogger events with templated messages") {
             val ncLogger = noCoLogger<ItemExtractorTest>()
@@ -85,10 +80,7 @@ class ItemExtractorTest : DescribeSpec({
 
             ncLogger.info("This happened to {whom}", "Wallace")
 
-            // TODO Remove waiting code after fixing direct sending for NoCoLogger
-            eventually(1.seconds) {
-                saved.first().items.shouldContainExactly(mapOf("coroutine?" to "nope", "whom" to "Wallace"))
-            }
+            saved.first().items.shouldContainExactly(mapOf("coroutine?" to "nope", "whom" to "Wallace"))
         }
     }
 })

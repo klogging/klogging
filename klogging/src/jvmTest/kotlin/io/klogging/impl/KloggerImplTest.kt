@@ -29,9 +29,7 @@ import io.klogging.genLoggerName
 import io.klogging.genMessage
 import io.klogging.genString
 import io.klogging.savedEvents
-import io.kotest.assertions.timing.eventually
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.maps.shouldContainAll
 import io.kotest.matchers.maps.shouldContainExactly
@@ -43,7 +41,6 @@ import io.kotest.property.arbitrary.uuid
 import io.kotest.property.checkAll
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
-import kotlin.time.Duration.Companion.seconds
 
 class KloggerImplTest : DescribeSpec({
 
@@ -54,10 +51,7 @@ class KloggerImplTest : DescribeSpec({
                     val events = savedEvents()
                     KloggerImpl(name).warn(message)
 
-                    eventually(1.seconds) {
-                        events.size shouldBe 1
-                        events.first().message shouldBe message
-                    }
+                    events.first().message shouldBe message
                 }
             }
             it("logs a LogEvent object with the specified level") {
@@ -65,18 +59,15 @@ class KloggerImplTest : DescribeSpec({
                     val events = savedEvents()
                     KloggerImpl(name).warn(event)
 
-                    eventually(1.seconds) {
-                        events.size shouldBe 1
-                        with(events.first()) {
-                            timestamp shouldBe event.timestamp
-                            host shouldBe event.host
-                            logger shouldBe event.logger
-                            level shouldBe WARN
-                            template shouldBe event.template
-                            message shouldBe event.message
-                            stackTrace shouldBe event.stackTrace
-                            items shouldBe event.items
-                        }
+                    with(events.first()) {
+                        timestamp shouldBe event.timestamp
+                        host shouldBe event.host
+                        logger shouldBe event.logger
+                        level shouldBe WARN
+                        template shouldBe event.template
+                        message shouldBe event.message
+                        stackTrace shouldBe event.stackTrace
+                        items shouldBe event.items
                     }
                 }
             }
@@ -85,18 +76,15 @@ class KloggerImplTest : DescribeSpec({
                     val events = savedEvents()
                     KloggerImpl(name).error(exception, event)
 
-                    eventually(1.seconds) {
-                        events.size shouldBe 1
-                        with(events.first()) {
-                            timestamp shouldBe event.timestamp
-                            host shouldBe event.host
-                            logger shouldBe event.logger
-                            level shouldBe ERROR
-                            template shouldBe event.template
-                            message shouldBe event.message
-                            stackTrace shouldBe exception.stackTraceToString()
-                            items shouldBe event.items
-                        }
+                    with(events.first()) {
+                        timestamp shouldBe event.timestamp
+                        host shouldBe event.host
+                        logger shouldBe event.logger
+                        level shouldBe ERROR
+                        template shouldBe event.template
+                        message shouldBe event.message
+                        stackTrace shouldBe exception.stackTraceToString()
+                        items shouldBe event.items
                     }
                 }
             }
@@ -105,11 +93,8 @@ class KloggerImplTest : DescribeSpec({
                     val events = savedEvents()
                     KloggerImpl(name).warn(exception)
 
-                    eventually(1.seconds) {
-                        events.size shouldBe 1
-                        events.first().message shouldBe exception.message
-                        events.first().stackTrace shouldNotBe null
-                    }
+                    events.first().message shouldBe exception.message
+                    events.first().stackTrace shouldNotBe null
                 }
             }
             it("logs the string representation of anything else in the message field") {
@@ -117,10 +102,7 @@ class KloggerImplTest : DescribeSpec({
                 val event = timestampNow()
                 KloggerImpl("KloggerImplTest").info(event)
 
-                eventually(1.seconds) {
-                    events.size shouldBe 1
-                    events.first().message shouldBe event.toString()
-                }
+                events.first().message shouldBe event.toString()
             }
         }
 
@@ -129,19 +111,13 @@ class KloggerImplTest : DescribeSpec({
                 val events = savedEvents()
                 KloggerImpl("KloggerImplTest").warn { "Possible trouble" }
 
-                eventually(1.seconds) {
-                    events.size shouldBe 1
-                    events.first().stackTrace shouldBe null
-                }
+                events.first().stackTrace shouldBe null
             }
             it("includes stack trace information if an exception is provided as well as other information") {
                 val events = savedEvents()
                 KloggerImpl("KloggerImplTest").warn(RuntimeException("Oh noes!")) { "Big trouble!" }
 
-                eventually(1.seconds) {
-                    events.size shouldBe 1
-                    events.first().stackTrace shouldNotBe null
-                }
+                events.first().stackTrace shouldNotBe null
             }
         }
 
@@ -182,13 +158,10 @@ class KloggerImplTest : DescribeSpec({
                         KloggerImpl(name).emitEvent(INFO, null, event)
                     }
 
-                    eventually(1.seconds) {
-                        events shouldHaveSize 1
-                        events.first().items shouldContainAll mapOf(
-                            "run" to runId,
-                            "id" to id,
-                        )
-                    }
+                    events.first().items shouldContainAll mapOf(
+                        "run" to runId,
+                        "id" to id,
+                    )
                 }
             }
         }

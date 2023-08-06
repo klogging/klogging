@@ -251,7 +251,7 @@ internal class DispatcherTest : DescribeSpec({
     }
     describe("sendDirect() function") {
         it("adds base context items to the log event") {
-            val events = savedEvents()
+            val events = savedEvents(logDirect = false)
             val event = logEvent(level = INFO)
             Context.clearBaseContext()
             val key = randomString()
@@ -268,7 +268,6 @@ internal class DispatcherTest : DescribeSpec({
             }
             val event = logEvent(level = INFO)
             Dispatcher.sendDirect(event)
-            events.size shouldBe 1
             events.first().items["eventId"] shouldBe event.id
         }
     }

@@ -18,15 +18,17 @@
 
 package io.klogging.config
 
-import io.klogging.Level
+import io.klogging.Level.DEBUG
+import io.klogging.Level.ERROR
+import io.klogging.Level.INFO
+import io.klogging.Level.TRACE
+import io.klogging.Level.WARN
 import io.klogging.eventSaver
 import io.klogging.events.LogEvent
 import io.klogging.logger
-import io.kotest.assertions.timing.eventually
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.shouldBe
-import kotlin.time.Duration.Companion.seconds
 
 class LoggingConfigTest : DescribeSpec({
     describe("`loggingConfiguration` DSL function") {
@@ -38,14 +40,15 @@ class LoggingConfigTest : DescribeSpec({
 
             val testEvents = mutableListOf<LogEvent>()
             loggingConfiguration {
+                minDirectLogLevel(TRACE)
                 sink("test", SinkConfiguration(eventSender = eventSaver(testEvents)))
                 logging {
                     fromLoggerBase("dev.kord.rest", stopOnMatch = true)
-                    fromMinLevel(Level.ERROR) { toSink("test") }
+                    fromMinLevel(ERROR) { toSink("test") }
                 }
                 logging {
                     fromLoggerBase("dev.kord")
-                    fromMinLevel(Level.DEBUG) { toSink("test") }
+                    fromMinLevel(DEBUG) { toSink("test") }
                 }
             }
 
@@ -59,33 +62,32 @@ class LoggingConfigTest : DescribeSpec({
             svcLogger.warn("Should log at WARN")
             svcLogger.error("Should log at ERROR")
 
-            eventually(1.seconds) {
-                testEvents.map { Pair(it.logger, it.level) }.shouldContainAll(
-                    listOf(
-                        Pair("dev.kord.rest.RestClient", Level.ERROR),
-                        Pair("dev.kord.svc.BlahService", Level.DEBUG),
-                        Pair("dev.kord.svc.BlahService", Level.INFO),
-                        Pair("dev.kord.svc.BlahService", Level.WARN),
-                        Pair("dev.kord.svc.BlahService", Level.ERROR),
-                    ),
-                )
-            }
+            testEvents.map { Pair(it.logger, it.level) }.shouldContainAll(
+                listOf(
+                    Pair("dev.kord.rest.RestClient", ERROR),
+                    Pair("dev.kord.svc.BlahService", DEBUG),
+                    Pair("dev.kord.svc.BlahService", INFO),
+                    Pair("dev.kord.svc.BlahService", WARN),
+                    Pair("dev.kord.svc.BlahService", ERROR),
+                ),
+            )
         }
     }
     describe("`logging` DSL function") {
         fun testConfig(sinkName: String, levelsConfig: LoggingConfig.() -> Unit): MutableList<LogEvent> {
             val events = mutableListOf<LogEvent>()
             loggingConfiguration {
-                minDirectLogLevel(Level.TRACE)
+                minDirectLogLevel(TRACE)
                 sink(sinkName, SinkConfiguration(eventSender = eventSaver(events)))
                 logging { levelsConfig() }
             }
             return events
         }
+
         val logger = logger("test")
         it("`fromMinLevel` function specifies minimum inclusive level") {
             val testEvents = testConfig("test") {
-                fromMinLevel(Level.INFO) { toSink("test") }
+                fromMinLevel(INFO) { toSink("test") }
             }
             logger.debug("Should not log at DEBUG")
             logger.info("Should log at INFO")
@@ -96,7 +98,7 @@ class LoggingConfigTest : DescribeSpec({
         }
         it("`toMaxLevel` function specifies minimum inclusive level") {
             val testEvents = testConfig("test") {
-                toMaxLevel(Level.INFO) { toSink("test") }
+                toMaxLevel(INFO) { toSink("test") }
             }
             logger.debug("Should log at DEBUG")
             logger.info("Should log at INFO")
@@ -107,7 +109,7 @@ class LoggingConfigTest : DescribeSpec({
         }
         it("`atLevel` function specifies exact logging level") {
             val testEvents = testConfig("test") {
-                atLevel(Level.WARN) { toSink("test") }
+                atLevel(WARN) { toSink("test") }
             }
             logger.info("Should not log at INFO")
             logger.warn("Should log at WARN")
@@ -118,7 +120,7 @@ class LoggingConfigTest : DescribeSpec({
         }
         it("`inLevelRange` function specifies a closed range of logging levels") {
             val testEvents = testConfig("test") {
-                inLevelRange(Level.DEBUG, Level.INFO) { toSink("test") }
+                inLevelRange(DEBUG, INFO) { toSink("test") }
             }
             logger.trace("Should not log at TRACE")
             logger.debug("Should log at DEBUG")

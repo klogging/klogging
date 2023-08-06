@@ -26,7 +26,6 @@ import io.klogging.genMessage
 import io.klogging.genString
 import io.klogging.logger
 import io.klogging.savedEvents
-import io.kotest.assertions.timing.eventually
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.maps.shouldContainAll
@@ -35,7 +34,6 @@ import io.kotest.property.Arb
 import io.kotest.property.arbitrary.uuid
 import io.kotest.property.checkAll
 import kotlinx.coroutines.launch
-import kotlin.time.Duration.Companion.seconds
 
 class LogEventTest : DescribeSpec({
     describe("Constructing logging events") {
@@ -45,9 +43,7 @@ class LogEventTest : DescribeSpec({
                 val saved = savedEvents()
                 logger.info("Test message")
 
-                eventually(1.seconds) {
-                    saved.first().items.size shouldBe 0
-                }
+                saved.first().items.size shouldBe 0
             }
             it("includes any items from the coroutine log context") {
                 launch(logContext("colour" to "white")) {
@@ -55,9 +51,7 @@ class LogEventTest : DescribeSpec({
                     val saved = savedEvents()
                     logger.info("Test message")
 
-                    eventually(1.seconds) {
-                        saved.first().items shouldContain ("colour" to "white")
-                    }
+                    saved.first().items shouldContain ("colour" to "white")
                 }
             }
         }
