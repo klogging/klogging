@@ -18,7 +18,7 @@
 
 package io.klogging.slf4j
 
-import io.klogging.config.Context
+import io.klogging.context.Context
 import org.slf4j.ILoggerFactory
 import org.slf4j.IMarkerFactory
 import org.slf4j.MDC
