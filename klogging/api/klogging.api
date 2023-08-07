@@ -277,17 +277,6 @@ public final class io/klogging/NoCoLoggingKt {
 public abstract interface annotation class io/klogging/config/ConfigDsl : java/lang/annotation/Annotation {
 }
 
-public final class io/klogging/config/Context {
-	public static final field INSTANCE Lio/klogging/config/Context;
-	public final fun addBaseContext ([Lkotlin/Pair;)V
-	public final fun addContextItemExtractor (Lkotlin/coroutines/CoroutineContext$Key;Lkotlin/jvm/functions/Function2;)V
-	public final fun addItemExtractor (Lkotlin/jvm/functions/Function0;)V
-	public final fun clearBaseContext ()V
-	public final fun clearContextItemExtractors ()V
-	public final fun clearItemExtractors ()V
-	public final fun removeBaseContext ([Ljava/lang/String;)V
-}
-
 public final class io/klogging/config/DefaultsKt {
 	public static final fun getANSI_CONSOLE ()Lkotlin/jvm/functions/Function1;
 	public static final fun getDEFAULT_CONSOLE ()Lkotlin/jvm/functions/Function1;
@@ -476,11 +465,12 @@ public final class io/klogging/config/KloggingConfiguration {
 	public fun <init> ()V
 	public final fun kloggingMinLogLevel (Lio/klogging/Level;)V
 	public final fun logging (Lkotlin/jvm/functions/Function1;)V
+	public final fun loggingConfigPath (Ljava/lang/String;)V
 	public final fun minDirectLogLevel (Lio/klogging/Level;)V
 	public final fun minimumLevelOf (Ljava/lang/String;)Lio/klogging/Level;
 	public final fun sink (Ljava/lang/String;Lio/klogging/config/SinkConfiguration;)V
-	public final fun sink (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;)V
-	public final fun sink (Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public final fun sink (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public final fun sink (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
 }
 
 public final class io/klogging/config/KloggingConfigurationKt {
@@ -531,10 +521,10 @@ public final class io/klogging/config/LoggingConfig {
 
 public final class io/klogging/config/SinkConfiguration {
 	public fun <init> ()V
-	public fun <init> (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;)V
-	public synthetic fun <init> (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun copy (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;)Lio/klogging/config/SinkConfiguration;
-	public static synthetic fun copy$default (Lio/klogging/config/SinkConfiguration;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lio/klogging/config/SinkConfiguration;
+	public fun <init> (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
+	public synthetic fun <init> (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lio/klogging/config/SinkConfiguration;
+	public static synthetic fun copy$default (Lio/klogging/config/SinkConfiguration;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/klogging/config/SinkConfiguration;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
@@ -545,6 +535,17 @@ public final class io/klogging/config/SinkConfigurationKt {
 	public static synthetic fun graylog$default (Ljava/lang/String;ILkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/klogging/config/SinkConfiguration;
 	public static final fun seq (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lio/klogging/config/SinkConfiguration;
 	public static synthetic fun seq$default (Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/klogging/config/SinkConfiguration;
+}
+
+public final class io/klogging/context/Context {
+	public static final field INSTANCE Lio/klogging/context/Context;
+	public final fun addBaseContext ([Lkotlin/Pair;)V
+	public final fun addContextItemExtractor (Lkotlin/coroutines/CoroutineContext$Key;Lkotlin/jvm/functions/Function2;)V
+	public final fun addItemExtractor (Lkotlin/jvm/functions/Function0;)V
+	public final fun clearBaseContext ()V
+	public final fun clearContextItemExtractors ()V
+	public final fun clearItemExtractors ()V
+	public final fun removeBaseContext ([Ljava/lang/String;)V
 }
 
 public final class io/klogging/context/LogContext : kotlin/coroutines/AbstractCoroutineContextElement {
@@ -819,15 +820,15 @@ public final class io/klogging/sending/Endpoint {
 }
 
 public final class io/klogging/sending/STDERRKt {
-	public static final fun getSTDERR ()Lkotlin/jvm/functions/Function2;
+	public static final fun getSTDERR ()Lkotlin/jvm/functions/Function1;
 }
 
 public final class io/klogging/sending/SendConsoleKt {
-	public static final fun getSTDOUT ()Lkotlin/jvm/functions/Function2;
+	public static final fun getSTDOUT ()Lkotlin/jvm/functions/Function1;
 }
 
 public final class io/klogging/sending/SendingKt {
-	public static final fun senderFrom (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;)Lkotlin/jvm/functions/Function2;
+	public static final fun senderFrom (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lkotlin/jvm/functions/Function1;
 }
 
 public final class io/klogging/sending/SplunkEndpoint {
