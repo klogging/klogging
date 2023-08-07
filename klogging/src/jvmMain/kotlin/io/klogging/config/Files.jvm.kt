@@ -40,11 +40,27 @@ internal fun readResourceText(resourcePath: String): String? =
         }
 
 /**
- * Look for the JSON or HOCON configuration file in one of two places:
- * 1. specified by the environment variable [ENV_KLOGGING_CONFIG_JSON_PATH] (deprecated); or
- * 2. specified by the environment variable [ENV_KLOGGING_CONFIG_PATH]; or
- * 3. called [JSON_CONFIG_FILENAME] on the classpath; or
- * 4. called [HOCON_CONFIG_FILENAME] on the classpath.
+ * Read the contents of the file specified by absolute [filePath], if found.
+ */
+internal actual fun fileText(filePath: String?): String? = filePath?.let { path ->
+    File(path).let { file ->
+        if (file.exists()) {
+            debug("Configuration", "Reading configuration from $filePath")
+            file.readText(UTF_8)
+        } else {
+            warn("Configuration", "Specified configuration file $filePath not found")
+            null
+        }
+    }
+}
+
+/**
+ * Look for the JSON or HOCON configuration file in one of three places:
+ * 1. the file specified by [configPath]; or
+ * 2. specified by the environment variable [ENV_KLOGGING_CONFIG_JSON_PATH] (deprecated); or
+ * 3. specified by the environment variable [ENV_KLOGGING_CONFIG_PATH]; or
+ * 4. called [JSON_CONFIG_FILENAME] on the classpath; or
+ * 5. called [HOCON_CONFIG_FILENAME] on the classpath.
  *
  * If found, return the contents as UTF-8 text; else return `null`.
  */
@@ -52,17 +68,7 @@ internal actual fun findFileConfigText(configPath: String?): String? {
     val filePath = configPath
         ?: getenv(ENV_KLOGGING_CONFIG_JSON_PATH)
         ?: getenv(ENV_KLOGGING_CONFIG_PATH)
-    return filePath
-        ?.let { File(it) }
-        ?.let {
-            if (it.exists()) {
-                debug("Configuration", "Reading configuration from $filePath")
-                it.readText(UTF_8)
-            } else {
-                warn("Configuration", "Specified configuration file $filePath not found")
-                null
-            }
-        }
+    return fileText(filePath)
         ?: readResourceText(JSON_CONFIG_FILENAME)
         ?: readResourceText(HOCON_CONFIG_FILENAME)
 }

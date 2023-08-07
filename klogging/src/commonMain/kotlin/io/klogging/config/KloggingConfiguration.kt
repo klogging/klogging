@@ -25,6 +25,7 @@ import io.klogging.Level.INFO
 import io.klogging.Level.NONE
 import io.klogging.Level.WARN
 import io.klogging.internal.KloggingEngine
+import io.klogging.internal.debug
 import io.klogging.internal.info
 import io.klogging.internal.warn
 import io.klogging.rendering.RenderString
@@ -57,16 +58,30 @@ internal val defaultMinDirectLogLevel: Level = try {
  */
 @ConfigDsl
 public fun loggingConfiguration(append: Boolean = false, block: KloggingConfiguration.() -> Unit) {
-    val config = KloggingConfiguration()
-    config.apply(block)
-    config.validateSinks()
+    val dslConfig = KloggingConfiguration()
+    dslConfig.apply(block)
+    val combinedConfig = combineFileAndDsl(dslConfig)
+    combinedConfig.validateSinks()
     if (append) {
-        KloggingEngine.appendConfig(config)
+        KloggingEngine.appendConfig(combinedConfig)
     } else {
-        KloggingEngine.setConfig(config)
+        KloggingEngine.setConfig(combinedConfig)
     }
     info("Configuration", "Configuration set using the DSL with append=$append")
 }
+
+private fun combineFileAndDsl(config: KloggingConfiguration): KloggingConfiguration =
+    config.loggingConfigPath?.let { configPath ->
+        fileText(configPath)
+            ?.let { text ->
+                configureFromFile(text)
+            }
+            ?.let { fileConfig ->
+                debug("Configuration", "Configuration read from $configPath")
+                fileConfig.append(config)
+                fileConfig
+            }
+    } ?: config
 
 /**
  * Klogging configuration for a runtime.
@@ -76,17 +91,17 @@ public class KloggingConfiguration {
     internal val sinks = AtomicMutableMap<String, SinkConfiguration>()
     internal val configs = AtomicMutableList<LoggingConfig>()
 
+    internal var loggingConfigPath: String? = null
     internal var kloggingMinLogLevel: Level = defaultKloggingMinLogLevel
     internal var minDirectLogLevel: Level = defaultMinDirectLogLevel
 
+    /**
+     * Set the path of a logging configuration file. The configuration in the file will be combined
+     * with any specified directly in the DSL.
+     */
     @ConfigDsl
-    public fun loggingConfigPath(configPath: String) {
-        findFileConfigText(configPath)
-            ?.let { configureFromFile(it) }
-            ?.let { config ->
-                KloggingEngine.setConfig(config)
-                info("Configuration", "Configuration read from $configPath")
-            }
+    public fun loggingConfigPath(configPath: String?) {
+        loggingConfigPath = configPath
     }
 
     /**

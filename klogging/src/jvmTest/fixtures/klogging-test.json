@@ -1,0 +1,19 @@
+{
+  "sinks": {
+    "moon": {
+      "renderWith": "RENDER_SIMPLE",
+      "sendTo": "STDERR"
+    }
+  },
+  "logging": [
+    {
+      "exactLogger": "dark.side.of.the.Moon",
+      "levelRanges": [
+        {
+          "atLevel": "WARN",
+          "toSinks": [ "moon" ]
+        }
+      ]
+    }
+  ]
+}

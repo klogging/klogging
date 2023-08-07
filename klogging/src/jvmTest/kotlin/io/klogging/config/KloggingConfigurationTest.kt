@@ -23,9 +23,11 @@ import io.klogging.Level.FATAL
 import io.klogging.Level.INFO
 import io.klogging.Level.NONE
 import io.klogging.Level.WARN
+import io.klogging.fixturePath
 import io.klogging.genLevel
 import io.klogging.genLoggerName
 import io.klogging.internal.KloggingEngine
+import io.klogging.rendering.RENDER_ANSI
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RENDER_SIMPLE
 import io.klogging.sending.STDERR
@@ -241,6 +243,40 @@ internal class KloggingConfigurationTest : DescribeSpec({
 
                 config.append(KloggingConfiguration().apply { kloggingMinLogLevel = DEBUG })
                 config.kloggingMinLogLevel shouldBe DEBUG
+            }
+        }
+        describe("with `loggingConfigPath` value") {
+            it("combines file and DSL configuration") {
+                val configFilePath = fixturePath("klogging-test.json")
+                loggingConfiguration {
+                    loggingConfigPath(configFilePath)
+                    sink("stdout", RENDER_ANSI, STDOUT)
+                    logging {
+                        fromLoggerBase("io.klogging.context.Context")
+                        toMaxLevel(INFO) {
+                            toSink("stdout")
+                        }
+                    }
+                }
+
+                with(KloggingEngine.sinks()) {
+                    shouldHaveSize(2)
+                    keys shouldContainExactly setOf("moon", "stdout")
+                }
+            }
+            it("ignores if file is not found") {
+                loggingConfiguration {
+                    loggingConfigPath("/temp/missing-config.json")
+                    sink("stdout", RENDER_ANSI, STDOUT)
+                    logging {
+                        fromLoggerBase("io.klogging.context.Context")
+                        toMaxLevel(INFO) {
+                            toSink("stdout")
+                        }
+                    }
+                }
+
+                KloggingEngine.sinks() shouldHaveSize 1
             }
         }
     }

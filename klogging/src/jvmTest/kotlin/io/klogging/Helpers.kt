@@ -28,6 +28,7 @@ import io.klogging.events.timestampNow
 import io.klogging.sending.EventSender
 import io.kotest.property.arbitrary.next
 import kotlinx.datetime.Instant
+import kotlin.io.path.Path
 import kotlin.random.Random
 import kotlin.random.nextULong
 
@@ -72,4 +73,11 @@ fun savedEvents(append: Boolean = false, logDirect: Boolean = true): MutableList
         logging { fromMinLevel(TRACE) { toSink("test") } }
     }
     return saved
+}
+
+/**
+ * Absolute path of a file relative to the fixtures directory.
+ */
+fun fixturePath(fixturePath: String): String? = System.getProperty("user.dir")?.let { userDir ->
+    Path(userDir, "src/jvmTest/fixtures", fixturePath).toString()
 }
