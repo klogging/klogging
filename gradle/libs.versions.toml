@@ -1,5 +1,5 @@
 [versions]
-atomicfu = "0.21.0"
+atomicfu = "0.22.0"
 binary-compatibility-validator = "0.13.2"
 dokka = "1.8.20"
 html-reporter = "0.7.1"
