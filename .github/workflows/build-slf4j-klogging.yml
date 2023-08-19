@@ -12,6 +12,9 @@ on:
     branches:
       - '*'
   workflow_dispatch:
+  workflow_run:
+    workflows: [build-publish-klogging]
+    types: [completed]
 
 jobs:
 
