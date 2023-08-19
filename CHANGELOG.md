@@ -1,5 +1,11 @@
 # Klogging changes
 
+## Version 0.5.3
+
+- Seq server configuration accepts `apiKey` and works with HTTPS endpoints
+- Fixed direct sending to not use any coroutines
+- Specify config file path in DSL
+
 ## Version 0.5.2
 
 - `ItemExtractor` functions that can add items to any log events
