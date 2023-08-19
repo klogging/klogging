@@ -22,6 +22,7 @@ import io.klogging.events.LogEvent
 import io.klogging.internal.trace
 import io.klogging.internal.warn
 import java.io.IOException
+import java.net.HttpURLConnection
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
@@ -39,7 +40,7 @@ internal actual fun sendToSplunk(endpoint: SplunkEndpoint, batch: List<LogEvent>
     }
 }
 
-private fun hecConnection(endpoint: SplunkEndpoint): HttpsURLConnection {
+private fun hecConnection(endpoint: SplunkEndpoint): HttpURLConnection {
     val conn =
         URL("${endpoint.hecUrl}/services/collector/event").openConnection() as HttpsURLConnection
     if (endpoint.checkCertificate != "true") {

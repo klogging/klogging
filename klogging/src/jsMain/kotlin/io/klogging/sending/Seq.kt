@@ -21,6 +21,7 @@ package io.klogging.sending
 internal actual fun sendToSeq(
     url: String,
     apiKey: String?,
+    checkCertificate: Boolean,
     eventString: String,
 ) {
     TODO("Not yet implemented")

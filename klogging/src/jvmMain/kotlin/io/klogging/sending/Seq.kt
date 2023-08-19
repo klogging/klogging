@@ -23,6 +23,7 @@ import io.klogging.internal.warn
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
+import javax.net.ssl.HttpsURLConnection
 
 /**
  * Send a CLEF event string to a Seq server.
@@ -33,9 +34,10 @@ import java.net.URL
 internal actual fun sendToSeq(
     url: String,
     apiKey: String?,
+    checkCertificate: Boolean,
     eventString: String,
 ) {
-    val conn = seqConnection(url, apiKey)
+    val conn = seqConnection(url, apiKey, checkCertificate)
     try {
         trace("Seq", "Sending events to Seq in context ${Thread.currentThread().name}")
         conn.outputStream.use { it.write(eventString.toByteArray()) }
@@ -49,8 +51,15 @@ internal actual fun sendToSeq(
 }
 
 /** Construct an HTTP connection to the Seq server. */
-private fun seqConnection(serverUrl: String, apiKey: String?): HttpURLConnection {
-    val conn = URL("$serverUrl/api/events/raw").openConnection() as HttpURLConnection
+private fun seqConnection(serverUrl: String, apiKey: String?, checkCertificate: Boolean): HttpURLConnection {
+    val url = URL("$serverUrl/api/events/raw")
+    val conn = if (serverUrl.startsWith("https://")) {
+        (url.openConnection() as HttpsURLConnection).also {
+            if (!checkCertificate) Certificates.relaxHostChecking(it)
+        }
+    } else {
+        url.openConnection() as HttpURLConnection
+    }
     conn.requestMethod = "POST"
     conn.setRequestProperty("Content-Type", "application/vnd.serilog.clef")
     if (apiKey != null) conn.setRequestProperty("X-Seq-ApiKey", apiKey)

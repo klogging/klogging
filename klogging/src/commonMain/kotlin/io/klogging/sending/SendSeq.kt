@@ -22,14 +22,16 @@ package io.klogging.sending
 internal fun seqServer(
     url: String,
     apiKey: String?,
+    checkCertificate: Boolean,
 ): SendString = { eventString ->
     SendingLauncher.launch {
-        sendToSeq(url, apiKey, eventString)
+        sendToSeq(url, apiKey, checkCertificate, eventString)
     }
 }
 
 internal expect fun sendToSeq(
     url: String,
     apiKey: String?,
+    checkCertificate: Boolean,
     eventString: String,
 )

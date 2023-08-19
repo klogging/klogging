@@ -41,9 +41,10 @@ public data class SinkConfiguration(
 public fun seq(
     url: String,
     apiKey: String? = null,
+    checkCertificate: Boolean = false,
     renderer: RenderString = RENDER_CLEF,
 ): SinkConfiguration =
-    SinkConfiguration(renderer, seqServer(url, apiKey))
+    SinkConfiguration(renderer, seqServer(url, apiKey, checkCertificate))
 
 /** Sink configuration for a [Graylog](https://www.graylog.org/) server. */
 public fun graylog(

@@ -58,6 +58,7 @@ public data class FileSinkConfiguration(
     val sendTo: String? = null,
     val seqServer: String? = null,
     val apiKey: String? = null,
+    val checkCertificate: Boolean? = null,
     val splunkServer: SplunkEndpoint? = null,
 ) {
     internal fun toSinkConfiguration(): SinkConfiguration? {
@@ -69,6 +70,7 @@ public data class FileSinkConfiguration(
             return seq(
                 evalEnv(seqServer),
                 apiKey?.let { evalEnv(it) },
+                checkCertificate ?: true,
                 renderer ?: RENDER_CLEF,
             )
         }
