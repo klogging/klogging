@@ -19,10 +19,17 @@
 package io.klogging.sending
 
 /** Send a rendered string to a Seq server. */
-internal fun seqServer(server: String): SendString = { eventString ->
+internal fun seqServer(
+    url: String,
+    apiKey: String?,
+): SendString = { eventString ->
     SendingLauncher.launch {
-        sendToSeq(server, eventString)
+        sendToSeq(url, apiKey, eventString)
     }
 }
 
-internal expect fun sendToSeq(serverUrl: String, eventString: String)
+internal expect fun sendToSeq(
+    url: String,
+    apiKey: String?,
+    eventString: String,
+)

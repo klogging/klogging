@@ -57,6 +57,7 @@ public data class FileSinkConfiguration(
     val renderWith: String? = null,
     val sendTo: String? = null,
     val seqServer: String? = null,
+    val apiKey: String? = null,
     val splunkServer: SplunkEndpoint? = null,
 ) {
     internal fun toSinkConfiguration(): SinkConfiguration? {
@@ -65,7 +66,11 @@ public data class FileSinkConfiguration(
         }
         val renderer = BUILT_IN_RENDERERS[renderWith]
         if (seqServer != null) {
-            return seq(seqServer, renderer ?: RENDER_CLEF)
+            return seq(
+                evalEnv(seqServer),
+                apiKey?.let { evalEnv(it) },
+                renderer ?: RENDER_CLEF,
+            )
         }
         val sender = BUILT_IN_SENDERS[sendTo]
         return if (renderer != null && sender != null) {

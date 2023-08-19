@@ -85,7 +85,7 @@ internal class KloggingConfigurationTest : DescribeSpec({
                     // Dispatch to standout error stream with simple message rendering.
                     sink("stderr", RENDER_SIMPLE, STDERR)
                     // Dispatch to a Seq server with CLEF rendering by default.
-                    sink("seq", seq(server = "http://localhost:5341"))
+                    sink("seq", seq("http://localhost:5341"))
                     logging {
                         // Log everything from `com.example` base.
                         fromLoggerBase("com.example")

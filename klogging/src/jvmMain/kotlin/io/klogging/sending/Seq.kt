@@ -27,11 +27,15 @@ import java.net.URL
 /**
  * Send a CLEF event string to a Seq server.
  *
- * @param serverUrl URL of the Seq server
+ * @param url URL of the Seq server
  * @param eventString one or more CLEF-formatted, newline-separated log event(s)
  */
-internal actual fun sendToSeq(serverUrl: String, eventString: String) {
-    val conn = seqConnection(serverUrl)
+internal actual fun sendToSeq(
+    url: String,
+    apiKey: String?,
+    eventString: String,
+) {
+    val conn = seqConnection(url, apiKey)
     try {
         trace("Seq", "Sending events to Seq in context ${Thread.currentThread().name}")
         conn.outputStream.use { it.write(eventString.toByteArray()) }
@@ -45,10 +49,11 @@ internal actual fun sendToSeq(serverUrl: String, eventString: String) {
 }
 
 /** Construct an HTTP connection to the Seq server. */
-private fun seqConnection(serverUrl: String): HttpURLConnection {
+private fun seqConnection(serverUrl: String, apiKey: String?): HttpURLConnection {
     val conn = URL("$serverUrl/api/events/raw").openConnection() as HttpURLConnection
     conn.requestMethod = "POST"
     conn.setRequestProperty("Content-Type", "application/vnd.serilog.clef")
+    if (apiKey != null) conn.setRequestProperty("X-Seq-ApiKey", apiKey)
     conn.doOutput = true
     return conn
 }

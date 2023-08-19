@@ -21,9 +21,11 @@ package io.klogging
 import io.klogging.config.SinkConfiguration
 import io.klogging.config.getenv
 import io.klogging.config.loggingConfiguration
+import io.klogging.config.seq
 import io.klogging.context.Context
 import io.klogging.context.logContext
 import io.klogging.events.timestampNow
+import io.klogging.rendering.RENDER_CLEF
 import io.klogging.sending.SplunkEndpoint
 import io.klogging.sending.splunkHec
 import kotlinx.coroutines.CoroutineName
@@ -60,6 +62,22 @@ suspend fun main() = coroutineScope {
                 fromMinLevel(Level.INFO) {
                     toSink("splunk")
                 }
+            }
+        }
+    }
+
+    if (System.getenv("NEW_SEQ_CONFIG") == "true") {
+        loggingConfiguration {
+            sink(
+                "seq",
+                seq(
+                    url = "http://localhost:5341",
+                    apiKey = getenv("SEQ_API_KEY"),
+                    renderer = RENDER_CLEF,
+                ),
+            )
+            logging {
+                toSink("seq")
             }
         }
     }

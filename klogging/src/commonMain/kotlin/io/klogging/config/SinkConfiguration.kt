@@ -38,8 +38,12 @@ public data class SinkConfiguration(
 )
 
 /** Sink configuration for a [Seq](https://datalust.co/seq) server. */
-public fun seq(server: String, renderer: RenderString = RENDER_CLEF): SinkConfiguration =
-    SinkConfiguration(renderer, seqServer(server))
+public fun seq(
+    url: String,
+    apiKey: String? = null,
+    renderer: RenderString = RENDER_CLEF,
+): SinkConfiguration =
+    SinkConfiguration(renderer, seqServer(url, apiKey))
 
 /** Sink configuration for a [Graylog](https://www.graylog.org/) server. */
 public fun graylog(

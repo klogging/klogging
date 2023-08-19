@@ -18,6 +18,10 @@
 
 package io.klogging.sending
 
-internal actual fun sendToSeq(serverUrl: String, eventString: String) {
+internal actual fun sendToSeq(
+    url: String,
+    apiKey: String?,
+    eventString: String,
+) {
     TODO("Not yet implemented")
 }
