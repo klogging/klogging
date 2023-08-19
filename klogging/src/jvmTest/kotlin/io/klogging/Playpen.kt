@@ -71,7 +71,7 @@ suspend fun main() = coroutineScope {
             sink(
                 "seq",
                 seq(
-                    url = "http://localhost:5341",
+                    url = getenv("SEQ_URL")!!,
                     apiKey = getenv("SEQ_API_KEY"),
                     checkCertificate = false,
                     renderer = RENDER_CLEF,
