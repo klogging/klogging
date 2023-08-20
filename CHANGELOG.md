@@ -1,5 +1,9 @@
 # Klogging changes
 
+## Version 0.5.4
+
+- Use Gradle `api()` for `kotlinx-coroutines` so it is available transitively to consuming applications
+
 ## Version 0.5.3
 
 - Seq server configuration accepts `apiKey` and works with HTTPS endpoints
