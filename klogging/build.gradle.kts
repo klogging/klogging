@@ -40,7 +40,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.kotlin.coroutines)
+                api(libs.kotlin.coroutines)
                 implementation(libs.kotlin.datetime)
                 implementation(libs.kotlin.serialisation.json)
                 implementation(libs.kotlin.atomicfu)
