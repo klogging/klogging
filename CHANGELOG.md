@@ -1,5 +1,9 @@
 # Klogging changes
 
+## Version 0.5.5
+
+- Logging adapter for [Hexagon microservices toolkit](https://hexagonkt.com/)
+
 ## Version 0.5.4
 
 - Use Gradle `api()` for `kotlinx-coroutines` so it is available transitively to consuming applications
@@ -13,8 +17,8 @@
 ## Version 0.5.2
 
 - `ItemExtractor` functions that can add items to any log events
-- [#149](https://github.com/klogging/klogging/issues/149) SLF4J provider uses `ItemExtractor` function to include MDC items in all log events, including those from
-  non-SLF4J loggers
+- [#149](https://github.com/klogging/klogging/issues/149) SLF4J provider uses `ItemExtractor` function to include MDC
+  items in all log events, including those from non-SLF4J loggers
 
 ## Version 0.5.1
 

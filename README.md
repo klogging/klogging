@@ -46,7 +46,7 @@ See [https://klogging.io](https://klogging.io) for more detailed documentation.
 1. Include Klogging in your project with Gradle:
 
    ```kotlin
-   implementation("io.klogging:klogging-jvm:0.5.4")
+   implementation("io.klogging:klogging-jvm:0.5.5")
    ```
 
    or Maven:
@@ -55,7 +55,7 @@ See [https://klogging.io](https://klogging.io) for more detailed documentation.
    <dependency>
      <groupId>io.klogging</groupId>
      <artifactId>klogging-jvm</artifactId>
-     <version>0.5.4</version>
+     <version>0.5.5</version>
    </dependency>
    ```
 
