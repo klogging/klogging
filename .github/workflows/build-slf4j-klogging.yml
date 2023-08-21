@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - slf4j-klogging/**
+      - "!slf4j-klogging/README.md"
   pull_request:
     branches:
       - '*'
