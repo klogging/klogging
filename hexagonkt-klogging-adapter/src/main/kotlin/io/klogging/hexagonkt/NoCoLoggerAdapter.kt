@@ -16,19 +16,18 @@
 
 */
 
-rootProject.name = "klogging"
+package io.klogging.hexagonkt
 
-includeBuild("convention-plugins")
+import com.hexagonkt.core.logging.LoggerPort
+import com.hexagonkt.core.logging.LoggingLevel
+import io.klogging.NoCoLogger
 
-include("klogging", "slf4j-klogging", "klogging-spring-boot-starter", "hexagonkt-klogging-adapter")
+public class NoCoLoggerAdapter(private val noCoLogger: NoCoLogger) : LoggerPort {
+    override fun log(level: LoggingLevel, message: () -> Any?) {
+        noCoLogger.log(level.kloggingLevel, message())
+    }
 
-// Reckon plugin to set version based on Git tags.
-plugins {
-    id("org.ajoberstar.reckon.settings") version "0.18.0"
-}
-extensions.configure<org.ajoberstar.reckon.gradle.ReckonExtension> {
-    setDefaultInferredScope("minor")
-    snapshots()
-    setStageCalc(calcStageFromProp())
-    setScopeCalc(calcScopeFromProp())
+    override fun <E : Throwable> log(level: LoggingLevel, exception: E, message: (E) -> Any?) {
+        noCoLogger.log(level.kloggingLevel, exception, message(exception))
+    }
 }
