@@ -50,7 +50,7 @@ jobs:
         run: ./gradlew :klogging:assemble
 
       - name: Run tests
-        run: ./gradlew :klogging:jvmCheck
+        run: ./gradlew :klogging:jvmCheck :klogging:jvmTest # jvmCheck does not seem to run jvmTest
 
       - name: Check test output existence
         id: check_test_output
