@@ -45,6 +45,8 @@ See [https://klogging.io](https://klogging.io) for more detailed documentation.
 
 ## Quick start (JVM)
 
+Klogging supports JVM versions 8 and above, and Kotlin versions 1.6 and above.
+
 1. Include Klogging in your project with Gradle:
 
    ```kotlin
