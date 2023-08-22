@@ -20,6 +20,7 @@ plugins {
     id("klogging-kotlin-jvm")
     id("klogging-spotless")
     id("klogging-publishing")
+    alias(libs.plugins.binaryCompatibilityValidator)
     alias(libs.plugins.testLogger)
 }
 

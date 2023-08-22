@@ -1,0 +1,13 @@
+public final class io/klogging/hexagonkt/KloggingAdapter : com/hexagonkt/core/logging/LoggingPort {
+	public fun <init> ()V
+	public fun createLogger (Ljava/lang/String;)Lcom/hexagonkt/core/logging/LoggerPort;
+	public fun isLoggerLevelEnabled (Ljava/lang/String;Lcom/hexagonkt/core/logging/LoggingLevel;)Z
+	public fun setLoggerLevel (Ljava/lang/String;Lcom/hexagonkt/core/logging/LoggingLevel;)V
+}
+
+public final class io/klogging/hexagonkt/NoCoLoggerAdapter : com/hexagonkt/core/logging/LoggerPort {
+	public fun <init> (Lio/klogging/NoCoLogger;)V
+	public fun log (Lcom/hexagonkt/core/logging/LoggingLevel;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
+	public fun log (Lcom/hexagonkt/core/logging/LoggingLevel;Lkotlin/jvm/functions/Function0;)V
+}
+
