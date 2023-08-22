@@ -52,7 +52,7 @@ jobs:
         run: ./gradlew :hexagonkt-klogging-adapter:assemble
 
       - name: Run tests
-        run: ./gradlew :hexagonkt-klogging-adapter:test
+        run: ./gradlew :hexagonkt-klogging-adapter:check
 
       - name: Check test output existence
         id: check_test_output

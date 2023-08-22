@@ -52,7 +52,7 @@ jobs:
         run: ./gradlew :slf4j-klogging:assemble
 
       - name: Run tests
-        run: ./gradlew :slf4j-klogging:test
+        run: ./gradlew :slf4j-klogging:check
 
       - name: Check test output existence
         id: check_test_output
