@@ -22,7 +22,7 @@ import com.hexagonkt.core.logging.LoggerPort
 import com.hexagonkt.core.logging.LoggingLevel
 import io.klogging.NoCoLogger
 
-public class NoCoLoggerAdapter(private val noCoLogger: NoCoLogger) : LoggerPort {
+internal class NoCoLoggerAdapter(private val noCoLogger: NoCoLogger) : LoggerPort {
     override fun log(level: LoggingLevel, message: () -> Any?) {
         noCoLogger.log(level.kloggingLevel, message())
     }
