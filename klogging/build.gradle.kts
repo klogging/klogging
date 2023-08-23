@@ -26,6 +26,7 @@ plugins {
     alias(libs.plugins.serialisation)
     alias(libs.plugins.binaryCompatibilityValidator)
     alias(libs.plugins.testLogger)
+    alias(libs.plugins.kover)
 }
 
 repositories {

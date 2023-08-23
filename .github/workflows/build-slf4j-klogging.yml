@@ -54,6 +54,9 @@ jobs:
       - name: Run tests
         run: ./gradlew :slf4j-klogging:check
 
+      - name: Code coverage
+        run: ./gradlew :slf4j-klogging:koverHtmlReport
+
       - name: Check test output existence
         id: check_test_output
         uses: andstor/file-existence-action@v2

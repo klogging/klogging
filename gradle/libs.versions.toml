@@ -6,6 +6,7 @@ hexagon = "3.0.1"
 html-reporter = "0.7.1"
 kotlin = "1.9.0"
 kotest = "5.6.2"
+kover = "0.7.3"
 kotlin-coroutines = "1.7.3"
 kotlin-datetime = "0.4.0"
 kotlin-serialisation = "1.5.1"
@@ -38,5 +39,6 @@ testlogger-gradle-plugin = { module = "com.adarshr:gradle-test-logger-plugin", v
 [plugins]
 binaryCompatibilityValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binary-compatibility-validator" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 serialisation = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 testLogger = { id = "com.adarshr.test-logger", version.ref = "test-logger" }

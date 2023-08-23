@@ -54,6 +54,9 @@ jobs:
       - name: Run tests
         run: ./gradlew :hexagonkt-klogging-adapter:check
 
+      - name: Code coverage
+        run: ./gradlew :hexagonkt-klogging-adapter:koverHtmlReport
+
       - name: Check test output existence
         id: check_test_output
         uses: andstor/file-existence-action@v2

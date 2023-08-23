@@ -52,6 +52,9 @@ jobs:
       - name: Run tests
         run: ./gradlew :klogging:jvmCheck :klogging:jvmTest # jvmCheck does not seem to run jvmTest
 
+      - name: Code coverage
+        run: ./gradlew :klogging:koverHtmlReport
+
       - name: Check test output existence
         id: check_test_output
         uses: andstor/file-existence-action@v2
