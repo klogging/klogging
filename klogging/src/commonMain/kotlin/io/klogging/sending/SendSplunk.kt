@@ -32,7 +32,8 @@ public data class SplunkEndpoint(
     val hecUrl: String,
     val hecToken: String,
     val index: String = "main",
-    val sourceType: String = "klogging",
+    val sourceType: String? = null,
+    val source: String? = null,
     val checkCertificate: String = "true",
 ) {
     /**
@@ -43,11 +44,12 @@ public data class SplunkEndpoint(
      * substituted into `hecToken`.
      */
     public fun evalEnv(): SplunkEndpoint = SplunkEndpoint(
-        evalEnv(hecUrl),
-        evalEnv(hecToken),
-        evalEnv(index),
-        evalEnv(sourceType),
-        evalEnv(checkCertificate),
+        hecUrl = evalEnv(hecUrl),
+        hecToken = evalEnv(hecToken),
+        index = evalEnv(index),
+        sourceType = sourceType?.let { evalEnv(it) },
+        source = source?.let { evalEnv(it) },
+        checkCertificate = evalEnv(checkCertificate),
     )
 }
 
@@ -85,6 +87,7 @@ internal fun splunkEvent(endpoint: SplunkEndpoint, event: LogEvent): String {
         "time" to TIME_MARKER, // Replace later
         "index" to endpoint.index,
         "sourcetype" to endpoint.sourceType,
+        "source" to endpoint.source,
         "host" to event.host,
         "event" to eventMap,
     )

@@ -53,6 +53,7 @@ suspend fun main() = coroutineScope {
                         SplunkEndpoint(
                             hecUrl = "https://localhost:8088",
                             hecToken = getenv("SPLUNK_HEC_TOKEN")!!,
+                            source = "Playpen",
                             checkCertificate = "false",
                         ),
                     ),

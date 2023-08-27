@@ -28,27 +28,25 @@ class SendSplunkTest : DescribeSpec({
     describe("`splunkEvent()` function") {
         val ts = Instant.fromEpochSeconds(1632804634, 266123000)
         val event = LogEvent(
-            "id",
-            ts,
-            "local",
-            "SendSplunkTest",
-            "test-context",
-            INFO,
+            id = "id",
+            timestamp = ts,
+            host = "local",
+            logger = "SendSplunkTest",
+            context = "test-context",
+            level = INFO,
             message = "This is a message",
             items = mapOf("colour" to "green"),
         )
-        val endpoint = SplunkEndpoint(
-            "https://localhost:8088",
-            "TOKEN",
-            "logging-index",
-            "logging-source",
-            "false",
-        )
+        it("constructs a JSON event with default index: main") {
+            val endpoint = SplunkEndpoint(
+                hecUrl = "https://localhost:8088",
+                hecToken = "TOKEN",
+                checkCertificate = "false",
+            )
 
-        splunkEvent(endpoint, event) shouldBe """{
+            splunkEvent(endpoint, event) shouldBe """{
             |"time":1632804634.266123000,
-            |"index":"logging-index",
-            |"sourcetype":"logging-source",
+            |"index":"main",
             |"host":"local",
             |"event":{
             |"logger":"SendSplunkTest",
@@ -57,6 +55,72 @@ class SendSplunkTest : DescribeSpec({
             |"message":"This is a message",
             |"colour":"green"
             |}}
-        """.trimMargin().replace("\n", "")
+            """.trimMargin().replace("\n", "")
+        }
+        it("constructs a JSON event with specified index") {
+            val endpoint = SplunkEndpoint(
+                hecUrl = "https://localhost:8088",
+                hecToken = "TOKEN",
+                index = "general",
+                checkCertificate = "false",
+            )
+
+            splunkEvent(endpoint, event) shouldBe """{
+            |"time":1632804634.266123000,
+            |"index":"general",
+            |"host":"local",
+            |"event":{
+            |"logger":"SendSplunkTest",
+            |"level":"INFO",
+            |"context":"test-context",
+            |"message":"This is a message",
+            |"colour":"green"
+            |}}
+            """.trimMargin().replace("\n", "")
+        }
+        it("constructs a JSON event with sourcetype if specified") {
+            val endpoint = SplunkEndpoint(
+                hecUrl = "https://localhost:8088",
+                hecToken = "TOKEN",
+                sourceType = "Klogging",
+                checkCertificate = "false",
+            )
+
+            splunkEvent(endpoint, event) shouldBe """{
+            |"time":1632804634.266123000,
+            |"index":"main",
+            |"sourcetype":"Klogging",
+            |"host":"local",
+            |"event":{
+            |"logger":"SendSplunkTest",
+            |"level":"INFO",
+            |"context":"test-context",
+            |"message":"This is a message",
+            |"colour":"green"
+            |}}
+            """.trimMargin().replace("\n", "")
+        }
+        it("constructs a JSON event with source if specified") {
+            val endpoint = SplunkEndpoint(
+                hecUrl = "https://localhost:8088",
+                hecToken = "TOKEN",
+                source = "Testing",
+                checkCertificate = "false",
+            )
+
+            splunkEvent(endpoint, event) shouldBe """{
+            |"time":1632804634.266123000,
+            |"index":"main",
+            |"source":"Testing",
+            |"host":"local",
+            |"event":{
+            |"logger":"SendSplunkTest",
+            |"level":"INFO",
+            |"context":"test-context",
+            |"message":"This is a message",
+            |"colour":"green"
+            |}}
+            """.trimMargin().replace("\n", "")
+        }
     }
 })
