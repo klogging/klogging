@@ -37,7 +37,7 @@ class SendSplunkTest : DescribeSpec({
             message = "This is a message",
             items = mapOf("colour" to "green"),
         )
-        it("constructs a JSON event with default index: main") {
+        it("constructs a JSON event without optional values") {
             val endpoint = SplunkEndpoint(
                 hecUrl = "https://localhost:8088",
                 hecToken = "TOKEN",
@@ -46,7 +46,6 @@ class SendSplunkTest : DescribeSpec({
 
             splunkEvent(endpoint, event) shouldBe """{
             |"time":1632804634.266123000,
-            |"index":"main",
             |"host":"local",
             |"event":{
             |"logger":"SendSplunkTest",
@@ -78,7 +77,7 @@ class SendSplunkTest : DescribeSpec({
             |}}
             """.trimMargin().replace("\n", "")
         }
-        it("constructs a JSON event with sourcetype if specified") {
+        it("constructs a JSON event with a specified sourceType") {
             val endpoint = SplunkEndpoint(
                 hecUrl = "https://localhost:8088",
                 hecToken = "TOKEN",
@@ -88,7 +87,6 @@ class SendSplunkTest : DescribeSpec({
 
             splunkEvent(endpoint, event) shouldBe """{
             |"time":1632804634.266123000,
-            |"index":"main",
             |"sourcetype":"Klogging",
             |"host":"local",
             |"event":{
@@ -100,7 +98,7 @@ class SendSplunkTest : DescribeSpec({
             |}}
             """.trimMargin().replace("\n", "")
         }
-        it("constructs a JSON event with source if specified") {
+        it("constructs a JSON event with a specified source") {
             val endpoint = SplunkEndpoint(
                 hecUrl = "https://localhost:8088",
                 hecToken = "TOKEN",
@@ -110,7 +108,6 @@ class SendSplunkTest : DescribeSpec({
 
             splunkEvent(endpoint, event) shouldBe """{
             |"time":1632804634.266123000,
-            |"index":"main",
             |"source":"Testing",
             |"host":"local",
             |"event":{

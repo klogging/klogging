@@ -31,7 +31,7 @@ import kotlinx.serialization.Serializable
 public data class SplunkEndpoint(
     val hecUrl: String,
     val hecToken: String,
-    val index: String = "main",
+    val index: String? = null,
     val sourceType: String? = null,
     val source: String? = null,
     val checkCertificate: String = "true",
@@ -46,7 +46,7 @@ public data class SplunkEndpoint(
     public fun evalEnv(): SplunkEndpoint = SplunkEndpoint(
         hecUrl = evalEnv(hecUrl),
         hecToken = evalEnv(hecToken),
-        index = evalEnv(index),
+        index = index?.let { evalEnv(it) },
         sourceType = sourceType?.let { evalEnv(it) },
         source = source?.let { evalEnv(it) },
         checkCertificate = evalEnv(checkCertificate),
