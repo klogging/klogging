@@ -27,7 +27,7 @@ jobs:
           fetch-depth: 0 # Check out everything including tags
 
       - name: Set up Gradle
-        uses: gradle/gradle-build-action@v2.7.1
+        uses: gradle/gradle-build-action@v2.8.0
 
       - name: Publish Spring Boot starter snapshot
         run: ./gradlew :klogging-spring-boot-starter:publishPomPublicationToSnapshotsRepository
