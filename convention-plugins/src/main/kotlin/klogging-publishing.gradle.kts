@@ -54,6 +54,7 @@ publishing {
     publications.withType<MavenPublication> {
         // Stub javadoc.jar artifact
         artifact(javadocJar.get())
+        artifact(tasks.named("sourcesJar"))
 
         // Provide artifacts information requited by Maven Central
         pom {
