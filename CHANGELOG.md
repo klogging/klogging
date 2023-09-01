@@ -1,5 +1,9 @@
 # Klogging changes
 
+## Version 0.5.6
+
+- Include sources in SLF4J provider and Hexagon logging adapter
+
 ## Version 0.5.5
 
 - Logging adapter for [Hexagon microservices toolkit](https://hexagonkt.com/)
