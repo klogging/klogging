@@ -1,7 +1,7 @@
 [versions]
 atomicfu = "0.22.0"
 binary-compatibility-validator = "0.13.2"
-dokka = "1.8.20"
+dokka = "1.9.0"
 hexagon = "3.0.3"
 html-reporter = "0.7.1"
 kotlin = "1.9.10"
