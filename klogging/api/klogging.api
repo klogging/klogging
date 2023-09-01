@@ -758,6 +758,11 @@ public final class io/klogging/rendering/RenderGelfKt {
 	public static final fun graylogFormat (Lkotlinx/datetime/Instant;)Ljava/lang/String;
 }
 
+public final class io/klogging/rendering/RenderHecKt {
+	public static final fun renderHec (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lkotlin/jvm/functions/Function1;
+	public static synthetic fun renderHec$default (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lkotlin/jvm/functions/Function1;
+}
+
 public final class io/klogging/rendering/RenderIso8601Kt {
 	public static final fun getRENDER_ISO8601 ()Lkotlin/jvm/functions/Function1;
 }

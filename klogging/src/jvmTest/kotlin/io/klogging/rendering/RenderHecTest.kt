@@ -16,7 +16,7 @@
 
 */
 
-package io.klogging.sending
+package io.klogging.rendering
 
 import io.klogging.Level.INFO
 import io.klogging.events.LogEvent
@@ -24,8 +24,8 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.datetime.Instant
 
-class SendSplunkTest : DescribeSpec({
-    describe("`splunkEvent()` function") {
+class RenderHecTest : DescribeSpec({
+    describe("`renderHec()` function") {
         val ts = Instant.fromEpochSeconds(1632804634, 266123000)
         val event = LogEvent(
             id = "id",
@@ -38,13 +38,7 @@ class SendSplunkTest : DescribeSpec({
             items = mapOf("colour" to "green"),
         )
         it("constructs a JSON event without optional values") {
-            val endpoint = SplunkEndpoint(
-                hecUrl = "https://localhost:8088",
-                hecToken = "TOKEN",
-                checkCertificate = "false",
-            )
-
-            splunkEvent(endpoint, event) shouldBe """{
+            renderHec()(event) shouldBe """{
             |"time":1632804634.266123000,
             |"host":"local",
             |"event":{
@@ -57,14 +51,7 @@ class SendSplunkTest : DescribeSpec({
             """.trimMargin().replace("\n", "")
         }
         it("constructs a JSON event with specified index") {
-            val endpoint = SplunkEndpoint(
-                hecUrl = "https://localhost:8088",
-                hecToken = "TOKEN",
-                index = "general",
-                checkCertificate = "false",
-            )
-
-            splunkEvent(endpoint, event) shouldBe """{
+            renderHec(index = "general")(event) shouldBe """{
             |"time":1632804634.266123000,
             |"index":"general",
             |"host":"local",
@@ -78,14 +65,7 @@ class SendSplunkTest : DescribeSpec({
             """.trimMargin().replace("\n", "")
         }
         it("constructs a JSON event with a specified sourceType") {
-            val endpoint = SplunkEndpoint(
-                hecUrl = "https://localhost:8088",
-                hecToken = "TOKEN",
-                sourceType = "Klogging",
-                checkCertificate = "false",
-            )
-
-            splunkEvent(endpoint, event) shouldBe """{
+            renderHec(sourceType = "Klogging")(event) shouldBe """{
             |"time":1632804634.266123000,
             |"sourcetype":"Klogging",
             |"host":"local",
@@ -99,14 +79,7 @@ class SendSplunkTest : DescribeSpec({
             """.trimMargin().replace("\n", "")
         }
         it("constructs a JSON event with a specified source") {
-            val endpoint = SplunkEndpoint(
-                hecUrl = "https://localhost:8088",
-                hecToken = "TOKEN",
-                source = "Testing",
-                checkCertificate = "false",
-            )
-
-            splunkEvent(endpoint, event) shouldBe """{
+            renderHec(source = "Testing")(event) shouldBe """{
             |"time":1632804634.266123000,
             |"source":"Testing",
             |"host":"local",

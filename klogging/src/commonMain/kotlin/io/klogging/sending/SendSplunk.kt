@@ -19,11 +19,8 @@
 package io.klogging.sending
 
 import io.klogging.config.evalEnv
-import io.klogging.events.EventItems
 import io.klogging.events.LogEvent
-import io.klogging.events.decimalSeconds
-import io.klogging.rendering.evalTemplate
-import io.klogging.rendering.serializeMap
+import io.klogging.rendering.renderHec
 import kotlinx.serialization.Serializable
 
 /** Model of a Splunk server HEC endpoint. */
@@ -66,31 +63,6 @@ internal fun splunkHec(endpoint: SplunkEndpoint): EventSender = { batch ->
 internal expect fun sendToSplunk(endpoint: SplunkEndpoint, batch: List<LogEvent>)
 
 internal fun splunkBatch(endpoint: SplunkEndpoint, batch: List<LogEvent>): String =
-    batch.joinToString("\n") { splunkEvent(endpoint, it) }
-
-private const val TIME_MARKER = "XXX--TIME-MARKER--XXX"
-
-/**
- * Convert a [LogEvent] to a JSON-formatted string for Splunk
- */
-internal fun splunkEvent(endpoint: SplunkEndpoint, event: LogEvent): String {
-    val eventMap: EventItems = (
-        mapOf(
-            "logger" to event.logger,
-            "level" to event.level.name,
-            "context" to event.context,
-            "stackTrace" to event.stackTrace,
-            "message" to event.evalTemplate(),
-        ) + event.items
-        ).filterValues { it != null }
-    val splunkMap: MutableMap<String, Any?> = mutableMapOf(
-        "time" to TIME_MARKER, // Replace later
-        "index" to endpoint.index,
-        "sourcetype" to endpoint.sourceType,
-        "source" to endpoint.source,
-        "host" to event.host,
-        "event" to eventMap,
-    )
-    return serializeMap(splunkMap)
-        .replace(""""$TIME_MARKER"""", event.timestamp.decimalSeconds)
-}
+    batch.joinToString("\n") { event ->
+        renderHec(endpoint.index, endpoint.sourceType, endpoint.source)(event)
+    }
