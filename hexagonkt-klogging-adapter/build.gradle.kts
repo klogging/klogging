@@ -76,11 +76,17 @@ testlogger {
     showFailed = true
 }
 
+tasks.register<Jar>("sourcesJar") {
+    archiveClassifier.set("sources")
+    from(sourceSets.main.get().allSource)
+}
+
 // Create a publication to sign to publish.
 publishing {
     publications {
         create<MavenPublication>("jvm") {
             from(components["kotlin"])
+            artifact(tasks.named("sourcesJar"))
             pom {
                 name.set("hexagonkt-klogging-adapter")
                 description.set("Hexagon logging adapter implemented with Klogging logging library")

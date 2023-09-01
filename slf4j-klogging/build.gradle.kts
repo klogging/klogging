@@ -73,11 +73,17 @@ testlogger {
     showFailed = true
 }
 
+tasks.register<Jar>("sourcesJar") {
+    archiveClassifier.set("sources")
+    from(sourceSets.main.get().allSource)
+}
+
 // Create a publication to sign to publish.
 publishing {
     publications {
         create<MavenPublication>("jvm") {
             from(components["kotlin"])
+            artifact(tasks.named("sourcesJar"))
             pom {
                 name.set("slf4j-klogging")
                 description.set("SLF4J provider implemented with Klogging logging library")
