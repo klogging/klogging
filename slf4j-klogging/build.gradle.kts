@@ -73,11 +73,6 @@ testlogger {
     showFailed = true
 }
 
-tasks.register<Jar>("sourcesJar") {
-    archiveClassifier.set("sources")
-    from(sourceSets.main.get().allSource)
-}
-
 // Create a publication to sign to publish.
 publishing {
     publications {
