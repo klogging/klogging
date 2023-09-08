@@ -27,7 +27,7 @@ import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
 internal actual fun sendToSplunk(endpoint: SplunkEndpoint, batch: List<LogEvent>) {
-    val conn = hecConnection(endpoint)
+    val conn = hecConnection(endpoint.hecUrl, endpoint.hecToken, endpoint.checkCertificate == "true")
     try {
         trace("Splunk", "Sending events to Splunk in context ${Thread.currentThread().name}")
         conn.outputStream.use { it.write(splunkBatch(endpoint, batch).toByteArray()) }
@@ -40,15 +40,34 @@ internal actual fun sendToSplunk(endpoint: SplunkEndpoint, batch: List<LogEvent>
     }
 }
 
-private fun hecConnection(endpoint: SplunkEndpoint): HttpURLConnection {
+private fun hecConnection(hecUrl: String, hecToken: String, checkCertificate: Boolean): HttpURLConnection {
     val conn =
-        URL("${endpoint.hecUrl}/services/collector/event").openConnection() as HttpsURLConnection
-    if (endpoint.checkCertificate != "true") {
+        URL("$hecUrl/services/collector/event").openConnection() as HttpsURLConnection
+    if (!checkCertificate) {
         Certificates.relaxHostChecking(conn)
     }
     conn.requestMethod = "POST"
     conn.setRequestProperty("Content-Type", "application/json")
-    conn.setRequestProperty("Authorization", "Splunk ${endpoint.hecToken}")
+    conn.setRequestProperty("Authorization", "Splunk $hecToken")
     conn.doOutput = true
     return conn
+}
+
+internal actual fun sendToSplunk(
+    hecUrl: String,
+    hecToken: String,
+    checkCertificate: Boolean,
+    eventString: String,
+) {
+    val conn = hecConnection(hecUrl, hecToken, checkCertificate)
+    try {
+        trace("Splunk", "Sending events to Splunk in context ${Thread.currentThread().name}")
+        conn.outputStream.use { it.write(eventString.toByteArray()) }
+        val response = conn.inputStream.use { String(it.readAllTheBytes()) }
+        if (conn.responseCode >= 400) {
+            warn("Splunk", "Error response ${conn.responseCode} sending event to Splunk: $response")
+        }
+    } catch (e: IOException) {
+        warn("Splunk", "Exception sending message to Splunk: $e")
+    }
 }

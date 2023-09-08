@@ -23,6 +23,25 @@ import io.klogging.events.LogEvent
 import io.klogging.rendering.renderHec
 import kotlinx.serialization.Serializable
 
+/**
+ * Creates a [SendString] function that sends an event string to a Splunk server using
+ * the HTTP Event Collector (HEC) API.
+ *
+ * @param hecUrl The URL of the Splunk HEC endpoint.
+ * @param hecToken The token used for authentication with the Splunk HEC.
+ * @param checkCertificate Specifies whether to check the SSL certificate when making the HTTP request. Defaults to true.
+ * @return A function that takes a string event and asynchronously sends it to the Splunk server.
+ */
+public fun splunkServer(
+    hecUrl: String,
+    hecToken: String,
+    checkCertificate: Boolean = true,
+): SendString = { eventString ->
+    SendingLauncher.launch {
+        sendToSplunk(hecUrl, hecToken, checkCertificate, eventString)
+    }
+}
+
 /** Model of a Splunk server HEC endpoint. */
 @Serializable
 public data class SplunkEndpoint(
@@ -66,3 +85,10 @@ internal fun splunkBatch(endpoint: SplunkEndpoint, batch: List<LogEvent>): Strin
     batch.joinToString("\n") { event ->
         renderHec(endpoint.index, endpoint.sourceType, endpoint.source)(event)
     }
+
+internal expect fun sendToSplunk(
+    hecUrl: String,
+    hecToken: String,
+    checkCertificate: Boolean,
+    eventString: String,
+)

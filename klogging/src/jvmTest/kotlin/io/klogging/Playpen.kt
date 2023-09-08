@@ -18,7 +18,6 @@
 
 package io.klogging
 
-import io.klogging.config.SinkConfiguration
 import io.klogging.config.getenv
 import io.klogging.config.loggingConfiguration
 import io.klogging.config.seq
@@ -26,8 +25,8 @@ import io.klogging.context.Context
 import io.klogging.context.logContext
 import io.klogging.events.timestampNow
 import io.klogging.rendering.RENDER_CLEF
-import io.klogging.sending.SplunkEndpoint
-import io.klogging.sending.splunkHec
+import io.klogging.rendering.renderHec
+import io.klogging.sending.splunkServer
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -48,16 +47,11 @@ suspend fun main() = coroutineScope {
         loggingConfiguration(append = true) {
             sink(
                 "splunk",
-                SinkConfiguration(
-                    eventSender = splunkHec(
-                        SplunkEndpoint(
-                            hecUrl = "https://localhost:8088",
-                            hecToken = getenv("SPLUNK_HEC_TOKEN")!!,
-                            source = "Playpen",
-                            index = "top-secret",
-                            checkCertificate = "false",
-                        ),
-                    ),
+                renderHec(source = "Playpen"),
+                splunkServer(
+                    hecUrl = "https://localhost:8088",
+                    hecToken = getenv("SPLUNK_HEC_TOKEN")!!,
+                    checkCertificate = false,
                 ),
             )
             logging {

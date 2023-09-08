@@ -836,6 +836,11 @@ public final class io/klogging/sending/SendConsoleKt {
 	public static final fun getSTDOUT ()Lkotlin/jvm/functions/Function1;
 }
 
+public final class io/klogging/sending/SendSplunkKt {
+	public static final fun splunkServer (Ljava/lang/String;Ljava/lang/String;Z)Lkotlin/jvm/functions/Function1;
+	public static synthetic fun splunkServer$default (Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lkotlin/jvm/functions/Function1;
+}
+
 public final class io/klogging/sending/SendingKt {
 	public static final fun senderFrom (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lkotlin/jvm/functions/Function1;
 }

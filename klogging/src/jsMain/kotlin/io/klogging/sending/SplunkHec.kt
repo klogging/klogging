@@ -23,3 +23,12 @@ import io.klogging.events.LogEvent
 internal actual fun sendToSplunk(endpoint: SplunkEndpoint, batch: List<LogEvent>) {
     TODO("Not yet implemented")
 }
+
+internal actual fun sendToSplunk(
+    hecUrl: String,
+    hecToken: String,
+    checkCertificate: Boolean,
+    eventString: String,
+) {
+    TODO("Not yet implemented")
+}
