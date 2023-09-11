@@ -81,6 +81,24 @@ public data class FileSinkConfiguration(
             null
         }
     }
+
+    public override fun toString(): String {
+        val props = buildList {
+            if (renderWith != null)
+                add("renderWith=$renderWith")
+            if (sendTo != null)
+                add("sendTo=$sendTo")
+            if (seqServer != null)
+                add("seqServer=$seqServer")
+            if (apiKey != null)
+                add("apiKey=********")
+            if (checkCertificate != null)
+                add("checkCertificate=$checkCertificate")
+            if (splunkServer != null)
+                add("splunkServer=$splunkServer")
+        }
+        return "FileSinkConfiguration(${props.joinToString(", ")})"
+    }
 }
 
 /** Data class for a file representation of a [LoggingConfig]. */

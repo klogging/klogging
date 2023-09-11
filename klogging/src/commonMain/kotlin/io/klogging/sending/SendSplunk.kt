@@ -67,6 +67,21 @@ public data class SplunkEndpoint(
         source = source?.let { evalEnv(it) },
         checkCertificate = evalEnv(checkCertificate),
     )
+
+    public override fun toString(): String {
+        val props = buildList {
+            add("hecUrl=$hecUrl")
+            add("hecToken=********")
+            if (index != null)
+                add("index=$index")
+            if (sourceType != null)
+                add("sourceType=$sourceType")
+            if (source != null)
+                add("source=$source")
+            add("checkCertificate=$checkCertificate")
+        }
+        return "SplunkEndpoint(${props.joinToString(", ")})"
+    }
 }
 
 /**
