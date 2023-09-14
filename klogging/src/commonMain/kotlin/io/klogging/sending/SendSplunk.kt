@@ -72,12 +72,15 @@ public data class SplunkEndpoint(
         val props = buildList {
             add("hecUrl=$hecUrl")
             add("hecToken=********")
-            if (index != null)
+            if (index != null) {
                 add("index=$index")
-            if (sourceType != null)
+            }
+            if (sourceType != null) {
                 add("sourceType=$sourceType")
-            if (source != null)
+            }
+            if (source != null) {
                 add("source=$source")
+            }
             add("checkCertificate=$checkCertificate")
         }
         return "SplunkEndpoint(${props.joinToString(", ")})"
