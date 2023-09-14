@@ -20,12 +20,12 @@ package io.klogging
 
 import io.klogging.config.getenv
 import io.klogging.config.loggingConfiguration
-import io.klogging.config.seq
 import io.klogging.context.Context
 import io.klogging.context.logContext
 import io.klogging.events.timestampNow
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.renderHec
+import io.klogging.sending.seqServer
 import io.klogging.sending.splunkServer
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.coroutineScope
@@ -66,11 +66,11 @@ suspend fun main() = coroutineScope {
         loggingConfiguration {
             sink(
                 "seq",
-                seq(
+                RENDER_CLEF,
+                seqServer(
                     url = getenv("SEQ_URL")!!,
                     apiKey = getenv("SEQ_API_KEY"),
                     checkCertificate = false,
-                    renderer = RENDER_CLEF,
                 ),
             )
             logging {
