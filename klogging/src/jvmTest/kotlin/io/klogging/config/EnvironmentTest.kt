@@ -25,22 +25,22 @@ import io.kotest.matchers.shouldBe
 import io.kotest.property.checkAll
 
 class EnvironmentTest : DescribeSpec({
-    describe("`evalEnv()`: evaluate environment variables in strings") {
+    describe("`evalEnvVars()`: evaluate environment variables in strings") {
         it("returns a string as supplied without any env vars in it") {
             checkAll(genMessage) { string ->
-                evalEnv(string) shouldBe string
+                evalEnvVars(string) shouldBe string
             }
         }
         it("returns a string as supplied with unknown env vars in it") {
             checkAll(genString, genString) { str1, str2 ->
                 val string = "$str1 \${UNKNOWN} $str2"
-                evalEnv(string) shouldBe string
+                evalEnvVars(string) shouldBe string
             }
         }
         it("evaluates a single env var in a string") {
             checkAll(genString, genString) { envName, envValue ->
                 val string = "pre \${$envName} post"
-                evalEnv(string, mapOf(envName to envValue)) shouldBe "pre $envValue post"
+                evalEnvVars(string, mapOf(envName to envValue)) shouldBe "pre $envValue post"
             }
         }
         it("evaluates multiple env vars in a string") {
@@ -49,7 +49,7 @@ class EnvironmentTest : DescribeSpec({
                 // generate same values for names.
                 val string = "start \${X$name} middle \${Y$name} end"
 
-                evalEnv(
+                evalEnvVars(
                     string,
                     mapOf(
                         "X$name" to value1,
@@ -62,7 +62,7 @@ class EnvironmentTest : DescribeSpec({
             checkAll(genString, genString) { name, value ->
                 val string = "start \${$name} middle \${$name} end"
 
-                evalEnv(string, mapOf(name to value)) shouldBe "start $value middle $value end"
+                evalEnvVars(string, mapOf(name to value)) shouldBe "start $value middle $value end"
             }
         }
     }

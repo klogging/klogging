@@ -18,4 +18,4 @@
 
 package io.klogging.config
 
-internal actual fun getenv(): Map<String, String> = System.getenv()
+internal actual fun envVars(): Map<String, String> = System.getenv()

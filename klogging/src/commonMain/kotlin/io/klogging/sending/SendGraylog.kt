@@ -26,7 +26,7 @@ public data class Endpoint(
 
 /** Send a rendered string to a Graylog server. */
 internal fun graylogServer(endpoint: Endpoint): SendString = { eventString ->
-    SendingLauncher.launch {
+    SendingLauncher.launchInScope {
         sendToGraylog(endpoint, eventString)
     }
 }

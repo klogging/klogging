@@ -21,8 +21,8 @@ package io.klogging.internal
 import io.klogging.config.ENV_KLOGGING_COROUTINE_THREADS
 import io.klogging.config.ENV_KLOGGING_FF_EXECUTOR_THREAD_POOL
 import io.klogging.config.ENV_KLOGGING_FF_GLOBAL_SCOPE
-import io.klogging.config.getenvBoolean
-import io.klogging.config.getenvInt
+import io.klogging.config.envVarBoolean
+import io.klogging.config.envVarInt
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -44,7 +44,7 @@ private const val DEFAULT_KLOGGING_THREAD_COUNT: Int = 10
  * The value has a minimum value of 1.
  */
 private val kloggingThreadPoolSize: Int =
-    getenvInt(ENV_KLOGGING_COROUTINE_THREADS, DEFAULT_KLOGGING_THREAD_COUNT)
+    envVarInt(ENV_KLOGGING_COROUTINE_THREADS, DEFAULT_KLOGGING_THREAD_COUNT)
 
 /** Counter of threads created, used in their names. */
 internal val threadCount = AtomicInteger(0)
@@ -60,7 +60,7 @@ internal val threadCount = AtomicInteger(0)
  */
 @OptIn(DelicateCoroutinesApi::class)
 internal actual fun parentContext(): CoroutineContext =
-    if (getenvBoolean(ENV_KLOGGING_FF_EXECUTOR_THREAD_POOL, false)) {
+    if (envVarBoolean(ENV_KLOGGING_FF_EXECUTOR_THREAD_POOL, false)) {
         debug(
             "Coroutines",
             "Creating parent context for Klogging with pool of $kloggingThreadPoolSize threads",
@@ -68,7 +68,7 @@ internal actual fun parentContext(): CoroutineContext =
         Executors.newFixedThreadPool(kloggingThreadPoolSize) { r ->
             Thread(r, "klogging-${threadCount.incrementAndGet()}")
         }.asCoroutineDispatcher()
-    } else if (getenvBoolean(ENV_KLOGGING_FF_GLOBAL_SCOPE, false)) {
+    } else if (envVarBoolean(ENV_KLOGGING_FF_GLOBAL_SCOPE, false)) {
         debug("Coroutines", "Creating parent context for Klogging using GlobalScope")
         GlobalScope.coroutineContext
     } else {

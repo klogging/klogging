@@ -37,13 +37,13 @@ import io.klogging.sending.SendString
  * [ENV_KLOGGING_MIN_LOG_LEVEL] if present, else default to [INFO].
  */
 internal val defaultKloggingMinLogLevel: Level = try {
-    getenv(ENV_KLOGGING_MIN_LOG_LEVEL)?.let { Level.valueOf(it) } ?: INFO
+    envVar(ENV_KLOGGING_MIN_LOG_LEVEL)?.let { Level.valueOf(it) } ?: INFO
 } catch (_: Throwable) {
     INFO
 }
 
 internal val defaultMinDirectLogLevel: Level = try {
-    getenv(ENV_KLOGGING_MIN_DIRECT_LOG_LEVEL)?.let { Level.valueOf(it) } ?: WARN
+    envVar(ENV_KLOGGING_MIN_DIRECT_LOG_LEVEL)?.let { Level.valueOf(it) } ?: WARN
 } catch (_: Throwable) {
     WARN
 }

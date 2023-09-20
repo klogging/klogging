@@ -24,7 +24,7 @@ internal fun seqServer(
     apiKey: String?,
     checkCertificate: Boolean,
 ): SendString = { eventString ->
-    SendingLauncher.launch {
+    SendingLauncher.launchInScope {
         sendToSeq(url, apiKey, checkCertificate, eventString)
     }
 }
