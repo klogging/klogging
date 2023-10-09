@@ -29,7 +29,7 @@ internal object SendingLauncher : CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = kloggingParentContext
 
-    internal fun launchInScope(block: () -> Unit) = launch(CoroutineName("SendingLauncher")) {
+    internal fun launch(block: () -> Unit) = launch(CoroutineName("SendingLauncher")) {
         block()
     }
 }

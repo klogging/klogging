@@ -18,7 +18,7 @@
 
 package io.klogging
 
-import io.klogging.config.envVar
+import io.klogging.config.getenv
 import io.klogging.config.loggingConfiguration
 import io.klogging.context.Context
 import io.klogging.context.logContext
@@ -50,7 +50,7 @@ suspend fun main() = coroutineScope {
                 renderHec(source = "Playpen"),
                 splunkServer(
                     hecUrl = "https://localhost:8088",
-                    hecToken = envVar("SPLUNK_HEC_TOKEN")!!,
+                    hecToken = getenv("SPLUNK_HEC_TOKEN")!!,
                     checkCertificate = false,
                 ),
             )
@@ -68,8 +68,8 @@ suspend fun main() = coroutineScope {
                 "seq",
                 RENDER_CLEF,
                 seqServer(
-                    url = envVar("SEQ_URL")!!,
-                    apiKey = envVar("SEQ_API_KEY"),
+                    url = getenv("SEQ_URL")!!,
+                    apiKey = getenv("SEQ_API_KEY"),
                     checkCertificate = false,
                 ),
             )

@@ -285,15 +285,15 @@ public final class io/klogging/config/DefaultsKt {
 }
 
 public final class io/klogging/config/EnvironmentKt {
-	public static final fun envVar (Ljava/lang/String;)Ljava/lang/String;
-	public static final fun envVar (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-	public static final fun envVarBoolean (Ljava/lang/String;Z)Z
-	public static final fun envVarInt (Ljava/lang/String;II)I
-	public static synthetic fun envVarInt$default (Ljava/lang/String;IIILjava/lang/Object;)I
-	public static final fun envVarLong (Ljava/lang/String;JJ)J
-	public static synthetic fun envVarLong$default (Ljava/lang/String;JJILjava/lang/Object;)J
-	public static final fun evalEnvVars (Ljava/lang/String;Ljava/util/Map;)Ljava/lang/String;
-	public static synthetic fun evalEnvVars$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ljava/lang/String;
+	public static final fun evalEnv (Ljava/lang/String;Ljava/util/Map;)Ljava/lang/String;
+	public static synthetic fun evalEnv$default (Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ljava/lang/String;
+	public static final fun getenv (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun getenv (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public static final fun getenvBoolean (Ljava/lang/String;Z)Z
+	public static final fun getenvInt (Ljava/lang/String;II)I
+	public static synthetic fun getenvInt$default (Ljava/lang/String;IIILjava/lang/Object;)I
+	public static final fun getenvLong (Ljava/lang/String;JJ)J
+	public static synthetic fun getenvLong$default (Ljava/lang/String;JJILjava/lang/Object;)J
 }
 
 public final class io/klogging/config/FileConfiguration {
@@ -413,22 +413,20 @@ public final class io/klogging/config/FileLoggingConfig$Companion {
 public final class io/klogging/config/FileSinkConfiguration {
 	public static final field Companion Lio/klogging/config/FileSinkConfiguration$Companion;
 	public fun <init> ()V
-	public synthetic fun <init> (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lio/klogging/sending/SplunkEndpoint;Lio/klogging/config/RenderHec;Lkotlinx/serialization/internal/SerializationConstructorMarker;)V
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lio/klogging/sending/SplunkEndpoint;Lio/klogging/config/RenderHec;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lio/klogging/sending/SplunkEndpoint;Lio/klogging/config/RenderHec;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lio/klogging/sending/SplunkEndpoint;Lkotlinx/serialization/internal/SerializationConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lio/klogging/sending/SplunkEndpoint;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lio/klogging/sending/SplunkEndpoint;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Ljava/lang/String;
 	public final fun component3 ()Ljava/lang/String;
 	public final fun component4 ()Ljava/lang/String;
 	public final fun component5 ()Ljava/lang/Boolean;
 	public final fun component6 ()Lio/klogging/sending/SplunkEndpoint;
-	public final fun component7 ()Lio/klogging/config/RenderHec;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lio/klogging/sending/SplunkEndpoint;Lio/klogging/config/RenderHec;)Lio/klogging/config/FileSinkConfiguration;
-	public static synthetic fun copy$default (Lio/klogging/config/FileSinkConfiguration;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lio/klogging/sending/SplunkEndpoint;Lio/klogging/config/RenderHec;ILjava/lang/Object;)Lio/klogging/config/FileSinkConfiguration;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lio/klogging/sending/SplunkEndpoint;)Lio/klogging/config/FileSinkConfiguration;
+	public static synthetic fun copy$default (Lio/klogging/config/FileSinkConfiguration;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lio/klogging/sending/SplunkEndpoint;ILjava/lang/Object;)Lio/klogging/config/FileSinkConfiguration;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getApiKey ()Ljava/lang/String;
 	public final fun getCheckCertificate ()Ljava/lang/Boolean;
-	public final fun getRenderHec ()Lio/klogging/config/RenderHec;
 	public final fun getRenderWith ()Ljava/lang/String;
 	public final fun getSendTo ()Ljava/lang/String;
 	public final fun getSeqServer ()Ljava/lang/String;
@@ -523,42 +521,6 @@ public final class io/klogging/config/LoggingConfig {
 	public static synthetic fun matchLogger$default (Lio/klogging/config/LoggingConfig;Ljava/lang/String;ZILjava/lang/Object;)V
 	public final fun toMaxLevel (Lio/klogging/Level;Lkotlin/jvm/functions/Function1;)V
 	public final fun toSink (Ljava/lang/String;)V
-}
-
-public final class io/klogging/config/RenderHec {
-	public static final field Companion Lio/klogging/config/RenderHec$Companion;
-	public fun <init> ()V
-	public synthetic fun <init> (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlinx/serialization/internal/SerializationConstructorMarker;)V
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Ljava/lang/String;
-	public final fun component3 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lio/klogging/config/RenderHec;
-	public static synthetic fun copy$default (Lio/klogging/config/RenderHec;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/klogging/config/RenderHec;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getIndex ()Ljava/lang/String;
-	public final fun getRenderer ()Lkotlin/jvm/functions/Function1;
-	public final fun getSource ()Ljava/lang/String;
-	public final fun getSourceType ()Ljava/lang/String;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-	public static final synthetic fun write$Self (Lio/klogging/config/RenderHec;Lkotlinx/serialization/encoding/CompositeEncoder;Lkotlinx/serialization/descriptors/SerialDescriptor;)V
-}
-
-public final class io/klogging/config/RenderHec$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lio/klogging/config/RenderHec$$serializer;
-	public fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lio/klogging/config/RenderHec;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public fun serialize (Lkotlinx/serialization/encoding/Encoder;Lio/klogging/config/RenderHec;)V
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
-}
-
-public final class io/klogging/config/RenderHec$Companion {
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public final class io/klogging/config/SinkConfiguration {

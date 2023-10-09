@@ -68,8 +68,8 @@ public data class FileSinkConfiguration(
         val renderer = BUILT_IN_RENDERERS[renderWith]
         if (seqServer != null) {
             return seq(
-                evalEnvVars(seqServer),
-                apiKey?.let { evalEnvVars(it) },
+                evalEnv(seqServer),
+                apiKey?.let { evalEnv(it) },
                 checkCertificate ?: true,
                 renderer ?: RENDER_CLEF,
             )

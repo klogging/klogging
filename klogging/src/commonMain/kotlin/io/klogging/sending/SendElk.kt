@@ -33,7 +33,7 @@ public data class ElkEndpoint(
  * Send a batch of events to an Elk server in ECS format.
  */
 internal fun elkSender(endpoint: ElkEndpoint): EventSender = { batch ->
-    SendingLauncher.launchInScope {
+    SendingLauncher.launch {
         sendToElk(endpoint, batch)
     }
 }

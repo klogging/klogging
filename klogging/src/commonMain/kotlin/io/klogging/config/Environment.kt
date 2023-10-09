@@ -40,16 +40,16 @@ internal const val ENV_KLOGGING_FF_GLOBAL_SCOPE = "KLOGGING_FF_GLOBAL_SCOPE"
  *
  * @see [ENV]
  */
-internal expect fun envVars(): Map<String, String>
+internal expect fun getenv(): Map<String, String>
 
 /** A map of operating system environment variables and values for the current process. */
-internal val ENV: Map<String, String> by lazy { envVars() }
+internal val ENV: Map<String, String> by lazy { getenv() }
 
 /** Return the value of an item in the running environment, or `null` if the name is not found. */
-public fun envVar(name: String): String? = ENV[name]
+public fun getenv(name: String): String? = ENV[name]
 
 /** Return the value of an item in the running environment, or a default value if not found. */
-public fun envVar(name: String, default: String): String = ENV[name] ?: default
+public fun getenv(name: String, default: String): String = ENV[name] ?: default
 
 /**
  * Return the value of an item in the running environment as an [Int], or a default value
@@ -59,7 +59,7 @@ public fun envVar(name: String, default: String): String = ENV[name] ?: default
  * @param default default value
  * @param minValue minimum value
  */
-public fun envVarInt(name: String, default: Int, minValue: Int = 1): Int =
+public fun getenvInt(name: String, default: Int, minValue: Int = 1): Int =
     max(ENV[name]?.toIntOrNull() ?: default, minValue)
 
 /**
@@ -70,19 +70,19 @@ public fun envVarInt(name: String, default: Int, minValue: Int = 1): Int =
  * @param default default value
  * @param minValue minimum value
  */
-public fun envVarLong(name: String, default: Long, minValue: Long = 1L): Long =
+public fun getenvLong(name: String, default: Long, minValue: Long = 1L): Long =
     max(ENV[name]?.toLongOrNull() ?: default, minValue)
 
 /**
  * Return the value of an item in the running environment as a [Boolean], or a default value
  * if not found.
  */
-public fun envVarBoolean(name: String, default: Boolean): Boolean =
+public fun getenvBoolean(name: String, default: Boolean): Boolean =
     ENV[name]?.toBoolean() ?: default
 
 /**
  * Evaluate env vars in a string. Env vars must be surrounded by braces and preceded
  * with ‘$’, e.g. `${KLOGGING_BLAH}`.
  */
-public fun evalEnvVars(string: String, env: Map<String, String> = ENV): String = env.entries
+public fun evalEnv(string: String, env: Map<String, String> = ENV): String = env.entries
     .fold(string) { str, (key, value) -> str.replace("\${$key}", value) }

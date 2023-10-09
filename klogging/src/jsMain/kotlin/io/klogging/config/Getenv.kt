@@ -18,6 +18,6 @@
 
 package io.klogging.config
 
-internal actual fun envVars(): Map<String, String> {
+internal actual fun getenv(): Map<String, String> {
     TODO("Not yet implemented")
 }

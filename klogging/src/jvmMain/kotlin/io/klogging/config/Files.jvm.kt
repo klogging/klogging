@@ -66,8 +66,8 @@ internal actual fun fileText(filePath: String?): String? = filePath?.let { path 
  */
 internal actual fun findFileConfigText(configPath: String?): String? {
     val filePath = configPath
-        ?: envVar(ENV_KLOGGING_CONFIG_JSON_PATH)
-        ?: envVar(ENV_KLOGGING_CONFIG_PATH)
+        ?: getenv(ENV_KLOGGING_CONFIG_JSON_PATH)
+        ?: getenv(ENV_KLOGGING_CONFIG_PATH)
     return fileText(filePath)
         ?: readResourceText(JSON_CONFIG_FILENAME)
         ?: readResourceText(HOCON_CONFIG_FILENAME)

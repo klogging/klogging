@@ -18,7 +18,7 @@
 
 package io.klogging.rendering
 
-import io.klogging.config.evalEnvVars
+import io.klogging.config.evalEnv
 import io.klogging.events.EventItems
 import io.klogging.events.decimalSeconds
 
@@ -48,9 +48,9 @@ public fun renderHec(
         ).filterValues { it != null }
     val splunkMap: MutableMap<String, Any?> = mutableMapOf(
         "time" to TIME_MARKER,
-        "index" to index?.let { evalEnvVars(it) },
-        "sourcetype" to sourceType?.let { evalEnvVars(it) },
-        "source" to source?.let { evalEnvVars(it) },
+        "index" to index?.let { evalEnv(it) },
+        "sourcetype" to sourceType?.let { evalEnv(it) },
+        "source" to source?.let { evalEnv(it) },
         "host" to event.host,
         "event" to eventMap,
     )

@@ -18,7 +18,7 @@
 
 package io.klogging.sending
 
-import io.klogging.config.evalEnvVars
+import io.klogging.config.evalEnv
 import io.klogging.events.LogEvent
 import io.klogging.rendering.renderHec
 import kotlinx.serialization.Serializable
@@ -37,7 +37,7 @@ public fun splunkServer(
     hecToken: String,
     checkCertificate: Boolean = true,
 ): SendString = { eventString ->
-    SendingLauncher.launchInScope {
+    SendingLauncher.launch {
         sendToSplunk(hecUrl, hecToken, checkCertificate, eventString)
     }
 }
@@ -60,12 +60,12 @@ public data class SplunkEndpoint(
      * substituted into `hecToken`.
      */
     public fun evalEnv(): SplunkEndpoint = SplunkEndpoint(
-        hecUrl = evalEnvVars(hecUrl),
-        hecToken = evalEnvVars(hecToken),
-        index = index?.let { evalEnvVars(it) },
-        sourceType = sourceType?.let { evalEnvVars(it) },
-        source = source?.let { evalEnvVars(it) },
-        checkCertificate = evalEnvVars(checkCertificate),
+        hecUrl = evalEnv(hecUrl),
+        hecToken = evalEnv(hecToken),
+        index = index?.let { evalEnv(it) },
+        sourceType = sourceType?.let { evalEnv(it) },
+        source = source?.let { evalEnv(it) },
+        checkCertificate = evalEnv(checkCertificate),
     )
 
     public override fun toString(): String {
@@ -92,7 +92,7 @@ public data class SplunkEndpoint(
  * [HTTP event collector (HEC)](https://docs.splunk.com/Documentation/Splunk/8.2.2/Data/HECExamples).
  */
 internal fun splunkHec(endpoint: SplunkEndpoint): EventSender = { batch ->
-    SendingLauncher.launchInScope {
+    SendingLauncher.launch {
         sendToSplunk(endpoint, batch)
     }
 }

@@ -32,7 +32,7 @@ import io.klogging.sending.senderFrom
 internal fun KloggingConfiguration.updateFromEnvironment(): KloggingConfiguration =
     this.sinks.keys.fold(this) { config, sinkName ->
         val envName = ENV_KLOGGING_OUTPUT_FORMAT_PREFIX + sinkName.uppercase()
-        envVar(envName)?.let { outputFormat ->
+        getenv(envName)?.let { outputFormat ->
             config.sinks[sinkName]?.let { sinkConfig ->
                 config.sinks[sinkName] = sinkConfig.updateRenderer(outputFormat)
                 info("Configuration", "Updating sink $sinkName format to $outputFormat")

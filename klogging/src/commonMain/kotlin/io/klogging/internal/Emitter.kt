@@ -19,7 +19,7 @@
 package io.klogging.internal
 
 import io.klogging.config.ENV_KLOGGING_EVENT_CHANNEL_CAPACITY
-import io.klogging.config.envVarInt
+import io.klogging.config.getenvInt
 import io.klogging.events.LogEvent
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
@@ -27,7 +27,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-internal val eventChannelCapacity: Int = envVarInt(ENV_KLOGGING_EVENT_CHANNEL_CAPACITY, 100)
+internal val eventChannelCapacity: Int = getenvInt(ENV_KLOGGING_EVENT_CHANNEL_CAPACITY, 100)
 
 /**
  * The main object for managing log event processing.

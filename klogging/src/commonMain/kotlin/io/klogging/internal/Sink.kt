@@ -21,8 +21,8 @@ package io.klogging.internal
 import io.klogging.config.ENV_KLOGGING_BATCH_MAX_SIZE
 import io.klogging.config.ENV_KLOGGING_BATCH_MAX_TIME_MS
 import io.klogging.config.ENV_KLOGGING_SINK_CHANNEL_CAPACITY
-import io.klogging.config.envVarInt
-import io.klogging.config.envVarLong
+import io.klogging.config.getenvInt
+import io.klogging.config.getenvLong
 import io.klogging.events.LogEvent
 import io.klogging.sending.EventSender
 import io.klogging.sending.receiveBatch
@@ -32,9 +32,9 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-internal val sinkChannelCapacity: Int = envVarInt(ENV_KLOGGING_SINK_CHANNEL_CAPACITY, 100)
-internal val batchMaxTimeMs: Long = envVarLong(ENV_KLOGGING_BATCH_MAX_TIME_MS, 10)
-internal val batchMaxSize: Int = envVarInt(ENV_KLOGGING_BATCH_MAX_SIZE, 100)
+internal val sinkChannelCapacity: Int = getenvInt(ENV_KLOGGING_SINK_CHANNEL_CAPACITY, 100)
+internal val batchMaxTimeMs: Long = getenvLong(ENV_KLOGGING_BATCH_MAX_TIME_MS, 10)
+internal val batchMaxSize: Int = getenvInt(ENV_KLOGGING_BATCH_MAX_SIZE, 100)
 
 /**
  * Runtime management of a sink for [LogEvent]s. It contains a coroutine [Channel]
