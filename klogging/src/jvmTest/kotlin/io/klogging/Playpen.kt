@@ -22,7 +22,6 @@ import io.klogging.config.getenv
 import io.klogging.config.loggingConfiguration
 import io.klogging.context.Context
 import io.klogging.context.logContext
-import io.klogging.events.timestampNow
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.renderHec
 import io.klogging.sending.seqServer
@@ -31,10 +30,14 @@ import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import java.util.UUID.randomUUID
 import kotlin.random.Random
+
+fun localNow(): LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
 /**
  * Main program for experimenting with Klogging features as they are developed.
@@ -79,8 +82,8 @@ suspend fun main() = coroutineScope {
         }
     }
 
-    val outerCount = 2
-    val innerCount = 2
+    val outerCount = 3
+    val innerCount = 3
 
     val run = randomUUID()
     launch(logContext("run" to run) + CoroutineName("Playpen")) {
@@ -89,11 +92,7 @@ suspend fun main() = coroutineScope {
             logger.info { e(">> {Counter}", c + 1) }
             launch(logContext("Counter" to (c + 1))) {
                 repeat(innerCount) { i ->
-                    logger.info(
-                        "Event {Iteration} at {RightNow}",
-                        i + 1,
-                        timestampNow().toLocalDateTime(TimeZone.currentSystemDefault()),
-                    )
+                    logger.info("Event {Iteration} at {RightNow}", i + 1, localNow())
                 }
             }
             delay(Random.nextLong(100))
