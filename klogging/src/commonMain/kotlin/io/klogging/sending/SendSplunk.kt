@@ -20,7 +20,7 @@ package io.klogging.sending
 
 import io.klogging.config.evalEnv
 import io.klogging.events.LogEvent
-import io.klogging.rendering.renderHec
+import io.klogging.rendering.RenderString
 import kotlinx.serialization.Serializable
 
 /**
@@ -91,17 +91,17 @@ public data class SplunkEndpoint(
  * Send a batch of events to a Splunk server using
  * [HTTP event collector (HEC)](https://docs.splunk.com/Documentation/Splunk/8.2.2/Data/HECExamples).
  */
-internal fun splunkHec(endpoint: SplunkEndpoint): EventSender = { batch ->
+internal fun splunkHec(endpoint: SplunkEndpoint, renderer: RenderString): EventSender = { batch ->
     SendingLauncher.launch {
-        sendToSplunk(endpoint, batch)
+        sendToSplunk(endpoint, renderer, batch)
     }
 }
 
-internal expect fun sendToSplunk(endpoint: SplunkEndpoint, batch: List<LogEvent>)
+internal expect fun sendToSplunk(endpoint: SplunkEndpoint, renderer: RenderString, batch: List<LogEvent>)
 
-internal fun splunkBatch(endpoint: SplunkEndpoint, batch: List<LogEvent>): String =
+internal fun splunkBatch(renderer: RenderString, batch: List<LogEvent>): String =
     batch.joinToString("\n") { event ->
-        renderHec(endpoint.index, endpoint.sourceType, endpoint.source)(event)
+        renderer(event)
     }
 
 internal expect fun sendToSplunk(

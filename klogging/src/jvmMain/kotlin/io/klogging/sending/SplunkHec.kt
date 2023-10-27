@@ -21,16 +21,17 @@ package io.klogging.sending
 import io.klogging.events.LogEvent
 import io.klogging.internal.trace
 import io.klogging.internal.warn
+import io.klogging.rendering.RenderString
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
-internal actual fun sendToSplunk(endpoint: SplunkEndpoint, batch: List<LogEvent>) {
+internal actual fun sendToSplunk(endpoint: SplunkEndpoint, renderer: RenderString, batch: List<LogEvent>) {
     val conn = hecConnection(endpoint.hecUrl, endpoint.hecToken, endpoint.checkCertificate == "true")
     try {
         trace("Splunk", "Sending events to Splunk in context ${Thread.currentThread().name}")
-        conn.outputStream.use { it.write(splunkBatch(endpoint, batch).toByteArray()) }
+        conn.outputStream.use { it.write(splunkBatch(renderer, batch).toByteArray()) }
         val response = conn.inputStream.use { String(it.readAllTheBytes()) }
         if (conn.responseCode >= 400) {
             warn("Splunk", "Error response ${conn.responseCode} sending event to Splunk: $response")

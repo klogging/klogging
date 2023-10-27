@@ -23,6 +23,8 @@ import io.klogging.Level.FATAL
 import io.klogging.Level.TRACE
 import io.klogging.internal.debug
 import io.klogging.rendering.RENDER_CLEF
+import io.klogging.rendering.RenderString
+import io.klogging.rendering.renderHec
 import io.klogging.sending.SplunkEndpoint
 import io.klogging.sending.splunkHec
 import kotlinx.serialization.Serializable
@@ -60,12 +62,14 @@ public data class FileSinkConfiguration(
     val apiKey: String? = null,
     val checkCertificate: Boolean? = null,
     val splunkServer: SplunkEndpoint? = null,
+    val renderHec: RenderHec? = null,
 ) {
     internal fun toSinkConfiguration(): SinkConfiguration? {
-        if (splunkServer != null) {
-            return SinkConfiguration(eventSender = splunkHec(splunkServer.evalEnv()))
-        }
         val renderer = BUILT_IN_RENDERERS[renderWith]
+            ?: renderHec?.renderer
+        if (splunkServer != null) {
+            return SinkConfiguration(eventSender = splunkHec(splunkServer.evalEnv(), renderer ?: renderHec()))
+        }
         if (seqServer != null) {
             return seq(
                 evalEnv(seqServer),
@@ -102,9 +106,22 @@ public data class FileSinkConfiguration(
             if (splunkServer != null) {
                 add("splunkServer=$splunkServer")
             }
+            if (renderHec != null) {
+                add("renderHec=$renderHec")
+            }
         }
         return "FileSinkConfiguration(${props.joinToString(", ")})"
     }
+}
+
+@Serializable
+public data class RenderHec(
+    val index: String? = null,
+    val sourceType: String? = null,
+    val source: String? = null,
+) {
+    public val renderer: RenderString
+        get() = renderHec(index, sourceType, source)
 }
 
 /** Data class for a file representation of a [LoggingConfig]. */
