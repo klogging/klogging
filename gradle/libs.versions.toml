@@ -2,7 +2,7 @@
 atomicfu = "0.22.0"
 binary-compatibility-validator = "0.13.2"
 dokka = "1.9.10"
-hexagon = "3.0.3"
+hexagon = "3.4.3"
 html-reporter = "0.7.1"
 kotlin = "1.9.20"
 kotest = "5.8.0"

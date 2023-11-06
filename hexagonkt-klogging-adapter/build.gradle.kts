@@ -35,7 +35,7 @@ repositories {
 java {
     toolchain {
         // Minimum Java version for Hexagon
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
@@ -44,7 +44,7 @@ kotlin {
 
     jvmToolchain {
         // Minimum Java version for Hexagon
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 
     sourceSets.all {
