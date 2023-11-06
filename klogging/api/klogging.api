@@ -299,7 +299,6 @@ public final class io/klogging/config/EnvironmentKt {
 public final class io/klogging/config/FileConfiguration {
 	public static final field Companion Lio/klogging/config/FileConfiguration$Companion;
 	public fun <init> ()V
-	public synthetic fun <init> (ILjava/lang/String;Lio/klogging/Level;Lio/klogging/Level;Ljava/util/Map;Ljava/util/List;Lkotlinx/serialization/internal/SerializationConstructorMarker;)V
 	public fun <init> (Ljava/lang/String;Lio/klogging/Level;Lio/klogging/Level;Ljava/util/Map;Ljava/util/List;)V
 	public synthetic fun <init> (Ljava/lang/String;Lio/klogging/Level;Lio/klogging/Level;Ljava/util/Map;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
@@ -317,7 +316,6 @@ public final class io/klogging/config/FileConfiguration {
 	public final fun getSinks ()Ljava/util/Map;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
-	public static final synthetic fun write$Self (Lio/klogging/config/FileConfiguration;Lkotlinx/serialization/encoding/CompositeEncoder;Lkotlinx/serialization/descriptors/SerialDescriptor;)V
 }
 
 public final class io/klogging/config/FileConfiguration$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
@@ -338,7 +336,6 @@ public final class io/klogging/config/FileConfiguration$Companion {
 public final class io/klogging/config/FileLevelRange {
 	public static final field Companion Lio/klogging/config/FileLevelRange$Companion;
 	public fun <init> ()V
-	public synthetic fun <init> (ILio/klogging/Level;Lio/klogging/Level;Lio/klogging/Level;Ljava/util/List;Lkotlinx/serialization/internal/SerializationConstructorMarker;)V
 	public fun <init> (Lio/klogging/Level;Lio/klogging/Level;Lio/klogging/Level;Ljava/util/List;)V
 	public synthetic fun <init> (Lio/klogging/Level;Lio/klogging/Level;Lio/klogging/Level;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Lio/klogging/Level;
@@ -354,7 +351,6 @@ public final class io/klogging/config/FileLevelRange {
 	public final fun getToSinks ()Ljava/util/List;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
-	public static final synthetic fun write$Self (Lio/klogging/config/FileLevelRange;Lkotlinx/serialization/encoding/CompositeEncoder;Lkotlinx/serialization/descriptors/SerialDescriptor;)V
 }
 
 public final class io/klogging/config/FileLevelRange$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
@@ -374,7 +370,6 @@ public final class io/klogging/config/FileLevelRange$Companion {
 
 public final class io/klogging/config/FileLoggingConfig {
 	public static final field Companion Lio/klogging/config/FileLoggingConfig$Companion;
-	public synthetic fun <init> (ILjava/lang/String;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lkotlinx/serialization/internal/SerializationConstructorMarker;)V
 	public fun <init> (Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
@@ -392,7 +387,6 @@ public final class io/klogging/config/FileLoggingConfig {
 	public final fun getStopOnMatch ()Ljava/lang/Boolean;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
-	public static final synthetic fun write$Self (Lio/klogging/config/FileLoggingConfig;Lkotlinx/serialization/encoding/CompositeEncoder;Lkotlinx/serialization/descriptors/SerialDescriptor;)V
 }
 
 public final class io/klogging/config/FileLoggingConfig$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
@@ -413,7 +407,6 @@ public final class io/klogging/config/FileLoggingConfig$Companion {
 public final class io/klogging/config/FileSinkConfiguration {
 	public static final field Companion Lio/klogging/config/FileSinkConfiguration$Companion;
 	public fun <init> ()V
-	public synthetic fun <init> (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lio/klogging/sending/SplunkEndpoint;Lio/klogging/config/RenderHec;Lkotlinx/serialization/internal/SerializationConstructorMarker;)V
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lio/klogging/sending/SplunkEndpoint;Lio/klogging/config/RenderHec;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lio/klogging/sending/SplunkEndpoint;Lio/klogging/config/RenderHec;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
@@ -435,7 +428,6 @@ public final class io/klogging/config/FileSinkConfiguration {
 	public final fun getSplunkServer ()Lio/klogging/sending/SplunkEndpoint;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
-	public static final synthetic fun write$Self (Lio/klogging/config/FileSinkConfiguration;Lkotlinx/serialization/encoding/CompositeEncoder;Lkotlinx/serialization/descriptors/SerialDescriptor;)V
 }
 
 public final class io/klogging/config/FileSinkConfiguration$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
@@ -528,7 +520,6 @@ public final class io/klogging/config/LoggingConfig {
 public final class io/klogging/config/RenderHec {
 	public static final field Companion Lio/klogging/config/RenderHec$Companion;
 	public fun <init> ()V
-	public synthetic fun <init> (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlinx/serialization/internal/SerializationConstructorMarker;)V
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
@@ -543,7 +534,6 @@ public final class io/klogging/config/RenderHec {
 	public final fun getSourceType ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
-	public static final synthetic fun write$Self (Lio/klogging/config/RenderHec;Lkotlinx/serialization/encoding/CompositeEncoder;Lkotlinx/serialization/descriptors/SerialDescriptor;)V
 }
 
 public final class io/klogging/config/RenderHec$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
@@ -821,7 +811,6 @@ public final class io/klogging/sending/BatchingKt {
 
 public final class io/klogging/sending/ElkEndpoint {
 	public static final field Companion Lio/klogging/sending/ElkEndpoint$Companion;
-	public synthetic fun <init> (ILjava/lang/String;Ljava/lang/String;Lkotlinx/serialization/internal/SerializationConstructorMarker;)V
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
@@ -833,7 +822,6 @@ public final class io/klogging/sending/ElkEndpoint {
 	public final fun getUrl ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
-	public static final synthetic fun write$Self (Lio/klogging/sending/ElkEndpoint;Lkotlinx/serialization/encoding/CompositeEncoder;Lkotlinx/serialization/descriptors/SerialDescriptor;)V
 }
 
 public final class io/klogging/sending/ElkEndpoint$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
@@ -885,7 +873,6 @@ public final class io/klogging/sending/SendingKt {
 
 public final class io/klogging/sending/SplunkEndpoint {
 	public static final field Companion Lio/klogging/sending/SplunkEndpoint$Companion;
-	public synthetic fun <init> (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlinx/serialization/internal/SerializationConstructorMarker;)V
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
@@ -906,7 +893,6 @@ public final class io/klogging/sending/SplunkEndpoint {
 	public final fun getSourceType ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
-	public static final synthetic fun write$Self (Lio/klogging/sending/SplunkEndpoint;Lkotlinx/serialization/encoding/CompositeEncoder;Lkotlinx/serialization/descriptors/SerialDescriptor;)V
 }
 
 public final class io/klogging/sending/SplunkEndpoint$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
