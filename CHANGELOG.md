@@ -1,5 +1,14 @@
 # Klogging changes
 
+## Version 0.5.7
+
+- Workaround for issue `NoClassDefFoundError` thrown when using Spring Boot Starter
+  (see [issue 188](https://github.com/klogging/klogging/issues/188))
+- Send Splunk-formatted messages to any sink (not just an HEC endpoint)
+- Support Hexagon microservices toolkit 3.4.3, requiring JDK 17
+- Use Kotlin 1.9.20
+- Build with Gradle 8.4
+
 ## Version 0.5.6
 
 - Include sources in SLF4J provider and Hexagon logging adapter
