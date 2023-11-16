@@ -25,7 +25,6 @@ import io.klogging.config.getenvInt
 import io.klogging.config.getenvLong
 import io.klogging.events.LogEvent
 import io.klogging.sending.EventSender
-import io.klogging.sending.receiveBatch
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
@@ -54,6 +53,13 @@ internal class Sink(
         debug("Sink", "Starting sink $name")
         val channel = Channel<LogEvent>(sinkChannelCapacity)
         launch(CoroutineName("sink-$name")) {
+            // Temporary: receive events one at a time into fake batches
+            // See [Issue 188](https://github.com/klogging/klogging/issues/188)
+            for (logEvent in channel) {
+                eventSender(listOf(logEvent))
+            }
+            // … instead of using the experimental coroutine API
+            /*
             while (true) {
                 val batch = receiveBatch(channel, batchMaxTimeMs, batchMaxSize)
                 if (batch.isNotEmpty()) {
@@ -61,6 +67,7 @@ internal class Sink(
                     eventSender(batch)
                 }
             }
+             */
         }
         channel
     }
