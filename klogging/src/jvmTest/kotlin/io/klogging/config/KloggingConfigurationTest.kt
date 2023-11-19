@@ -56,17 +56,17 @@ internal class KloggingConfigurationTest : DescribeSpec({
             it("adds sinks to the map") {
                 val sinkConfig = seq("http://localhost:5341")
                 loggingConfiguration {
-                    sink("console", STDOUT_SIMPLE)
+                    sink("console", STDERR_SIMPLE)
                     sink("seq", sinkConfig)
                 }
-                KloggingEngine.sinkConfigs() shouldContain ("console" to STDOUT_SIMPLE)
+                KloggingEngine.sinkConfigs() shouldContain ("console" to STDERR_SIMPLE)
                 KloggingEngine.sinkConfigs() shouldContain ("seq" to sinkConfig)
             }
             it("adds the default console") {
                 loggingConfiguration { DEFAULT_CONSOLE() }
 
                 with(KloggingEngine) {
-                    sinkConfigs() shouldContain ("console" to STDOUT_SIMPLE)
+                    sinkConfigs() shouldContain ("console" to STDERR_SIMPLE)
                     configs() shouldHaveSize 1
                     with(configs().first()) {
                         nameMatcher shouldBe MATCH_ALL

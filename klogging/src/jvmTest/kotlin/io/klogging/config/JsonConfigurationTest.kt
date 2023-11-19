@@ -27,6 +27,7 @@ import io.klogging.genString
 import io.klogging.internal.KloggingEngine
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RENDER_SIMPLE
+import io.klogging.sending.STDERR
 import io.klogging.sending.STDOUT
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
@@ -63,7 +64,7 @@ internal class JsonConfigurationTest : DescribeSpec({
                     sinks.keys.first() shouldBe "console"
                     with(sinks.values.first()) {
                         renderer shouldBe RENDER_SIMPLE
-                        stringSender shouldBe STDOUT
+                        stringSender shouldBe STDERR
                     }
                 }
             }
