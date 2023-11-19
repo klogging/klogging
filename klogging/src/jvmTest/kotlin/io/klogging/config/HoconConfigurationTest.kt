@@ -27,7 +27,7 @@ import io.klogging.genString
 import io.klogging.internal.KloggingEngine
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RENDER_SIMPLE
-import io.klogging.sending.STDOUT
+import io.klogging.sending.STDERR
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldHaveSize
@@ -65,7 +65,7 @@ internal class HoconConfigurationTest : DescribeSpec({
                     sinks.keys.first() shouldBe "console"
                     with(sinks.values.first()) {
                         renderer shouldBe RENDER_SIMPLE
-                        stringSender shouldBe STDOUT
+                        stringSender shouldBe STDERR
                     }
                 }
             }
@@ -76,7 +76,7 @@ internal class HoconConfigurationTest : DescribeSpec({
                       sinks: {
                         stdout: {
                           renderWith: RENDER_SIMPLE,
-                          sendTo: STDOUT
+                          sendTo: STDERR
                         }
                       }
                     }
@@ -91,9 +91,9 @@ internal class HoconConfigurationTest : DescribeSpec({
                 {
                   minDirectLogLevel: INFO,
                   sinks: {
-                    stdout: {
+                    stderr: {
                       renderWith: RENDER_SIMPLE,
-                      sendTo: STDOUT
+                      sendTo: STDERR
                     }
                   },
                   logging: [
@@ -103,7 +103,7 @@ internal class HoconConfigurationTest : DescribeSpec({
                         {
                           fromMinLevel: INFO,
                           toSinks: [
-                            stdout
+                            stderr
                           ]
                         }
                       ]
@@ -118,10 +118,10 @@ internal class HoconConfigurationTest : DescribeSpec({
                 hoconConfig?.apply {
                     minDirectLogLevel shouldBe INFO
                     sinks shouldHaveSize 1
-                    sinks.keys.first() shouldBe "stdout"
+                    sinks.keys.first() shouldBe "stderr"
                     with(sinks.values.first()) {
                         renderWith shouldBe "RENDER_SIMPLE"
-                        sendTo shouldBe "STDOUT"
+                        sendTo shouldBe "STDERR"
                     }
                     logging shouldHaveSize 1
                     with(logging.first()) {
@@ -132,7 +132,7 @@ internal class HoconConfigurationTest : DescribeSpec({
                             with(toSinks) {
                                 shouldNotBeNull()
                                 shouldHaveSize(1)
-                                first() shouldBe "stdout"
+                                first() shouldBe "stderr"
                             }
                         }
                     }
@@ -143,10 +143,10 @@ internal class HoconConfigurationTest : DescribeSpec({
 
                 config?.apply {
                     sinks shouldHaveSize 1
-                    sinks.keys.first() shouldBe "stdout"
+                    sinks.keys.first() shouldBe "stderr"
                     with(sinks.values.first()) {
                         renderer shouldBe RENDER_SIMPLE
-                        stringSender shouldBe STDOUT
+                        stringSender shouldBe STDERR
                     }
                 }
             }
@@ -161,7 +161,7 @@ internal class HoconConfigurationTest : DescribeSpec({
                         with(ranges.first()) {
                             minLevel shouldBe INFO
                             maxLevel shouldBe FATAL
-                            sinkNames shouldBe listOf("stdout")
+                            sinkNames shouldBe listOf("stderr")
                         }
                     }
                 }
@@ -194,18 +194,18 @@ internal class HoconConfigurationTest : DescribeSpec({
                     val sinkConfig = parseSinkConfig(
                         """{
                                 renderWith: RENDER_SIMPLE,
-                                sendTo: STDOUT
+                                sendTo: STDERR
                             }
                         """.trimIndent(),
                     )
 
                     sinkConfig?.renderer shouldBe RENDER_SIMPLE
-                    sinkConfig?.stringSender shouldBe STDOUT
+                    sinkConfig?.stringSender shouldBe STDERR
                 }
                 it("returns null if `renderWith` key is missing") {
                     val sinkConfig = parseSinkConfig(
                         """{
-                            sendTo: STDOUT
+                            sendTo: STDERR
                         }
                         """.trimIndent(),
                     )
@@ -265,7 +265,7 @@ internal class HoconConfigurationTest : DescribeSpec({
                         """.trimIndent(),
                     )
 
-                    sinkConfig?.stringSender shouldNotBe STDOUT
+                    sinkConfig?.stringSender shouldNotBe STDERR
                 }
             }
         }

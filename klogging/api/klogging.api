@@ -280,6 +280,8 @@ public abstract interface annotation class io/klogging/config/ConfigDsl : java/l
 public final class io/klogging/config/DefaultsKt {
 	public static final fun getANSI_CONSOLE ()Lkotlin/jvm/functions/Function1;
 	public static final fun getDEFAULT_CONSOLE ()Lkotlin/jvm/functions/Function1;
+	public static final fun getSTDERR_ANSI ()Lio/klogging/config/SinkConfiguration;
+	public static final fun getSTDERR_SIMPLE ()Lio/klogging/config/SinkConfiguration;
 	public static final fun getSTDOUT_ANSI ()Lio/klogging/config/SinkConfiguration;
 	public static final fun getSTDOUT_SIMPLE ()Lio/klogging/config/SinkConfiguration;
 }
