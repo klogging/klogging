@@ -21,11 +21,16 @@ package io.klogging.config
 import io.klogging.Level.INFO
 import io.klogging.rendering.RENDER_ANSI
 import io.klogging.rendering.RENDER_SIMPLE
+import io.klogging.sending.STDERR
 import io.klogging.sending.STDOUT
 
 /** Simple sink configuration for rendering simple strings to the standard output stream. */
 public val STDOUT_SIMPLE: SinkConfiguration =
     SinkConfiguration(RENDER_SIMPLE, STDOUT)
+
+/** Simple sink configuration for rendering simple strings to the standard error stream. */
+public val STDERR_SIMPLE: SinkConfiguration =
+    SinkConfiguration(RENDER_SIMPLE, STDERR)
 
 /**
  * Simple default configuration for logging to the standard output stream.
@@ -38,9 +43,24 @@ public val DEFAULT_CONSOLE: KloggingConfiguration.() -> Unit = {
     logging { fromMinLevel(INFO) { toSink("console") } }
 }
 
+/**
+ * Simple default configuration for logging to the standard error stream.
+ *
+ * - All loggers are included.
+ * - All events at [INFO] or higher level are included.
+ */
+public val DEFAULT_STDERR: KloggingConfiguration.() -> Unit = {
+    sink("stderr", STDERR_SIMPLE)
+    logging { fromMinLevel(INFO) { toSink("stderr") } }
+}
+
 /** Simple sink configuration for rendering ANSI-coloured strings to the standard output stream. */
 public val STDOUT_ANSI: SinkConfiguration =
     SinkConfiguration(RENDER_ANSI, STDOUT)
+
+/** Simple sink configuration for rendering ANSI-coloured strings to the standard error stream. */
+public val STDERR_ANSI: SinkConfiguration =
+    SinkConfiguration(RENDER_ANSI, STDERR)
 
 /**
  * Simple default configuration for logging ANSI-coloured strings to the standard output stream.
@@ -51,4 +71,15 @@ public val STDOUT_ANSI: SinkConfiguration =
 public val ANSI_CONSOLE: KloggingConfiguration.() -> Unit = {
     sink("console", STDOUT_ANSI)
     logging { fromMinLevel(INFO) { toSink("console") } }
+}
+
+/**
+ * Simple default configuration for logging ANSI-coloured strings to the standard error stream.
+ *
+ * - All loggers are included.
+ * - All events at [INFO] or higher level are included.
+ */
+public val ANSI_STDERR: KloggingConfiguration.() -> Unit = {
+    sink("stderr", STDERR_ANSI)
+    logging { fromMinLevel(INFO) { toSink("stderr") } }
 }
