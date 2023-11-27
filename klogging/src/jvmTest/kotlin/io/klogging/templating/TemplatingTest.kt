@@ -51,6 +51,7 @@ class TemplatingTest : DescribeSpec({
         }
         it("ignores any names in double braces like {{this}}") {
             extractItemNames("This {{name}} is not a hole") shouldBe listOf()
+            extractItemNames("Escaped brace {{ and {a} hole") shouldBe listOf("a")
         }
     }
 
