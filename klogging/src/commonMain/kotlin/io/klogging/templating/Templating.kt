@@ -54,7 +54,12 @@ internal fun extractItemNames(template: String): List<String> {
             '{' -> if (state == TextOrHole.TEXT) {
                 holeStart = i
                 state = TextOrHole.HOLE
+            } else {
+                if (holeStart == i - 1) {
+                    state = TextOrHole.TEXT
+                }
             }
+
             '}' -> if (state == TextOrHole.HOLE) {
                 if (i - holeStart > 1) itemNames.add(template.substring(holeStart + 1, i))
                 state = TextOrHole.TEXT

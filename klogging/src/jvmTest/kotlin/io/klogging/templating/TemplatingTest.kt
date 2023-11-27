@@ -27,6 +27,33 @@ import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.shouldBe
 
 class TemplatingTest : DescribeSpec({
+    describe("extracting item names") {
+        it("returns empty list if there are no holes in the template") {
+            extractItemNames("There are no holes in this template") shouldBe listOf()
+        }
+        it("returns the name of an item at the start of a template") {
+            val name = randomString()
+            extractItemNames("{$name} was at the start") shouldContainInOrder listOf(name)
+        }
+        it("returns the name of an item in the middle of a template") {
+            val name = randomString()
+            extractItemNames("This {$name} is in the middle") shouldContainInOrder listOf(name)
+        }
+        it("returns the name of an item at the end of a template") {
+            val name = randomString()
+            extractItemNames("At the end is the {$name}") shouldContainInOrder listOf(name)
+        }
+        it("returns the name all items in a template") {
+            val names = listOf(randomString(), randomString(), randomString())
+            extractItemNames(
+                "One: {${names[0]}}, two: {${names[1]}} and three: {${names[2]}}",
+            ) shouldContainInOrder names
+        }
+        it("ignores any names in double braces like {{this}}") {
+            extractItemNames("This {{name}} is not a hole") shouldBe listOf()
+        }
+    }
+
     describe("template items") {
         it("returns nothing if there are no holes in the template") {
             val template = randomString()
@@ -56,30 +83,6 @@ class TemplatingTest : DescribeSpec({
         it("only evaluates provided items") {
             val items = templateItems("User {Name} logged in from {IpAddress}", "Sue")
             items shouldBe mapOf("Name" to "Sue")
-        }
-    }
-
-    describe("extracting item names") {
-        it("returns empty list if there are no holes in the template") {
-            extractItemNames("There are no holes in this template") shouldBe listOf()
-        }
-        it("returns the name of an item at the start of a template") {
-            val name = randomString()
-            extractItemNames("{$name} was at the start") shouldContainInOrder listOf(name)
-        }
-        it("returns the name of an item in the middle of a template") {
-            val name = randomString()
-            extractItemNames("This {$name} is in the middle") shouldContainInOrder listOf(name)
-        }
-        it("returns the name of an item at the end of a template") {
-            val name = randomString()
-            extractItemNames("At the end is the {$name}") shouldContainInOrder listOf(name)
-        }
-        it("returns the name all items in a template") {
-            val names = listOf(randomString(), randomString(), randomString())
-            extractItemNames(
-                "One: {${names[0]}}, two: {${names[1]}} and three: {${names[2]}}",
-            ) shouldContainInOrder names
         }
     }
 })
