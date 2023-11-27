@@ -46,7 +46,7 @@ jobs:
           java-version: 17
 
       - name: Set up Gradle
-        uses: gradle/gradle-build-action@v2.9.0
+        uses: gradle/gradle-build-action@v2.10.0
 
       - name: Build
         run: ./gradlew :slf4j-klogging:assemble
