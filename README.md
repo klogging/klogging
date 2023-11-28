@@ -27,6 +27,7 @@ See [https://klogging.io](https://klogging.io) for more detailed documentation.
 - [Quick start (JVM)](#quick-start-jvm)
     - [I didn’t see any logs!](#i-didnt-see-any-logs)
     - [Using snapshot builds](#using-snapshot-builds)
+- [Building Klogging](#building-klogging)
 - [Why another logging library?](#why-another-logging-library)
     - [Why not Logback or Log4j?](#why-not-logback-or-log4j)
     - [Why not KotlinLogging, Log4j Kotlin, etc.?](#why-not-kotlinlogging-log4j-kotlin-etc)
@@ -162,6 +163,14 @@ dependencies {
     implementation("io.klogging:klogging-jvm:0.6.0-SNAPSHOT")
 }
 ```
+
+## Building Klogging
+
+Clone this repository and run `./gradlew clean build`
+
+**NB** There is an issue with Gradle 8.4 running on Java 21 that fails in the Kotlin Gradle
+plugin. See [Issue 195](https://github.com/klogging/klogging/issues/195) for more information.
+I recommend building Klogging using Java 19 until the issue is resolved in Gradle 8.5.
 
 ## Why another logging library?
 
