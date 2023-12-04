@@ -12,7 +12,7 @@ kotlin-datetime = "0.4.1"
 kotlin-serialisation = "1.6.1"
 reckon = "0.18.1"
 slf4j = "2.0.9"
-spotless = "6.23.0"
+spotless = "6.23.3"
 test-logger = "3.2.0"
 
 [libraries]
