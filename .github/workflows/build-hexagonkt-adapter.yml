@@ -5,6 +5,7 @@ on:
     branches:
       - main
     paths:
+      - gradle/**
       - hexagonkt-klogging-adapter/**
       - "!hexagonkt-klogging-adapter/README.md"
   pull_request:

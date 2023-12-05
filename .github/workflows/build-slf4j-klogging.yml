@@ -5,6 +5,7 @@ on:
     branches:
       - main
     paths:
+      - gradle/**
       - slf4j-klogging/**
       - "!slf4j-klogging/README.md"
   pull_request:
