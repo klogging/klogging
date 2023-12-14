@@ -36,10 +36,9 @@ import io.klogging.rendering.RENDER_SIMPLE
 import io.klogging.savedEvents
 import io.klogging.sending.STDERR
 import io.klogging.sending.STDOUT
-import io.kotest.common.ExperimentalKotest
+import io.kotest.assertions.nondeterministic.eventually
+import io.kotest.assertions.nondeterministic.eventuallyConfig
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.framework.concurrency.eventually
-import io.kotest.framework.concurrency.fixed
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.property.checkAll
@@ -47,7 +46,6 @@ import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
-@OptIn(ExperimentalKotest::class)
 internal class DispatcherTest : DescribeSpec({
     describe("sinksFor() function") {
         describe("when no loggers are configured") {
@@ -209,9 +207,9 @@ internal class DispatcherTest : DescribeSpec({
                 repeat(100) {
                     val id = Random.nextLong(10_000)
                     repeat(100) {
-                        eventually({
-                            duration = 20
-                            interval = 2.milliseconds.fixed()
+                        eventually(eventuallyConfig {
+                            duration = 20.milliseconds
+                            interval = 2.milliseconds
                         }) {
                             Dispatcher.cachedSinksFor("dev.test.Logger-$id", INFO)
                                 .shouldHaveSize(1)
