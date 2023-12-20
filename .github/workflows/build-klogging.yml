@@ -45,7 +45,7 @@ jobs:
           java-version: 17
 
       - name: Set up Gradle
-        uses: gradle/gradle-build-action@v2.11.0
+        uses: gradle/gradle-build-action@v2.11.1
 
       - name: Build
         run: ./gradlew :klogging:assemble
