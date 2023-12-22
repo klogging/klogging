@@ -207,10 +207,12 @@ internal class DispatcherTest : DescribeSpec({
                 repeat(100) {
                     val id = Random.nextLong(10_000)
                     repeat(100) {
-                        eventually(eventuallyConfig {
-                            duration = 20.milliseconds
-                            interval = 2.milliseconds
-                        }) {
+                        eventually(
+                            eventuallyConfig {
+                                duration = 20.milliseconds
+                                interval = 2.milliseconds
+                            },
+                        ) {
                             Dispatcher.cachedSinksFor("dev.test.Logger-$id", INFO)
                                 .shouldHaveSize(1)
                                 .first().name.shouldBe("stdout")

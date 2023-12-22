@@ -16,15 +16,15 @@
 
 */
 
-package io.klogging
+package io.klogging.config
 
-import io.kotest.core.config.AbstractProjectConfig
-import io.kotest.core.extensions.Extension
-import io.kotest.extensions.junitxml.JunitXmlReporter
+import io.klogging.rendering.RenderString
+import io.klogging.sending.SendString
 
-class KotestConfig : AbstractProjectConfig() {
-    override fun extensions(): List<Extension> = listOf(
-        JunitXmlReporter(useTestPathAsName = true),
-//        HtmlReporter(),
-    )
+internal actual fun loadRendererByName(className: String?): RenderString? {
+    TODO("Not yet implemented")
+}
+
+internal actual fun loadSenderByName(className: String?): SendString? {
+    TODO("Not yet implemented")
 }

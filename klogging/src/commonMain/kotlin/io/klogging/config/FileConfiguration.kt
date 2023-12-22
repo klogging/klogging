@@ -25,6 +25,7 @@ import io.klogging.internal.debug
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RenderString
 import io.klogging.rendering.renderHec
+import io.klogging.sending.SendString
 import io.klogging.sending.SplunkEndpoint
 import io.klogging.sending.splunkHec
 import kotlinx.serialization.Serializable
@@ -66,6 +67,7 @@ public data class FileSinkConfiguration(
 ) {
     internal fun toSinkConfiguration(): SinkConfiguration? {
         val renderer = BUILT_IN_RENDERERS[renderWith]
+            ?: loadRendererByName(renderWith)
             ?: renderHec?.renderer
         if (splunkServer != null) {
             return SinkConfiguration(eventSender = splunkHec(splunkServer.evalEnv(), renderer ?: renderHec()))
@@ -79,13 +81,13 @@ public data class FileSinkConfiguration(
             )
         }
         val sender = BUILT_IN_SENDERS[sendTo]
+            ?: loadSenderByName(sendTo)
         return if (renderer != null && sender != null) {
             SinkConfiguration(renderer, sender)
         } else {
             null
         }
     }
-
     public override fun toString(): String {
         val props = buildList {
             if (renderWith != null) {
@@ -169,3 +171,7 @@ public data class FileLevelRange(
         return range
     }
 }
+
+internal expect fun loadRendererByName(className: String?): RenderString?
+
+internal expect fun loadSenderByName(className: String?): SendString?

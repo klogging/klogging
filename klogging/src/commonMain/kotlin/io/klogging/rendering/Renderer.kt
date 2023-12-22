@@ -16,15 +16,11 @@
 
 */
 
-package io.klogging
+package io.klogging.rendering
 
-import io.kotest.core.config.AbstractProjectConfig
-import io.kotest.core.extensions.Extension
-import io.kotest.extensions.junitxml.JunitXmlReporter
-
-class KotestConfig : AbstractProjectConfig() {
-    override fun extensions(): List<Extension> = listOf(
-        JunitXmlReporter(useTestPathAsName = true),
-//        HtmlReporter(),
-    )
+/**
+ * Interface for defining custom [RenderString] implementations by class name.
+ */
+public interface Renderer {
+    public fun renderString(): RenderString
 }

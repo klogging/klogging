@@ -25,9 +25,15 @@ import io.klogging.Level.INFO
 import io.klogging.Level.TRACE
 import io.klogging.genString
 import io.klogging.internal.KloggingEngine
+import io.klogging.logEvent
+import io.klogging.randomString
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RENDER_SIMPLE
+import io.klogging.rendering.RenderString
+import io.klogging.rendering.Renderer
 import io.klogging.sending.STDOUT
+import io.klogging.sending.SendString
+import io.klogging.sending.Sender
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldHaveSize
@@ -249,6 +255,40 @@ internal class JsonConfigurationTest : DescribeSpec({
 
                     sinkConfig shouldBe null
                 }
+                it("returns configuration with the name of a `Renderer` class on the classpath") {
+                    val rendererClassName = MessageOnlyRenderer::class.java.name
+                    val rendererConfig = Json.decodeFromString<FileSinkConfiguration>(
+                        """{
+                            "renderWith": "$rendererClassName",
+                            "sendTo": "STDOUT"
+                            }
+                        """.trimIndent(),
+                    ).toSinkConfiguration()
+
+                    rendererConfig?.renderer.let { renderer ->
+                        renderer.shouldNotBeNull()
+                        val message = randomString()
+                        renderer(logEvent(message = message)) shouldBe message
+                    }
+                }
+                it("returns configuration with the name of a `Sender` class on the classpath") {
+                    val senderClassName = StringSavingSender::class.java.name
+                    val senderConfig = Json.decodeFromString<FileSinkConfiguration>(
+                        """{
+                            "renderWith": "RENDER_SIMPLE",
+                            "sendTo": "$senderClassName"
+                        }
+                        """.trimIndent(),
+                    ).toSinkConfiguration()
+
+                    senderConfig?.stringSender.let { sender ->
+                        sender.shouldNotBeNull()
+                        val eventString = randomString()
+                        savedString = ""
+                        sender(eventString)
+                        savedString shouldBe eventString
+                    }
+                }
             }
             describe("using `seqServer` key") {
                 it("returns a Seq configuration with RENDER_CLEF if only that key is present") {
@@ -287,3 +327,13 @@ internal class JsonConfigurationTest : DescribeSpec({
         }
     }
 })
+
+class MessageOnlyRenderer : Renderer {
+    override fun renderString(): RenderString = { it.message }
+}
+
+var savedString: String = ""
+
+class StringSavingSender : Sender {
+    override fun sendString(): SendString = { savedString = it }
+}

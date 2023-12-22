@@ -809,6 +809,10 @@ public final class io/klogging/rendering/RenderSimpleKt {
 	public static final fun getRENDER_SIMPLE ()Lkotlin/jvm/functions/Function1;
 }
 
+public abstract interface class io/klogging/rendering/Renderer {
+	public abstract fun renderString ()Lkotlin/jvm/functions/Function1;
+}
+
 public final class io/klogging/sending/BatchingKt {
 	public static final fun receiveBatch (Lkotlinx/coroutines/channels/ReceiveChannel;JILkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
@@ -869,6 +873,10 @@ public final class io/klogging/sending/SendConsoleKt {
 public final class io/klogging/sending/SendSplunkKt {
 	public static final fun splunkServer (Ljava/lang/String;Ljava/lang/String;Z)Lkotlin/jvm/functions/Function1;
 	public static synthetic fun splunkServer$default (Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lkotlin/jvm/functions/Function1;
+}
+
+public abstract interface class io/klogging/sending/Sender {
+	public abstract fun sendString ()Lkotlin/jvm/functions/Function1;
 }
 
 public final class io/klogging/sending/SendingKt {
