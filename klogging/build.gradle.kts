@@ -42,7 +42,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(libs.kotlin.coroutines)
-                implementation(libs.kotlin.datetime)
+                api(libs.kotlin.datetime)
                 implementation(libs.kotlin.serialisation.json)
                 implementation(libs.kotlin.atomicfu)
             }
