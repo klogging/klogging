@@ -22,13 +22,20 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Clock.System
 import kotlinx.datetime.Instant
 
-/** Timestamp of "now" defined by [clock].  The default is the current system clock (time). */
+/**
+ * Timestamp of "now" defined by [clock].  The default is the current system clock (time).
+ * @param clock [Clock] to use
+ * @return a timestamp using the specified clock
+ */
 public fun timestampNow(clock: Clock = System): Instant = clock.now()
 
+private const val NANOS_LENGTH: Int = 9
+
 /** Render a Kotlin [Instant] as `seconds.nanos`. */
+@Suppress("CUSTOM_GETTERS_SETTERS")
 internal val Instant.decimalSeconds: String
     get() {
         val seconds = epochSeconds.toString()
-        val nanos = "00000000$nanosecondsOfSecond".let { it.substring(it.length - 9) }
+        val nanos = "00000000$nanosecondsOfSecond".let { it.substring(it.length - NANOS_LENGTH) }
         return "$seconds.$nanos"
     }

@@ -43,12 +43,23 @@ internal const val ENV_KLOGGING_FF_GLOBAL_SCOPE = "KLOGGING_FF_GLOBAL_SCOPE"
 internal expect fun getenv(): Map<String, String>
 
 /** A map of operating system environment variables and values for the current process. */
+@Suppress("VARIABLE_NAME_INCORRECT_FORMAT")
 internal val ENV: Map<String, String> by lazy { getenv() }
 
-/** Return the value of an item in the running environment, or `null` if the name is not found. */
+/**
+ * Return the value of an item in the running environment, or `null` if the name is not found.
+ *
+ * @param name name of the environment variable
+ * @return value of that variable, if any
+ */
 public fun getenv(name: String): String? = ENV[name]
 
-/** Return the value of an item in the running environment, or a default value if not found. */
+/** Return the value of an item in the running environment, or a default value if not found.
+ *
+ * @param name name of the environment variable
+ * @param default default value to return if no environment variable is found
+ * @return value of that variable, if any
+ */
 public fun getenv(name: String, default: String): String = ENV[name] ?: default
 
 /**
@@ -58,6 +69,7 @@ public fun getenv(name: String, default: String): String = ENV[name] ?: default
  * @param name name of the environment variable
  * @param default default value
  * @param minValue minimum value
+ * @return [Int] value of the environment variable or default
  */
 public fun getenvInt(name: String, default: Int, minValue: Int = 1): Int =
     max(ENV[name]?.toIntOrNull() ?: default, minValue)
@@ -69,6 +81,7 @@ public fun getenvInt(name: String, default: Int, minValue: Int = 1): Int =
  * @param name name of the environment variable
  * @param default default value
  * @param minValue minimum value
+ * @return [Long] value of the environment variable or default
  */
 public fun getenvLong(name: String, default: Long, minValue: Long = 1L): Long =
     max(ENV[name]?.toLongOrNull() ?: default, minValue)
@@ -76,13 +89,22 @@ public fun getenvLong(name: String, default: Long, minValue: Long = 1L): Long =
 /**
  * Return the value of an item in the running environment as a [Boolean], or a default value
  * if not found.
+ *
+ * @param name name of the environment variable
+ * @param default default value to return if no environment variable is found
+ * @return [Boolean] value of that variable, if any
  */
+@Suppress("FUNCTION_BOOLEAN_PREFIX")
 public fun getenvBoolean(name: String, default: Boolean): Boolean =
     ENV[name]?.toBoolean() ?: default
 
 /**
  * Evaluate env vars in a string. Env vars must be surrounded by braces and preceded
  * with ‘$’, e.g. `${KLOGGING_BLAH}`.
+ *
+ * @param string string that may contain env variables
+ * @param env map of environment variables and values, default [ENV]
+ * @return string with environment variables replaced with their values
  */
 public fun evalEnv(string: String, env: Map<String, String> = ENV): String = env.entries
     .fold(string) { str, (key, value) -> str.replace("\${$key}", value) }

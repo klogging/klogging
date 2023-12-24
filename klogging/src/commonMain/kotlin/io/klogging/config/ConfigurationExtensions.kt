@@ -48,7 +48,7 @@ internal fun KloggingConfiguration.updateFromEnvironment(): KloggingConfiguratio
  * @return The updated SinkConfiguration with the new renderer.
  */
 internal fun SinkConfiguration.updateRenderer(outputFormat: String): SinkConfiguration =
-    BUILT_IN_RENDERERS["RENDER_$outputFormat"]?.let { newRenderer ->
+    builtInRenderers["RENDER_$outputFormat"]?.let { newRenderer ->
         copy(
             renderer = newRenderer,
             stringSender = stringSender,

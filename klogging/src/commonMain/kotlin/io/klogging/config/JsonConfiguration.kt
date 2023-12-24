@@ -21,9 +21,11 @@ package io.klogging.config
 import io.klogging.internal.debug
 import io.klogging.internal.warn
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
+/**
+ * Object to manage Klogging configuration from JSON files.
+ */
 public object JsonConfiguration {
     /** Set up the JSON deserialiser to be accepting of unknown and malformed values. */
     private val json = Json {
@@ -35,7 +37,6 @@ public object JsonConfiguration {
      * Read configuration from JSON into a [JsonConfiguration] object.
      *
      * @param configJson JSON containing Klogging configuration.
-     *
      * @return an object used to configure Klogging.
      */
     internal fun readConfig(configJson: String): FileConfiguration? =
@@ -46,12 +47,17 @@ public object JsonConfiguration {
             null
         }
 
-    /** Load [KloggingConfiguration] from JSON configuration string. */
+    /**
+     * Load [KloggingConfiguration] from JSON configuration string. If there are parse errors, return `null`.
+     *
+     * @param configJson string containing configuration in JSON
+     * @return [KloggingConfiguration] read from JSON, if successful
+     */
     public fun configure(configJson: String): KloggingConfiguration? =
         readConfig(configJson)?.let { (configName, minLogLevel, minDirectLogLevel, sinks, logging) ->
             val config = KloggingConfiguration()
             if (configName != null) {
-                BUILT_IN_CONFIGURATIONS[configName]?.let { config.apply(it) }
+                builtInConfigurations[configName]?.let { config.apply(it) }
             } else {
                 config.kloggingMinLogLevel = minLogLevel
                 config.minDirectLogLevel = minDirectLogLevel

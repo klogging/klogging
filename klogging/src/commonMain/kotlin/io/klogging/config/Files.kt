@@ -24,15 +24,33 @@ internal const val JSON_CONFIG_FILENAME: String = "klogging.json"
 /** Name of the HOCON configuration file on the classpath. */
 internal const val HOCON_CONFIG_FILENAME: String = "klogging.conf"
 
-/** Read the contents of a file at the path, if found. */
+/**
+ * Read the contents of a file at the path, if found.
+ *
+ * @param filePath path of the file to read
+ * @return file contents, if it was found
+ */
 internal expect fun fileText(filePath: String?): String?
 
-/** Find a configuration file and read its contents, if found. */
+/**
+ * Find a configuration file and read its contents, if found.
+ *
+ * @param configPath path of the file to read
+ * @return config file contents, if it was found
+ */
 internal expect fun findFileConfigText(configPath: String? = null): String?
 
+/**
+ * Read configuration from a string read from a configuration file.
+ *
+ * @param fileContents string with the contents of a JSON or HOCON configuration file
+ * @return a [KloggingConfiguration] object read from the file content
+ */
 internal expect fun configureFromFile(fileContents: String): KloggingConfiguration?
 
-/** Attempt to load configuration from a file. */
+/**
+ * Lazily load configuration from a file.
+ */
 public val configLoadedFromFile: KloggingConfiguration? by lazy {
     findFileConfigText()?.let { configureFromFile(it) }
 }

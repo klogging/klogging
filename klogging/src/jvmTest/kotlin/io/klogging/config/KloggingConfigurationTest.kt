@@ -69,7 +69,7 @@ internal class KloggingConfigurationTest : DescribeSpec({
                     sinkConfigs() shouldContain ("console" to STDOUT_SIMPLE)
                     configs() shouldHaveSize 1
                     with(configs().first()) {
-                        nameMatcher shouldBe MATCH_ALL
+                        nameMatcher shouldBe matchAll
                         ranges shouldHaveSize 1
                         with(ranges.first()) {
                             sinkNames shouldHaveSize 1

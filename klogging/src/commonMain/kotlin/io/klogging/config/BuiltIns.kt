@@ -29,7 +29,7 @@ import io.klogging.sending.STDOUT
 import io.klogging.sending.SendString
 
 /** Map of built-in configurations by name. */
-internal val BUILT_IN_CONFIGURATIONS: Map<String, KloggingConfiguration.() -> Unit> by lazy {
+internal val builtInConfigurations: Map<String, KloggingConfiguration.() -> Unit> by lazy {
     mapOf(
         "DEFAULT_CONSOLE" to DEFAULT_CONSOLE,
         "DEFAULT_STDERR" to DEFAULT_STDERR,
@@ -39,7 +39,7 @@ internal val BUILT_IN_CONFIGURATIONS: Map<String, KloggingConfiguration.() -> Un
 }
 
 /** Map of built-in renderers by name. */
-internal val BUILT_IN_RENDERERS: Map<String, RenderString> by lazy {
+internal val builtInRenderers: Map<String, RenderString> by lazy {
     mapOf(
         "RENDER_SIMPLE" to RENDER_SIMPLE,
         "RENDER_ANSI" to RENDER_ANSI,
@@ -50,7 +50,7 @@ internal val BUILT_IN_RENDERERS: Map<String, RenderString> by lazy {
 }
 
 /** Map of built-in senders by name. */
-internal val BUILT_IN_SENDERS: Map<String, SendString> by lazy {
+internal val builtInSenders: Map<String, SendString> by lazy {
     mapOf(
         "STDOUT" to STDOUT,
         "STDERR" to STDERR,

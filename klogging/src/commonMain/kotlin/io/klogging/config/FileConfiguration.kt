@@ -36,6 +36,12 @@ import kotlinx.serialization.Serializable
  *
  * Fields are optional so that when `append` is specified, only new configuration
  * needs to be included in the file.
+ *
+ * @property configName optional configuration name
+ * @property kloggingMinLogLevel minimum level for Klogging internal logger
+ * @property minDirectLogLevel minimum level for Klogging to send log events directly (i.e. not via coroutine channels)
+ * @property sinks map of named [FileSinkConfiguration] objects
+ * @property logging list of [FileLoggingConfig] objects
  */
 @Serializable
 public data class FileConfiguration(
@@ -65,8 +71,12 @@ public data class FileSinkConfiguration(
     val splunkServer: SplunkEndpoint? = null,
     val renderHec: RenderHec? = null,
 ) {
+    /**
+     * Extract sink configuration from a file into a [SinkConfiguration] object.
+     * @return a [SinkConfiguration] object as specified in the file
+     */
     internal fun toSinkConfiguration(): SinkConfiguration? {
-        val renderer = BUILT_IN_RENDERERS[renderWith]
+        val renderer = builtInRenderers[renderWith]
             ?: loadRendererByName(renderWith)
             ?: renderHec?.renderer
         if (splunkServer != null) {
@@ -80,7 +90,7 @@ public data class FileSinkConfiguration(
                 renderer ?: RENDER_CLEF,
             )
         }
-        val sender = BUILT_IN_SENDERS[sendTo]
+        val sender = builtInSenders[sendTo]
             ?: loadSenderByName(sendTo)
         return if (renderer != null && sender != null) {
             SinkConfiguration(renderer, sender)
@@ -88,6 +98,11 @@ public data class FileSinkConfiguration(
             null
         }
     }
+
+    /**
+     * Compact rendering to string, masking any API key.
+     * @return string rendering
+     */
     public override fun toString(): String {
         val props = buildList {
             if (renderWith != null) {
@@ -116,17 +131,36 @@ public data class FileSinkConfiguration(
     }
 }
 
+/**
+ * Data class for file representation of a [RenderHec].
+ *
+ * @property index name of the Splunk `index` to send to
+ * @property sourceType name of the Splunk `sourceType`
+ * @property source name of the Splunk `source`
+ */
 @Serializable
+@Suppress("CUSTOM_GETTERS_SETTERS")
 public data class RenderHec(
     val index: String? = null,
     val sourceType: String? = null,
     val source: String? = null,
 ) {
+    /**
+     * Extract a [RenderString] instance from the file configuration.
+     */
     public val renderer: RenderString
         get() = renderHec(index, sourceType, source)
 }
 
-/** Data class for a file representation of a [LoggingConfig]. */
+/**
+ * Data class for a file representation of a [LoggingConfig].
+ *
+ * @property fromLoggerBase logger name to use as a base for matching
+ * @property stopOnMatch stop searching for loggers after the first match
+ * @property exactLogger logger name to match exactly
+ * @property matchLogger regular expression to match against logger name
+ * @property levelRanges level range specifications
+ */
 @Serializable
 public data class FileLoggingConfig(
     val fromLoggerBase: String? = null,
@@ -135,6 +169,10 @@ public data class FileLoggingConfig(
     val matchLogger: String? = null,
     val levelRanges: List<FileLevelRange>,
 ) {
+    /**
+     * Extract logging configuration from a file into a [LoggingConfig] object.
+     * @return a [LoggingConfig] object as specified in the file
+     */
     internal fun toLoggingConfig(): LoggingConfig {
         val config = LoggingConfig()
         when {
@@ -146,12 +184,19 @@ public data class FileLoggingConfig(
             matchLogger != null -> config.matchLogger(matchLogger, stopOnMatch ?: false)
             // else match all loggers by default
         }
-        config.ranges.addAll(levelRanges.map { it.toLevelRange() })
+        config.ranges.addAll(levelRanges.map { range -> range.toLevelRange() })
         return config
     }
 }
 
-/** Data class for a file representation of a [LevelRange]. */
+/**
+ * Data class for a file representation of a [LevelRange].
+ *
+ * @property fromMinLevel inclusive minimum level of log events to send
+ * @property toMaxLevel inclusive maximum level of log events to send
+ * @property atLevel exact level of log events to send
+ * @property toSinks list of sink names where log events are sent
+ */
 @Serializable
 public data class FileLevelRange(
     val fromMinLevel: Level? = null,
@@ -159,6 +204,10 @@ public data class FileLevelRange(
     val atLevel: Level? = null,
     val toSinks: List<String>? = null,
 ) {
+    /**
+     * Extract level range configuration from a file into a [LevelRange] object.
+     * @return a [LevelRange] object as specifed in the file
+     */
     internal fun toLevelRange(): LevelRange {
         val range = when {
             // `atLevel` has priority over everything else
@@ -172,6 +221,17 @@ public data class FileLevelRange(
     }
 }
 
+/**
+ * Load a [RenderString] instance by name from the classpath.
+ * @param className fully-qualified class name of the class
+ * @return a class that implements [RenderString] with that name, if found
+ */
 internal expect fun loadRendererByName(className: String?): RenderString?
+
+/**
+ * Load a [SendString] instance by name from the classpath.
+ * @param className fully-qualified class name of the class
+ * @return a class that implements [SendString] with that name, if found
+ */
 
 internal expect fun loadSenderByName(className: String?): SendString?

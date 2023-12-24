@@ -42,6 +42,10 @@ internal val defaultKloggingMinLogLevel: Level = try {
     INFO
 }
 
+/**
+ * Set the default level at which Klogging sends events directly instead of
+ * via coroutine channels
+ */
 internal val defaultMinDirectLogLevel: Level = try {
     getenv(ENV_KLOGGING_MIN_DIRECT_LOG_LEVEL)?.let { Level.valueOf(it) } ?: WARN
 } catch (_: Throwable) {
@@ -88,16 +92,23 @@ private fun combineFileAndDsl(config: KloggingConfiguration): KloggingConfigurat
  */
 public class KloggingConfiguration {
 
-    internal val sinks = AtomicMutableMap<String, SinkConfiguration>()
-    internal val configs = AtomicMutableList<LoggingConfig>()
+    /** Sinks in this configuration */
+    internal val sinks: AtomicMutableMap<String, SinkConfiguration> = AtomicMutableMap()
+    /** Logging configurations in this configuration. */
+    internal val configs: AtomicMutableList<LoggingConfig> = AtomicMutableList()
 
+    /** Path of logging configuration file. */
     internal var loggingConfigPath: String? = null
+    /** Minimum level of Klogging internal logger. */
     internal var kloggingMinLogLevel: Level = defaultKloggingMinLogLevel
+    /** Minimum level for Klogging direct logging to sinks */
     internal var minDirectLogLevel: Level = defaultMinDirectLogLevel
 
     /**
      * Set the path of a logging configuration file. The configuration in the file will be combined
      * with any specified directly in the DSL.
+     *
+     * @param configPath path of the file
      */
     @ConfigDsl
     public fun loggingConfigPath(configPath: String?) {
@@ -106,6 +117,8 @@ public class KloggingConfiguration {
 
     /**
      * DSL function to set minimum logging level for Klogging’s internal logger.
+     *
+     * @param minLevel logging level to use
      */
     @ConfigDsl
     public fun kloggingMinLogLevel(minLevel: Level) {
@@ -114,6 +127,8 @@ public class KloggingConfiguration {
 
     /**
      * DSL function to set minimum logging level for sending events directly to sinks.
+     *
+     * @param minLevel logging level to use
      */
     @ConfigDsl
     public fun minDirectLogLevel(minLevel: Level) {
@@ -134,7 +149,7 @@ public class KloggingConfiguration {
     /**
      * DSL function to specify a sink where log events can be dispatched.
      *
-     * @param sinkName name used to refer to the sink
+     * @param sinkName name used for to the sink
      * @param renderer object that renders an event into a string
      * @param sender object that sends an event as string somewhere
      */
@@ -143,6 +158,12 @@ public class KloggingConfiguration {
         sinks[sinkName] = SinkConfiguration(renderer, sender)
     }
 
+    /**
+     * DSL function to specify a sink from an [EventSender].
+     *
+     * @param sinkName name used for the sink
+     * @param eventSender [EventSender] for the sink to use
+     */
     @ConfigDsl
     public fun sink(sinkName: String, eventSender: EventSender) {
         sinks[sinkName] = SinkConfiguration(eventSender = eventSender)
@@ -150,6 +171,8 @@ public class KloggingConfiguration {
 
     /**
      * DSL function to add a logging configuration specified in [configBlock].
+     *
+     * @param configBlock block with configuration
      */
     @ConfigDsl
     public fun logging(configBlock: LoggingConfig.() -> Unit) {
@@ -158,7 +181,12 @@ public class KloggingConfiguration {
         configs.add(loggingConfig)
     }
 
-    /** Calculate the minimum level of all level ranges in all configurations. */
+    /**
+     * Calculate the minimum level of all level ranges in all configurations.
+     *
+     * @param loggerName name of the logger
+     * @return calculated level
+     */
     public fun minimumLevelOf(loggerName: String): Level = configs
         .filter { it.nameMatcher(loggerName) }
         .flatMap { it.ranges }
@@ -184,6 +212,8 @@ public class KloggingConfiguration {
      *
      * * `sinks` are combined: any with the same name replace those in this config.
      * * `configs` are appended to those in this config.
+     *
+     * @param other other [KloggingConfiguration]
      */
     internal fun append(other: KloggingConfiguration) {
         sinks.putAll(other.sinks)

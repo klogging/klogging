@@ -26,12 +26,15 @@ import io.klogging.events.LogEvent
 /** Object that handles dispatching of [LogEvent]s to zero or more sinks. */
 internal object Dispatcher {
 
-    private val sinkCache = AtomicMutableMap<Pair<String, Level>, List<Sink>>()
+    @Suppress("TYPE_ALIAS")
+    private val sinkCache: AtomicMutableMap<Pair<String, Level>, List<Sink>> = AtomicMutableMap()
 
     /**
      * Dispatch a [LogEvent] to selected targets. Base context items are included here.
      *
      * Each is dispatched in a separate coroutine.
+     *
+     * @param logEvent event to dispatch
      */
     internal suspend fun send(logEvent: LogEvent) {
         // If we are tracing Klogging, add event ID to the items map.
@@ -46,6 +49,7 @@ internal object Dispatcher {
 
     /**
      * Dispatch a [LogEvent] directly to each sink.
+     * @param logEvent event to dispatch directly
      */
     internal fun sendDirect(logEvent: LogEvent) {
         // If we are tracing Klogging, add event ID to the items map.
@@ -67,6 +71,9 @@ internal object Dispatcher {
 
     /**
      * Simple caching wrapper for [sinksFor] function.
+     * @param loggerName name of the logger
+     * @param level: level of the event
+     * @return sinks to dispatch from the specified logger and level
      */
     internal fun cachedSinksFor(loggerName: String, level: Level): List<Sink> =
         sinkCache.getOrPut(Pair(loggerName, level)) { sinksFor(loggerName, level) }

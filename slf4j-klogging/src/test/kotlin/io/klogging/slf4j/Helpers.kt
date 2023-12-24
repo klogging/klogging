@@ -28,12 +28,24 @@ import kotlinx.coroutines.delay
 import kotlin.random.Random
 import kotlin.random.nextULong
 
+/** A random string used in testing. */
 fun randomString() = Random.nextULong().toString(16)
 
+/**
+ * Wait for log event dispatch.
+ *
+ * @param millis number of milliseconds to wait
+ */
 suspend fun waitForDispatch(millis: Long = 200) = delay(millis)
 
+/**
+ * Klogging configuration that saves all log events into a mutable list, which is returned.
+ *
+ * @param minLevel minimum level at which to save log events
+ * @return the list where log events will be saved
+ */
 fun savedEvents(minLevel: Level = TRACE): MutableList<LogEvent> {
-    val saved = mutableListOf<LogEvent>()
+    val saved: MutableList<LogEvent> = mutableListOf()
     val eventSaver: EventSender = { batch: List<LogEvent> -> saved.addAll(batch) }
     loggingConfiguration {
         sink("test", SinkConfiguration(eventSender = eventSaver))

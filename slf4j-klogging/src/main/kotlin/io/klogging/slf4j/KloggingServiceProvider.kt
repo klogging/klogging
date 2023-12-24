@@ -29,6 +29,9 @@ import org.slf4j.spi.SLF4JServiceProvider
 
 public const val REQUESTED_API_VERSION: String = "2.0.99"
 
+/**
+ * SLF4J service provider implementation for Klogging.
+ */
 public class KloggingServiceProvider : SLF4JServiceProvider {
 
     private lateinit var loggerFactory: ILoggerFactory

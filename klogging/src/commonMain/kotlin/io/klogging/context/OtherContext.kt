@@ -28,6 +28,10 @@ internal typealias ContextItemExtractor = suspend (CoroutineContext.Element) -> 
 
 /**
  * Get other context event items from a coroutine context.
+ *
+ * @param key in the context
+ * @param itemExtractor lambda that extracts items from the context
+ * @return items from the context
  */
 internal suspend fun <T : CoroutineContext.Element> CoroutineContext.otherContextItems(
     key: CoroutineContext.Key<T>,

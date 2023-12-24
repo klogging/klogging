@@ -1,0 +1,6 @@
+- name: KDOC_NO_EMPTY_TAGS
+  # Stop false positives from DiKTat
+  enabled: false
+- name: HEADER_MISSING_IN_NON_SINGLE_CLASS_FILE
+  # Stop false positives from DiKTat
+  enabled: false

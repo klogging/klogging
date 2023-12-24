@@ -50,7 +50,7 @@ public object HoconConfiguration {
         readConfig(configHocon)?.let { (configName, minLogLevel, minDirectLogLevel, sinks, logging) ->
             val config = KloggingConfiguration()
             if (configName != null) {
-                BUILT_IN_CONFIGURATIONS[configName]?.let { config.apply(it) }
+                builtInConfigurations[configName]?.let { config.apply(it) }
             } else {
                 config.kloggingMinLogLevel = minLogLevel
                 config.minDirectLogLevel = minDirectLogLevel

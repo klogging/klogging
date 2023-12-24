@@ -37,7 +37,12 @@ import io.klogging.events.LogEvent
  */
 public interface Klogger : BaseLogger {
 
-    /** Emit an event after minimum level checking. */
+    /**
+     * Emit an event after minimum level checking.
+     * @param level [Level] of the event
+     * @param throwable possible [Throwable] associated with the event
+     * @param event [LogEvent] or other object to emit
+     */
     public suspend fun emitEvent(level: Level, throwable: Throwable?, event: Any?)
 
     public suspend fun log(level: Level, throwable: Throwable, event: Any?) {

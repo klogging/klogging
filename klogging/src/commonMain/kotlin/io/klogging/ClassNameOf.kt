@@ -20,5 +20,11 @@ package io.klogging
 
 import kotlin.reflect.KClass
 
-/** Get the name of a class. */
+/**
+ * Get the name of a class.
+ *
+ * @param ownerClass a [KClass] whose name is needed
+ * @return the name of the class, if found
+ */
+@Suppress("KDOC_WITHOUT_PARAM_TAG") // Stop false positives
 internal expect fun classNameOf(ownerClass: KClass<*>): String?

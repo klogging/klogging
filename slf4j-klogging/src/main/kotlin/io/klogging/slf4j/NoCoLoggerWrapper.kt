@@ -32,33 +32,34 @@ import org.slf4j.helpers.LegacyAbstractLogger
 import org.slf4j.helpers.MessageFormatter
 
 /**
- * Implementation of [org.slf4j.Logger] that wraps an [io.klogging.NoCoLogger].
+ * Implementation of [org.slf4j.Logger] that wraps an instance of [io.klogging.NoCoLogger].
  *
  * Klogging does not handle markers.
  */
+@Suppress("WRONG_OVERLOADING_FUNCTION_ARGUMENTS")
 public class NoCoLoggerWrapper(
     private val noCoLogger: NoCoLogger,
 ) : LegacyAbstractLogger() {
 
     private val self = NoCoLoggerWrapper::class.java.name
 
-    override fun getName(): String = noCoLogger.name
+    public override fun getName(): String = noCoLogger.name
 
-    override fun isTraceEnabled(): Boolean = noCoLogger.isTraceEnabled()
+    public override fun isTraceEnabled(): Boolean = noCoLogger.isTraceEnabled()
 
-    override fun trace(msg: String?) {
-        emitEvent(TRACE, msg)
+    public override fun trace(message: String?) {
+        emitEvent(TRACE, message)
     }
 
-    override fun trace(format: String?, arg: Any?) {
-        if (format != null) emitEvent(TRACE, format, arg)
+    public override fun trace(format: String?, argument: Any?) {
+        if (format != null) emitEvent(TRACE, format, argument)
     }
 
-    override fun trace(format: String?, arg1: Any?, arg2: Any?) {
-        if (format != null) emitEvent(TRACE, format, arg1, arg2)
+    public override fun trace(format: String?, argument1: Any?, argument2: Any?) {
+        if (format != null) emitEvent(TRACE, format, argument1, argument2)
     }
 
-    override fun trace(format: String?, vararg arguments: Any?) {
+    public override fun trace(format: String?, vararg arguments: Any?) {
         if (format != null) emitEvent(TRACE, format, *arguments)
     }
 
@@ -67,107 +68,111 @@ public class NoCoLoggerWrapper(
      *
      * This function processes all combination of null-ness of the two arguments.
      */
-    private fun logWithThrowable(level: Level, msg: String?, t: Throwable?) {
-        if (msg != null) {
-            if (t != null) emitEvent(level, t, msg) else emitEvent(level, msg)
-        } else if (t != null) emitEvent(level, t)
+    private fun logWithThrowable(level: Level, message: String?, throwable: Throwable?) {
+        message?.let {
+            throwable?.let {
+                emitEvent(level, throwable, message)
+            } ?: emitEvent(level, message)
+        } ?: throwable?.let {
+            emitEvent(level, throwable)
+        }
     }
 
-    override fun trace(msg: String?, t: Throwable?) {
-        logWithThrowable(TRACE, msg, t)
+    public override fun trace(message: String?, throwable: Throwable?) {
+        logWithThrowable(TRACE, message, throwable)
     }
 
-    override fun isDebugEnabled(): Boolean = noCoLogger.isDebugEnabled()
+    public override fun isDebugEnabled(): Boolean = noCoLogger.isDebugEnabled()
 
-    override fun debug(msg: String?) {
-        emitEvent(DEBUG, msg)
+    public override fun debug(message: String?) {
+        emitEvent(DEBUG, message)
     }
 
-    override fun debug(format: String?, arg: Any?) {
-        if (format != null) emitEvent(DEBUG, format, arg)
+    public override fun debug(format: String?, argument: Any?) {
+        format?.let { emitEvent(DEBUG, it, argument) }
     }
 
-    override fun debug(format: String?, arg1: Any?, arg2: Any?) {
-        if (format != null) emitEvent(DEBUG, format, arg1, arg2)
+    public override fun debug(format: String?, argument1: Any?, argument2: Any?) {
+        format?.let { emitEvent(DEBUG, it, argument1, argument2) }
     }
 
-    override fun debug(format: String?, vararg arguments: Any?) {
-        if (format != null) emitEvent(DEBUG, format, *arguments)
+    public override fun debug(format: String?, vararg arguments: Any?) {
+        format?.let { emitEvent(DEBUG, it, arguments) }
     }
 
-    override fun debug(msg: String?, t: Throwable?) {
-        logWithThrowable(DEBUG, msg, t)
+    public override fun debug(message: String?, throwable: Throwable?) {
+        logWithThrowable(DEBUG, message, throwable)
     }
 
-    override fun isInfoEnabled(): Boolean = noCoLogger.isInfoEnabled()
+    public override fun isInfoEnabled(): Boolean = noCoLogger.isInfoEnabled()
 
-    override fun info(msg: String?) {
-        emitEvent(INFO, msg)
+    public override fun info(message: String?) {
+        emitEvent(INFO, message)
     }
 
-    override fun info(format: String?, arg: Any?) {
-        if (format != null) emitEvent(INFO, format, arg)
+    public override fun info(format: String?, argument: Any?) {
+        format?.let { emitEvent(INFO, it, argument) }
     }
 
-    override fun info(format: String?, arg1: Any?, arg2: Any?) {
-        if (format != null) emitEvent(INFO, format, arg1, arg2)
+    public override fun info(format: String?, argument1: Any?, argument2: Any?) {
+        format?.let { emitEvent(INFO, it, argument1, argument2) }
     }
 
-    override fun info(format: String?, vararg arguments: Any?) {
-        if (format != null) emitEvent(INFO, format, *arguments)
+    public override fun info(format: String?, vararg arguments: Any?) {
+        format?.let { emitEvent(INFO, it, arguments) }
     }
 
-    override fun info(msg: String?, t: Throwable?) {
-        logWithThrowable(INFO, msg, t)
+    public override fun info(message: String?, throwable: Throwable?) {
+        logWithThrowable(INFO, message, throwable)
     }
 
-    override fun isWarnEnabled(): Boolean = noCoLogger.isWarnEnabled()
+    public override fun isWarnEnabled(): Boolean = noCoLogger.isWarnEnabled()
 
-    override fun warn(msg: String?) {
-        emitEvent(WARN, msg)
+    public override fun warn(message: String?) {
+        emitEvent(WARN, message)
     }
 
-    override fun warn(format: String?, arg: Any?) {
-        if (format != null) emitEvent(WARN, format, arg)
+    public override fun warn(format: String?, argument: Any?) {
+        if (format != null) emitEvent(WARN, format, argument)
     }
 
-    override fun warn(format: String?, vararg arguments: Any?) {
+    public override fun warn(format: String?, vararg arguments: Any?) {
         if (format != null) emitEvent(WARN, format, *arguments)
     }
 
-    override fun warn(format: String?, arg1: Any?, arg2: Any?) {
-        if (format != null) emitEvent(WARN, format, arg1, arg2)
+    public override fun warn(format: String?, argument1: Any?, argument2: Any?) {
+        if (format != null) emitEvent(WARN, format, argument1, argument2)
     }
 
-    override fun warn(msg: String?, t: Throwable?) {
-        logWithThrowable(WARN, msg, t)
+    public override fun warn(message: String?, throwable: Throwable?) {
+        logWithThrowable(WARN, message, throwable)
     }
 
-    override fun isErrorEnabled(): Boolean = noCoLogger.isErrorEnabled()
+    public override fun isErrorEnabled(): Boolean = noCoLogger.isErrorEnabled()
 
-    override fun error(msg: String?) {
-        emitEvent(ERROR, msg)
+    public override fun error(message: String?) {
+        emitEvent(ERROR, message)
     }
 
-    override fun error(format: String?, arg: Any?) {
-        if (format != null) emitEvent(ERROR, format, arg)
+    public override fun error(format: String?, argument: Any?) {
+        format?.let { emitEvent(ERROR, it, argument) }
     }
 
-    override fun error(format: String?, arg1: Any?, arg2: Any?) {
-        if (format != null) emitEvent(ERROR, format, arg1, arg2)
+    public override fun error(format: String?, argument1: Any?, argument2: Any?) {
+        format?.let { emitEvent(ERROR, it, argument1, argument2) }
     }
 
-    override fun error(format: String?, vararg arguments: Any?) {
-        if (format != null) emitEvent(ERROR, format, *arguments)
+    public override fun error(format: String?, vararg arguments: Any?) {
+        format?.let { emitEvent(ERROR, it, arguments) }
     }
 
-    override fun error(msg: String?, t: Throwable?) {
-        logWithThrowable(ERROR, msg, t)
+    public override fun error(message: String?, throwable: Throwable?) {
+        logWithThrowable(ERROR, message, throwable)
     }
 
-    override fun getFullyQualifiedCallerName(): String? = self
+    public override fun getFullyQualifiedCallerName(): String? = self
 
-    override fun handleNormalizedLoggingCall(
+    public override fun handleNormalizedLoggingCall(
         level: org.slf4j.event.Level?,
         marker: Marker?,
         messagePattern: String?,

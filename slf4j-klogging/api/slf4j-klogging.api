@@ -28,7 +28,9 @@ public final class io/klogging/slf4j/NoCoLoggerWrapper : org/slf4j/helpers/Legac
 	public fun error (Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
 	public fun error (Ljava/lang/String;Ljava/lang/Throwable;)V
 	public fun error (Ljava/lang/String;[Ljava/lang/Object;)V
+	public fun getFullyQualifiedCallerName ()Ljava/lang/String;
 	public fun getName ()Ljava/lang/String;
+	public fun handleNormalizedLoggingCall (Lorg/slf4j/event/Level;Lorg/slf4j/Marker;Ljava/lang/String;[Ljava/lang/Object;Ljava/lang/Throwable;)V
 	public fun info (Ljava/lang/String;)V
 	public fun info (Ljava/lang/String;Ljava/lang/Object;)V
 	public fun info (Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V

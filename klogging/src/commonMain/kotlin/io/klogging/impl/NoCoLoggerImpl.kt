@@ -33,14 +33,28 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
+/**
+ * Standard implementation of [NoCoLogger].
+ * @property name logger name
+ */
 public class NoCoLoggerImpl(
     override val name: String,
 ) : CoroutineScope, NoCoLogger {
 
-    override val coroutineContext: CoroutineContext
+    /**
+     * Context in which this logger will launch coroutines
+     */
+    public override val coroutineContext: CoroutineContext
         get() = kloggingParentContext
 
-    override fun emitEvent(
+    /**
+     * Emit an event to be dispatched and sent.
+     * @param level logging level for the event
+     * @param throwable any [Throwable] associated with the event
+     * @param event something to emit: a [LogEvent] or other object
+     * @param contextItems context items to include in the event
+     */
+    public override fun emitEvent(
         level: Level,
         throwable: Throwable?,
         event: Any?,
@@ -62,7 +76,14 @@ public class NoCoLoggerImpl(
             items
         }
 
-    override fun e(template: String, vararg values: Any?): LogEvent {
+    /**
+     * Construct a [LogEvent] from a template and values.
+     * @param template [Message template](https://messagetemplates.org) to interpret
+     * @param values values corresponding to holes in the template
+     * @return a [LogEvent] with context items mapped to the template
+     */
+    @Suppress("IDENTIFIER_LENGTH")
+    public override fun e(template: String, vararg values: Any?): LogEvent {
         val items = templateItems(template, *values)
         return LogEvent(
             timestamp = timestampNow(),

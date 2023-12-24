@@ -33,10 +33,16 @@ import io.klogging.rendering.RENDER_ANSI
  * - Structured logging is not available. It can be called only with message strings
  *   and an optional error or exception.
  *
- * - Events are rendered to strings using [renderInternal]. They are printed directly
+ * - Events are rendered to strings using [RENDER_ANSI]. They are printed directly
  *   to the standard output stream for [INFO] and lower level, and to the standard
  *   error stream for [WARN] and above levels.
+ *
+ *  @param logger name of the logger
+ *  @param level level to log at
+ *  @param message log message
+ *  @param throwable possible [Throwable] associated with the log message
  */
+@Suppress("DEBUG_PRINT")
 internal fun log(
     logger: String,
     level: Level,
@@ -57,24 +63,58 @@ internal fun log(
     }
 }
 
-internal expect fun printErr(message: String): Unit
+/**
+ * Print a message to the error channel.
+ * @param message message to print
+ */
+internal expect fun printErr(message: String)
 
+/**
+ * Print a log message at [TRACE] level.
+ * @param logger name of the logger
+ * @param message message to print
+ * @param throwable possible [Throwable] associated with the message
+ */
 internal fun trace(logger: String, message: String, throwable: Throwable? = null) {
     log(logger, TRACE, message, throwable)
 }
 
+/**
+ * Print a log message at [DEBUG] level.
+ * @param logger name of the logger
+ * @param message message to print
+ * @param throwable possible [Throwable] associated with the message
+ */
 internal fun debug(logger: String, message: String, throwable: Throwable? = null) {
     log(logger, DEBUG, message, throwable)
 }
 
+/**
+ * Print a log message at [INFO] level.
+ * @param logger name of the logger
+ * @param message message to print
+ * @param throwable possible [Throwable] associated with the message
+ */
 internal fun info(logger: String, message: String, throwable: Throwable? = null) {
     log(logger, INFO, message, throwable)
 }
 
+/**
+ * Print a log message at [WARN] level.
+ * @param logger name of the logger
+ * @param message message to print
+ * @param throwable possible [Throwable] associated with the message
+ */
 internal fun warn(logger: String, message: String, throwable: Throwable? = null) {
     log(logger, WARN, message, throwable)
 }
 
+/**
+ * Print a log message at [ERROR] level.
+ * @param logger name of the logger
+ * @param message message to print
+ * @param throwable possible [Throwable] associated with the message
+ */
 internal fun error(logger: String, message: String, throwable: Throwable? = null) {
     log(logger, ERROR, message, throwable)
 }

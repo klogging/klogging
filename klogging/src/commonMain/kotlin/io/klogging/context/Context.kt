@@ -34,6 +34,8 @@ public object Context {
 
     /**
      * Add one or more items to the base context, to be included in every log event.
+     *
+     * @param contextItems context items to add to the base context
      */
     public fun addBaseContext(vararg contextItems: Pair<String, Any?>) {
         KloggingEngine.baseContextItems.putAll(contextItems)
@@ -42,6 +44,8 @@ public object Context {
     /**
      * Remove one or more items from the base context so they are no longer included
      * in every log event.
+     *
+     * @param keys of context items to remove from the base context
      */
     public fun removeBaseContext(vararg keys: String) {
         keys.forEach { key ->
@@ -61,7 +65,7 @@ public object Context {
      * coroutine context element.
      *
      * @param key key to a coroutine context element
-     * @param extractor lambda
+     * @param extractor lambda that returns extracted context items
      */
     public fun <T : CoroutineContext.Element> addContextItemExtractor(
         key: CoroutineContext.Key<T>,
@@ -80,6 +84,8 @@ public object Context {
 
     /**
      * Add an [ItemExtractor] that will be used to add items to every log event.
+     *
+     * @param extractor function that extracts context items from somewhere
      */
     public fun addItemExtractor(extractor: ItemExtractor) {
         KloggingEngine.otherItemExtractors.add(extractor)

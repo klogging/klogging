@@ -25,18 +25,32 @@ import io.klogging.Level
 import io.klogging.impl.NoCoLoggerImpl
 import io.klogging.noCoLogger
 
+/**
+ * Klogging implementation of Hexagon [LoggingPort] to set up Klogging in Hexagon applications.
+ */
 public class KloggingAdapter : LoggingPort {
 
-    private val loggerLevels = mutableMapOf<String, LoggingLevel>()
+    private val loggerLevels: MutableMap<String, LoggingLevel> = mutableMapOf()
 
-    override fun createLogger(name: String): LoggerPort = NoCoLoggerAdapter(NoCoLoggerImpl(name))
+    /**
+     * Return a [NoCoLoggerAdapter] that wraps a new [NoCoLoggerImpl] for logging, using the supplied name.
+     */
+    public override fun createLogger(name: String): LoggerPort = NoCoLoggerAdapter(NoCoLoggerImpl(name))
 
-    override fun isLoggerLevelEnabled(name: String, level: LoggingLevel): Boolean =
+    /**
+     * Evaluates whether the named logger is enabled to log at the specified level.
+     *
+     * Results are cached in a map keyed by logger name.
+     */
+    public override fun isLoggerLevelEnabled(name: String, level: LoggingLevel): Boolean =
         loggerLevels[name]?.let { loggerLevel ->
             loggerLevel <= level
         } ?: noCoLogger(name).isLevelEnabled(level.kloggingLevel)
 
-    override fun setLoggerLevel(name: String, level: LoggingLevel) {
+    /**
+     * Explicitly set the level for a named logger.
+     */
+    public override fun setLoggerLevel(name: String, level: LoggingLevel) {
         loggerLevels[name] = level
     }
 }

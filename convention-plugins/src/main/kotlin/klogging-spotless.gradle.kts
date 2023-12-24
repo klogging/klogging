@@ -62,6 +62,8 @@ spotless {
 
     kotlinGradle {
         target("**/*.gradle.kts")
+
+//        diktat()
         ktlint(ktlintVersion)
 
         licenseHeader(
@@ -76,6 +78,8 @@ spotless {
 
     kotlin {
         target("src/**/*.kt")
+
+//        diktat()
         ktlint(ktlintVersion)
 
         licenseHeader(kotlinLicenceHeader)

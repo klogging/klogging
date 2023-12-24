@@ -27,13 +27,18 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-internal val eventChannelCapacity: Int = getenvInt(ENV_KLOGGING_EVENT_CHANNEL_CAPACITY, 100)
+private const val DEFAULT_CHANNEL_CAPACITY = 100
+
+internal val eventChannelCapacity: Int = getenvInt(ENV_KLOGGING_EVENT_CHANNEL_CAPACITY, DEFAULT_CHANNEL_CAPACITY)
 
 /**
  * The main object for managing log event processing.
  */
 internal object Emitter : CoroutineScope {
 
+    /**
+     * Context in which to launch coroutines
+     */
     override val coroutineContext: CoroutineContext
         get() = kloggingParentContext
 
@@ -43,7 +48,7 @@ internal object Emitter : CoroutineScope {
      */
     private val logEventsChannel by lazy {
         debug("Emitter", "Starting events channel")
-        val channel = Channel<LogEvent>(eventChannelCapacity)
+        val channel: Channel<LogEvent> = Channel(eventChannelCapacity)
         launch(CoroutineName("events")) {
             for (logEvent in channel) {
                 trace("Emitter", "Read event ${logEvent.id} from events channel")
@@ -55,6 +60,7 @@ internal object Emitter : CoroutineScope {
 
     /**
      * Emit a [LogEvent] to the [logEventsChannel] to be processed asynchronously.
+     * @param logEvent event to emit
      */
     suspend fun emit(logEvent: LogEvent) {
         trace("Emitter", "Emitting event ${logEvent.id} to events channel")
@@ -63,6 +69,7 @@ internal object Emitter : CoroutineScope {
 
     /**
      * Emit a [LogEvent] directly to be processed synchronously.
+     * @param logEvent event to emit directly
      */
     fun emitDirect(logEvent: LogEvent) {
         trace("Emitter", "Emitting event ${logEvent.id} directly")

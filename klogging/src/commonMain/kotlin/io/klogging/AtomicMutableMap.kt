@@ -24,6 +24,7 @@ import kotlinx.atomicfu.update
 /**
  * A multiplatform, thread-safe [MutableMap], implemented using AtomicFU.
  */
+@Suppress("TYPE_ALIAS")
 internal class AtomicMutableMap<K, V>(
     vararg pairs: Pair<K, V>,
 ) : MutableMap<K, V> {

@@ -47,6 +47,9 @@ public interface BaseLogger {
     /**
      * Check whether this logger will emit log events at the specified logging
      * level.
+     *
+     * @param level level at which to check
+     * @return `true` if logger will emit events at the specified level
      */
     public fun isLevelEnabled(level: Level): Boolean = when (level) {
         NONE -> false
@@ -77,6 +80,14 @@ public interface BaseLogger {
      * - If the object is an event already, update it with level, stack trace (if present)
      *   and context items.
      * - Otherwise, construct an event with supplied information.
+     *
+     * @param context optional context for the event
+     * @param level logging level for the event
+     * @param throwable optional [Throwable] associated with the event
+     * @param eventObject optional object that might already be a [LogEvent]
+     * @param contextItems map of context items to include in the new event
+     *
+     * @return a new [LogEvent] from specified components
      */
     public fun eventFrom(
         context: String?,

@@ -32,10 +32,21 @@ import io.klogging.templating.templateItems
 import kotlinx.coroutines.currentCoroutineContext
 import kotlin.coroutines.coroutineContext
 
+/**
+ * Standard implementation of [Klogger].
+ * @property name logger name
+ */
 public class KloggerImpl(
     override val name: String,
 ) : Klogger {
-    override suspend fun emitEvent(level: Level, throwable: Throwable?, event: Any?) {
+
+    /**
+     * Emit an event to be dispatched and sent.
+     * @param level logging level for the event
+     * @param throwable any [Throwable] associated with the event
+     * @param event something to emit: a [LogEvent] or other object
+     */
+    public override suspend fun emitEvent(level: Level, throwable: Throwable?, event: Any?) {
         val eventToLog = eventFrom(contextName(), level, throwable, event, contextItems())
         if (eventToLog.level < KloggingEngine.minDirectLogLevel()) {
             Emitter.emit(eventToLog)
@@ -59,7 +70,14 @@ public class KloggerImpl(
             }
     }
 
-    override suspend fun e(template: String, vararg values: Any?): LogEvent {
+    /**
+     * Construct a [LogEvent] from a template and values.
+     * @param template [Message template](https://messagetemplates.org) to interpret
+     * @param values values corresponding to holes in the template
+     * @return a [LogEvent] with context items mapped to the template
+     */
+    @Suppress("IDENTIFIER_LENGTH")
+    public override suspend fun e(template: String, vararg values: Any?): LogEvent {
         val items = templateItems(template, *values)
         return LogEvent(
             timestamp = timestampNow(),

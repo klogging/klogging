@@ -24,6 +24,7 @@ import kotlinx.atomicfu.update
 /**
  * A multiplatform, thread-safe [MutableList], implemented using AtomicFU.
  */
+@Suppress("WRONG_OVERLOADING_FUNCTION_ARGUMENTS")
 internal class AtomicMutableList<E>(
     vararg elements: E,
 ) : MutableList<E> {
