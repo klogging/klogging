@@ -24,7 +24,7 @@ include("klogging", "slf4j-klogging", "klogging-spring-boot-starter", "hexagonkt
 
 // Reckon plugin to set version based on Git tags.
 plugins {
-    id("org.ajoberstar.reckon.settings") version "0.18.1"
+    id("org.ajoberstar.reckon.settings") version "0.18.2"
 }
 extensions.configure<org.ajoberstar.reckon.gradle.ReckonExtension> {
     setDefaultInferredScope("minor")
