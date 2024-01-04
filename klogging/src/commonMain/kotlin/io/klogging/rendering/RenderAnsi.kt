@@ -28,6 +28,9 @@ import io.klogging.Level.WARN
 import io.klogging.events.LogEvent
 import kotlinx.datetime.Instant
 
+internal const val MINIMUM_MAX_WIDTH = 5
+internal const val DEFAULT_MAX_WIDTH = 20
+
 /** Only the local time component. */
 public val Instant.localTime: String
     get() = localString.substring(11)
@@ -57,8 +60,8 @@ public val Level.colour5: String
     }
 
 public val String.right20: String
-    get() = "                    ${shortenName(this, 20)}"
-        .let { it.substring(it.length - 20) }
+    get() = "                    ${shortenName(this, DEFAULT_MAX_WIDTH)}"
+        .let { it.substring(it.length - DEFAULT_MAX_WIDTH) }
 
 private const val delimiters = ". /:-+"
 
@@ -66,17 +69,18 @@ private const val delimiters = ". /:-+"
  * Shortens the given name if it exceeds the specified width.
  *
  * @param name The name to be shortened.
- * @param width The maximum width of the shortened name. Defaults to 20.
+ * @param width The maximum width of the shortened name; must be at least 5. Defaults to 20.
  * @return The shortened name if it exceeds the width, otherwise the original name.
  */
-public fun shortenName(name: CharSequence, width: Int = 20): CharSequence {
-    if (name.length <= width) return name
+public fun shortenName(name: CharSequence, width: Int = DEFAULT_MAX_WIDTH): CharSequence {
+    val maxWidth = if (width < MINIMUM_MAX_WIDTH) DEFAULT_MAX_WIDTH else width
+    if (name.length <= maxWidth) return name
     name.forEachIndexed { idx, char ->
         if (char in delimiters && idx > 0) {
-            return name.substring(0, 1) + char + shortenName(name.substring(idx + 1), width - 2)
+            return name.substring(0, 1) + char + shortenName(name.substring(idx + 1), maxWidth - 2)
         }
     }
-    return name.substring(0, width)
+    return name.substring(0, maxWidth)
 }
 
 /**

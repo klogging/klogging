@@ -20,6 +20,9 @@ package io.klogging.rendering
 
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.property.Arb
+import io.kotest.property.arbitrary.int
+import io.kotest.property.checkAll
 
 class RenderAnsiTest : DescribeSpec({
 
@@ -38,6 +41,17 @@ class RenderAnsiTest : DescribeSpec({
         }
         it("truncates a single string without delimiters") {
             shortenName("Triantiwontigongalope") shouldBe "Triantiwontigongalop"
+        }
+        it("truncates a string to 20 if a max width less than 5 is provided") {
+            checkAll(Arb.int(max = MINIMUM_MAX_WIDTH - 1)) { invalidWidth ->
+                shortenName("endEpochNanos=1704182935159253928}", invalidWidth) shouldBe "endEpochNanos=170418"
+            }
+        }
+        it("truncates a string to widths greater than 5") {
+            val nameSource = "A".repeat(200)
+            checkAll(Arb.int(min = MINIMUM_MAX_WIDTH, max = 200)) { width ->
+                shortenName(nameSource, width) shouldBe nameSource.substring(0, width)
+            }
         }
     }
 
