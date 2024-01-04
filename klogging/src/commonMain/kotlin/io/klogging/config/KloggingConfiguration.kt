@@ -94,13 +94,16 @@ public class KloggingConfiguration {
 
     /** Sinks in this configuration */
     internal val sinks: AtomicMutableMap<String, SinkConfiguration> = AtomicMutableMap()
+
     /** Logging configurations in this configuration. */
     internal val configs: AtomicMutableList<LoggingConfig> = AtomicMutableList()
 
     /** Path of logging configuration file. */
     internal var loggingConfigPath: String? = null
+
     /** Minimum level of Klogging internal logger. */
     internal var kloggingMinLogLevel: Level = defaultKloggingMinLogLevel
+
     /** Minimum level for Klogging direct logging to sinks */
     internal var minDirectLogLevel: Level = defaultMinDirectLogLevel
 

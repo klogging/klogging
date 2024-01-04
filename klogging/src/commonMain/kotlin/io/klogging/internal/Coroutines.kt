@@ -18,8 +18,8 @@
 
 package io.klogging.internal
 
-import kotlin.coroutines.CoroutineContext
 import io.klogging.impl.NoCoLoggerImpl
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Parent job of all Klogging coroutine jobs. Used by coroutine launchers

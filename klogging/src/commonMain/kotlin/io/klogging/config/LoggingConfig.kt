@@ -24,6 +24,7 @@ import io.klogging.Level.TRACE
 
 /** Function type for matching a logger name. */
 internal typealias Matcher = (String) -> Boolean
+
 /** Matcher that always returns `true`. */
 internal val matchAll: Matcher = { true }
 
@@ -35,8 +36,10 @@ public class LoggingConfig {
 
     /** Flag signifying that searching for  should stop after the first match. */
     internal var stopOnMatch: Boolean = false
+
     /** List of [LevelRange]s in this configuration. */
     internal val ranges: MutableList<LevelRange> = mutableListOf()
+
     /** Matcher in this configuration. */
     internal var nameMatcher: Matcher = matchAll
 
