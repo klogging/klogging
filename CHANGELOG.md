@@ -1,5 +1,16 @@
 # Klogging changes
 
+## Version 0.5.8
+
+- Fix for bug in `RENDER_ANSI` when logger names have too many delimited
+  parts – [issue 218](https://github.com/klogging/klogging/issues/218)
+- Load custom rendering and sending classes specified by fully-qualified class names in JSON and HOCON
+  configuration files – [issue 211](https://github.com/klogging/klogging/issues/211)
+- Support double braces in message templates
+- Kotlin 1.9.22
+- Starting to apply coding standards using Diktat
+- Build with Gradle 8.5
+
 ## Version 0.5.7
 
 - Workaround for issue `NoClassDefFoundError` thrown when using Spring Boot Starter
