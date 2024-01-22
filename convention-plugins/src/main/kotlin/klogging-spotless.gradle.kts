@@ -79,7 +79,6 @@ spotless {
     kotlin {
         target("src/**/*.kt")
 
-//        diktat()
         ktlint(ktlintVersion)
 
         licenseHeader(kotlinLicenceHeader)
@@ -87,6 +86,14 @@ spotless {
         trimTrailingWhitespace()
         indentWithSpaces()
         endWithNewline()
+    }
+
+    // Only apply Diktat rules to production code.
+    kotlin {
+        target("src/main/**/*.kt")
+        // Diktat tries to change overridden SLF4J method `getMDCAdapter()`
+        targetExclude("**/KloggingServiceProvider.kt")
+        diktat()
     }
 
     java {

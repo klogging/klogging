@@ -22,12 +22,28 @@ import com.hexagonkt.core.logging.LoggerPort
 import com.hexagonkt.core.logging.LoggingLevel
 import io.klogging.NoCoLogger
 
+/**
+ * Klogging implementation of Hexagon [LoggerPort] to wrap a [NoCoLogger] to emit and
+ * send log events.
+ *
+ * @param noCoLogger
+ */
 internal class NoCoLoggerAdapter(private val noCoLogger: NoCoLogger) : LoggerPort {
+    /**
+     * Emit and send a log message with the specified level.
+     */
     override fun log(level: LoggingLevel, message: () -> Any?) {
         noCoLogger.log(level.kloggingLevel, message())
     }
 
-    override fun <E : Throwable> log(level: LoggingLevel, exception: E, message: (E) -> Any?) {
+    /**
+     * Emit and send a log message and an associated exception with the specified level.
+     */
+    override fun <E : Throwable> log(
+        level: LoggingLevel,
+        exception: E,
+        message: (E) -> Any?,
+    ) {
         noCoLogger.log(level.kloggingLevel, exception, message(exception))
     }
 }

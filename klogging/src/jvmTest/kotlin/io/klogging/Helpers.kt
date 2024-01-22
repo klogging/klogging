@@ -36,6 +36,8 @@ import kotlin.random.nextULong
  * Random string to use in tests where the value is opaque.
  * It is suitable for when you don't care what the value is
  * or where you test that the value has been copied somewhere.
+ *
+ * @return a short, random string
  */
 fun randomString() = Random.nextULong().toString(16)
 
@@ -64,8 +66,12 @@ fun eventSaver(saved: MutableList<LogEvent>): EventSender =
 
 /**
  * Configuration that saves all logged events into a list for checking by tests.
+ *
+ * @param append append this configuration to the existing one
+ * @param logDirect send all log events directly
+ * @return list of saved log events
  */
-fun savedEvents(append: Boolean = false, logDirect: Boolean = true): MutableList<LogEvent> {
+fun savedEvents(append: Boolean = false, logDirect: Boolean = true): List<LogEvent> {
     val saved = mutableListOf<LogEvent>()
     loggingConfiguration(append) {
         if (logDirect) minDirectLogLevel(TRACE)

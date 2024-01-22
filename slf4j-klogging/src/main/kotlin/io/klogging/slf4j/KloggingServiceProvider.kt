@@ -33,7 +33,6 @@ public const val REQUESTED_API_VERSION: String = "2.0.99"
  * SLF4J service provider implementation for Klogging.
  */
 public class KloggingServiceProvider : SLF4JServiceProvider {
-
     private lateinit var loggerFactory: ILoggerFactory
     private lateinit var markerFactory: IMarkerFactory
     private lateinit var mdcAdapter: MDCAdapter

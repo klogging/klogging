@@ -27,20 +27,36 @@ import kotlin.random.Random
 import kotlin.random.nextULong
 
 /**
+ * Helper functions for testing.
+ */
+
+/**
  * Random string to use in tests where the value is opaque.
  * It is suitable for when you don't care what the value is
  * or where you test that the value has been copied somewhere.
+ *
+ * @return a short, random string
  */
 fun randomString() = Random.nextULong().toString(16)
 
+/**
+ * Implementation of [EventSender] that saves log events into the supplied mutable list.
+ *
+ * @param saved list where log events will be saved
+ * @return the [EventSender] implementation
+ */
 fun eventSaver(saved: MutableList<LogEvent>): EventSender =
     { batch: List<LogEvent> -> saved.addAll(batch) }
 
 /**
  * Configuration that saves all logged events into a list for checking by tests.
+ *
+ * @param append append this configuration to the existing one
+ * @param logDirect send all log events directly
+ * @return list of saved log events
  */
-fun savedEvents(append: Boolean = false, logDirect: Boolean = true): MutableList<LogEvent> {
-    val saved = mutableListOf<LogEvent>()
+fun savedEvents(append: Boolean = false, logDirect: Boolean = true): List<LogEvent> {
+    val saved: MutableList<LogEvent> = mutableListOf()
     loggingConfiguration(append) {
         kloggingMinLogLevel(Level.ERROR)
         if (logDirect) minDirectLogLevel(Level.TRACE)

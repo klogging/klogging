@@ -26,14 +26,30 @@ import io.klogging.impl.NoCoLoggerImpl
 import io.klogging.noCoLogger
 
 /**
+ * Extension property that converts a Hexagon LoggingLevel to a corresponding Klogging Level.
+ */
+@Suppress("CUSTOM_GETTERS_SETTERS")
+internal val LoggingLevel.kloggingLevel: Level
+    get() = when (this) {
+        LoggingLevel.TRACE -> Level.TRACE
+        LoggingLevel.DEBUG -> Level.DEBUG
+        LoggingLevel.INFO -> Level.INFO
+        LoggingLevel.WARN -> Level.WARN
+        LoggingLevel.ERROR -> Level.ERROR
+        else -> Level.NONE
+    }
+
+/**
  * Klogging implementation of Hexagon [LoggingPort] to set up Klogging in Hexagon applications.
  */
 public class KloggingAdapter : LoggingPort {
-
     private val loggerLevels: MutableMap<String, LoggingLevel> = mutableMapOf()
 
     /**
      * Return a [NoCoLoggerAdapter] that wraps a new [NoCoLoggerImpl] for logging, using the supplied name.
+     *
+     * @param name of the logger
+     * @return a [NoCoLoggerAdapter] with a [NoCoLoggerImpl] instance for the supplied name
      */
     public override fun createLogger(name: String): LoggerPort = NoCoLoggerAdapter(NoCoLoggerImpl(name))
 
@@ -54,16 +70,3 @@ public class KloggingAdapter : LoggingPort {
         loggerLevels[name] = level
     }
 }
-
-/**
- * Extension property that converts a Hexagon LoggingLevel to a corresponding Klogging Level.
- */
-internal val LoggingLevel.kloggingLevel: Level
-    get() = when (this) {
-        LoggingLevel.TRACE -> Level.TRACE
-        LoggingLevel.DEBUG -> Level.DEBUG
-        LoggingLevel.INFO -> Level.INFO
-        LoggingLevel.WARN -> Level.WARN
-        LoggingLevel.ERROR -> Level.ERROR
-        else -> Level.NONE
-    }
