@@ -1,0 +1,13 @@
+public final class io/klogging/jpl/KloggingLoggerFinder : java/lang/System$LoggerFinder {
+	public fun <init> ()V
+	public fun getLogger (Ljava/lang/String;Ljava/lang/Module;)Ljava/lang/System$Logger;
+}
+
+public final class io/klogging/jpl/NoCoLoggerWrapper : java/lang/System$Logger {
+	public fun <init> (Lio/klogging/NoCoLogger;)V
+	public fun getName ()Ljava/lang/String;
+	public fun isLoggable (Ljava/lang/System$Logger$Level;)Z
+	public fun log (Ljava/lang/System$Logger$Level;Ljava/util/ResourceBundle;Ljava/lang/String;Ljava/lang/Throwable;)V
+	public fun log (Ljava/lang/System$Logger$Level;Ljava/util/ResourceBundle;Ljava/lang/String;[Ljava/lang/Object;)V
+}
+

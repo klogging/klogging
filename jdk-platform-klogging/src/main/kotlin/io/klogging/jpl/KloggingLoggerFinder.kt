@@ -16,25 +16,22 @@
 
 */
 
-rootProject.name = "klogging"
+package io.klogging.jpl
 
-includeBuild("convention-plugins")
+import io.klogging.noCoLogger
+import java.lang.System.LoggerFinder
 
-include(
-    "klogging",
-    "slf4j-klogging",
-    "klogging-spring-boot-starter",
-    "jdk-platform-klogging",
-    "hexagonkt-klogging-adapter",
-)
-
-// Reckon plugin to set version based on Git tags.
-plugins {
-    id("org.ajoberstar.reckon.settings") version "0.18.2"
-}
-extensions.configure<org.ajoberstar.reckon.gradle.ReckonExtension> {
-    setDefaultInferredScope("minor")
-    snapshots()
-    setStageCalc(calcStageFromProp())
-    setScopeCalc(calcScopeFromProp())
+/**
+ * SLF4J service provider implementation for Klogging.
+ */
+public class KloggingLoggerFinder : LoggerFinder() {
+    /**
+     * Get a named logger.
+     *
+     * @param name name to identify the logger
+     * @param module Java module for which the logger is being requested; CURRENTLY IGNORED
+     * @return a wrapped Klogging logger with the specified name
+     */
+    override fun getLogger(name: String, module: Module): System.Logger =
+        NoCoLoggerWrapper(noCoLogger(name))
 }
