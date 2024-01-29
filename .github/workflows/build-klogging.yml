@@ -58,7 +58,7 @@ jobs:
 
       - name: Check test output existence
         id: check_test_output
-        uses: andstor/file-existence-action@v2
+        uses: andstor/file-existence-action@v3
         with:
           files: ./klogging/build/test-results/test/*.xml
         if: success() || failure()
