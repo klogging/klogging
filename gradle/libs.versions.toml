@@ -1,5 +1,5 @@
 [versions]
-atomicfu = "0.23.1"
+atomicfu = "0.23.2"
 binary-compatibility-validator = "0.13.2"
 dokka = "1.9.10"
 hexagon = "3.4.6"
