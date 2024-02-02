@@ -46,6 +46,8 @@ suspend fun main() = coroutineScope {
     val logger = logger("io.klogging.example.KloggerPlaypen")
     Context.addBaseContext("app" to "Playpen")
 
+    noCoLogger("OneOffLogger").info("Here it is", mapOf("black" to "white", "up" to "down"))
+
     if (System.getenv("LOCAL_SPLUNK") == "true") {
         loggingConfiguration(append = true) {
             sink(
