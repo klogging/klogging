@@ -90,10 +90,10 @@ public interface BaseLogger {
      * @return a new [LogEvent] from specified components
      */
     public fun eventFrom(
-        context: String?,
+        context: String? = null,
         level: Level,
-        throwable: Throwable?,
-        eventObject: Any?,
+        throwable: Throwable? = null,
+        eventObject: Any? = null,
         contextItems: EventItems = mapOf(),
     ): LogEvent {
         return when (eventObject) {
@@ -127,7 +127,7 @@ public interface BaseLogger {
  *   - If the object is not a throwable, return `toString()` on the object
  *     and any stack trace on the supplied throwable.
  */
-private fun messageAndStackTrace(obj: Any?, throwable: Throwable?): Pair<String, String?> =
+internal fun messageAndStackTrace(obj: Any?, throwable: Throwable?): Pair<String, String?> =
     when (obj) {
         is Throwable -> (obj.message ?: "Throwable") to obj.stackTraceToString()
         else -> obj.toString() to throwable?.stackTraceToString()
