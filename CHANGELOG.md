@@ -1,5 +1,13 @@
 # Klogging changes
 
+## Version 0.5.9
+
+- Ability to explicitly include a map of items in a logging call –
+  [discussion 221](https://github.com/klogging/klogging/discussions/221)
+- Initial release of Klogging implementation of JDK Platform Logging –
+  [issue 231](https://github.com/klogging/klogging/issues/231)
+- Minor updates to dependencies
+
 ## Version 0.5.8
 
 - Fix for bug in `RENDER_ANSI` when logger names have too many delimited
