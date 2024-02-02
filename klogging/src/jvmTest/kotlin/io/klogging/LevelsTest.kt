@@ -18,6 +18,7 @@
 
 package io.klogging
 
+import io.klogging.events.EventItems
 import io.klogging.events.LogEvent
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.datatest.withData
@@ -70,7 +71,7 @@ private class LevelsTestLogger(private val level: Level) : Klogger {
 
     var loggedMessage: Any? = null
 
-    override suspend fun emitEvent(level: Level, throwable: Throwable?, event: Any?) {
+    override suspend fun emitEvent(level: Level, throwable: Throwable?, event: Any?, items: EventItems) {
         loggedMessage = event
     }
 

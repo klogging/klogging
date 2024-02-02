@@ -104,7 +104,7 @@ suspend fun main() = coroutineScope {
         logger.info { "Finish" }
     }
     // There must be at least one statement outside the coroutine scope.
-    logger.info("All done in {run}", run)
+    logger.info("All done", mapOf("run" to run))
     delay(500)
 }
 

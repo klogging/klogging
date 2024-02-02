@@ -23,6 +23,7 @@ import io.klogging.Level.INFO
 import io.klogging.Level.NONE
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
+import io.klogging.events.EventItems
 import io.klogging.events.LogEvent
 import io.klogging.templating.templateItems
 import io.kotest.assertions.fail
@@ -210,7 +211,7 @@ private class TestLogger(private val minLevel: Level = TRACE) : Klogger {
     var logged: Any? = null
 
     override fun minLevel() = minLevel
-    override suspend fun emitEvent(level: Level, throwable: Throwable?, event: Any?) {
+    override suspend fun emitEvent(level: Level, throwable: Throwable?, event: Any?, items: EventItems) {
         thrower = throwable
         logged = event
     }

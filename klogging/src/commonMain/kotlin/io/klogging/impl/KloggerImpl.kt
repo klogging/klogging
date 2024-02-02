@@ -45,9 +45,15 @@ public class KloggerImpl(
      * @param level logging level for the event
      * @param throwable any [Throwable] associated with the event
      * @param event something to emit: a [LogEvent] or other object
+     * @param items explicit items to include in this log event
      */
-    public override suspend fun emitEvent(level: Level, throwable: Throwable?, event: Any?) {
-        val eventToLog = eventFrom(contextName(), level, throwable, event, contextItems())
+    public override suspend fun emitEvent(
+        level: Level,
+        throwable: Throwable?,
+        event: Any?,
+        items: EventItems
+    ) {
+        val eventToLog = eventFrom(contextName(), level, throwable, event, items + contextItems())
         if (eventToLog.level < KloggingEngine.minDirectLogLevel()) {
             Emitter.emit(eventToLog)
         } else {

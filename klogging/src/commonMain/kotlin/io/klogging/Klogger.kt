@@ -24,6 +24,7 @@ import io.klogging.Level.FATAL
 import io.klogging.Level.INFO
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
+import io.klogging.events.EventItems
 import io.klogging.events.LogEvent
 
 /**
@@ -43,8 +44,14 @@ public interface Klogger : BaseLogger {
      * @param level [Level] of the event
      * @param throwable possible throwable object associated with the event
      * @param event a representation of the event, if any
+     * @param items explicit items to include in this log event
      */
-    public suspend fun emitEvent(level: Level, throwable: Throwable?, event: Any?)
+    public suspend fun emitEvent(
+        level: Level,
+        throwable: Throwable?,
+        event: Any?,
+        items: EventItems = mapOf(),
+    )
 
     /**
      * Emit a log event, only if it passes the level check.
@@ -131,6 +138,27 @@ public interface Klogger : BaseLogger {
         if (!isLevelEnabled(level)) return
         emitEvent(level, null, event())
     }
+
+    /**
+     * Log an event with a message and an explicit set of items.
+     *
+     * @param level level at which to log
+     * @param message message to include in the log event
+     * @param items items to include in the log event
+     */
+    public suspend fun log(level: Level, message: String, items: EventItems): Unit =
+        emitEvent(level, null, message, items)
+
+    /**
+     * Log an event with an associated throwable, a message and an explicit set of items.
+     *
+     * @param level level at which to log
+     * @param throwable throwable object associated with this log event
+     * @param message message to include in the log event
+     * @param items items to include in the log event
+     */
+    public suspend fun log(level: Level, throwable: Throwable, message: String, items: EventItems): Unit =
+        emitEvent(level, throwable, message, items)
 
     /**
      * Emit a log event at [TRACE] level.
@@ -449,6 +477,114 @@ public interface Klogger : BaseLogger {
      */
     public suspend fun fatal(throwable: Throwable, event: suspend Klogger.() -> Any?): Unit =
         log(FATAL, throwable, event)
+
+    /**
+     * Emit a log event with a message and an explicit map of items at [TRACE] level.
+     *
+     * @param message the message
+     * @param items a map of items to include in the log event
+     */
+    public suspend fun trace(message: String, items: EventItems): Unit = log(TRACE, message, items)
+
+    /**
+     * Emit a log event with a message and an explicit map of items at [DEBUG] level.
+     *
+     * @param message the message
+     * @param items a map of items to include in the log event
+     */
+    public suspend fun debug(message: String, items: EventItems): Unit = log(DEBUG, message, items)
+
+    /**
+     * Emit a log event with a message and an explicit map of items at [INFO] level.
+     *
+     * @param message the message
+     * @param items a map of items to include in the log event
+     */
+    public suspend fun info(message: String, items: EventItems): Unit = log(INFO, message, items)
+
+    /**
+     * Emit a log event with a message and an explicit map of items at [WARN] level.
+     *
+     * @param message the message
+     * @param items a map of items to include in the log event
+     */
+    public suspend fun warn(message: String, items: EventItems): Unit = log(WARN, message, items)
+
+    /**
+     * Emit a log event with a message and an explicit map of items at [ERROR] level.
+     *
+     * @param message the message
+     * @param items a map of items to include in the log event
+     */
+    public suspend fun error(message: String, items: EventItems): Unit = log(ERROR, message, items)
+
+    /**
+     * Emit a log event with a message and an explicit map of items at [FATAL] level.
+     *
+     * @param message the message
+     * @param items a map of items to include in the log event
+     */
+    public suspend fun fatal(message: String, items: EventItems): Unit = log(FATAL, message, items)
+
+    /**
+     * Emit a log event with a message, associated throwable object and an explicit map of items at [TRACE] level.
+     *
+     * @param message the message
+     * @param throwable a throwable object associated with this event
+     * @param items a map of items to include in the log event
+     */
+    public suspend fun trace(message: String, throwable: Throwable, items: EventItems): Unit =
+        log(TRACE, throwable, message, items)
+
+    /**
+     * Emit a log event with a message, associated throwable object and an explicit map of items at [DEBUG] level.
+     *
+     * @param message the message
+     * @param throwable a throwable object associated with this event
+     * @param items a map of items to include in the log event
+     */
+    public suspend fun debug(message: String, throwable: Throwable, items: EventItems): Unit =
+        log(DEBUG, throwable, message, items)
+
+    /**
+     * Emit a log event with a message, associated throwable object and an explicit map of items at [INFO] level.
+     *
+     * @param message the message
+     * @param throwable a throwable object associated with this event
+     * @param items a map of items to include in the log event
+     */
+    public suspend fun info(message: String, throwable: Throwable, items: EventItems): Unit =
+        log(INFO, throwable, message, items)
+
+    /**
+     * Emit a log event with a message, associated throwable object and an explicit map of items at [WARN] level.
+     *
+     * @param message the message
+     * @param throwable a throwable object associated with this event
+     * @param items a map of items to include in the log event
+     */
+    public suspend fun warn(message: String, throwable: Throwable, items: EventItems): Unit =
+        log(WARN, throwable, message, items)
+
+    /**
+     * Emit a log event with a message, associated throwable object and an explicit map of items at [ERROR] level.
+     *
+     * @param message the message
+     * @param throwable a throwable object associated with this event
+     * @param items a map of items to include in the log event
+     */
+    public suspend fun error(message: String, throwable: Throwable, items: EventItems): Unit =
+        log(ERROR, throwable, message, items)
+
+    /**
+     * Emit a log event with a message, associated throwable object and an explicit map of items at [FATAL] level.
+     *
+     * @param message the message
+     * @param throwable a throwable object associated with this event
+     * @param items a map of items to include in the log event
+     */
+    public suspend fun fatal(message: String, throwable: Throwable, items: EventItems): Unit =
+        log(FATAL, throwable, message, items)
 
     /**
      * Evaluates a message template with the supplied values, returning an event.
