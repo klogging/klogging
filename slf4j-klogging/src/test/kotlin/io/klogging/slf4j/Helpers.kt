@@ -46,7 +46,11 @@ suspend fun waitForDispatch(millis: Long = 200) = delay(millis)
  */
 fun savedEvents(minLevel: Level = TRACE): MutableList<LogEvent> {
     val saved: MutableList<LogEvent> = mutableListOf()
-    val eventSaver: EventSender = { batch: List<LogEvent> -> saved.addAll(batch) }
+    val eventSaver: EventSender = object : EventSender {
+        override fun invoke(events: List<LogEvent>) {
+            saved.addAll(events)
+        }
+    }
     loggingConfiguration {
         sink("test", SinkConfiguration(eventSender = eventSaver))
         logging { fromMinLevel(minLevel) { toSink("test") } }

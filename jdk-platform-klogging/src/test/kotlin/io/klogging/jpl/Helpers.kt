@@ -37,8 +37,11 @@ fun randomString() = Random.nextULong().toString(16)
  * @param saved list where log events will be saved
  * @return the [EventSender] implementation
  */
-fun eventSaver(saved: MutableList<LogEvent>): EventSender =
-    { batch: List<LogEvent> -> saved.addAll(batch) }
+fun eventSaver(saved: MutableList<LogEvent>): EventSender = object : EventSender {
+    override fun invoke(events: List<LogEvent>) {
+        saved.addAll(events)
+    }
+}
 
 /**
  * Configuration that saves all logged events into a list for checking by tests.

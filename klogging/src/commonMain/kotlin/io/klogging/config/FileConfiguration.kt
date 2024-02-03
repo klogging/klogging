@@ -27,7 +27,7 @@ import io.klogging.rendering.RenderString
 import io.klogging.rendering.renderHec
 import io.klogging.sending.SendString
 import io.klogging.sending.SplunkEndpoint
-import io.klogging.sending.splunkHec
+import io.klogging.sending.SplunkHec
 import kotlinx.serialization.Serializable
 
 /**
@@ -80,7 +80,7 @@ public data class FileSinkConfiguration(
             ?: loadRendererByName(renderWith)
             ?: renderHec?.renderer
         if (splunkServer != null) {
-            return SinkConfiguration(eventSender = splunkHec(splunkServer.evalEnv(), renderer ?: renderHec()))
+            return SinkConfiguration(eventSender = SplunkHec(splunkServer.evalEnv(), renderer ?: renderHec()))
         }
         if (seqServer != null) {
             return seq(

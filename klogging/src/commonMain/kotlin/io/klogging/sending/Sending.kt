@@ -24,10 +24,19 @@ import io.klogging.rendering.RenderString
 /** Functional type used for sending a string to a target somewhere. */
 public typealias SendString = (String) -> Unit
 
-/** Function type for sending a batch of log events somewhere. */
-public typealias EventSender = (List<LogEvent>) -> Unit
+/** Interface for sending a batch of log events somewhere. */
+public interface EventSender {
+    public operator fun invoke(events: List<LogEvent>)
+}
 
-/** Convert a [RenderString] and [SendString] into an [EventSender]. */
-public fun senderFrom(renderer: RenderString, sender: SendString): EventSender = { batch ->
-    sender(batch.joinToString("\n") { renderer(it) })
+/**
+ * Convert a [RenderString] and [SendString] into an [EventSender].
+ *
+ * @param renderer the [RenderString] that renders a log event into a string
+ * @param sender the [SendString] that sends the rendered event string somewhere
+ */
+public fun senderFrom(renderer: RenderString, sender: SendString): EventSender = object : EventSender {
+    override fun invoke(events: List<LogEvent>) {
+        sender(events.joinToString("\n") { renderer(it) })
+    }
 }
