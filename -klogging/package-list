@@ -41,9 +41,10 @@ $dokka.location:io.klogging.config/FileLoggingConfig/levelRanges/#/PointingToDec
 $dokka.location:io.klogging.config/FileLoggingConfig/matchLogger/#/PointingToDeclaration/-klogging/io.klogging.config/-file-logging-config/match-logger.html
 $dokka.location:io.klogging.config/FileLoggingConfig/stopOnMatch/#/PointingToDeclaration/-klogging/io.klogging.config/-file-logging-config/stop-on-match.html
 $dokka.location:io.klogging.config/FileSinkConfiguration///PointingToDeclaration/-klogging/io.klogging.config/-file-sink-configuration/index.html
-$dokka.location:io.klogging.config/FileSinkConfiguration/FileSinkConfiguration/#kotlin.String?#kotlin.String?#kotlin.String?#kotlin.String?#kotlin.Boolean?#io.klogging.sending.SplunkEndpoint?#io.klogging.config.RenderHec?/PointingToDeclaration/-klogging/io.klogging.config/-file-sink-configuration/-file-sink-configuration.html
+$dokka.location:io.klogging.config/FileSinkConfiguration/FileSinkConfiguration/#kotlin.String?#kotlin.String?#kotlin.String?#kotlin.String?#kotlin.Boolean?#io.klogging.sending.SplunkEndpoint?#io.klogging.config.RenderHec?#kotlin.String?/PointingToDeclaration/-klogging/io.klogging.config/-file-sink-configuration/-file-sink-configuration.html
 $dokka.location:io.klogging.config/FileSinkConfiguration/apiKey/#/PointingToDeclaration/-klogging/io.klogging.config/-file-sink-configuration/api-key.html
 $dokka.location:io.klogging.config/FileSinkConfiguration/checkCertificate/#/PointingToDeclaration/-klogging/io.klogging.config/-file-sink-configuration/check-certificate.html
+$dokka.location:io.klogging.config/FileSinkConfiguration/eventSender/#/PointingToDeclaration/-klogging/io.klogging.config/-file-sink-configuration/event-sender.html
 $dokka.location:io.klogging.config/FileSinkConfiguration/renderHec/#/PointingToDeclaration/-klogging/io.klogging.config/-file-sink-configuration/render-hec.html
 $dokka.location:io.klogging.config/FileSinkConfiguration/renderWith/#/PointingToDeclaration/-klogging/io.klogging.config/-file-sink-configuration/render-with.html
 $dokka.location:io.klogging.config/FileSinkConfiguration/sendTo/#/PointingToDeclaration/-klogging/io.klogging.config/-file-sink-configuration/send-to.html
