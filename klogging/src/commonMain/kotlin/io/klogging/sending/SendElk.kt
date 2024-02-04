@@ -33,9 +33,9 @@ public data class ElkEndpoint(
  * Send a batch of events to an ELK server in ECS format.
  */
 internal class SendElk(val endpoint: ElkEndpoint) : EventSender {
-    override fun invoke(events: List<LogEvent>) {
+    override fun invoke(batch: List<LogEvent>) {
         SendingLauncher.launch {
-            sendToElk(endpoint, events)
+            sendToElk(endpoint, batch)
         }
     }
 }

@@ -92,9 +92,9 @@ public data class SplunkEndpoint(
  * [HTTP event collector (HEC)](https://docs.splunk.com/Documentation/Splunk/8.2.2/Data/HECExamples).
  */
 internal class SplunkHec(val endpoint: SplunkEndpoint, val renderer: RenderString) : EventSender {
-    override fun invoke(events: List<LogEvent>) {
+    override fun invoke(batch: List<LogEvent>) {
         SendingLauncher.launch {
-            sendToSplunk(endpoint, renderer, events)
+            sendToSplunk(endpoint, renderer, batch)
         }
     }
 }
