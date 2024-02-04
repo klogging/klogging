@@ -24,8 +24,11 @@ import io.klogging.Level.TRACE
 import io.klogging.internal.debug
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RenderString
+import io.klogging.rendering.Renderer
 import io.klogging.rendering.renderHec
+import io.klogging.sending.EventSender
 import io.klogging.sending.SendString
+import io.klogging.sending.Sender
 import io.klogging.sending.SplunkEndpoint
 import io.klogging.sending.SplunkHec
 import kotlinx.serialization.Serializable
@@ -70,12 +73,19 @@ public data class FileSinkConfiguration(
     val checkCertificate: Boolean? = null,
     val splunkServer: SplunkEndpoint? = null,
     val renderHec: RenderHec? = null,
+    val eventSender: String? = null,
 ) {
     /**
      * Extract sink configuration from a file into a [SinkConfiguration] object.
      * @return a [SinkConfiguration] object as specified in the file
      */
     internal fun toSinkConfiguration(): SinkConfiguration? {
+        if (eventSender != null) {
+            val sender = loadEventSenderByName(eventSender)
+            if (sender != null) {
+                return SinkConfiguration(eventSender = sender)
+            }
+        }
         val renderer = builtInRenderers[renderWith]
             ?: loadRendererByName(renderWith)
             ?: renderHec?.renderer
@@ -221,17 +231,32 @@ public data class FileLevelRange(
     }
 }
 
+internal expect fun <T : Any> loadByName(className: String?): T?
+
 /**
  * Load a [RenderString] instance by name from the classpath.
+ *
  * @param className fully-qualified class name of the class
  * @return a class that implements [RenderString] with that name, if found
  */
-internal expect fun loadRendererByName(className: String?): RenderString?
+internal fun loadRendererByName(className: String?): RenderString? =
+    loadByName<Renderer>(className)?.renderString()
 
 /**
  * Load a [SendString] instance by name from the classpath.
+ *
  * @param className fully-qualified class name of the class
  * @return a class that implements [SendString] with that name, if found
  */
 
-internal expect fun loadSenderByName(className: String?): SendString?
+internal fun loadSenderByName(className: String?): SendString? =
+    loadByName<Sender>(className)?.sendString()
+
+/**
+ * Load a [EventSender] instance by name from the classpath.
+ *
+ * @param className fully-qualified class name of the class
+ * @return a class that implements [EventSender] with that name, if found
+ */
+
+internal fun loadEventSenderByName(className: String?): EventSender? = loadByName(className)

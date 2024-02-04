@@ -20,30 +20,16 @@ package io.klogging.config
 
 import io.klogging.internal.debug
 import io.klogging.internal.warn
-import io.klogging.rendering.RenderString
-import io.klogging.rendering.Renderer
-import io.klogging.sending.SendString
-import io.klogging.sending.Sender
 import kotlin.reflect.full.createInstance
 
-internal actual fun loadRendererByName(className: String?): RenderString? = className?.let { name ->
+@Suppress("UNCHECKED_CAST")
+internal actual fun <T : Any> loadByName(className: String?): T? = className?.let { name ->
     try {
-        val renderer = (Class.forName(name).kotlin.createInstance() as Renderer).renderString()
-        debug("File Configuration", "Loaded Renderer class $name")
-        renderer
+        val eventSender = Class.forName(name).kotlin.createInstance() as T
+        debug("File Configuration", "Loaded EventSender class $name")
+        eventSender
     } catch (ex: Exception) {
-        warn("File Configuration", "Failed to load Renderer class $name", ex)
-        null
-    }
-}
-
-internal actual fun loadSenderByName(className: String?): SendString? = className?.let { name ->
-    try {
-        val sender = (Class.forName(name).kotlin.createInstance() as Sender).sendString()
-        debug("File Configuration", "Loaded Sender class $name")
-        sender
-    } catch (ex: Exception) {
-        warn("File Configuration", "Failed to load Sender class $name", ex)
+        warn("File Configuration", "Failed to load EventSender class $name", ex)
         null
     }
 }

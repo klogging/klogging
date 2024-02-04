@@ -18,13 +18,6 @@
 
 package io.klogging.config
 
-import io.klogging.rendering.RenderString
-import io.klogging.sending.SendString
-
-internal actual fun loadRendererByName(className: String?): RenderString? {
-    TODO("Not yet implemented")
-}
-
-internal actual fun loadSenderByName(className: String?): SendString? {
+internal actual fun <T : Any> loadByName(className: String?): T? {
     TODO("Not yet implemented")
 }

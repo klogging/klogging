@@ -468,8 +468,8 @@ public final class io/klogging/config/FileLoggingConfig$Companion {
 public final class io/klogging/config/FileSinkConfiguration {
 	public static final field Companion Lio/klogging/config/FileSinkConfiguration$Companion;
 	public fun <init> ()V
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lio/klogging/sending/SplunkEndpoint;Lio/klogging/config/RenderHec;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lio/klogging/sending/SplunkEndpoint;Lio/klogging/config/RenderHec;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lio/klogging/sending/SplunkEndpoint;Lio/klogging/config/RenderHec;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lio/klogging/sending/SplunkEndpoint;Lio/klogging/config/RenderHec;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Ljava/lang/String;
 	public final fun component3 ()Ljava/lang/String;
@@ -477,11 +477,13 @@ public final class io/klogging/config/FileSinkConfiguration {
 	public final fun component5 ()Ljava/lang/Boolean;
 	public final fun component6 ()Lio/klogging/sending/SplunkEndpoint;
 	public final fun component7 ()Lio/klogging/config/RenderHec;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lio/klogging/sending/SplunkEndpoint;Lio/klogging/config/RenderHec;)Lio/klogging/config/FileSinkConfiguration;
-	public static synthetic fun copy$default (Lio/klogging/config/FileSinkConfiguration;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lio/klogging/sending/SplunkEndpoint;Lio/klogging/config/RenderHec;ILjava/lang/Object;)Lio/klogging/config/FileSinkConfiguration;
+	public final fun component8 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lio/klogging/sending/SplunkEndpoint;Lio/klogging/config/RenderHec;Ljava/lang/String;)Lio/klogging/config/FileSinkConfiguration;
+	public static synthetic fun copy$default (Lio/klogging/config/FileSinkConfiguration;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Lio/klogging/sending/SplunkEndpoint;Lio/klogging/config/RenderHec;Ljava/lang/String;ILjava/lang/Object;)Lio/klogging/config/FileSinkConfiguration;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getApiKey ()Ljava/lang/String;
 	public final fun getCheckCertificate ()Ljava/lang/Boolean;
+	public final fun getEventSender ()Ljava/lang/String;
 	public final fun getRenderHec ()Lio/klogging/config/RenderHec;
 	public final fun getRenderWith ()Ljava/lang/String;
 	public final fun getSendTo ()Ljava/lang/String;
