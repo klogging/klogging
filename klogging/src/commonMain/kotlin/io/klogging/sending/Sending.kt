@@ -27,6 +27,9 @@ public typealias SendString = (String) -> Unit
 /** Interface for sending a batch of log events somewhere. */
 public interface EventSender {
     public operator fun invoke(events: List<LogEvent>)
+    public operator fun invoke(event: LogEvent) {
+        invoke(listOf(event))
+    }
 }
 
 /**

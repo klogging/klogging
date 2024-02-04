@@ -948,7 +948,12 @@ public final class io/klogging/sending/Endpoint {
 }
 
 public abstract interface class io/klogging/sending/EventSender {
+	public abstract fun invoke (Lio/klogging/events/LogEvent;)V
 	public abstract fun invoke (Ljava/util/List;)V
+}
+
+public final class io/klogging/sending/EventSender$DefaultImpls {
+	public static fun invoke (Lio/klogging/sending/EventSender;Lio/klogging/events/LogEvent;)V
 }
 
 public final class io/klogging/sending/STDERRKt {
