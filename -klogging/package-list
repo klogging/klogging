@@ -21,7 +21,8 @@ $dokka.location:io.klogging.config//loggingConfiguration/#kotlin.Boolean#kotlin.
 $dokka.location:io.klogging.config//seq/#kotlin.String#kotlin.String?#kotlin.Boolean#kotlin.Function1[io.klogging.events.LogEvent,kotlin.String]/PointingToDeclaration/-klogging/io.klogging.config/seq.html
 $dokka.location:io.klogging.config/ConfigDsl///PointingToDeclaration/-klogging/io.klogging.config/-config-dsl/index.html
 $dokka.location:io.klogging.config/FileConfiguration///PointingToDeclaration/-klogging/io.klogging.config/-file-configuration/index.html
-$dokka.location:io.klogging.config/FileConfiguration/FileConfiguration/#kotlin.String?#io.klogging.Level#io.klogging.Level#kotlin.collections.Map[kotlin.String,io.klogging.config.FileSinkConfiguration]#kotlin.collections.List[io.klogging.config.FileLoggingConfig]/PointingToDeclaration/-klogging/io.klogging.config/-file-configuration/-file-configuration.html
+$dokka.location:io.klogging.config/FileConfiguration/FileConfiguration/#kotlin.String?#io.klogging.Level#io.klogging.Level#kotlin.collections.Map[kotlin.String,io.klogging.config.FileSinkConfiguration]#kotlin.collections.List[io.klogging.config.FileLoggingConfig]#kotlin.collections.Map[kotlin.String,kotlin.String]/PointingToDeclaration/-klogging/io.klogging.config/-file-configuration/-file-configuration.html
+$dokka.location:io.klogging.config/FileConfiguration/baseContext/#/PointingToDeclaration/-klogging/io.klogging.config/-file-configuration/base-context.html
 $dokka.location:io.klogging.config/FileConfiguration/configName/#/PointingToDeclaration/-klogging/io.klogging.config/-file-configuration/config-name.html
 $dokka.location:io.klogging.config/FileConfiguration/kloggingMinLogLevel/#/PointingToDeclaration/-klogging/io.klogging.config/-file-configuration/klogging-min-log-level.html
 $dokka.location:io.klogging.config/FileConfiguration/logging/#/PointingToDeclaration/-klogging/io.klogging.config/-file-configuration/logging.html
