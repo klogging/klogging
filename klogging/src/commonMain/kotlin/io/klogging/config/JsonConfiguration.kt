@@ -18,6 +18,7 @@
 
 package io.klogging.config
 
+import io.klogging.context.Context
 import io.klogging.internal.debug
 import io.klogging.internal.warn
 import kotlinx.serialization.SerializationException
@@ -54,8 +55,12 @@ public object JsonConfiguration {
      * @return [KloggingConfiguration] read from JSON, if successful
      */
     public fun configure(configJson: String): KloggingConfiguration? =
-        readConfig(configJson)?.let { (configName, minLogLevel, minDirectLogLevel, sinks, logging) ->
+        readConfig(configJson)?.let { (configName, minLogLevel, minDirectLogLevel, sinks, logging, baseContext) ->
             val config = KloggingConfiguration()
+            if (baseContext.isNotEmpty()) {
+                val contextItems = baseContext.entries.map { it.key to it.value }.toTypedArray()
+                Context.addBaseContext(*contextItems)
+            }
             if (configName != null) {
                 builtInConfigurations[configName]?.let { config.apply(it) }
             } else {

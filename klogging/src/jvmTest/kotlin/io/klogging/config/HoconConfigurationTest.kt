@@ -23,6 +23,7 @@ import io.klogging.Level
 import io.klogging.Level.DEBUG
 import io.klogging.Level.FATAL
 import io.klogging.Level.INFO
+import io.klogging.context.Context
 import io.klogging.genString
 import io.klogging.internal.KloggingEngine
 import io.klogging.rendering.RENDER_CLEF
@@ -30,6 +31,7 @@ import io.klogging.rendering.RENDER_SIMPLE
 import io.klogging.sending.STDOUT
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -84,6 +86,20 @@ internal class HoconConfigurationTest : DescribeSpec({
                 val config = HoconConfiguration.configure(hoconConfig)
 
                 config?.apply { sinks shouldHaveSize 1 }
+            }
+        }
+        describe("setting base context items") {
+            afterEach { Context.clearBaseContext() }
+            it("adds any items to the base context") {
+                val baseContextHoconConfig = """{baseContext:{app:testApp,buildNumber:"1.0.1"}}"""
+                JsonConfiguration.configure(baseContextHoconConfig)
+
+                KloggingEngine.baseContextItems.shouldContainExactly(
+                    mapOf(
+                        "app" to "testApp",
+                        "buildNumber" to "1.0.1"
+                    )
+                )
             }
         }
         describe("simple, using built-in, named renderers and senders") {

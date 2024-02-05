@@ -360,16 +360,18 @@ public final class io/klogging/config/EnvironmentKt {
 public final class io/klogging/config/FileConfiguration {
 	public static final field Companion Lio/klogging/config/FileConfiguration$Companion;
 	public fun <init> ()V
-	public fun <init> (Ljava/lang/String;Lio/klogging/Level;Lio/klogging/Level;Ljava/util/Map;Ljava/util/List;)V
-	public synthetic fun <init> (Ljava/lang/String;Lio/klogging/Level;Lio/klogging/Level;Ljava/util/Map;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Lio/klogging/Level;Lio/klogging/Level;Ljava/util/Map;Ljava/util/List;Ljava/util/Map;)V
+	public synthetic fun <init> (Ljava/lang/String;Lio/klogging/Level;Lio/klogging/Level;Ljava/util/Map;Ljava/util/List;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Lio/klogging/Level;
 	public final fun component3 ()Lio/klogging/Level;
 	public final fun component4 ()Ljava/util/Map;
 	public final fun component5 ()Ljava/util/List;
-	public final fun copy (Ljava/lang/String;Lio/klogging/Level;Lio/klogging/Level;Ljava/util/Map;Ljava/util/List;)Lio/klogging/config/FileConfiguration;
-	public static synthetic fun copy$default (Lio/klogging/config/FileConfiguration;Ljava/lang/String;Lio/klogging/Level;Lio/klogging/Level;Ljava/util/Map;Ljava/util/List;ILjava/lang/Object;)Lio/klogging/config/FileConfiguration;
+	public final fun component6 ()Ljava/util/Map;
+	public final fun copy (Ljava/lang/String;Lio/klogging/Level;Lio/klogging/Level;Ljava/util/Map;Ljava/util/List;Ljava/util/Map;)Lio/klogging/config/FileConfiguration;
+	public static synthetic fun copy$default (Lio/klogging/config/FileConfiguration;Ljava/lang/String;Lio/klogging/Level;Lio/klogging/Level;Ljava/util/Map;Ljava/util/List;Ljava/util/Map;ILjava/lang/Object;)Lio/klogging/config/FileConfiguration;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBaseContext ()Ljava/util/Map;
 	public final fun getConfigName ()Ljava/lang/String;
 	public final fun getKloggingMinLogLevel ()Lio/klogging/Level;
 	public final fun getLogging ()Ljava/util/List;

@@ -23,6 +23,7 @@ import io.klogging.Level.ERROR
 import io.klogging.Level.FATAL
 import io.klogging.Level.INFO
 import io.klogging.Level.TRACE
+import io.klogging.context.Context
 import io.klogging.genString
 import io.klogging.internal.KloggingEngine
 import io.klogging.logEvent
@@ -36,6 +37,7 @@ import io.klogging.sending.SendString
 import io.klogging.sending.Sender
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -57,6 +59,20 @@ internal class JsonConfigurationTest : DescribeSpec({
                     sinks shouldHaveSize 0
                     configs shouldHaveSize 0
                 }
+            }
+        }
+        describe("setting base context items") {
+            afterEach { Context.clearBaseContext() }
+            it("adds any items to the base context") {
+                val baseContextJsonConfig = """{"baseContext":{"app":"testApp","buildNumber":"1.0.1"}}"""
+                JsonConfiguration.configure(baseContextJsonConfig)
+
+                KloggingEngine.baseContextItems.shouldContainExactly(
+                    mapOf(
+                        "app" to "testApp",
+                        "buildNumber" to "1.0.1"
+                    )
+                )
             }
         }
         describe("simple, using built-in, named configuration") {

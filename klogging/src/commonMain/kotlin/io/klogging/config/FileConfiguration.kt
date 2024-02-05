@@ -53,6 +53,7 @@ public data class FileConfiguration(
     val minDirectLogLevel: Level = defaultMinDirectLogLevel,
     val sinks: Map<String, FileSinkConfiguration> = mapOf(),
     val logging: List<FileLoggingConfig> = listOf(),
+    val baseContext: Map<String, String> = mapOf()
 )
 
 /**

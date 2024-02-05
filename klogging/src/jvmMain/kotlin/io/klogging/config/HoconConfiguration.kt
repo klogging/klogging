@@ -20,6 +20,7 @@ package io.klogging.config
 
 import com.typesafe.config.ConfigException
 import com.typesafe.config.ConfigFactory
+import io.klogging.context.Context
 import io.klogging.internal.debug
 import io.klogging.internal.warn
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -47,8 +48,12 @@ public object HoconConfiguration {
 
     /** Load [KloggingConfiguration] from HOCON configuration string. */
     public fun configure(configHocon: String): KloggingConfiguration? =
-        readConfig(configHocon)?.let { (configName, minLogLevel, minDirectLogLevel, sinks, logging) ->
+        readConfig(configHocon)?.let { (configName, minLogLevel, minDirectLogLevel, sinks, logging, baseContext) ->
             val config = KloggingConfiguration()
+            if (baseContext.isNotEmpty()) {
+                val contextItems = baseContext.entries.map { it.key to it.value }.toTypedArray()
+                Context.addBaseContext(*contextItems)
+            }
             if (configName != null) {
                 builtInConfigurations[configName]?.let { config.apply(it) }
             } else {
