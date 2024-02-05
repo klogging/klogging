@@ -182,7 +182,6 @@ $dokka.location:io.klogging.sending/Endpoint/Endpoint/#kotlin.String#kotlin.Int/
 $dokka.location:io.klogging.sending/Endpoint/host/#/PointingToDeclaration/-klogging/io.klogging.sending/-endpoint/host.html
 $dokka.location:io.klogging.sending/Endpoint/port/#/PointingToDeclaration/-klogging/io.klogging.sending/-endpoint/port.html
 $dokka.location:io.klogging.sending/EventSender///PointingToDeclaration/-klogging/io.klogging.sending/-event-sender/index.html
-$dokka.location:io.klogging.sending/EventSender/invoke/#io.klogging.events.LogEvent/PointingToDeclaration/-klogging/io.klogging.sending/-event-sender/invoke.html
 $dokka.location:io.klogging.sending/EventSender/invoke/#kotlin.collections.List[io.klogging.events.LogEvent]/PointingToDeclaration/-klogging/io.klogging.sending/-event-sender/invoke.html
 $dokka.location:io.klogging.sending/SendString///PointingToDeclaration/-klogging/io.klogging.sending/-send-string/index.html
 $dokka.location:io.klogging.sending/Sender///PointingToDeclaration/-klogging/io.klogging.sending/-sender/index.html
