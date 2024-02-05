@@ -36,6 +36,7 @@ import io.klogging.sending.STDOUT
 import io.klogging.sending.SendString
 import io.klogging.sending.Sender
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.extensions.system.withEnvironment
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.maps.shouldHaveSize
@@ -73,6 +74,13 @@ internal class JsonConfigurationTest : DescribeSpec({
                         "buildNumber" to "1.0.1"
                     )
                 )
+            }
+            it("evaluates environment variables in context item values") {
+                withEnvironment("BUILD_NUMBER" to "2.0.22-f78ca4d") {
+                    JsonConfiguration.configure("""{baseContext:{buildNumber:"${'$'}{BUILD_NUMBER}"}}""")
+
+                    KloggingEngine.baseContextItems.shouldContainExactly(mapOf("buildNumber" to "2.0.22-f78ca4d"))
+                }
             }
         }
         describe("simple, using built-in, named configuration") {

@@ -30,6 +30,7 @@ import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RENDER_SIMPLE
 import io.klogging.sending.STDOUT
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.extensions.system.withEnvironment
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.maps.shouldHaveSize
@@ -92,7 +93,7 @@ internal class HoconConfigurationTest : DescribeSpec({
             afterEach { Context.clearBaseContext() }
             it("adds any items to the base context") {
                 val baseContextHoconConfig = """{baseContext:{app:testApp,buildNumber:"1.0.1"}}"""
-                JsonConfiguration.configure(baseContextHoconConfig)
+                HoconConfiguration.configure(baseContextHoconConfig)
 
                 KloggingEngine.baseContextItems.shouldContainExactly(
                     mapOf(
@@ -100,6 +101,13 @@ internal class HoconConfigurationTest : DescribeSpec({
                         "buildNumber" to "1.0.1"
                     )
                 )
+            }
+            it("evaluates environment variables in context item values") {
+                withEnvironment("BUILD_NUMBER" to "2.0.22-ab8c14d") {
+                    HoconConfiguration.configure("""{baseContext:{buildNumber:"${'$'}{BUILD_NUMBER}"}}""")
+
+                    KloggingEngine.baseContextItems.shouldContainExactly(mapOf("buildNumber" to "2.0.22-ab8c14d"))
+                }
             }
         }
         describe("simple, using built-in, named renderers and senders") {

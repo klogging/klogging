@@ -49,11 +49,11 @@ public object HoconConfiguration {
     /** Load [KloggingConfiguration] from HOCON configuration string. */
     public fun configure(configHocon: String): KloggingConfiguration? =
         readConfig(configHocon)?.let { (configName, minLogLevel, minDirectLogLevel, sinks, logging, baseContext) ->
-            val config = KloggingConfiguration()
             if (baseContext.isNotEmpty()) {
-                val contextItems = baseContext.entries.map { it.key to it.value }.toTypedArray()
+                val contextItems = baseContext.entries.map { it.key to evalEnv(it.value) }.toTypedArray()
                 Context.addBaseContext(*contextItems)
             }
+            val config = KloggingConfiguration()
             if (configName != null) {
                 builtInConfigurations[configName]?.let { config.apply(it) }
             } else {
