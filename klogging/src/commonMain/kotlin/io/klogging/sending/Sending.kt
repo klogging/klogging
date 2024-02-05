@@ -32,15 +32,6 @@ public interface EventSender {
      * @param batch list of events to send.
      */
     public operator fun invoke(batch: List<LogEvent>)
-
-    /**
-     * Send a single log event somewhere.
-     *
-     * @param event a single log event to send.
-     */
-    public operator fun invoke(event: LogEvent) {
-        invoke(listOf(event))
-    }
 }
 
 /**
