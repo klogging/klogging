@@ -38,8 +38,8 @@ fun randomString() = Random.nextULong().toString(16)
  * @return the [EventSender] implementation
  */
 fun eventSaver(saved: MutableList<LogEvent>): EventSender = object : EventSender {
-    override fun invoke(events: List<LogEvent>) {
-        saved.addAll(events)
+    override fun invoke(batch: List<LogEvent>) {
+        saved.addAll(batch)
     }
 }
 
