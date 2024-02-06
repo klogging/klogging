@@ -58,7 +58,7 @@ dependencies {
     api("io.klogging:klogging-jvm:${project.version}")
 
     testImplementation(libs.kotest.junit)
-    testImplementation(libs.kotest.datatest)
+    testImplementation(libs.kotest.property)
     testImplementation(libs.html.reporter)
 }
 

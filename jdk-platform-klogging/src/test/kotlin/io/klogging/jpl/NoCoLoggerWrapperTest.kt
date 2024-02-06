@@ -10,6 +10,18 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
+import io.kotest.property.Arb
+import io.kotest.property.arbitrary.int
+import io.kotest.property.arbitrary.map
+import io.kotest.property.arbitrary.string
+import io.kotest.property.checkAll
+import java.util.ResourceBundle
+
+val genName = Arb.string(10, 30)
+val genMessage = Arb.string(10, 120)
+val genException = genMessage.map { message -> Exception(message).fillInStackTrace() }
+val getNumber = Arb.int(-50, 250)
+
 
 class NoCoLoggerWrapperTest : DescribeSpec({
     describe("NoCoLoggerWrapper for JDK Platform Logging") {
@@ -93,6 +105,98 @@ class NoCoLoggerWrapperTest : DescribeSpec({
                 }
 
                 saved.shouldBeEmpty()
+            }
+        }
+        describe("logging messages") {
+            it("sends only a string") {
+                checkAll(genName, genMessage) { name, message ->
+                    val saved = savedEvents()
+
+                    System.getLogger(name).log(System.Logger.Level.INFO, message)
+
+                    saved shouldHaveSize 1
+                    saved.first().message shouldBe message
+                }
+            }
+            it("sends a default message if supplied string is null") {
+                checkAll(genName) { name ->
+                    val saved = savedEvents()
+
+                    System.getLogger(name).log(System.Logger.Level.INFO, null as String?)
+
+                    saved shouldHaveSize 1
+                    saved.first().message shouldBe "Null message supplied"
+                }
+            }
+            it("sends a string and a throwable") {
+                checkAll(genName, genMessage, genException) { name, message, exception ->
+                    val saved = savedEvents()
+
+                    System.getLogger(name).log(System.Logger.Level.INFO, message, exception)
+
+                    saved shouldHaveSize 1
+                    with(saved.first()) {
+                        this.message shouldBe message
+                        this.stackTrace shouldBe exception.stackTraceToString()
+                    }
+                }
+            }
+            it("sends the throwable message if supplied message is null") {
+                checkAll(genName, genException) { name, exception ->
+                    val saved = savedEvents()
+
+                    System.getLogger(name).log(System.Logger.Level.INFO, null as String?, exception)
+
+                    saved shouldHaveSize 1
+                    with(saved.first()) {
+                        this.message shouldBe exception.message
+                        this.stackTrace shouldBe exception.stackTraceToString()
+                    }
+                }
+            }
+            it("sends a default message if supplied message and throwable are both null") {
+                checkAll(genName) { name ->
+                    val saved = savedEvents()
+
+                    System.getLogger(name).log(System.Logger.Level.INFO, null as String?, null as Throwable?)
+
+                    saved shouldHaveSize 1
+                    with(saved.first()) {
+                        this.message shouldBe "Null log message and throwable"
+                    }
+                }
+            }
+            it("sends a localised message if a resource bundle is supplied") {
+                // src/test/resources/messages.properties contains:
+                // key=Here is the log message
+                val bundle = ResourceBundle.getBundle("messages")
+                val saved = savedEvents()
+
+                System.getLogger("TestLogger").log(System.Logger.Level.INFO, bundle, "key")
+
+                saved shouldHaveSize 1
+                saved.first().message shouldBe "Here is the log message"
+            }
+            it("sends a localised message if a resource bundle is supplied with an associated throwable") {
+                // src/test/resources/messages.properties contains:
+                // key=Here is the log message
+                val bundle = ResourceBundle.getBundle("messages")
+                val saved = savedEvents()
+
+                System.getLogger("TestLogger").log(System.Logger.Level.INFO, bundle, "key", Exception())
+
+                saved shouldHaveSize 1
+                saved.first().message shouldBe "Here is the log message"
+            }
+            it("formats the message using `MessageTemplate` if parameters are supplied") {
+                checkAll(genName, genMessage, getNumber) { name, message, number ->
+                    val saved = savedEvents()
+
+                    System.getLogger(name).log(System.Logger.Level.INFO, "Note: {0} had {1} things", message, number)
+
+                    saved shouldHaveSize 1
+                    saved.first().message shouldBe "Note: $message had $number things"
+                }
             }
         }
     }

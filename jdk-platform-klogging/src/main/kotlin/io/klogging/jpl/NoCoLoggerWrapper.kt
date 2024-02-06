@@ -66,37 +66,49 @@ public class NoCoLoggerWrapper(private val noCoLogger: io.klogging.NoCoLogger) :
         noCoLogger.isLevelEnabled(level.toKloggingLevel)
 
     /**
-     * Log a message and possibly an associated throwable object.
+     * Log a message and possibly an associated throwable object. This version is called if [thrown] is not null.
      *
      * @param level the log message level
-     * @param bundle a resource bundle to localise messages: CURRENTLY IGNORED
+     * @param bundle a resource bundle to localise messages
      * @param msg a string message; can be null.
      * @param thrown a [Throwable] object associated with the message; can be null
      */
     override fun log(level: System.Logger.Level, bundle: ResourceBundle?, msg: String?, thrown: Throwable?) {
-        msg?.let {
-            thrown?.let {
-                noCoLogger.log(level.toKloggingLevel, thrown, msg)
-            } ?: noCoLogger.log(level.toKloggingLevel, msg)
+        val kloggingLevel = level.toKloggingLevel
+
+        val message = msg?.let {
+            bundle?.let {
+                bundle.getString(msg)
+            } ?: msg
         } ?: thrown?.let {
-            noCoLogger.log(level.toKloggingLevel, thrown.message ?: "Something went wrong", thrown)
-        } ?: // Why bother?
-        noCoLogger.log(level.toKloggingLevel, "Null log message and throwable")
+            thrown.message ?: "Something went wrong"
+        } ?: "Null log message and throwable"
+
+        thrown?.let {
+            noCoLogger.log(kloggingLevel, thrown, message)
+        } ?: noCoLogger.log(kloggingLevel, message)
     }
 
     /**
-     * Log a formatted message, possibly with params.
+     * Log a formatted message, possibly with params. This version is called if there is no throwable associated
+     * with the log event.
      *
      * @param level the log message level
-     * @param bundle a resource bundle to localise messages: CURRENTLY IGNORED
+     * @param bundle a resource bundle to localise messages
      * @param format a string message or message format; can be null.
      * @param params parameters to use with the message format; can be empty or null
      */
     override fun log(level: System.Logger.Level, bundle: ResourceBundle?, format: String?, params: Array<Any>?) {
-        format?.let {
-            params?.let {
-                noCoLogger.log(level.toKloggingLevel, MessageFormat(format).format(params))
-            } ?: noCoLogger.log(level.toKloggingLevel, format)
-        } ?: noCoLogger.log(level.toKloggingLevel, "Null message format")
+        val kloggingLevel = level.toKloggingLevel
+
+        val message = format?.let {
+            bundle?.let {
+                bundle.getString(format)
+            } ?: params?.let {
+                MessageFormat(format).format(params)
+            } ?: format
+        } ?: "Null message supplied"
+
+        noCoLogger.log(kloggingLevel, message)
     }
 }
