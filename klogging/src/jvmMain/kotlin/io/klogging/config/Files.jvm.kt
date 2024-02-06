@@ -62,16 +62,32 @@ internal actual fun fileText(filePath: String?): String? = filePath?.let { path 
  * 4. called [JSON_CONFIG_FILENAME] on the classpath; or
  * 5. called [HOCON_CONFIG_FILENAME] on the classpath.
  *
- * If found, return the contents as UTF-8 text; else return `null`.
+ * @return a [ConfigFile] object with the path and contents, if found; else null
  */
-internal actual fun findFileConfigText(configPath: String?): String? {
+internal actual fun findFileConfigText(configPath: String?): ConfigFile? {
+
     val filePath = configPath
         ?: getenv(ENV_KLOGGING_CONFIG_JSON_PATH)
         ?: getenv(ENV_KLOGGING_CONFIG_PATH)
-    return fileText(filePath)
-        ?: readResourceText(JSON_CONFIG_FILENAME)
-        ?: readResourceText(HOCON_CONFIG_FILENAME)
+
+    var path = filePath
+    var contents = fileText(filePath)
+    if (contents == null) {
+        contents = readResourceText(JSON_CONFIG_FILENAME)
+        path = JSON_CONFIG_FILENAME
+    }
+    if (contents == null) {
+        contents = readResourceText(HOCON_CONFIG_FILENAME)
+        path = HOCON_CONFIG_FILENAME
+    }
+
+    return path?.let { contents?.let { ConfigFile(path, contents) } }
 }
 
-internal actual fun configureFromFile(fileContents: String): KloggingConfiguration? =
-    JsonConfiguration.configure(fileContents) ?: HoconConfiguration.configure(fileContents)
+internal actual fun configureFromFile(configFile: ConfigFile?): KloggingConfiguration? = configFile?.let {
+    when {
+        configFile.path.endsWith(".json") -> JsonConfiguration.configure(configFile.contents)
+        configFile.path.endsWith(".conf") -> HoconConfiguration.configure(configFile.contents)
+        else -> null
+    }
+}

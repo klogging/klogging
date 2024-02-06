@@ -78,7 +78,7 @@ private fun combineFileAndDsl(config: KloggingConfiguration): KloggingConfigurat
     config.loggingConfigPath?.let { configPath ->
         fileText(configPath)
             ?.let { text ->
-                configureFromFile(text)
+                configureFromFile(ConfigFile(configPath, text))
             }
             ?.let { fileConfig ->
                 debug("Configuration", "Configuration read from $configPath")
