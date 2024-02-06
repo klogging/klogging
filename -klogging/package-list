@@ -16,9 +16,9 @@ $dokka.location:io.klogging.config//getenv/#kotlin.String/PointingToDeclaration/
 $dokka.location:io.klogging.config//getenvBoolean/#kotlin.String#kotlin.Boolean/PointingToDeclaration/-klogging/io.klogging.config/getenv-boolean.html
 $dokka.location:io.klogging.config//getenvInt/#kotlin.String#kotlin.Int#kotlin.Int/PointingToDeclaration/-klogging/io.klogging.config/getenv-int.html
 $dokka.location:io.klogging.config//getenvLong/#kotlin.String#kotlin.Long#kotlin.Long/PointingToDeclaration/-klogging/io.klogging.config/getenv-long.html
-$dokka.location:io.klogging.config//graylog/#kotlin.String#kotlin.Int#kotlin.Function1[io.klogging.events.LogEvent,kotlin.String]/PointingToDeclaration/-klogging/io.klogging.config/graylog.html
+$dokka.location:io.klogging.config//graylog/#kotlin.String#kotlin.Int#io.klogging.rendering.RenderString/PointingToDeclaration/-klogging/io.klogging.config/graylog.html
 $dokka.location:io.klogging.config//loggingConfiguration/#kotlin.Boolean#kotlin.Function1[io.klogging.config.KloggingConfiguration,kotlin.Unit]/PointingToDeclaration/-klogging/io.klogging.config/logging-configuration.html
-$dokka.location:io.klogging.config//seq/#kotlin.String#kotlin.String?#kotlin.Boolean#kotlin.Function1[io.klogging.events.LogEvent,kotlin.String]/PointingToDeclaration/-klogging/io.klogging.config/seq.html
+$dokka.location:io.klogging.config//seq/#kotlin.String#kotlin.String?#kotlin.Boolean#io.klogging.rendering.RenderString/PointingToDeclaration/-klogging/io.klogging.config/seq.html
 $dokka.location:io.klogging.config/ConfigDsl///PointingToDeclaration/-klogging/io.klogging.config/-config-dsl/index.html
 $dokka.location:io.klogging.config/FileConfiguration///PointingToDeclaration/-klogging/io.klogging.config/-file-configuration/index.html
 $dokka.location:io.klogging.config/FileConfiguration/FileConfiguration/#kotlin.String?#io.klogging.Level#io.klogging.Level#kotlin.collections.Map[kotlin.String,io.klogging.config.FileSinkConfiguration]#kotlin.collections.List[io.klogging.config.FileLoggingConfig]#kotlin.collections.Map[kotlin.String,kotlin.String]/PointingToDeclaration/-klogging/io.klogging.config/-file-configuration/-file-configuration.html
@@ -64,8 +64,8 @@ $dokka.location:io.klogging.config/KloggingConfiguration/loggingConfigPath/#kotl
 $dokka.location:io.klogging.config/KloggingConfiguration/minDirectLogLevel/#io.klogging.Level/PointingToDeclaration/-klogging/io.klogging.config/-klogging-configuration/min-direct-log-level.html
 $dokka.location:io.klogging.config/KloggingConfiguration/minimumLevelOf/#kotlin.String/PointingToDeclaration/-klogging/io.klogging.config/-klogging-configuration/minimum-level-of.html
 $dokka.location:io.klogging.config/KloggingConfiguration/sink/#kotlin.String#io.klogging.config.SinkConfiguration/PointingToDeclaration/-klogging/io.klogging.config/-klogging-configuration/sink.html
+$dokka.location:io.klogging.config/KloggingConfiguration/sink/#kotlin.String#io.klogging.rendering.RenderString#io.klogging.sending.SendString/PointingToDeclaration/-klogging/io.klogging.config/-klogging-configuration/sink.html
 $dokka.location:io.klogging.config/KloggingConfiguration/sink/#kotlin.String#io.klogging.sending.EventSender/PointingToDeclaration/-klogging/io.klogging.config/-klogging-configuration/sink.html
-$dokka.location:io.klogging.config/KloggingConfiguration/sink/#kotlin.String#kotlin.Function1[io.klogging.events.LogEvent,kotlin.String]#kotlin.Function1[kotlin.String,kotlin.Unit]/PointingToDeclaration/-klogging/io.klogging.config/-klogging-configuration/sink.html
 $dokka.location:io.klogging.config/LevelRange.Companion///PointingToDeclaration/-klogging/io.klogging.config/-level-range/-companion/index.html
 $dokka.location:io.klogging.config/LevelRange.Companion/invoke/#io.klogging.Level#io.klogging.Level/PointingToDeclaration/-klogging/io.klogging.config/-level-range/-companion/invoke.html
 $dokka.location:io.klogging.config/LevelRange///PointingToDeclaration/-klogging/io.klogging.config/-level-range/index.html
@@ -91,7 +91,7 @@ $dokka.location:io.klogging.config/RenderHec/renderer/#/PointingToDeclaration/-
 $dokka.location:io.klogging.config/RenderHec/source/#/PointingToDeclaration/-klogging/io.klogging.config/-render-hec/source.html
 $dokka.location:io.klogging.config/RenderHec/sourceType/#/PointingToDeclaration/-klogging/io.klogging.config/-render-hec/source-type.html
 $dokka.location:io.klogging.config/SinkConfiguration///PointingToDeclaration/-klogging/io.klogging.config/-sink-configuration/index.html
-$dokka.location:io.klogging.config/SinkConfiguration/SinkConfiguration/#kotlin.Function1[io.klogging.events.LogEvent,kotlin.String]#kotlin.Function1[kotlin.String,kotlin.Unit]#io.klogging.sending.EventSender/PointingToDeclaration/-klogging/io.klogging.config/-sink-configuration/-sink-configuration.html
+$dokka.location:io.klogging.config/SinkConfiguration/SinkConfiguration/#io.klogging.rendering.RenderString#io.klogging.sending.SendString#io.klogging.sending.EventSender/PointingToDeclaration/-klogging/io.klogging.config/-sink-configuration/-sink-configuration.html
 $dokka.location:io.klogging.context////PointingToDeclaration/-klogging/io.klogging.context/index.html
 $dokka.location:io.klogging.context//addToContext/#kotlin.Array[kotlin.Pair[kotlin.String,kotlin.Any?]]/PointingToDeclaration/-klogging/io.klogging.context/add-to-context.html
 $dokka.location:io.klogging.context//logContext/#kotlin.Array[kotlin.Pair[kotlin.String,kotlin.Any?]]/PointingToDeclaration/-klogging/io.klogging.context/log-context.html
@@ -166,13 +166,12 @@ $dokka.location:io.klogging.rendering//serializeMap/#kotlin.collections.Map[kotl
 $dokka.location:io.klogging.rendering//shortenName/#kotlin.CharSequence#kotlin.Int/PointingToDeclaration/-klogging/io.klogging.rendering/shorten-name.html
 $dokka.location:io.klogging.rendering//yellow/#kotlin.String/PointingToDeclaration/-klogging/io.klogging.rendering/yellow.html
 $dokka.location:io.klogging.rendering/RenderString///PointingToDeclaration/-klogging/io.klogging.rendering/-render-string/index.html
-$dokka.location:io.klogging.rendering/Renderer///PointingToDeclaration/-klogging/io.klogging.rendering/-renderer/index.html
-$dokka.location:io.klogging.rendering/Renderer/renderString/#/PointingToDeclaration/-klogging/io.klogging.rendering/-renderer/render-string.html
+$dokka.location:io.klogging.rendering/RenderString/invoke/#io.klogging.events.LogEvent/PointingToDeclaration/-klogging/io.klogging.rendering/-render-string/invoke.html
 $dokka.location:io.klogging.sending////PointingToDeclaration/-klogging/io.klogging.sending/index.html
 $dokka.location:io.klogging.sending//STDERR/#/PointingToDeclaration/-klogging/io.klogging.sending/-s-t-d-e-r-r.html
 $dokka.location:io.klogging.sending//STDOUT/#/PointingToDeclaration/-klogging/io.klogging.sending/-s-t-d-o-u-t.html
 $dokka.location:io.klogging.sending//receiveBatch/#kotlinx.coroutines.channels.ReceiveChannel[TypeParam(bounds=[kotlin.Any?])]#kotlin.Long#kotlin.Int/PointingToDeclaration/-klogging/io.klogging.sending/receive-batch.html
-$dokka.location:io.klogging.sending//senderFrom/#kotlin.Function1[io.klogging.events.LogEvent,kotlin.String]#kotlin.Function1[kotlin.String,kotlin.Unit]/PointingToDeclaration/-klogging/io.klogging.sending/sender-from.html
+$dokka.location:io.klogging.sending//senderFrom/#io.klogging.rendering.RenderString#io.klogging.sending.SendString/PointingToDeclaration/-klogging/io.klogging.sending/sender-from.html
 $dokka.location:io.klogging.sending//splunkServer/#kotlin.String#kotlin.String#kotlin.Boolean/PointingToDeclaration/-klogging/io.klogging.sending/splunk-server.html
 $dokka.location:io.klogging.sending/ElkEndpoint///PointingToDeclaration/-klogging/io.klogging.sending/-elk-endpoint/index.html
 $dokka.location:io.klogging.sending/ElkEndpoint/ElkEndpoint/#kotlin.String#kotlin.String/PointingToDeclaration/-klogging/io.klogging.sending/-elk-endpoint/-elk-endpoint.html
@@ -185,8 +184,7 @@ $dokka.location:io.klogging.sending/Endpoint/port/#/PointingToDeclaration/-klog
 $dokka.location:io.klogging.sending/EventSender///PointingToDeclaration/-klogging/io.klogging.sending/-event-sender/index.html
 $dokka.location:io.klogging.sending/EventSender/invoke/#kotlin.collections.List[io.klogging.events.LogEvent]/PointingToDeclaration/-klogging/io.klogging.sending/-event-sender/invoke.html
 $dokka.location:io.klogging.sending/SendString///PointingToDeclaration/-klogging/io.klogging.sending/-send-string/index.html
-$dokka.location:io.klogging.sending/Sender///PointingToDeclaration/-klogging/io.klogging.sending/-sender/index.html
-$dokka.location:io.klogging.sending/Sender/sendString/#/PointingToDeclaration/-klogging/io.klogging.sending/-sender/send-string.html
+$dokka.location:io.klogging.sending/SendString/invoke/#kotlin.String/PointingToDeclaration/-klogging/io.klogging.sending/-send-string/invoke.html
 $dokka.location:io.klogging.sending/SplunkEndpoint///PointingToDeclaration/-klogging/io.klogging.sending/-splunk-endpoint/index.html
 $dokka.location:io.klogging.sending/SplunkEndpoint/SplunkEndpoint/#kotlin.String#kotlin.String#kotlin.String?#kotlin.String?#kotlin.String?#kotlin.String/PointingToDeclaration/-klogging/io.klogging.sending/-splunk-endpoint/-splunk-endpoint.html
 $dokka.location:io.klogging.sending/SplunkEndpoint/checkCertificate/#/PointingToDeclaration/-klogging/io.klogging.sending/-splunk-endpoint/check-certificate.html
