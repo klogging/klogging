@@ -976,10 +976,6 @@ public abstract interface class io/klogging/sending/SendString {
 	public abstract fun invoke (Ljava/lang/String;)V
 }
 
-public abstract interface class io/klogging/sending/Sender {
-	public abstract fun sendString ()Lio/klogging/sending/SendString;
-}
-
 public final class io/klogging/sending/SplunkEndpoint {
 	public static final field Companion Lio/klogging/sending/SplunkEndpoint$Companion;
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
