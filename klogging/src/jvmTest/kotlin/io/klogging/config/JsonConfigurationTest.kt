@@ -25,6 +25,7 @@ import io.klogging.Level.INFO
 import io.klogging.Level.TRACE
 import io.klogging.context.Context
 import io.klogging.events.LogEvent
+import io.klogging.genMessage
 import io.klogging.genString
 import io.klogging.internal.KloggingEngine
 import io.klogging.logEvent
@@ -32,7 +33,6 @@ import io.klogging.randomString
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RENDER_SIMPLE
 import io.klogging.rendering.RenderString
-import io.klogging.rendering.Renderer
 import io.klogging.sending.STDOUT
 import io.klogging.sending.SendString
 import io.klogging.sending.Sender
@@ -45,6 +45,7 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.property.arbitrary.next
+import io.kotest.property.checkAll
 import kotlinx.serialization.json.Json
 
 internal class JsonConfigurationTest : DescribeSpec({
@@ -280,20 +281,21 @@ internal class JsonConfigurationTest : DescribeSpec({
 
                     sinkConfig shouldBe null
                 }
-                it("returns configuration with the name of a `Renderer` class on the classpath") {
-                    val rendererClassName = MessageOnlyRenderer::class.java.name
-                    val rendererConfig = Json.decodeFromString<FileSinkConfiguration>(
+                it("returns configuration with the name of a `RenderString` class on the classpath") {
+                    val renderStringClassName = RenderMessageOnly::class.java.name
+                    val renderStringConfig = Json.decodeFromString<FileSinkConfiguration>(
                         """{
-                            "renderWith": "$rendererClassName",
+                            "renderWith": "$renderStringClassName",
                             "sendTo": "STDOUT"
                             }
                         """.trimIndent(),
                     ).toSinkConfiguration()
 
-                    rendererConfig?.renderer.let { renderer ->
+                    renderStringConfig?.renderer.let { renderer ->
                         renderer.shouldNotBeNull()
-                        val message = randomString()
-                        renderer(logEvent(message = message)) shouldBe message
+                        checkAll(genMessage) { message ->
+                            renderer(logEvent(message = message)) shouldBe message
+                        }
                     }
                 }
                 it("returns configuration with the name of a `Sender` class on the classpath") {
@@ -353,10 +355,8 @@ internal class JsonConfigurationTest : DescribeSpec({
     }
 })
 
-class MessageOnlyRenderer : Renderer {
-    override fun renderString(): RenderString = object : RenderString {
-        override fun invoke(event: LogEvent): String = event.message
-    }
+class RenderMessageOnly : RenderString {
+    override operator fun invoke(event: LogEvent): String = event.message
 }
 
 var savedString: String = ""

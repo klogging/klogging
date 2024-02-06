@@ -24,7 +24,6 @@ import io.klogging.Level.TRACE
 import io.klogging.internal.debug
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RenderString
-import io.klogging.rendering.Renderer
 import io.klogging.rendering.renderHec
 import io.klogging.sending.EventSender
 import io.klogging.sending.SendString
@@ -88,7 +87,7 @@ public data class FileSinkConfiguration(
             }
         }
         val renderer = builtInRenderers[renderWith]
-            ?: loadRendererByName(renderWith)
+            ?: loadByName(renderWith)
             ?: renderHec?.renderer
         if (splunkServer != null) {
             return SinkConfiguration(eventSender = SplunkHec(splunkServer.evalEnv(), renderer ?: renderHec()))
@@ -233,15 +232,6 @@ public data class FileLevelRange(
 }
 
 internal expect fun <T : Any> loadByName(className: String?): T?
-
-/**
- * Load a [RenderString] instance by name from the classpath.
- *
- * @param className fully-qualified class name of the class
- * @return a class that implements [RenderString] with that name, if found
- */
-internal fun loadRendererByName(className: String?): RenderString? =
-    loadByName<Renderer>(className)?.renderString()
 
 /**
  * Load a [SendString] instance by name from the classpath.
