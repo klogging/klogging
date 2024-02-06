@@ -24,6 +24,7 @@ import io.klogging.Level.FATAL
 import io.klogging.Level.INFO
 import io.klogging.Level.TRACE
 import io.klogging.context.Context
+import io.klogging.events.LogEvent
 import io.klogging.genString
 import io.klogging.internal.KloggingEngine
 import io.klogging.logEvent
@@ -353,7 +354,9 @@ internal class JsonConfigurationTest : DescribeSpec({
 })
 
 class MessageOnlyRenderer : Renderer {
-    override fun renderString(): RenderString = { it.message }
+    override fun renderString(): RenderString = object : RenderString {
+        override fun invoke(event: LogEvent): String = event.message
+    }
 }
 
 var savedString: String = ""

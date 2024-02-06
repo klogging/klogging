@@ -38,22 +38,24 @@ import io.klogging.events.LogEvent
  * - `context` (if present) -> `context` in `labels` object
  * - `items` (if present) -> `items` (object)
  */
-public val RENDER_ECS: RenderString = { e: LogEvent ->
-    val eventMap: MutableMap<String, Any?> = mutableMapOf(
-        "@timestamp" to e.timestamp,
-        "host.name" to e.host,
-        "log.logger" to e.logger,
-        "log.level" to e.level.name,
-        "message" to e.evalTemplate(),
-        "error.stack_trace" to e.stackTrace,
-        "error.message" to e.stackTrace?.let { e.evalTemplate() },
-    )
-    if (e.context != null) {
-        eventMap += "labels" to mapOf("context" to e.context)
-    }
-    if (e.items.isNotEmpty()) {
-        eventMap += "items" to e.items
-    }
+public val RENDER_ECS: RenderString = object : RenderString {
+    override fun invoke(event: LogEvent): String {
+        val eventMap: MutableMap<String, Any?> = mutableMapOf(
+            "@timestamp" to event.timestamp,
+            "host.name" to event.host,
+            "log.logger" to event.logger,
+            "log.level" to event.level.name,
+            "message" to event.evalTemplate(),
+            "error.stack_trace" to event.stackTrace,
+            "error.message" to event.stackTrace?.let { event.evalTemplate() },
+        )
+        if (event.context != null) {
+            eventMap += "labels" to mapOf("context" to event.context)
+        }
+        if (event.items.isNotEmpty()) {
+            eventMap += "items" to event.items
+        }
 
-    serializeMap(eventMap.filterValues { it != null })
+        return serializeMap(eventMap.filterValues { it != null })
+    }
 }

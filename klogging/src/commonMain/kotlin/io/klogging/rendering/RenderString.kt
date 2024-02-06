@@ -20,8 +20,16 @@ package io.klogging.rendering
 
 import io.klogging.events.LogEvent
 
-/** Functional type for rendering a [LogEvent] to a String. */
-public typealias RenderString = (LogEvent) -> String
+/** Interface for rendering a [LogEvent] to a String. */
+public interface RenderString {
+    /**
+     * Render a log event into a string.
+     *
+     * @param event log event
+     * @return a string representation of the event
+     */
+    public operator fun invoke(event: LogEvent): String
+}
 
 /** Right-align the string into a fixed-width space. */
 public fun String.rightAlign(width: Int): String =

@@ -18,6 +18,7 @@
 
 package io.klogging.config
 
+import io.klogging.events.LogEvent
 import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RENDER_SIMPLE
 import io.klogging.rendering.RenderString
@@ -34,7 +35,9 @@ class ConfigurationExtensionsTest : DescribeSpec({
             sinkConfig.updateRenderer("CLEF").renderer shouldBe RENDER_CLEF
         }
         it("does not set the renderer when the name does not match a built-in one") {
-            val testRenderer: RenderString = { "Test" }
+            val testRenderer: RenderString = object : RenderString {
+                override fun invoke(event: LogEvent): String = "Test"
+            }
             val sinkConfig = SinkConfiguration(testRenderer, STDERR)
             sinkConfig.updateRenderer("JUNK").renderer shouldBe testRenderer
         }
