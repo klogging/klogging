@@ -79,13 +79,13 @@ public data class FileSinkConfiguration(
      */
     internal fun toSinkConfiguration(): SinkConfiguration? {
         if (eventSender != null) {
-            val sender = loadByName<EventSender>(eventSender)
+            val sender = loadByClassName<EventSender>(eventSender)
             if (sender != null) {
                 return SinkConfiguration(eventSender = sender)
             }
         }
         val renderer = builtInRenderers[renderWith]
-            ?: loadByName(renderWith)
+            ?: loadByClassName(renderWith)
             ?: renderHec?.renderer
         if (splunkServer != null) {
             return SinkConfiguration(eventSender = SplunkHec(splunkServer.evalEnv(), renderer ?: renderHec()))
@@ -99,7 +99,7 @@ public data class FileSinkConfiguration(
             )
         }
         val sender = builtInSenders[sendTo]
-            ?: loadByName(sendTo)
+            ?: loadByClassName(sendTo)
         return if (renderer != null && sender != null) {
             SinkConfiguration(renderer, sender)
         } else {
@@ -235,4 +235,4 @@ public data class FileLevelRange(
  * @param className fully-qualified name of the class, which might be null
  * @return an instance of that class if found, or null
  */
-internal expect fun <T : Any> loadByName(className: String?): T?
+internal expect fun <T : Any> loadByClassName(className: String?): T?

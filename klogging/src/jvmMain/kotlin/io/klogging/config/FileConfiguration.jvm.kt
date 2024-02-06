@@ -23,7 +23,7 @@ import io.klogging.internal.warn
 import kotlin.reflect.full.createInstance
 
 @Suppress("UNCHECKED_CAST")
-internal actual fun <T : Any> loadByName(className: String?): T? = className?.let { name ->
+internal actual fun <T : Any> loadByClassName(className: String?): T? = className?.let { name ->
     try {
         val eventSender = Class.forName(name).kotlin.createInstance() as T
         debug("File Configuration", "Loaded EventSender class $name")

@@ -18,6 +18,6 @@
 
 package io.klogging.config
 
-internal actual fun <T : Any> loadByName(className: String?): T? {
+internal actual fun <T : Any> loadByClassName(className: String?): T? {
     TODO("Not yet implemented")
 }

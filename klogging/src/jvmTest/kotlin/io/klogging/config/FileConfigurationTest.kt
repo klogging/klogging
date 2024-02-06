@@ -24,8 +24,12 @@ import io.klogging.Level.FATAL
 import io.klogging.Level.INFO
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
+import io.klogging.events.LogEvent
+import io.klogging.rendering.RenderString
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeInstanceOf
+import io.kotest.matchers.types.shouldBeTypeOf
 
 class FileConfigurationTest : DescribeSpec({
     describe("`FileLevelRange.toLevelRange` function") {
@@ -64,4 +68,15 @@ class FileConfigurationTest : DescribeSpec({
             ).toLevelRange() shouldBe LevelRange(INFO, WARN)
         }
     }
+    describe("`loadByClassName()` function") {
+        it("loads a class instance from the classpath by its name") {
+            val testRenderer = loadByClassName<RenderString>("io.klogging.config.TestRenderer")
+            testRenderer.shouldBeInstanceOf<RenderString>()
+            testRenderer.shouldBeTypeOf<TestRenderer>()
+        }
+    }
 })
+
+class TestRenderer : RenderString {
+    override fun invoke(event: LogEvent): String = event.message
+}
