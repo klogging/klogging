@@ -26,8 +26,6 @@ import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RenderString
 import io.klogging.rendering.renderHec
 import io.klogging.sending.EventSender
-import io.klogging.sending.SendString
-import io.klogging.sending.Sender
 import io.klogging.sending.SplunkEndpoint
 import io.klogging.sending.SplunkHec
 import kotlinx.serialization.Serializable
@@ -81,7 +79,7 @@ public data class FileSinkConfiguration(
      */
     internal fun toSinkConfiguration(): SinkConfiguration? {
         if (eventSender != null) {
-            val sender = loadEventSenderByName(eventSender)
+            val sender = loadByName<EventSender>(eventSender)
             if (sender != null) {
                 return SinkConfiguration(eventSender = sender)
             }
@@ -101,7 +99,7 @@ public data class FileSinkConfiguration(
             )
         }
         val sender = builtInSenders[sendTo]
-            ?: loadSenderByName(sendTo)
+            ?: loadByName(sendTo)
         return if (renderer != null && sender != null) {
             SinkConfiguration(renderer, sender)
         } else {
@@ -231,23 +229,10 @@ public data class FileLevelRange(
     }
 }
 
+/**
+ * Load a class from the classpath by name.
+ *
+ * @param className fully-qualified name of the class, which might be null
+ * @return an instance of that class if found, or null
+ */
 internal expect fun <T : Any> loadByName(className: String?): T?
-
-/**
- * Load a [SendString] instance by name from the classpath.
- *
- * @param className fully-qualified class name of the class
- * @return a class that implements [SendString] with that name, if found
- */
-
-internal fun loadSenderByName(className: String?): SendString? =
-    loadByName<Sender>(className)?.sendString()
-
-/**
- * Load a [EventSender] instance by name from the classpath.
- *
- * @param className fully-qualified class name of the class
- * @return a class that implements [EventSender] with that name, if found
- */
-
-internal fun loadEventSenderByName(className: String?): EventSender? = loadByName(className)

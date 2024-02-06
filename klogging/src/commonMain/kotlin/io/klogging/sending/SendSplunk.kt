@@ -36,9 +36,11 @@ public fun splunkServer(
     hecUrl: String,
     hecToken: String,
     checkCertificate: Boolean = true,
-): SendString = { eventString ->
-    SendingLauncher.launch {
-        sendToSplunk(hecUrl, hecToken, checkCertificate, eventString)
+): SendString = object : SendString {
+    override fun invoke(eventString: String) {
+        SendingLauncher.launch {
+            sendToSplunk(hecUrl, hecToken, checkCertificate, eventString)
+        }
     }
 }
 

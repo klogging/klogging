@@ -35,7 +35,6 @@ import io.klogging.rendering.RENDER_SIMPLE
 import io.klogging.rendering.RenderString
 import io.klogging.sending.STDOUT
 import io.klogging.sending.SendString
-import io.klogging.sending.Sender
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.extensions.system.withEnvironment
 import io.kotest.matchers.collections.shouldHaveSize
@@ -361,6 +360,8 @@ class RenderMessageOnly : RenderString {
 
 var savedString: String = ""
 
-class StringSavingSender : Sender {
-    override fun sendString(): SendString = { savedString = it }
+class StringSavingSender : SendString {
+    override fun invoke(eventString: String) {
+        savedString = eventString
+    }
 }

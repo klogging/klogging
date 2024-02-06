@@ -23,9 +23,11 @@ internal fun seqServer(
     url: String,
     apiKey: String?,
     checkCertificate: Boolean,
-): SendString = { eventString ->
-    SendingLauncher.launch {
-        sendToSeq(url, apiKey, checkCertificate, eventString)
+): SendString = object : SendString {
+    override fun invoke(eventString: String) {
+        SendingLauncher.launch {
+            sendToSeq(url, apiKey, checkCertificate, eventString)
+        }
     }
 }
 
