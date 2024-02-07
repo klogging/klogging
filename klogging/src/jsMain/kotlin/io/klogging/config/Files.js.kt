@@ -22,7 +22,7 @@ internal actual fun fileText(filePath: String?): String? {
     TODO("Not yet implemented")
 }
 
-internal actual fun findFileConfigText(configPath: String?): ConfigFile? {
+internal actual fun findConfigFile(configPath: String?): ConfigFile? {
     TODO("Not yet implemented")
 }
 

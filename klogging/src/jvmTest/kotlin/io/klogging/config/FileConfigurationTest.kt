@@ -25,9 +25,14 @@ import io.klogging.Level.INFO
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
 import io.klogging.events.LogEvent
+import io.klogging.fixturePath
 import io.klogging.rendering.RenderString
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.extensions.system.withEnvironment
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldEndWith
+import io.kotest.matchers.string.shouldStartWith
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.kotest.matchers.types.shouldBeTypeOf
 
@@ -73,6 +78,28 @@ class FileConfigurationTest : DescribeSpec({
             val testRenderer = loadByClassName<RenderString>("io.klogging.config.TestRenderer")
             testRenderer.shouldBeInstanceOf<RenderString>()
             testRenderer.shouldBeTypeOf<TestRenderer>()
+        }
+    }
+    describe("`findConfigFile()` function`") {
+        it("uses a specified path if the file exists") {
+            val path = fixturePath("klogging-test.json")
+            val configFile = findConfigFile(path)
+            configFile.shouldNotBeNull()
+            configFile.path shouldBe path
+        }
+        it("uses a path specified in the `KLOGGING_CONFIG_PATH` environment variable") {
+            val path = fixturePath("klogging-test.json")
+            withEnvironment(ENV_KLOGGING_CONFIG_PATH, path) {
+                val configFile = findConfigFile()
+                configFile.shouldNotBeNull()
+                configFile.path shouldBe path
+            }
+        }
+        it("finds `klogging.json` on the classpath") {
+            val configFile = findConfigFile()
+            configFile.shouldNotBeNull()
+            configFile.path shouldEndWith ".json"
+            configFile.contents shouldStartWith "{"
         }
     }
 })

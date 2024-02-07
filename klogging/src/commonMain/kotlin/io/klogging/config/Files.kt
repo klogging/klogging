@@ -43,7 +43,7 @@ internal data class ConfigFile(
  * @param configPath path of the file to read
  * @return config file contents, if it was found
  */
-internal expect fun findFileConfigText(configPath: String? = null): ConfigFile?
+internal expect fun findConfigFile(configPath: String? = null): ConfigFile?
 
 /**
  * Read configuration from a string read from a configuration file.
@@ -57,5 +57,5 @@ internal expect fun configureFromFile(configFile: ConfigFile?): KloggingConfigur
  * Lazily load configuration from a file.
  */
 public val configLoadedFromFile: KloggingConfiguration? by lazy {
-    configureFromFile(findFileConfigText())
+    configureFromFile(findConfigFile())
 }

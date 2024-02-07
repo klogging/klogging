@@ -64,7 +64,7 @@ internal actual fun fileText(filePath: String?): String? = filePath?.let { path 
  *
  * @return a [ConfigFile] object with the path and contents, if found; else null
  */
-internal actual fun findFileConfigText(configPath: String?): ConfigFile? {
+internal actual fun findConfigFile(configPath: String?): ConfigFile? {
 
     val filePath = configPath
         ?: getenv(ENV_KLOGGING_CONFIG_JSON_PATH)
@@ -86,8 +86,8 @@ internal actual fun findFileConfigText(configPath: String?): ConfigFile? {
 
 internal actual fun configureFromFile(configFile: ConfigFile?): KloggingConfiguration? = configFile?.let {
     when {
-        configFile.path.endsWith(".json") -> JsonConfiguration.configure(configFile.contents)
-        configFile.path.endsWith(".conf") -> HoconConfiguration.configure(configFile.contents)
+        configFile.path.lowercase().endsWith(".json") -> JsonConfiguration.configure(configFile.contents)
+        configFile.path.lowercase().endsWith(".conf") -> HoconConfiguration.configure(configFile.contents)
         else -> null
     }
 }
