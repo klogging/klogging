@@ -27,6 +27,7 @@ import io.klogging.Level.WARN
 import io.klogging.events.LogEvent
 import io.klogging.fixturePath
 import io.klogging.rendering.RenderString
+import io.klogging.sending.SendString
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.extensions.system.withEnvironment
 import io.kotest.matchers.nulls.shouldNotBeNull
@@ -74,10 +75,15 @@ class FileConfigurationTest : DescribeSpec({
         }
     }
     describe("`loadByClassName()` function") {
-        it("loads a class instance from the classpath by its name") {
+        it("instantiates a class from the classpath by its name") {
             val testRenderer = loadByClassName<RenderString>("io.klogging.config.TestRenderer")
             testRenderer.shouldBeInstanceOf<RenderString>()
             testRenderer.shouldBeTypeOf<TestRenderer>()
+        }
+        it("finds an object from the classpath by its name") {
+            val testRenderer = loadByClassName<SendString>("io.klogging.config.DoNothingSender")
+            testRenderer.shouldBeInstanceOf<SendString>()
+            testRenderer.shouldBeTypeOf<DoNothingSender>()
         }
     }
     describe("`findConfigFile()` function`") {
@@ -106,4 +112,8 @@ class FileConfigurationTest : DescribeSpec({
 
 class TestRenderer : RenderString {
     override fun invoke(event: LogEvent): String = event.message
+}
+
+object DoNothingSender : SendString {
+    override fun invoke(eventString: String) {}
 }

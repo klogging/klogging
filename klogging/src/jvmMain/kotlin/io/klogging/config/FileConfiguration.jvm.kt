@@ -25,11 +25,12 @@ import kotlin.reflect.full.createInstance
 @Suppress("UNCHECKED_CAST")
 internal actual fun <T : Any> loadByClassName(className: String?): T? = className?.let { name ->
     try {
-        val eventSender = Class.forName(name).kotlin.createInstance() as T
-        debug("File Configuration", "Loaded EventSender class $name")
-        eventSender
+        val kClass = Class.forName(name).kotlin
+        val theObject = (kClass.objectInstance ?: kClass.createInstance()) as T
+        debug("File Configuration", "Loaded class $name")
+        theObject
     } catch (ex: Exception) {
-        warn("File Configuration", "Failed to load EventSender class $name", ex)
+        warn("File Configuration", "Failed to load class $name", ex)
         null
     }
 }
