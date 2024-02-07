@@ -62,6 +62,8 @@ internal val defaultMinDirectLogLevel: Level = try {
  */
 @ConfigDsl
 public fun loggingConfiguration(append: Boolean = false, block: KloggingConfiguration.() -> Unit) {
+    // Ensure file configuration has been loaded
+    KloggingEngine.configuration
     val dslConfig = KloggingConfiguration()
     dslConfig.apply(block)
     val combinedConfig = combineFileAndDsl(dslConfig)

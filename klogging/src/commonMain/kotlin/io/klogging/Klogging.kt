@@ -33,8 +33,7 @@ private val LOGGERS: MutableMap<String, Klogger> = AtomicMutableMap()
  * or creating a new one if needed.
  */
 internal fun loggerFor(name: String?): Klogger {
-    // This property is lazily set by checking for a JSON configuration file.
-    // TODO: Can we ensure this is not optimised out of the code?
+    // Ensure file configuration has been loaded
     KloggingEngine.configuration
     val loggerName = name ?: "Klogger"
     return LOGGERS.getOrPut(loggerName) {
