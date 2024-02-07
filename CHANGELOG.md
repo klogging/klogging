@@ -1,5 +1,15 @@
 # Klogging changes
 
+## Version 0.5.10
+
+- Reimplemented functional typealiases `RenderString`, `SendString` and `EventSender` as interfaces to support loading
+  named values from the classpath – [issue 211](https://github.com/klogging/klogging/issues/211)
+- Improved JDK Platform Logging implementation – [issue 231](https://github.com/klogging/klogging/issues/231)
+- Ability to set base context items in configuration
+  files – [issue 148](https://github.com/klogging/klogging/issues/148)
+- Fixed bug in loading and parsing HOCON configuration
+  files – [issue 233](https://github.com/klogging/klogging/issues/233)
+
 ## Version 0.5.9
 
 - Ability to explicitly include a map of items in a logging call –
@@ -69,7 +79,6 @@ A number of bug fixes and improvements.
 - [One-line renderer with ISO8601 timestamps](https://klogging.io/docs/configuration/built-ins#render_iso8601)
 - [Env var for setting built-in renderer for a sink](https://klogging.io/docs/internals/environment-variables)
 - [`toMaxLevel` function for defining loggers](https://klogging.io/docs/configuration/dsl#fromminlevel-tomaxlevel-atlevel-and-inlevelrange)
-
 
 ## Version 0.4.0
 
