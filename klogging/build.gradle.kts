@@ -83,8 +83,3 @@ testlogger {
     showSkipped = true
     showFailed = true
 }
-
-// Allow Kotest `withEnvironment()` tests to run.
-tasks.withType<Test>().configureEach {
-    jvmArgs("--add-opens=java.base/java.util=ALL-UNNAMED")
-}
