@@ -39,7 +39,7 @@ public object HoconConfiguration {
      */
     internal fun readConfig(configHocon: String): FileConfiguration? =
         try {
-            val config = ConfigFactory.parseString(configHocon)
+            val config = ConfigFactory.parseString(configHocon).resolve()
             hocon.decodeFromConfig(FileConfiguration.serializer(), config)
         } catch (ex: ConfigException) {
             warn("HoconConfiguration", "Exception parsing HOCON", ex)

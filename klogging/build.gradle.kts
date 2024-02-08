@@ -83,3 +83,7 @@ testlogger {
     showSkipped = true
     showFailed = true
 }
+
+tasks.withType<Test> {
+    environment("ENV_VAR_SUBSTITUTION_TEST" to "RENDER_ANSI")
+}
