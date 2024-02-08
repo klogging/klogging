@@ -84,6 +84,7 @@ testlogger {
     showFailed = true
 }
 
-tasks.withType<Test> {
-    environment("ENV_VAR_SUBSTITUTION_TEST" to "RENDER_ANSI")
+// Allow Kotest `withEnvironment()` tests to run.
+tasks.withType<Test>().configureEach {
+    jvmArgs("--add-opens=java.base/java.util=ALL-UNNAMED")
 }

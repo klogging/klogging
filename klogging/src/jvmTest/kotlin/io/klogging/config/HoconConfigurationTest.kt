@@ -192,34 +192,37 @@ internal class HoconConfigurationTest : DescribeSpec({
             }
         }
         describe("config with substitution from environment variable") {
-            val hoconConfig = """
-                sinks {
-                  stdout {
-                    renderWith = RENDER_CLEF
-                    renderWith = ${'$'}{ENV_VAR_SUBSTITUTION_TEST}
-                    sendTo = STDOUT
-                  }
-                }
-            """.trimIndent()
             it("picks a value from environment variable") {
-                val config = HoconConfiguration.readConfig(hoconConfig).shouldNotBeNull()
-                config.sinks["stdout"].shouldNotBeNull()
+                withEnvironment("ENV_VAR_SUBSTITUTION_TEST", "RENDER_ANSI") {
+                    HoconConfiguration.readConfig(
+                        """
+                            sinks {
+                              stdout {
+                                renderWith = RENDER_CLEF
+                                renderWith = ${'$'}{ENV_VAR_SUBSTITUTION_TEST}
+                                sendTo = STDOUT
+                              }
+                            }
+                        """.trimIndent()
+                    )
+                }.shouldNotBeNull()
+                    .sinks["stdout"].shouldNotBeNull()
                     .renderWith shouldBe "RENDER_ANSI"
             }
-        }
-        describe("config with optional substitution from not existing environment variable") {
-            val hoconConfig = """
-                sinks {
-                  stdout {
-                    renderWith = RENDER_CLEF
-                    renderWith = ${'$'}{?NOT_EXISTING_ENV_VAR}
-                    sendTo = STDOUT
-                  }
-                }
-            """.trimIndent()
-            it("silently ignore missing value from optional environment variable") {
-                val config = HoconConfiguration.readConfig(hoconConfig).shouldNotBeNull()
-                config.sinks["stdout"].shouldNotBeNull()
+            it("ignores a non-existent environment variable") {
+                HoconConfiguration.readConfig(
+                    """
+                        sinks {
+                          stdout {
+                            renderWith = RENDER_CLEF
+                            renderWith = ${'$'}{?N0N_EXISTENT_ENV_VAR}
+                            sendTo = STDOUT
+                          }
+                        }
+                    """.trimIndent()
+                )
+                    .shouldNotBeNull()
+                    .sinks["stdout"].shouldNotBeNull()
                     .renderWith shouldBe "RENDER_CLEF"
             }
         }
