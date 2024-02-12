@@ -30,7 +30,6 @@ See [https://klogging.io](https://klogging.io) for more detailed documentation.
 - [Building Klogging](#building-klogging)
 - [Why another logging library?](#why-another-logging-library)
     - [Why not Logback or Log4j?](#why-not-logback-or-log4j)
-    - [Why not KotlinLogging, Log4j Kotlin, etc.?](#why-not-kotlinlogging-log4j-kotlin-etc)
 
 ## Goals
 
@@ -203,7 +202,3 @@ years. The limitations I find are:
   in to the
   [core of the library](https://github.com/qos-ch/logback/blob/a154cd1b564d436c90a26b8cb1a2e8ffff0a4a47/logback-classic/src/main/java/ch/qos/logback/classic/spi/ILoggingEvent.java#L83):
   that `long` value is milliseconds since the Unix Epoch.
-
-### Why not KotlinLogging, Log4j Kotlin, etc.?
-
-These libraries (mostly) wrap underlying Java libraries and suffer from the same limitations.
