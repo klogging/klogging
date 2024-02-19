@@ -24,7 +24,6 @@ import io.klogging.config.SinkConfiguration
 import io.klogging.config.loggingConfiguration
 import io.klogging.events.LogEvent
 import io.klogging.sending.EventSender
-import kotlinx.coroutines.delay
 import kotlin.random.Random
 import kotlin.random.nextULong
 
@@ -32,27 +31,34 @@ import kotlin.random.nextULong
 fun randomString() = Random.nextULong().toString(16)
 
 /**
- * Wait for log event dispatch.
+ * Implementation of [EventSender] that saves log events into the supplied mutable list.
  *
- * @param millis number of milliseconds to wait
+ * @param saved list where log events will be saved
+ * @return the [EventSender] implementation
  */
-suspend fun waitForDispatch(millis: Long = 200) = delay(millis)
+fun eventSaver(saved: MutableList<LogEvent>): EventSender = object : EventSender {
+    override fun invoke(batch: List<LogEvent>) {
+        saved.addAll(batch)
+    }
+}
 
 /**
- * Klogging configuration that saves all log events into a mutable list, which is returned.
+ * Configuration that saves all logged events into a list for checking by tests.
  *
- * @param minLevel minimum level at which to save log events
- * @return the list where log events will be saved
+ * @param append append this configuration to the existing one
+ * @param logDirect send all log events directly
+ * @return list of saved log events
  */
-fun savedEvents(minLevel: Level = TRACE): MutableList<LogEvent> {
+fun savedEvents(
+    minLevel: Level = TRACE,
+    append: Boolean = false,
+    logDirect: Boolean = true,
+): List<LogEvent> {
     val saved: MutableList<LogEvent> = mutableListOf()
-    val eventSaver: EventSender = object : EventSender {
-        override fun invoke(batch: List<LogEvent>) {
-            saved.addAll(batch)
-        }
-    }
-    loggingConfiguration {
-        sink("test", SinkConfiguration(eventSender = eventSaver))
+    loggingConfiguration(append) {
+        kloggingMinLogLevel(Level.ERROR)
+        if (logDirect) minDirectLogLevel(TRACE)
+        sink("test", SinkConfiguration(eventSender = eventSaver(saved)))
         logging { fromMinLevel(minLevel) { toSink("test") } }
     }
     return saved

@@ -248,7 +248,7 @@ public class NoCoLoggerWrapper(
      * @param arguments list of three or more arguments
      */
     public override fun info(format: String?, vararg arguments: Any?) {
-        format?.let { emitEvent(INFO, it, arguments) }
+        format?.let { emitEvent(INFO, it, *arguments) }
     }
 
     /**
