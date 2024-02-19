@@ -1,5 +1,12 @@
 # Klogging changes
 
+## Version 0.5.11
+
+- Enable loading of `object` renderers and senders from the
+  classpath – [issue 211](https://github.com/klogging/klogging/issues/211)
+- Ensure file configuration is loaded before processing any DSL
+  configuration – [issue 232](https://github.com/klogging/klogging/issues/232)
+
 ## Version 0.5.10
 
 - Reimplemented functional typealiases `RenderString`, `SendString` and `EventSender` as interfaces to support loading
