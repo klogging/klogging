@@ -30,7 +30,7 @@ include(
 
 // Reckon plugin to set version based on Git tags.
 plugins {
-    id("org.ajoberstar.reckon.settings") version "0.18.2"
+    id("org.ajoberstar.reckon.settings") version "0.18.3"
 }
 extensions.configure<org.ajoberstar.reckon.gradle.ReckonExtension> {
     setDefaultInferredScope("minor")
