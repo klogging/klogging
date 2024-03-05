@@ -167,10 +167,6 @@ dependencies {
 
 Clone this repository and run `./gradlew clean build`
 
-**NB** There is an issue with Gradle 8.4 running on Java 21 that fails in the Kotlin Gradle
-plugin. See [Issue 195](https://github.com/klogging/klogging/issues/195) for more information.
-I recommend building Klogging using Java 19 until the issue is resolved in Gradle 8.5.
-
 ## Why another logging library?
 
 Klogging is designed from the ground up to be standalone, pure Kotlin and to
