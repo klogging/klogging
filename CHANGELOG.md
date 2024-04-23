@@ -1,5 +1,11 @@
 # Klogging changes
 
+## Version 0.5.12
+
+- Fix SLF4J provider issue with template and multiple arguments
+- Add RENDER_ECS to named renderers map
+- Multiple dependency updates
+
 ## Version 0.5.11
 
 - Enable loading of `object` renderers and senders from the
