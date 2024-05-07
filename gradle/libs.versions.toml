@@ -4,7 +4,7 @@ binary-compatibility-validator = "0.14.0"
 dokka = "1.9.20"
 hexagon = { strictly = "3.4.7" }
 html-reporter = "0.7.1"
-kotlin = "1.9.23"
+kotlin = "1.9.24"
 kotest = "5.8.1"
 kover = "0.7.6"
 kotlin-coroutines = "1.8.0"
