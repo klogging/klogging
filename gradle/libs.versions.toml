@@ -6,7 +6,7 @@ hexagon = { strictly = "3.4.7" }
 html-reporter = "0.7.1"
 kotlin = "1.9.24"
 kotest = "5.9.0"
-kover = "0.7.6"
+kover = "0.8.0"
 kotlin-coroutines = "1.8.1"
 kotlin-datetime = "0.6.0"
 kotlin-serialisation = "1.6.3"
