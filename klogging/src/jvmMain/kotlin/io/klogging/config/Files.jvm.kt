@@ -30,8 +30,7 @@ import kotlin.text.Charsets.UTF_8
  * @return the text in the file, or `null` if the file is not found.
  */
 internal fun readResourceText(resourcePath: String): String? =
-    // Not 100% sure if using the system classloader will always work.
-    ClassLoader.getSystemClassLoader()
+    Thread.currentThread().contextClassLoader
         .getResourceAsStream(resourcePath)
         ?.bufferedReader(UTF_8)
         ?.let {
