@@ -1,5 +1,8 @@
 # Klogging changes
 
+## Version 0.5.13
+- JVM: load configuration files from current thread classpath
+
 ## Version 0.5.12
 
 - Fix SLF4J provider issue with template and multiple arguments
