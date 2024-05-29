@@ -848,6 +848,10 @@ public class io/klogging/java/LoggerFactory {
 	public static fun getLogger (Ljava/lang/String;)Lio/klogging/NoCoLogger;
 }
 
+public final class io/klogging/rendering/EvalTemplateKt {
+	public static final fun evalTemplate (Lio/klogging/events/LogEvent;)Ljava/lang/String;
+}
+
 public final class io/klogging/rendering/JsonKt {
 	public static final fun serializeMap (Ljava/util/Map;)Ljava/lang/String;
 }
@@ -889,7 +893,6 @@ public final class io/klogging/rendering/RenderIso8601Kt {
 }
 
 public final class io/klogging/rendering/RenderSimpleKt {
-	public static final fun evalTemplate (Lio/klogging/events/LogEvent;)Ljava/lang/String;
 	public static final fun getLocalString (Lkotlinx/datetime/Instant;)Ljava/lang/String;
 	public static final fun getRENDER_SIMPLE ()Lio/klogging/rendering/RenderString;
 }

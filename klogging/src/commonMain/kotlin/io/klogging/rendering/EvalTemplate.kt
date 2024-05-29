@@ -16,23 +16,18 @@
 
 */
 
-package io.klogging.jpl
+package io.klogging.rendering
 
-import io.klogging.noCoLogger
-import java.lang.System.Logger
-import java.lang.System.LoggerFinder
+import io.klogging.events.LogEvent
 
 /**
- * JDK Platform Logging service provider implementation for Klogging.
+ * Extension function that replaces values of placeholders in the `message` field with
+ * values of items whose keys match them.
+ *
+ * For example, an event with message "User ID {userId} signed in" and items that include
+ * "userId" to "uid_nO59TmsQfqHxqbFL", [evalTemplate] returns the string
+ * "User ID uid_nO59TmsQfqHxqbFL signed in".
  */
-public class KloggingLoggerFinder : LoggerFinder() {
-    /**
-     * Get a named logger.
-     *
-     * @param name name to identify the logger
-     * @param module Java module for which the logger is being requested; CURRENTLY IGNORED
-     * @return a wrapped Klogging logger with the specified name
-     */
-    override fun getLogger(name: String, module: Module): Logger =
-        NoCoLoggerWrapper(noCoLogger(name))
-}
+public fun LogEvent.evalTemplate(): String = items.entries
+    .filter { entry -> entry.value != null }
+    .fold(message) { message, (key, value) -> message.replace("{$key}", value.toString()) }

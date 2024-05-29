@@ -48,7 +48,3 @@ public val RENDER_SIMPLE: RenderString = object : RenderString {
         return message + maybeItems + maybeStackTrace
     }
 }
-
-public fun LogEvent.evalTemplate(): String = items.entries
-    .filter { entry -> entry.value != null }
-    .fold(message) { message, (key, value) -> message.replace("{$key}", value.toString()) }
