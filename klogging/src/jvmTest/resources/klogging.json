@@ -1,7 +1,7 @@
 {
   "sinks": {
     "stdout": {
-      "renderWith": "RENDER_ECS",
+      "renderWith": "RENDER_ANSI",
       "sendTo": "STDOUT"
     },
     "seq": {
