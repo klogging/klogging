@@ -874,6 +874,10 @@ public final class io/klogging/rendering/RenderClefKt {
 	public static final fun getRENDER_CLEF ()Lio/klogging/rendering/RenderString;
 }
 
+public final class io/klogging/rendering/RenderEcsDotNetKt {
+	public static final fun getRENDER_ECS_DOTNET ()Lio/klogging/rendering/RenderString;
+}
+
 public final class io/klogging/rendering/RenderEcsKt {
 	public static final fun getRENDER_ECS ()Lio/klogging/rendering/RenderString;
 }
