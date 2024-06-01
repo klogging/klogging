@@ -1,6 +1,6 @@
 # Klogging changes
 
-## Version 0.5.13
+## Version 0.5.14
 - JVM: load configuration files from current thread classpath
 
 ## Version 0.5.12
