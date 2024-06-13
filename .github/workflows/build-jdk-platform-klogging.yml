@@ -5,6 +5,7 @@ on:
     branches:
       - main
     paths:
+      - .github/**
       - gradle/**
       - jdk-platform-klogging/**
       - "!jdk-platform-klogging/README.md"
