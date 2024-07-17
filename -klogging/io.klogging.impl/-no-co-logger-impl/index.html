@@ -65,24 +65,24 @@
   <div class="breadcrumbs"><a href="../../../index.html">Klogging</a><span class="delimiter">/</span><a href="../index.html">io.klogging.impl</a><span class="delimiter">/</span><span class="current">NoCoLoggerImpl</span></div>
   <div class="cover ">
     <h1 class="cover"><span>No</span><wbr></wbr><span>Co</span><wbr></wbr><span>Logger</span><wbr></wbr><span><span>Impl</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":klogging:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">NoCoLoggerImpl</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span> : <span data-unresolved-link="kotlinx.coroutines/CoroutineScope///PointingToDeclaration/">CoroutineScope</span>, <a href="../../io.klogging/-no-co-logger/index.html">NoCoLogger</a></div><p class="paragraph">Standard implementation of <a href="../../io.klogging/-no-co-logger/index.html">NoCoLogger</a>.</p></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":klogging:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">NoCoLoggerImpl</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>loggerContextItems<span class="token operator">: </span><a href="../../io.klogging.events/-event-items/index.html">EventItems</a><span class="token operator"> = </span>mapOf()</span></span><span class="token punctuation">)</span> : <span data-unresolved-link="kotlinx.coroutines/CoroutineScope///PointingToDeclaration/">CoroutineScope</span>, <a href="../../io.klogging/-no-co-logger/index.html">NoCoLogger</a></div><p class="paragraph">Standard implementation of <a href="../../io.klogging/-no-co-logger/index.html">NoCoLogger</a>.</p></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
       <div data-togglable="CONSTRUCTOR">
         <h2 class="">Constructors</h2>
-        <div class="table"><a data-name="-801720743%2FConstructors%2F-972240762" anchor-label="NoCoLoggerImpl" id="-801720743%2FConstructors%2F-972240762" data-filterable-set=":klogging:dokkaHtml/commonMain"></a>
+        <div class="table"><a data-name="-1524944308%2FConstructors%2F-972240762" anchor-label="NoCoLoggerImpl" id="-1524944308%2FConstructors%2F-972240762" data-filterable-set=":klogging:dokkaHtml/commonMain"></a>
           <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":klogging:dokkaHtml/commonMain" data-filterable-set=":klogging:dokkaHtml/commonMain">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-no-co-logger-impl.html"><span>No</span><wbr></wbr><span>Co</span><wbr></wbr><span>Logger</span><wbr></wbr><span><span>Impl</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-801720743%2FConstructors%2F-972240762"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1524944308%2FConstructors%2F-972240762"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":klogging:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":klogging:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">loggerContextItems<span class="token operator">: </span><a href="../../io.klogging.events/-event-items/index.html">EventItems</a><span class="token operator"> = </span>mapOf()</span></span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -102,6 +102,21 @@
               <div>
                 <div class="title">
                   <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":klogging:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="coroutine-context.html">coroutineContext</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines/-coroutine-context/index.html">CoroutineContext</a></div><div class="brief "><p class="paragraph">Context in which this logger will launch coroutines</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1615587431%2FProperties%2F-972240762" anchor-label="loggerContextItems" id="1615587431%2FProperties%2F-972240762" data-filterable-set=":klogging:dokkaHtml/commonMain"></a>
+          <div class="table-row" data-filterable-current=":klogging:dokkaHtml/commonMain" data-filterable-set=":klogging:dokkaHtml/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="logger-context-items.html"><span>logger</span><wbr></wbr><span>Context</span><wbr></wbr><span><span>Items</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1615587431%2FProperties%2F-972240762"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":klogging:dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="logger-context-items.html">loggerContextItems</a><span class="token operator">: </span><a href="../../io.klogging.events/-event-items/index.html">EventItems</a></div><div class="brief "><p class="paragraph">context items belonging to this logger</p></div></div></div>
                 </div>
               </div>
             </div>
