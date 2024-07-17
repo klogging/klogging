@@ -55,7 +55,7 @@ public class LogContext internal constructor(
      * Put zero or more items into the [LogContext].
      * @param newItems context items to add
      */
-    internal fun putItems(vararg newItems: Pair<String, Any?>) {
+    internal fun putItems(vararg newItems: ContextItem) {
         items.putAll(newItems)
     }
 
@@ -78,7 +78,7 @@ public class LogContext internal constructor(
  * @param items context items to include in the context
  * @return a [LogContext] containing the specified items
  */
-public suspend fun logContext(vararg items: Pair<String, Any?>): CoroutineContext {
+public suspend fun logContext(vararg items: ContextItem): CoroutineContext {
     val allItems = coroutineContext[LogContext]
         ?.getAll()?.toMutableMap()
         ?: mutableMapOf()
@@ -95,7 +95,7 @@ public suspend fun logContext(vararg items: Pair<String, Any?>): CoroutineContex
  * @return the value returned by [block]
  */
 public suspend fun <R> withLogContext(
-    vararg items: Pair<String, Any?>,
+    vararg items: ContextItem,
     block: suspend CoroutineScope.() -> R,
 ): R = withContext(logContext(*items)) {
     block()
@@ -105,7 +105,7 @@ public suspend fun <R> withLogContext(
  * Adds zero or more items to the [LogContext] in the current coroutine scope.
  * @param items context items to add
  */
-public suspend fun addToContext(vararg items: Pair<String, Any?>) {
+public suspend fun addToContext(vararg items: ContextItem) {
     coroutineContext[LogContext]?.putItems(*items)
 }
 

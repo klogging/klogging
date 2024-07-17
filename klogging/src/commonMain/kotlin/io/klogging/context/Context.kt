@@ -22,8 +22,11 @@ import io.klogging.events.EventItems
 import io.klogging.internal.KloggingEngine
 import kotlin.coroutines.CoroutineContext
 
+/** Type alias for an item in a context. */
+public typealias ContextItem = Pair<String, Any?>
+
 /**
- * Functional type that returns a map of event items.
+ * Functional type that returns a map of context items.
  */
 public typealias ItemExtractor = () -> EventItems
 
@@ -37,7 +40,7 @@ public object Context {
      *
      * @param contextItems context items to add to the base context
      */
-    public fun addBaseContext(vararg contextItems: Pair<String, Any?>) {
+    public fun addBaseContext(vararg contextItems: ContextItem) {
         KloggingEngine.baseContextItems.putAll(contextItems)
     }
 
