@@ -18,6 +18,7 @@
 
 package io.klogging
 
+import io.klogging.context.ContextItem
 import io.klogging.impl.KloggerImpl
 import io.klogging.internal.KloggingEngine
 import io.klogging.internal.trace
@@ -28,28 +29,45 @@ import kotlin.reflect.KClass
  */
 private val LOGGERS: MutableMap<String, Klogger> = AtomicMutableMap()
 
+/** Used by test classes only. */
+internal fun clearKloggers() {
+    LOGGERS.clear()
+}
+
 /**
  * Returns a [Klogger] for the specified name: returning an existing one
  * or creating a new one if needed.
  */
-internal fun loggerFor(name: String?): Klogger {
+internal fun loggerFor(
+    name: String?,
+    vararg loggerContextItems: ContextItem,
+): Klogger {
     // Ensure file configuration has been loaded
     KloggingEngine.configuration
     val loggerName = name ?: "Klogger"
     return LOGGERS.getOrPut(loggerName) {
         trace("Klogging", "Adding Klogger $loggerName")
-        KloggerImpl(loggerName)
+        KloggerImpl(loggerName, mapOf(*loggerContextItems))
     }
 }
 
 /** Returns a [Klogger] with the specified name. */
-public fun logger(name: String): Klogger = loggerFor(name)
+public fun logger(
+    name: String,
+    vararg loggerContextItems: ContextItem,
+): Klogger = loggerFor(name, *loggerContextItems)
 
 /** Returns a [Klogger] with the name of the specified class. */
-public fun logger(ownerClass: KClass<*>): Klogger = loggerFor(classNameOf(ownerClass))
+public fun logger(
+    ownerClass: KClass<*>,
+    vararg loggerContextItems: ContextItem,
+): Klogger = loggerFor(classNameOf(ownerClass), *loggerContextItems)
 
 /** Returns a [Klogger] with the name of the specified class. */
-public inline fun <reified T> logger(): Klogger = logger(T::class)
+public inline fun <reified T> logger(
+    vararg loggerContextItems: ContextItem,
+): Klogger =
+    logger(T::class, *loggerContextItems)
 
 /**
  * Utility interface that supplies a [Klogger] property called `logger`.

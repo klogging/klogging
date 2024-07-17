@@ -35,9 +35,11 @@ import kotlin.coroutines.coroutineContext
 /**
  * Standard implementation of [Klogger].
  * @property name logger name
+ * @property loggerContextItems context items belonging to this logger
  */
 public class KloggerImpl(
     override val name: String,
+    override val loggerContextItems: EventItems = mapOf(),
 ) : Klogger {
 
     /**

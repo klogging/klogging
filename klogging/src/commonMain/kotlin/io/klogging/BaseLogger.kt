@@ -38,6 +38,9 @@ public interface BaseLogger {
     /** Name of the logger: usually a class name in Java. */
     public val name: String
 
+    /** Context items belonging to the logger. */
+    public val loggerContextItems: EventItems
+
     /**
      * Minimum level at which to emit log events, determined from current
      * configuration.

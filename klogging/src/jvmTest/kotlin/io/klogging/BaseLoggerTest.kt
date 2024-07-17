@@ -18,6 +18,7 @@
 
 package io.klogging
 
+import io.klogging.events.EventItems
 import io.klogging.events.LogEvent
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContain
@@ -27,6 +28,7 @@ import mjs.kotest.description
 
 val testLogger = object : BaseLogger {
     override val name: String = "A test logger"
+    override val loggerContextItems: EventItems = mapOf()
 }
 
 internal class BaseLoggerTest : DescribeSpec({

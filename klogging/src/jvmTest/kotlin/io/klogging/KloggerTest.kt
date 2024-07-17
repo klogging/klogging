@@ -206,6 +206,7 @@ internal class KloggerTest : DescribeSpec({
 
 private class TestLogger(private val minLevel: Level = TRACE) : Klogger {
     override val name: String = genLoggerName.next()
+    override val loggerContextItems: EventItems = mapOf()
 
     var thrower: Throwable? = null
     var logged: Any? = null

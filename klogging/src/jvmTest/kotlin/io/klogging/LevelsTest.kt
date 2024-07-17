@@ -66,6 +66,7 @@ private data class LevelsCase(
 
 private class LevelsTestLogger(private val level: Level) : Klogger {
     override val name = "LevelsTestLogger"
+    override val loggerContextItems: EventItems = mapOf()
 
     override fun minLevel() = level
 

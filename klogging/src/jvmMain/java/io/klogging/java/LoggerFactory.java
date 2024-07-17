@@ -28,16 +28,16 @@ public class LoggerFactory {
      * Returns an instance of {@link NoCoLogger} with the specified name.
      *
      * <p>
-     *     Example usage:
-     *     <code>
-     *         public class ThingDoer {
-     *             private static final NoCoLogger auditLogger = LoggerFactory.getLogger("auditing");
-     *
-     *             public void doThing() {
-     *                 auditLogger.info("Doing thing");
-     *             }
-     *         }
-     *     </code>
+     * Example usage:
+     * <code>
+     * public class ThingDoer {
+     * private static final NoCoLogger auditLogger = LoggerFactory.getLogger("auditing");
+     * <p>
+     * public void doThing() {
+     * auditLogger.info("Doing thing");
+     * }
+     * }
+     * </code>
      * </p>
      *
      * @param loggerName name of the logger
@@ -51,17 +51,17 @@ public class LoggerFactory {
      * Returns an instance of {@link NoCoLogger} with the name of the
      * specified class.
      * <p>
-     *     Example usage:
-     *     <code>
-     *         public class ImportantService {
-     *             private static final NoCoLogger logger = LoggerFactory.getLogger(ImportantService.class);
-     *
-     *             public ReturnType doStuff(ArgType arg) {
-     *                 logger.debug("Called doStuff with {arg}", arg);
-     *                 // do stuff
-     *             }
-     *         }
-     *     </code>
+     * Example usage:
+     * <code>
+     * public class ImportantService {
+     * private static final NoCoLogger logger = LoggerFactory.getLogger(ImportantService.class);
+     * <p>
+     * public ReturnType doStuff(ArgType arg) {
+     * logger.debug("Called doStuff with {arg}", arg);
+     * // do stuff
+     * }
+     * }
+     * </code>
      * </p>
      *
      * @param loggerClass class whose name if for the logger

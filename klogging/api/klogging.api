@@ -1,5 +1,6 @@
 public abstract interface class io/klogging/BaseLogger {
 	public abstract fun eventFrom (Ljava/lang/String;Lio/klogging/Level;Ljava/lang/Throwable;Ljava/lang/Object;Ljava/util/Map;)Lio/klogging/events/LogEvent;
+	public abstract fun getLoggerContextItems ()Ljava/util/Map;
 	public abstract fun getName ()Ljava/lang/String;
 	public abstract fun isDebugEnabled ()Z
 	public abstract fun isErrorEnabled ()Z
@@ -163,8 +164,8 @@ public final class io/klogging/Klogging$DefaultImpls {
 }
 
 public final class io/klogging/KloggingKt {
-	public static final fun logger (Ljava/lang/String;)Lio/klogging/Klogger;
-	public static final fun logger (Lkotlin/reflect/KClass;)Lio/klogging/Klogger;
+	public static final fun logger (Ljava/lang/String;[Lkotlin/Pair;)Lio/klogging/Klogger;
+	public static final fun logger (Lkotlin/reflect/KClass;[Lkotlin/Pair;)Lio/klogging/Klogger;
 }
 
 public final class io/klogging/Level : java/lang/Enum {
@@ -327,8 +328,8 @@ public final class io/klogging/NoCoLogging$DefaultImpls {
 }
 
 public final class io/klogging/NoCoLoggingKt {
-	public static final fun noCoLogger (Ljava/lang/String;)Lio/klogging/NoCoLogger;
-	public static final fun noCoLogger (Lkotlin/reflect/KClass;)Lio/klogging/NoCoLogger;
+	public static final fun noCoLogger (Ljava/lang/String;[Lkotlin/Pair;)Lio/klogging/NoCoLogger;
+	public static final fun noCoLogger (Lkotlin/reflect/KClass;[Lkotlin/Pair;)Lio/klogging/NoCoLogger;
 }
 
 public abstract interface annotation class io/klogging/config/ConfigDsl : java/lang/annotation/Annotation {
@@ -698,7 +699,8 @@ public final class io/klogging/events/TimestampsKt {
 }
 
 public final class io/klogging/impl/KloggerImpl : io/klogging/Klogger {
-	public fun <init> (Ljava/lang/String;)V
+	public fun <init> (Ljava/lang/String;Ljava/util/Map;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun debug (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun debug (Ljava/lang/String;Ljava/lang/Throwable;Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun debug (Ljava/lang/String;Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -726,6 +728,7 @@ public final class io/klogging/impl/KloggerImpl : io/klogging/Klogger {
 	public fun fatal (Ljava/lang/Throwable;Ljava/lang/String;[Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun fatal (Ljava/lang/Throwable;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun fatal (Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getLoggerContextItems ()Ljava/util/Map;
 	public fun getName ()Ljava/lang/String;
 	public fun info (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun info (Ljava/lang/String;Ljava/lang/Throwable;Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -770,7 +773,8 @@ public final class io/klogging/impl/KloggerImpl : io/klogging/Klogger {
 }
 
 public final class io/klogging/impl/NoCoLoggerImpl : io/klogging/NoCoLogger, kotlinx/coroutines/CoroutineScope {
-	public fun <init> (Ljava/lang/String;)V
+	public fun <init> (Ljava/lang/String;Ljava/util/Map;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun debug (Ljava/lang/Object;)V
 	public fun debug (Ljava/lang/String;Ljava/lang/Throwable;Ljava/util/Map;)V
 	public fun debug (Ljava/lang/String;Ljava/util/Map;)V
@@ -799,6 +803,7 @@ public final class io/klogging/impl/NoCoLoggerImpl : io/klogging/NoCoLogger, kot
 	public fun fatal (Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
 	public fun fatal (Lkotlin/jvm/functions/Function1;)V
 	public fun getCoroutineContext ()Lkotlin/coroutines/CoroutineContext;
+	public fun getLoggerContextItems ()Ljava/util/Map;
 	public fun getName ()Ljava/lang/String;
 	public fun info (Ljava/lang/Object;)V
 	public fun info (Ljava/lang/String;Ljava/lang/Throwable;Ljava/util/Map;)V

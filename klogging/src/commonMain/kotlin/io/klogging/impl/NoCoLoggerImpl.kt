@@ -36,9 +36,11 @@ import kotlin.coroutines.CoroutineContext
 /**
  * Standard implementation of [NoCoLogger].
  * @property name logger name
+ * @property loggerContextItems context items belonging to this logger
  */
 public class NoCoLoggerImpl(
     override val name: String,
+    override val loggerContextItems: EventItems = mapOf(),
 ) : CoroutineScope, NoCoLogger {
 
     /**
