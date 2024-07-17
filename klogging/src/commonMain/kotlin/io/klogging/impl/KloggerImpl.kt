@@ -55,7 +55,8 @@ public class KloggerImpl(
         event: Any?,
         items: EventItems
     ) {
-        val eventToLog = eventFrom(contextName(), level, throwable, event, items + contextItems())
+        val eventToLog =
+            eventFrom(contextName(), level, throwable, event, loggerContextItems + items + contextItems())
         if (eventToLog.level < KloggingEngine.minDirectLogLevel()) {
             Emitter.emit(eventToLog)
         } else {

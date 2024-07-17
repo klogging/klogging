@@ -62,7 +62,8 @@ public class NoCoLoggerImpl(
         event: Any?,
         contextItems: EventItems,
     ) {
-        val eventToLog = eventFrom(threadContext(), level, throwable, event, contextItems + otherItems())
+        val eventToLog =
+            eventFrom(threadContext(), level, throwable, event, loggerContextItems + contextItems + otherItems())
         if (eventToLog.level < KloggingEngine.minDirectLogLevel()) {
             launch(CoroutineName("NoCoLogger")) {
                 Emitter.emit(eventToLog)
