@@ -48,7 +48,7 @@ jobs:
           java-version: 21
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v3.4.2
+        uses: gradle/actions/setup-gradle@v3.5.0
 
       - name: Build
         run: ./gradlew :jdk-platform-klogging:assemble
