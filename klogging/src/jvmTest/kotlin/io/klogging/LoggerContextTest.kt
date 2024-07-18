@@ -68,6 +68,30 @@ class LoggerContextTest : DescribeSpec({
                     noCoLogger<LoggerContextTest>(context).loggerContextItems.shouldContainExactly(mapOf(context))
                 }
             }
+            it("updates any context items attached to a Klogger") {
+                clearKloggers()
+                val loggerName = randomString()
+
+                val oldContext = randomString() to randomString()
+                val loggerOne = logger(loggerName, oldContext)
+                loggerOne.loggerContextItems.shouldContainExactly(mapOf(oldContext))
+
+                val newContext = randomString() to randomString()
+                val loggerTwo = logger(loggerName, newContext)
+                loggerTwo.loggerContextItems.shouldContainExactly(mapOf(newContext))
+            }
+            it("updates any context items attached to a NoCoLogger") {
+                clearNoCoLoggers()
+                val loggerName = randomString()
+
+                val oldContext = randomString() to randomString()
+                val loggerOne = noCoLogger(loggerName, oldContext)
+                loggerOne.loggerContextItems.shouldContainExactly(mapOf(oldContext))
+
+                val newContext = randomString() to randomString()
+                val loggerTwo = noCoLogger(loggerName, newContext)
+                loggerTwo.loggerContextItems.shouldContainExactly(mapOf(newContext))
+            }
         }
         describe("copied from another logger") {
             it("are set as its context items") {

@@ -47,10 +47,10 @@ internal fun noCoLoggerFor(
     KloggingEngine.configuration
     val loggerName = name ?: "NoCoLogger"
     val contextItems = (otherLogger?.loggerContextItems ?: emptyMap()) + mapOf(*loggerContextItems)
-    return NOCO_LOGGERS.getOrPut(loggerName) {
+    if (!NOCO_LOGGERS.containsKey(loggerName)) {
         trace("NoCoLogging", "Adding NoCoLogger $loggerName")
-        NoCoLoggerImpl(loggerName, contextItems)
     }
+    return NoCoLoggerImpl(loggerName, contextItems).also { NOCO_LOGGERS[loggerName] = it }
 }
 
 /** Returns a [NoCoLogger] with the specified name. */

@@ -47,10 +47,10 @@ internal fun loggerFor(
     KloggingEngine.configuration
     val loggerName = name ?: "Klogger"
     val contextItems = (otherLogger?.loggerContextItems ?: emptyMap()) + mapOf(*loggerContextItems)
-    return LOGGERS.getOrPut(loggerName) {
+    if (!LOGGERS.containsKey(loggerName)) {
         trace("Klogging", "Adding Klogger $loggerName")
-        KloggerImpl(loggerName, contextItems)
     }
+    return KloggerImpl(loggerName, contextItems).also { LOGGERS[loggerName] = it }
 }
 
 /** Returns a [Klogger] with the specified name. */
