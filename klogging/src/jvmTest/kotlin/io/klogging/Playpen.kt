@@ -43,10 +43,10 @@ fun localNow(): LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.curr
  * Main program for experimenting with Klogging features as they are developed.
  */
 suspend fun main() = coroutineScope {
-    val logger = logger("io.klogging.example.KloggerPlaypen")
+    val logger = logger("io.klogging.example.KloggerPlaypen", "source" to "Playpen")
     Context.addBaseContext("app" to "Playpen")
 
-    noCoLogger("OneOffLogger").info("Here it is", mapOf("black" to "white", "up" to "down"))
+    noCoLogger("OneOffLogger", logger).info("Here it is", mapOf("black" to "white", "up" to "down"))
 
     if (System.getenv("LOCAL_SPLUNK") == "true") {
         loggingConfiguration(append = true) {
