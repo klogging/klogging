@@ -1,5 +1,8 @@
 # Klogging changes
 
+## Version 0.6.0
+- Klogger and NoCoLogger instances can have their own context items – [issue 211](https://github.com/klogging/klogging/issues/274)
+
 ## Version 0.5.14
 - RENDER_ECS_DOTNET renderer
 
