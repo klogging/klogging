@@ -41,13 +41,15 @@ internal fun clearKloggers() {
 internal fun loggerFor(
     name: String?,
     vararg loggerContextItems: ContextItem,
+    otherLogger: BaseLogger? = null,
 ): Klogger {
     // Ensure file configuration has been loaded
     KloggingEngine.configuration
     val loggerName = name ?: "Klogger"
+    val contextItems = (otherLogger?.loggerContextItems ?: emptyMap()) + mapOf(*loggerContextItems)
     return LOGGERS.getOrPut(loggerName) {
         trace("Klogging", "Adding Klogger $loggerName")
-        KloggerImpl(loggerName, mapOf(*loggerContextItems))
+        KloggerImpl(loggerName, contextItems)
     }
 }
 
@@ -57,17 +59,35 @@ public fun logger(
     vararg loggerContextItems: ContextItem,
 ): Klogger = loggerFor(name, *loggerContextItems)
 
+public fun logger(
+    name: String,
+    otherLogger: BaseLogger?,
+    vararg loggerContextItems: ContextItem,
+): Klogger = loggerFor(name, *loggerContextItems, otherLogger = otherLogger)
+
 /** Returns a [Klogger] with the name of the specified class. */
 public fun logger(
     ownerClass: KClass<*>,
     vararg loggerContextItems: ContextItem,
 ): Klogger = loggerFor(classNameOf(ownerClass), *loggerContextItems)
 
+public fun logger(
+    ownerClass: KClass<*>,
+    otherLogger: BaseLogger?,
+    vararg loggerContextItems: ContextItem,
+): Klogger = loggerFor(classNameOf(ownerClass), *loggerContextItems, otherLogger = otherLogger)
+
 /** Returns a [Klogger] with the name of the specified class. */
 public inline fun <reified T> logger(
     vararg loggerContextItems: ContextItem,
 ): Klogger =
     logger(T::class, *loggerContextItems)
+
+public inline fun <reified T> logger(
+    otherLogger: BaseLogger?,
+    vararg loggerContextItems: ContextItem,
+): Klogger =
+    logger(T::class, otherLogger, *loggerContextItems)
 
 /**
  * Utility interface that supplies a [Klogger] property called `logger`.

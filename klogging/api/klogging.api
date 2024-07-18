@@ -164,7 +164,9 @@ public final class io/klogging/Klogging$DefaultImpls {
 }
 
 public final class io/klogging/KloggingKt {
+	public static final fun logger (Ljava/lang/String;Lio/klogging/BaseLogger;[Lkotlin/Pair;)Lio/klogging/Klogger;
 	public static final fun logger (Ljava/lang/String;[Lkotlin/Pair;)Lio/klogging/Klogger;
+	public static final fun logger (Lkotlin/reflect/KClass;Lio/klogging/BaseLogger;[Lkotlin/Pair;)Lio/klogging/Klogger;
 	public static final fun logger (Lkotlin/reflect/KClass;[Lkotlin/Pair;)Lio/klogging/Klogger;
 }
 
@@ -328,7 +330,9 @@ public final class io/klogging/NoCoLogging$DefaultImpls {
 }
 
 public final class io/klogging/NoCoLoggingKt {
+	public static final fun noCoLogger (Ljava/lang/String;Lio/klogging/BaseLogger;[Lkotlin/Pair;)Lio/klogging/NoCoLogger;
 	public static final fun noCoLogger (Ljava/lang/String;[Lkotlin/Pair;)Lio/klogging/NoCoLogger;
+	public static final fun noCoLogger (Lkotlin/reflect/KClass;Lio/klogging/BaseLogger;[Lkotlin/Pair;)Lio/klogging/NoCoLogger;
 	public static final fun noCoLogger (Lkotlin/reflect/KClass;[Lkotlin/Pair;)Lio/klogging/NoCoLogger;
 }
 

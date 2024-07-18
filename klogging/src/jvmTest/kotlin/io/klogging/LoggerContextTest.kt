@@ -69,5 +69,61 @@ class LoggerContextTest : DescribeSpec({
                 }
             }
         }
+        describe("copied from another logger") {
+            it("are set as its context items") {
+                val contextItem = randomString() to randomString()
+                clearKloggers()
+                logger(randomString(), logger(randomString(), contextItem))
+                    .loggerContextItems.shouldContainExactly(mapOf(contextItem))
+                clearKloggers()
+                logger(LoggerContextTest::class, logger(randomString(), contextItem))
+                    .loggerContextItems.shouldContainExactly(mapOf(contextItem))
+                clearKloggers()
+                logger<LoggerContextTest>(logger(randomString(), contextItem))
+                    .loggerContextItems.shouldContainExactly(mapOf(contextItem))
+                clearNoCoLoggers()
+                noCoLogger(randomString(), noCoLogger(randomString(), contextItem))
+                    .loggerContextItems.shouldContainExactly(mapOf(contextItem))
+                clearNoCoLoggers()
+                noCoLogger(LoggerContextTest::class, noCoLogger(randomString(), contextItem))
+                    .loggerContextItems.shouldContainExactly(mapOf(contextItem))
+                clearNoCoLoggers()
+                noCoLogger<LoggerContextTest>(noCoLogger(randomString(), contextItem))
+                    .loggerContextItems.shouldContainExactly(mapOf(contextItem))
+            }
+            it("can be combined with items defined for this logger") {
+                val contextItemOne = randomString() to randomString()
+                val contextItemTwo = randomString() to randomString()
+                clearKloggers()
+                logger(randomString(), logger(randomString(), contextItemOne), contextItemTwo)
+                    .loggerContextItems.shouldContainExactly(mapOf(contextItemOne, contextItemTwo))
+                clearKloggers()
+                logger(LoggerContextTest::class, logger(randomString(), contextItemOne), contextItemTwo)
+                    .loggerContextItems.shouldContainExactly(mapOf(contextItemOne, contextItemTwo))
+                clearKloggers()
+                logger<LoggerContextTest>(logger(randomString(), contextItemOne), contextItemTwo)
+                    .loggerContextItems.shouldContainExactly(mapOf(contextItemOne, contextItemTwo))
+                clearNoCoLoggers()
+                noCoLogger(randomString(), noCoLogger(randomString(), contextItemOne), contextItemTwo)
+                    .loggerContextItems.shouldContainExactly(mapOf(contextItemOne, contextItemTwo))
+                clearNoCoLoggers()
+                noCoLogger(LoggerContextTest::class, noCoLogger(randomString(), contextItemOne), contextItemTwo)
+                    .loggerContextItems.shouldContainExactly(mapOf(contextItemOne, contextItemTwo))
+                clearNoCoLoggers()
+                noCoLogger<LoggerContextTest>(noCoLogger(randomString(), contextItemOne), contextItemTwo)
+                    .loggerContextItems.shouldContainExactly(mapOf(contextItemOne, contextItemTwo))
+            }
+            it("are copied between Klogger and NoCoLogger instances") {
+                val contextItem = randomString() to randomString()
+                clearKloggers()
+                clearNoCoLoggers()
+                logger(randomString(), noCoLogger(randomString(), contextItem))
+                    .loggerContextItems.shouldContainExactly(mapOf(contextItem))
+                clearKloggers()
+                clearNoCoLoggers()
+                noCoLogger(randomString(), logger(randomString(), contextItem))
+                    .loggerContextItems.shouldContainExactly(mapOf(contextItem))
+            }
+        }
     }
 })

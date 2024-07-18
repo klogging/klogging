@@ -41,13 +41,15 @@ internal fun clearNoCoLoggers() {
 internal fun noCoLoggerFor(
     name: String?,
     vararg loggerContextItems: ContextItem,
+    otherLogger: BaseLogger? = null,
 ): NoCoLogger {
     // Ensure file configuration has been loaded
     KloggingEngine.configuration
     val loggerName = name ?: "NoCoLogger"
+    val contextItems = (otherLogger?.loggerContextItems ?: emptyMap()) + mapOf(*loggerContextItems)
     return NOCO_LOGGERS.getOrPut(loggerName) {
         trace("NoCoLogging", "Adding NoCoLogger $loggerName")
-        NoCoLoggerImpl(loggerName, mapOf(*loggerContextItems))
+        NoCoLoggerImpl(loggerName, contextItems)
     }
 }
 
@@ -57,17 +59,35 @@ public fun noCoLogger(
     vararg loggerContextItems: ContextItem,
 ): NoCoLogger = noCoLoggerFor(name, *loggerContextItems)
 
+public fun noCoLogger(
+    name: String,
+    otherLogger: BaseLogger?,
+    vararg loggerContextItems: ContextItem,
+): NoCoLogger = noCoLoggerFor(name, *loggerContextItems, otherLogger = otherLogger)
+
 /** Returns a [NoCoLogger] with the name of the specified class. */
 public fun noCoLogger(
     ownerClass: KClass<*>,
     vararg loggerContextItems: ContextItem,
 ): NoCoLogger = noCoLoggerFor(classNameOf(ownerClass), *loggerContextItems)
 
+public fun noCoLogger(
+    ownerClass: KClass<*>,
+    otherLogger: BaseLogger?,
+    vararg loggerContextItems: ContextItem,
+): NoCoLogger = noCoLoggerFor(classNameOf(ownerClass), *loggerContextItems, otherLogger = otherLogger)
+
 /** Returns a [NoCoLogger] with the name of the specified class. */
 public inline fun <reified T> noCoLogger(
     vararg loggerContextItems: ContextItem,
 ): NoCoLogger =
     noCoLogger(T::class, *loggerContextItems)
+
+public inline fun <reified T> noCoLogger(
+    otherLogger: BaseLogger?,
+    vararg loggerContextItems: ContextItem,
+): NoCoLogger =
+    noCoLogger(T::class, otherLogger, *loggerContextItems)
 
 /**
  * Utility interface that supplies a [NoCoLogger] property called `logger`.

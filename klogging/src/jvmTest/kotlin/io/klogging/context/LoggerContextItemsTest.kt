@@ -58,4 +58,12 @@ class LoggerContextItemsTest : DescribeSpec({
             events.first().items.shouldContain(item2)
         }
     }
+    describe("Loggers with context items from other loggers") {
+        it("include those context items in logging output") {
+            val events = savedEvents()
+            val loggerContextItem = randomString() to randomString()
+            logger(randomString(), noCoLogger(randomString(), loggerContextItem)).info(randomString())
+            events.first().items.shouldContain(loggerContextItem)
+        }
+    }
 })
