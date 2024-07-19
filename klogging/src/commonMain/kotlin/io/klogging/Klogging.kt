@@ -25,16 +25,6 @@ import io.klogging.internal.trace
 import kotlin.reflect.KClass
 
 /**
- * Runtime list of current [Klogger] instances.
- */
-private val LOGGERS: MutableMap<String, Klogger> = AtomicMutableMap()
-
-/** Used by test classes only. */
-internal fun clearKloggers() {
-    LOGGERS.clear()
-}
-
-/**
  * Returns a [Klogger] for the specified name: returning an existing one
  * or creating a new one if needed.
  */
@@ -47,10 +37,8 @@ internal fun loggerFor(
     KloggingEngine.configuration
     val loggerName = name ?: "Klogger"
     val contextItems = (otherLogger?.loggerContextItems ?: emptyMap()) + mapOf(*loggerContextItems)
-    if (!LOGGERS.containsKey(loggerName)) {
-        trace("Klogging", "Adding Klogger $loggerName")
-    }
-    return KloggerImpl(loggerName, contextItems).also { LOGGERS[loggerName] = it }
+    trace("Klogging", "Adding Klogger $loggerName")
+    return KloggerImpl(loggerName, contextItems)
 }
 
 /** Returns a [Klogger] with the specified name. */

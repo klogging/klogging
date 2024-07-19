@@ -25,16 +25,6 @@ import io.klogging.internal.trace
 import kotlin.reflect.KClass
 
 /**
- * Runtime list of current [NoCoLogger] instances.
- */
-private val NOCO_LOGGERS: MutableMap<String, NoCoLogger> = AtomicMutableMap()
-
-/** Used by test classes only. */
-internal fun clearNoCoLoggers() {
-    NOCO_LOGGERS.clear()
-}
-
-/**
  * Returns a [NoCoLogger] for the specified name: returning an existing one
  * or creating a new one if needed.
  */
@@ -47,10 +37,8 @@ internal fun noCoLoggerFor(
     KloggingEngine.configuration
     val loggerName = name ?: "NoCoLogger"
     val contextItems = (otherLogger?.loggerContextItems ?: emptyMap()) + mapOf(*loggerContextItems)
-    if (!NOCO_LOGGERS.containsKey(loggerName)) {
-        trace("NoCoLogging", "Adding NoCoLogger $loggerName")
-    }
-    return NoCoLoggerImpl(loggerName, contextItems).also { NOCO_LOGGERS[loggerName] = it }
+    trace("NoCoLogging", "Adding NoCoLogger $loggerName")
+    return NoCoLoggerImpl(loggerName, contextItems)
 }
 
 /** Returns a [NoCoLogger] with the specified name. */
