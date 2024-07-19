@@ -3,7 +3,7 @@
 ## Version 0.6.1
 - Replace loggers defined with the same name so their attached contexts change – [issue 274](https://github.com/klogging/klogging/issues/274)
 
-## Version 0.6.1
+## Version 0.6.0
 - Klogger and NoCoLogger instances can have their own context items – [issue 274](https://github.com/klogging/klogging/issues/274)
 
 ## Version 0.5.14
