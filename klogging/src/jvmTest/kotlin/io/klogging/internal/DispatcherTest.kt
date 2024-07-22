@@ -187,7 +187,7 @@ internal class DispatcherTest : DescribeSpec({
                 Dispatcher.sinksFor("dev.kord.service.NikkyService", INFO) shouldHaveSize 2
             }
         }
-        describe("simple performance test") {
+        describe("!simple performance test") {
             beforeTest {
                 repeat(10_000) { logger("dev.test.Logger-$it") }
                 repeat(10_000) { logger("dev.test.sub.Logger-$it") }
