@@ -50,6 +50,7 @@ internal val builtInRenderers: Map<String, RenderString> by lazy {
         "RENDER_GELF" to RENDER_GELF,
         "RENDER_ECS" to RENDER_ECS,
         "RENDER_ECS_DOTNET" to RENDER_ECS_DOTNET,
+        "RENDER_STANDARD" to RENDER_STANDARD,
     )
 }
 
