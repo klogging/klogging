@@ -154,6 +154,7 @@ $dokka.location:io.klogging.rendering//RENDER_ECS_DOTNET/#/PointingToDeclaration
 $dokka.location:io.klogging.rendering//RENDER_GELF/#/PointingToDeclaration/-klogging/io.klogging.rendering/-r-e-n-d-e-r_-g-e-l-f.html
 $dokka.location:io.klogging.rendering//RENDER_ISO8601/#/PointingToDeclaration/-klogging/io.klogging.rendering/-r-e-n-d-e-r_-i-s-o8601.html
 $dokka.location:io.klogging.rendering//RENDER_SIMPLE/#/PointingToDeclaration/-klogging/io.klogging.rendering/-r-e-n-d-e-r_-s-i-m-p-l-e.html
+$dokka.location:io.klogging.rendering//RENDER_STANDARD/#/PointingToDeclaration/-klogging/io.klogging.rendering/-r-e-n-d-e-r_-s-t-a-n-d-a-r-d.html
 $dokka.location:io.klogging.rendering//brightRed/#kotlin.String/PointingToDeclaration/-klogging/io.klogging.rendering/bright-red.html
 $dokka.location:io.klogging.rendering//colour5/io.klogging.Level#/PointingToDeclaration/-klogging/io.klogging.rendering/colour5.html
 $dokka.location:io.klogging.rendering//evalTemplate/io.klogging.events.LogEvent#/PointingToDeclaration/-klogging/io.klogging.rendering/eval-template.html
