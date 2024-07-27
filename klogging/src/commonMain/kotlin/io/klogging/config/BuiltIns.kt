@@ -24,6 +24,7 @@ import io.klogging.rendering.RENDER_ECS
 import io.klogging.rendering.RENDER_ECS_DOTNET
 import io.klogging.rendering.RENDER_GELF
 import io.klogging.rendering.RENDER_ISO8601
+import io.klogging.rendering.RENDER_STANDARD
 import io.klogging.rendering.RENDER_SIMPLE
 import io.klogging.rendering.RenderString
 import io.klogging.sending.STDERR
@@ -50,6 +51,7 @@ internal val builtInRenderers: Map<String, RenderString> by lazy {
         "RENDER_GELF" to RENDER_GELF,
         "RENDER_ECS" to RENDER_ECS,
         "RENDER_ECS_DOTNET" to RENDER_ECS_DOTNET,
+        "RENDER_STANDARD" to RENDER_STANDARD,
     )
 }
 

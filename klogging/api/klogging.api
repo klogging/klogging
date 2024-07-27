@@ -910,6 +910,10 @@ public final class io/klogging/rendering/RenderSimpleKt {
 	public static final fun getRENDER_SIMPLE ()Lio/klogging/rendering/RenderString;
 }
 
+public final class io/klogging/rendering/RenderStandardKt {
+	public static final fun getRENDER_STANDARD ()Lio/klogging/rendering/RenderString;
+}
+
 public abstract interface class io/klogging/rendering/RenderString {
 	public abstract fun invoke (Lio/klogging/events/LogEvent;)Ljava/lang/String;
 }
