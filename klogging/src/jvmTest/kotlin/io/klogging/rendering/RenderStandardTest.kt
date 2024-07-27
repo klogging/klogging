@@ -98,5 +98,23 @@ class RenderStandardTest : DescribeSpec({
             |}
             """.trimMargin().replace("\n", "")
         }
+        it("evaluates templated items into the message") {
+            val ts = timestampNow()
+            val id = randomString()
+            val event = LogEvent(
+                randomString(), ts, "test.local", "Test", null, INFO,
+                "ID is {id}", "ID is {id}", null, mapOf("id" to id),
+            )
+
+            RENDER_STANDARD(event) shouldBe """{
+            |"timestamp":"${event.timestamp}",
+            |"level":"${event.level}",
+            |"host":"${event.host}",
+            |"logger":"${event.logger}",
+            |"id":"$id",
+            |"message":"${event.evalTemplate()}"
+            |}
+            """.trimMargin().replace("\n", "")
+        }
     }
 })

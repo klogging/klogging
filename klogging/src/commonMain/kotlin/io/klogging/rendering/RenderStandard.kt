@@ -37,7 +37,7 @@ public val RENDER_STANDARD: RenderString = object : RenderString {
                 ) + event.items
                 ).toMutableMap()
         if (event.context != null) eventMap["context"] = event.context
-        eventMap["message"] = event.message
+        eventMap["message"] = event.evalTemplate()
         if (event.stackTrace != null) eventMap["stackTrace"] = event.stackTrace
 
         return serializeMap(eventMap)
