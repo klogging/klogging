@@ -161,6 +161,7 @@ $dokka.location:io.klogging.rendering//evalTemplate/io.klogging.events.LogEvent#
 $dokka.location:io.klogging.rendering//graylogFormat/kotlinx.datetime.Instant#/PointingToDeclaration/-klogging/io.klogging.rendering/graylog-format.html
 $dokka.location:io.klogging.rendering//green/#kotlin.String/PointingToDeclaration/-klogging/io.klogging.rendering/green.html
 $dokka.location:io.klogging.rendering//grey/#kotlin.String/PointingToDeclaration/-klogging/io.klogging.rendering/grey.html
+$dokka.location:io.klogging.rendering//itemsAndStackTrace/io.klogging.events.LogEvent#/PointingToDeclaration/-klogging/io.klogging.rendering/items-and-stack-trace.html
 $dokka.location:io.klogging.rendering//localString/kotlinx.datetime.Instant#/PointingToDeclaration/-klogging/io.klogging.rendering/local-string.html
 $dokka.location:io.klogging.rendering//localTime/kotlinx.datetime.Instant#/PointingToDeclaration/-klogging/io.klogging.rendering/local-time.html
 $dokka.location:io.klogging.rendering//red/#kotlin.String/PointingToDeclaration/-klogging/io.klogging.rendering/red.html
@@ -168,7 +169,7 @@ $dokka.location:io.klogging.rendering//renderHec/#kotlin.String?#kotlin.String?#
 $dokka.location:io.klogging.rendering//right20/kotlin.String#/PointingToDeclaration/-klogging/io.klogging.rendering/right20.html
 $dokka.location:io.klogging.rendering//rightAlign/kotlin.String#kotlin.Int/PointingToDeclaration/-klogging/io.klogging.rendering/right-align.html
 $dokka.location:io.klogging.rendering//serializeMap/#kotlin.collections.Map[kotlin.String,kotlin.Any?]/PointingToDeclaration/-klogging/io.klogging.rendering/serialize-map.html
-$dokka.location:io.klogging.rendering//shortenName/#kotlin.CharSequence#kotlin.Int/PointingToDeclaration/-klogging/io.klogging.rendering/shorten-name.html
+$dokka.location:io.klogging.rendering//shortenName/kotlin.CharSequence#kotlin.Int/PointingToDeclaration/-klogging/io.klogging.rendering/shorten-name.html
 $dokka.location:io.klogging.rendering//yellow/#kotlin.String/PointingToDeclaration/-klogging/io.klogging.rendering/yellow.html
 $dokka.location:io.klogging.rendering/RenderString///PointingToDeclaration/-klogging/io.klogging.rendering/-render-string/index.html
 $dokka.location:io.klogging.rendering/RenderString/invoke/#io.klogging.events.LogEvent/PointingToDeclaration/-klogging/io.klogging.rendering/-render-string/invoke.html
