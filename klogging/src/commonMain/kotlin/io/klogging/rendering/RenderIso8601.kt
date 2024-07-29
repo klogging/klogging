@@ -21,10 +21,8 @@ package io.klogging.rendering
 import io.klogging.events.LogEvent
 
 public val RENDER_ISO8601: RenderString = object : RenderString {
-    override fun invoke(event: LogEvent): String {
-        val message = "${event.timestamp} ${event.level} [${event.context}] ${event.logger} : ${event.evalTemplate()}"
-        val maybeItems = if (event.items.isNotEmpty()) " : ${event.items}" else ""
-        val maybeStackTrace = if (event.stackTrace != null) "\n${event.stackTrace}" else ""
-        return message + maybeItems + maybeStackTrace
+    override fun invoke(event: LogEvent): String = buildString {
+        append("${event.timestamp} ${event.level} [${event.context}] ${event.logger} : ${event.evalTemplate()}")
+        append(event.itemsAndStackTrace)
     }
 }
