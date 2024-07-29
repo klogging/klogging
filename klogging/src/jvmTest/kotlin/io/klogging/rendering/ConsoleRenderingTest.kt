@@ -71,7 +71,7 @@ class ConsoleRenderingTest : DescribeSpec({
 
     describe("itemsAndStackTrace extension property") {
         it("returns an empty string if there are no items or stack trace") {
-            logEvent().itemsAndStackTrace shouldBe ""
+            logEvent(message = randomString()).itemsAndStackTrace shouldBe ""
         }
         it("returns ' : ' followed by the list of items if present") {
             val items = mapOf(randomString() to randomString(), randomString() to randomString())
@@ -80,6 +80,11 @@ class ConsoleRenderingTest : DescribeSpec({
         it("returns a newline followed by the stack trace if present") {
             val stackTrace = randomString()
             logEvent(stackTrace = stackTrace).itemsAndStackTrace shouldBe "\n$stackTrace"
+        }
+        it("returns both items and stack trace if both are present") {
+            val items = mapOf(randomString() to randomString(), randomString() to randomString())
+            val stackTrace = randomString()
+            logEvent(items = items, stackTrace = stackTrace).itemsAndStackTrace shouldBe " : $items\n$stackTrace"
         }
     }
 })
