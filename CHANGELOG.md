@@ -1,5 +1,8 @@
 # Klogging changes
 
+## Version 0.7.1
+- Extracted extensions for creating custom renderers - [issue 145](https://github.com/klogging/klogging/issues/145)
+
 ## Version 0.7.0
 - From [Baris](https://github.com/peacecwz): RENDER_STANDARD: standard rendering of log events to JSON - [PR 282](https://github.com/klogging/klogging/pull/282)
 
