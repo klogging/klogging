@@ -11,7 +11,7 @@ kotlin-coroutines = "1.8.1"
 kotlin-datetime = "0.6.0"
 kotlin-serialisation = "1.7.1"
 reckon = "0.18.3"
-slf4j = "2.0.15"
+slf4j = "2.0.16"
 spotless = "6.25.0"
 test-logger = "3.2.0"
 
