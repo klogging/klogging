@@ -21,7 +21,7 @@ package io.klogging.rendering
 import io.klogging.events.LogEvent
 
 /** Interface for rendering a [LogEvent] to a String. */
-public interface RenderString {
+public fun interface RenderString {
     /**
      * Render a log event into a string.
      *

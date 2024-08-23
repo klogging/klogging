@@ -19,6 +19,6 @@
 package io.klogging.sending
 
 /** Interface used for sending a string to a target somewhere. */
-public interface SendString {
+public fun interface SendString {
     public operator fun invoke(eventString: String)
 }
