@@ -23,7 +23,10 @@ import io.klogging.config.loggingConfiguration
 import io.klogging.context.Context
 import io.klogging.context.logContext
 import io.klogging.rendering.RENDER_CLEF
+import io.klogging.rendering.RenderString
+import io.klogging.rendering.evalTemplate
 import io.klogging.rendering.renderHec
+import io.klogging.sending.SendString
 import io.klogging.sending.seqServer
 import io.klogging.sending.splunkServer
 import kotlinx.coroutines.CoroutineName
@@ -34,6 +37,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import java.io.File
 import java.util.UUID.randomUUID
 import kotlin.random.Random
 
@@ -81,6 +85,17 @@ suspend fun main() = coroutineScope {
             logging {
                 toSink("seq")
             }
+        }
+    }
+
+    if (System.getenv("FUNC_INTERFACE_CONFIG") == "true") {
+        val logFile = File("/tmp/playpen.log")
+        val backwards = RenderString { it.evalTemplate().reversed() }
+        val tempFile = SendString { logFile.appendText("$it\n") }
+
+        loggingConfiguration(append = true) {
+            sink("tempLog", backwards, tempFile)
+            logging { toSink("tempLog") }
         }
     }
 
