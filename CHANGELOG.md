@@ -1,5 +1,11 @@
 # Klogging changes
 
+## Version 0.7.2
+- `RenderString` and `SendString` are specified using `fun interface`.
+- Kotlin version update to 2.0.20
+- Gradle version update to 8.10.
+- Other dependency updates.
+
 ## Version 0.7.1
 - Extracted extensions for creating custom renderers - [issue 145](https://github.com/klogging/klogging/issues/145)
 
