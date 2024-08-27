@@ -18,6 +18,25 @@
 
 rootProject.name = "klogging"
 
+pluginManagement {
+    repositories {
+        google()
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
+dependencyResolutionManagement {
+    @Suppress("UnstableApiUsage")
+    repositories {
+        google()
+        mavenCentral()
+
+        maven("https://s01.oss.sonatype.org/content/repositories/releases/")
+        maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+    }
+}
+
 includeBuild("convention-plugins")
 
 include(

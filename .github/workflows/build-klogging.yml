@@ -75,9 +75,9 @@ jobs:
         if: steps.check_test_output.outputs.files_exists == 'true'
 
       - name: Publish Klogging snapshot
-        run: ./gradlew :klogging:publishJvmPublicationToSnapshotsRepository
+        run: ./gradlew :klogging:publishAllPublicationsToSnapshotsRepository
         if: github.repository == 'klogging/klogging' && github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
       - name: Publish Klogging release
-        run: ./gradlew :klogging:publishJvmPublicationToReleasesRepository
+        run: ./gradlew :klogging:publishAllPublicationsToReleasesRepository
         if: github.repository == 'klogging/klogging' && startsWith(github.ref, 'refs/tags/') && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')

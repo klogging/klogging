@@ -24,10 +24,6 @@ plugins {
 group = "io.klogging"
 description = "Starter for using Klogging for logging. An alternative to spring-boot-starter-logging"
 
-repositories {
-    mavenCentral()
-}
-
 fun getExtraString(name: String) = extra[name]?.toString()
 
 publishing {

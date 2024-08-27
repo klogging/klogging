@@ -25,13 +25,6 @@ plugins {
     alias(libs.plugins.kover)
 }
 
-repositories {
-    mavenCentral()
-    // Direct links to Sonatype repositories where Klogging artifacts are directly published.
-    maven("https://s01.oss.sonatype.org/content/repositories/releases/")
-    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-}
-
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(11))
