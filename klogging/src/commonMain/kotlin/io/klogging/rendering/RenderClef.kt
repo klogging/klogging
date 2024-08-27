@@ -27,23 +27,21 @@ import io.klogging.events.LogEvent
  * - If `template` is not null, include it with key `@mt`, else include `message` with key `@m`.
  * - If `stackTrace` is not null, include it with key `@x`.
  */
-public val RENDER_CLEF: RenderString = object : RenderString {
-    override fun invoke(event: LogEvent): String {
-        val eventMap: MutableMap<String, Any?> = (
-                mapOf(
-                    "@t" to event.timestamp.toString(),
-                    "@l" to event.level.name,
-                    "host" to event.host,
-                    "logger" to event.logger,
-                ) + event.items
-                ).toMutableMap()
-        if (event.context != null) eventMap["context"] = event.context
-        if (event.template != null)
-            eventMap["@mt"] = event.template
-        else
-            eventMap["@m"] = event.message
-        if (event.stackTrace != null) eventMap["@x"] = event.stackTrace
+public val RENDER_CLEF: RenderString = RenderString { event ->
+    val eventMap: MutableMap<String, Any?> = (
+            mapOf(
+                "@t" to event.timestamp.toString(),
+                "@l" to event.level.name,
+                "host" to event.host,
+                "logger" to event.logger,
+            ) + event.items
+            ).toMutableMap()
+    if (event.context != null) eventMap["context"] = event.context
+    if (event.template != null)
+        eventMap["@mt"] = event.template
+    else
+        eventMap["@m"] = event.message
+    if (event.stackTrace != null) eventMap["@x"] = event.stackTrace
 
-        return serializeMap(eventMap)
-    }
+    serializeMap(eventMap)
 }

@@ -25,11 +25,9 @@ public data class Endpoint(
 )
 
 /** Send a rendered string to a Graylog server. */
-internal fun graylogServer(endpoint: Endpoint): SendString = object : SendString {
-    override fun invoke(eventString: String) {
-        SendingLauncher.launch {
-            sendToGraylog(endpoint, eventString)
-        }
+internal fun graylogServer(endpoint: Endpoint): SendString = SendString { eventString ->
+    SendingLauncher.launch {
+        sendToGraylog(endpoint, eventString)
     }
 }
 

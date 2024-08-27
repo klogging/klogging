@@ -34,23 +34,21 @@ private const val TIME_MARKER = "XXX--TIME-MARKER--XXX"
  * Renders a [LogEvent] into [GELF](https://docs.graylog.org/en/latest/pages/gelf.html#gelf-payload-specification)
  * JSON format.
  */
-public val RENDER_GELF: RenderString = object : RenderString {
-    override fun invoke(event: LogEvent): String {
-        val eventMap: EventItems = (
-                mapOf(
-                    "version" to "1.1",
-                    "host" to event.host,
-                    "short_message" to event.evalTemplate(),
-                    "full_message" to event.stackTrace,
-                    "timestamp" to TIME_MARKER,
-                    "level" to event.level.syslog,
-                    "_logger" to event.logger,
-                ) + event.items.mapKeys { (k, _) -> "_$k" }
-                ).filterValues { it != null }
+public val RENDER_GELF: RenderString = RenderString { event ->
+    val eventMap: EventItems = (
+            mapOf(
+                "version" to "1.1",
+                "host" to event.host,
+                "short_message" to event.evalTemplate(),
+                "full_message" to event.stackTrace,
+                "timestamp" to TIME_MARKER,
+                "level" to event.level.syslog,
+                "_logger" to event.logger,
+            ) + event.items.mapKeys { (k, _) -> "_$k" }
+            ).filterValues { it != null }
 
-        return serializeMap(eventMap)
-            .replace(""""$TIME_MARKER"""", event.timestamp.decimalSeconds)
-    }
+    serializeMap(eventMap)
+        .replace(""""$TIME_MARKER"""", event.timestamp.decimalSeconds)
 }
 
 public fun Instant.graylogFormat(): String {

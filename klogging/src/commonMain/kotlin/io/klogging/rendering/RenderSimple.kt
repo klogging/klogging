@@ -18,7 +18,6 @@
 
 package io.klogging.rendering
 
-import io.klogging.events.LogEvent
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -39,12 +38,10 @@ public val Instant.localString: String
  *
  * If there is a stack trace it is on second and following lines.
  */
-public val RENDER_SIMPLE: RenderString = object : RenderString {
-    override fun invoke(event: LogEvent): String {
-        val message =
-            "${event.timestamp.localString} ${event.level} [${event.context}] ${event.logger} : ${event.evalTemplate()}"
-        val maybeItems = if (event.items.isNotEmpty()) " : ${event.items}" else ""
-        val maybeStackTrace = if (event.stackTrace != null) "\n${event.stackTrace}" else ""
-        return message + maybeItems + maybeStackTrace
-    }
+public val RENDER_SIMPLE: RenderString = RenderString { event ->
+    val message =
+        "${event.timestamp.localString} ${event.level} [${event.context}] ${event.logger} : ${event.evalTemplate()}"
+    val maybeItems = if (event.items.isNotEmpty()) " : ${event.items}" else ""
+    val maybeStackTrace = if (event.stackTrace != null) "\n${event.stackTrace}" else ""
+    message + maybeItems + maybeStackTrace
 }

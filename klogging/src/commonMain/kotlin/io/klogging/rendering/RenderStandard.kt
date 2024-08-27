@@ -26,20 +26,18 @@ import io.klogging.events.LogEvent
  * - If `context` is not null, include it with key `context`.
  * - If `stackTrace` is not null, include it with key `stackTrace`.
  */
-public val RENDER_STANDARD: RenderString = object : RenderString {
-    override fun invoke(event: LogEvent): String {
-        val eventMap: MutableMap<String, Any?> = (
-                mapOf(
-                    "timestamp" to event.timestamp.toString(),
-                    "level" to event.level.name,
-                    "host" to event.host,
-                    "logger" to event.logger,
-                ) + event.items
-                ).toMutableMap()
-        if (event.context != null) eventMap["context"] = event.context
-        eventMap["message"] = event.evalTemplate()
-        if (event.stackTrace != null) eventMap["stackTrace"] = event.stackTrace
+public val RENDER_STANDARD: RenderString = RenderString { event ->
+    val eventMap: MutableMap<String, Any?> = (
+            mapOf(
+                "timestamp" to event.timestamp.toString(),
+                "level" to event.level.name,
+                "host" to event.host,
+                "logger" to event.logger,
+            ) + event.items
+            ).toMutableMap()
+    if (event.context != null) eventMap["context"] = event.context
+    eventMap["message"] = event.evalTemplate()
+    if (event.stackTrace != null) eventMap["stackTrace"] = event.stackTrace
 
-        return serializeMap(eventMap)
-    }
+    serializeMap(eventMap)
 }

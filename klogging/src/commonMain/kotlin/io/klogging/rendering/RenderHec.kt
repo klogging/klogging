@@ -20,7 +20,6 @@ package io.klogging.rendering
 
 import io.klogging.config.evalEnv
 import io.klogging.events.EventItems
-import io.klogging.events.LogEvent
 import io.klogging.events.decimalSeconds
 
 private const val TIME_MARKER = "XXX--TIME-MARKER--XXX"
@@ -37,26 +36,24 @@ public fun renderHec(
     index: String? = null,
     sourceType: String? = null,
     source: String? = null,
-): RenderString = object : RenderString {
-    override fun invoke(event: LogEvent): String {
-        val eventMap: EventItems = (
-                mapOf(
-                    "logger" to event.logger,
-                    "level" to event.level.name,
-                    "context" to event.context,
-                    "stackTrace" to event.stackTrace,
-                    "message" to event.evalTemplate(),
-                ) + event.items
-                ).filterValues { it != null }
-        val splunkMap: MutableMap<String, Any?> = mutableMapOf(
-            "time" to TIME_MARKER,
-            "index" to index?.let { evalEnv(it) },
-            "sourcetype" to sourceType?.let { evalEnv(it) },
-            "source" to source?.let { evalEnv(it) },
-            "host" to event.host,
-            "event" to eventMap,
-        )
-        return serializeMap(splunkMap)
-            .replace(""""$TIME_MARKER"""", event.timestamp.decimalSeconds)
-    }
+): RenderString = RenderString { event ->
+    val eventMap: EventItems = (
+            mapOf(
+                "logger" to event.logger,
+                "level" to event.level.name,
+                "context" to event.context,
+                "stackTrace" to event.stackTrace,
+                "message" to event.evalTemplate(),
+            ) + event.items
+            ).filterValues { it != null }
+    val splunkMap: MutableMap<String, Any?> = mutableMapOf(
+        "time" to TIME_MARKER,
+        "index" to index?.let { evalEnv(it) },
+        "sourcetype" to sourceType?.let { evalEnv(it) },
+        "source" to source?.let { evalEnv(it) },
+        "host" to event.host,
+        "event" to eventMap,
+    )
+    serializeMap(splunkMap)
+        .replace(""""$TIME_MARKER"""", event.timestamp.decimalSeconds)
 }

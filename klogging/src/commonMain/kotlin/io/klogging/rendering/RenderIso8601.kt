@@ -18,10 +18,8 @@
 
 package io.klogging.rendering
 
-import io.klogging.events.LogEvent
-
-public val RENDER_ISO8601: RenderString = object : RenderString {
-    override fun invoke(event: LogEvent): String = buildString {
+public val RENDER_ISO8601: RenderString = RenderString { event ->
+    buildString {
         append("${event.timestamp} ${event.level} [${event.context}] ${event.logger} : ${event.evalTemplate()}")
         append(event.itemsAndStackTrace)
     }

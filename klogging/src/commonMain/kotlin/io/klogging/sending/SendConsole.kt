@@ -19,11 +19,7 @@
 package io.klogging.sending
 
 /** Send an event rendered as a string to the standard output stream. */
-public val STDOUT: SendString = object : SendString {
-    override fun invoke(eventString: String) {
-        println(eventString)
-    }
-}
+public val STDOUT: SendString = SendString { eventString -> println(eventString) }
 
 /** Send an event rendered as a string to the standard error stream. */
 public expect val STDERR: SendString

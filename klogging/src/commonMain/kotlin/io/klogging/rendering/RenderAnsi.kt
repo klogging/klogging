@@ -18,14 +18,12 @@
 
 package io.klogging.rendering
 
-import io.klogging.events.LogEvent
-
 /**
  * Implementation of [RenderString] like that for Log4J2 with ANSI colouring of
  * level output to a console.
  */
-public val RENDER_ANSI: RenderString = object : RenderString {
-    override fun invoke(event: LogEvent): String = buildString {
+public val RENDER_ANSI: RenderString = RenderString { event ->
+    buildString {
         append("${event.timestamp.localTime} ${event.level.colour5} [${event.context?.right20}] :" +
                 " ${event.logger.right20} : ${event.evalTemplate()}")
         append(event.itemsAndStackTrace)
