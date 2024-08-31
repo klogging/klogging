@@ -99,8 +99,8 @@ suspend fun main() = coroutineScope {
         }
     }
 
-    val outerCount = 5
-    val innerCount = 3
+    val outerCount = 4
+    val innerCount = 4
 
     val run = randomUUID()
     launch(logContext("run" to run) + CoroutineName("Playpen")) {
