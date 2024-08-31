@@ -9,9 +9,6 @@ on:
       - gradle/**
       - jdk-platform-klogging/**
       - "!jdk-platform-klogging/README.md"
-  pull_request:
-    branches:
-      - '*'
   workflow_dispatch:
   workflow_run:
     workflows: [build-publish-klogging]
