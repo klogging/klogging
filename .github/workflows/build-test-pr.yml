@@ -1,4 +1,4 @@
-name: build-publish-klogging
+name: build-test-pr
 
 on:
   pull_request:
