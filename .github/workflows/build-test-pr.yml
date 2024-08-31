@@ -1,0 +1,44 @@
+name: build-publish-klogging
+
+on:
+  pull_request:
+    branches:
+      - '*'
+  workflow_dispatch:
+
+jobs:
+
+  build-klogging:
+    name: Build and test Klogging library from a PR
+    runs-on: ubuntu-latest
+    env:
+      TERM: xterm-256color
+      KLOGGING_MIN_LOG_LEVEL: WARN # Reduce noise in test output
+
+    permissions:
+      statuses: write
+      pull-requests: write
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Check out everything including tags
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build
+        run: ./gradlew clean assemble
+
+      - name: Run tests
+        run: ./gradlew check
+
+      - name: Code coverage
+        run: ./gradlew koverHtmlReport

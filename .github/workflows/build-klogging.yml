@@ -10,9 +10,6 @@ on:
       - .github/**
       - gradle/**
       - klogging/**
-  pull_request:
-    branches:
-      - '*'
   workflow_dispatch:
 
 jobs:
