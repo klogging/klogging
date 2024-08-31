@@ -18,6 +18,8 @@
 
 @file:Suppress("UNUSED_VARIABLE")
 
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+
 plugins {
     id("klogging-kotlin")
     id("klogging-spotless")
@@ -27,15 +29,37 @@ plugins {
     alias(libs.plugins.binaryCompatibilityValidator)
     alias(libs.plugins.testLogger)
     alias(libs.plugins.kover)
-}
 
-repositories {
-    mavenCentral()
+    alias(libs.plugins.android.library)
 }
 
 kotlin {
-    js(IR) {
+    js {
+        browser()
         nodejs()
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        nodejs()
+    }
+
+    jvm() {
+    }
+
+    androidTarget {
+        publishLibraryVariants("release")
+    }
+
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64(),
+    ).forEach {
+        it.binaries.framework {
+            isStatic = true
+        }
     }
 
     sourceSets {
@@ -65,6 +89,9 @@ kotlin {
         }
         val jsMain by getting
         val jsTest by getting
+        val wasmJsMain by getting
+        val wasmJsTest by getting
+        val androidMain by getting
     }
 }
 
@@ -82,4 +109,13 @@ testlogger {
     showPassed = false
     showSkipped = true
     showFailed = true
+}
+
+android {
+    namespace = "io.klogging"
+    compileSdk = 34
+
+    defaultConfig {
+        minSdk = 21
+    }
 }

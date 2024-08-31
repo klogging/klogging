@@ -16,13 +16,20 @@
 
 */
 
-package io.klogging.internal
+package io.klogging.sending
 
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlin.coroutines.CoroutineContext
+import io.klogging.events.LogEvent
+import io.klogging.rendering.RenderString
 
-@OptIn(DelicateCoroutinesApi::class)
-internal actual fun parentContext(): CoroutineContext {
-    return GlobalScope.coroutineContext
+internal actual fun sendToSplunk(endpoint: SplunkEndpoint, renderer: RenderString, batch: List<LogEvent>) {
+    TODO("Not yet implemented")
+}
+
+internal actual fun sendToSplunk(
+    hecUrl: String,
+    hecToken: String,
+    checkCertificate: Boolean,
+    eventString: String,
+) {
+    TODO("Not yet implemented")
 }

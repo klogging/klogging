@@ -16,13 +16,10 @@
 
 */
 
-package io.klogging.internal
+package io.klogging.sending
 
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlin.coroutines.CoroutineContext
+import io.klogging.events.LogEvent
 
-@OptIn(DelicateCoroutinesApi::class)
-internal actual fun parentContext(): CoroutineContext {
-    return GlobalScope.coroutineContext
+internal actual fun sendToElk(endpoint: ElkEndpoint, batch: List<LogEvent>) {
+    TODO("Not yet implemented")
 }

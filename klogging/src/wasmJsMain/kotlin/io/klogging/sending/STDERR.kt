@@ -16,13 +16,12 @@
 
 */
 
-package io.klogging.internal
+package io.klogging.sending
 
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlin.coroutines.CoroutineContext
+import io.klogging.internal.printErr
 
-@OptIn(DelicateCoroutinesApi::class)
-internal actual fun parentContext(): CoroutineContext {
-    return GlobalScope.coroutineContext
+public actual val STDERR: SendString = object : SendString {
+    override fun invoke(eventString: String) {
+        printErr(eventString)
+    }
 }

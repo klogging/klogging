@@ -18,11 +18,7 @@
 
 package io.klogging.internal
 
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlin.coroutines.CoroutineContext
+@JsFun("(output) => console.error(output)")
+private external fun consoleErr(output: String)
 
-@OptIn(DelicateCoroutinesApi::class)
-internal actual fun parentContext(): CoroutineContext {
-    return GlobalScope.coroutineContext
-}
+internal actual fun printErr(message: String): Unit = consoleErr(message)

@@ -18,8 +18,7 @@
 
 package io.klogging.events
 
-internal actual val hostname: String = TODO("Not yet implemented")
+import platform.Foundation.NSThread
 
-internal actual fun threadContext(): String? {
-    TODO("Not yet implemented")
-}
+internal actual fun threadContext(): String? = NSThread.currentThread.name
+

@@ -16,13 +16,8 @@
 
 */
 
-package io.klogging.internal
+package io.klogging.config
 
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlin.coroutines.CoroutineContext
-
-@OptIn(DelicateCoroutinesApi::class)
-internal actual fun parentContext(): CoroutineContext {
-    return GlobalScope.coroutineContext
+internal actual fun <T : Any> loadByClassName(className: String?): T? {
+    TODO("Not yet implemented")
 }

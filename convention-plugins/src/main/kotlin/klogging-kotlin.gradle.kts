@@ -34,7 +34,6 @@ kotlin {
     }
 
     jvm {
-        withJava() // Needed for jacocoTestReport Gradle target
         testRuns["test"].executionTask.configure {
             useJUnitPlatform()
         }

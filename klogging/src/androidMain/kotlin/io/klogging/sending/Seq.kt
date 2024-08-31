@@ -16,13 +16,13 @@
 
 */
 
-package io.klogging.internal
+package io.klogging.sending
 
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlin.coroutines.CoroutineContext
-
-@OptIn(DelicateCoroutinesApi::class)
-internal actual fun parentContext(): CoroutineContext {
-    return GlobalScope.coroutineContext
+internal actual fun sendToSeq(
+    url: String,
+    apiKey: String?,
+    checkCertificate: Boolean,
+    eventString: String,
+) {
+    TODO("Not yet implemented")
 }

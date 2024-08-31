@@ -16,13 +16,9 @@
 
 */
 
-package io.klogging.internal
+package io.klogging.events
 
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlin.coroutines.CoroutineContext
+import android.provider.Settings
 
-@OptIn(DelicateCoroutinesApi::class)
-internal actual fun parentContext(): CoroutineContext {
-    return GlobalScope.coroutineContext
-}
+// There is no good way to get a hostname on android
+internal actual val hostname: String = Settings.Secure.ANDROID_ID
