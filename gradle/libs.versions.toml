@@ -14,7 +14,7 @@ reckon = "0.18.3"
 slf4j = "2.0.16"
 spotless = "6.25.0"
 test-logger = "3.2.0"
-android-library = "8.6.1"
+android-library = "8.5.2"
 
 [libraries]
 hexagon-core = { module = "com.hexagonkt:core", version.ref = "hexagon" }
