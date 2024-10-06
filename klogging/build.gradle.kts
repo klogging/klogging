@@ -49,7 +49,7 @@ kotlin {
     }
 
     androidTarget {
-        publishLibraryVariants("release")
+        publishLibraryVariants("release", "debug")
     }
 
     listOf(

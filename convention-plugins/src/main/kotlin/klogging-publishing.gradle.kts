@@ -23,10 +23,6 @@ plugins {
 
 group = "io.klogging"
 
-val javadocJar by tasks.registering(Jar::class) {
-    archiveClassifier.set("javadoc")
-}
-
 fun getExtraString(name: String) = extra[name]?.toString()
 
 publishing {
@@ -52,9 +48,6 @@ publishing {
 
     // Configure all publications
     publications.withType<MavenPublication> {
-        // Stub javadoc.jar artifact
-        artifact(javadocJar.get())
-
         // Provide artifacts information requited by Maven Central
         pom {
             name.set("klogging")
