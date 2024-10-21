@@ -201,6 +201,9 @@ $dokka.location:io.klogging.sending/SplunkEndpoint/index/#/PointingToDeclaration
 $dokka.location:io.klogging.sending/SplunkEndpoint/source/#/PointingToDeclaration/-klogging/io.klogging.sending/-splunk-endpoint/source.html
 $dokka.location:io.klogging.sending/SplunkEndpoint/sourceType/#/PointingToDeclaration/-klogging/io.klogging.sending/-splunk-endpoint/source-type.html
 $dokka.location:io.klogging.sending/SplunkEndpoint/toString/#/PointingToDeclaration/-klogging/io.klogging.sending/-splunk-endpoint/to-string.html
+$dokka.location:io.klogging.sending/SplunkHec///PointingToDeclaration/-klogging/io.klogging.sending/-splunk-hec/index.html
+$dokka.location:io.klogging.sending/SplunkHec/SplunkHec/#io.klogging.sending.SplunkEndpoint#io.klogging.rendering.RenderString/PointingToDeclaration/-klogging/io.klogging.sending/-splunk-hec/-splunk-hec.html
+$dokka.location:io.klogging.sending/SplunkHec/invoke/#kotlin.collections.List[io.klogging.events.LogEvent]/PointingToDeclaration/-klogging/io.klogging.sending/-splunk-hec/invoke.html
 $dokka.location:io.klogging.templating////PointingToDeclaration/-klogging/io.klogging.templating/index.html
 $dokka.location:io.klogging.templating//templateItems/#kotlin.String#kotlin.Array[kotlin.Any?]/PointingToDeclaration/-klogging/io.klogging.templating/template-items.html
 $dokka.location:io.klogging////PointingToDeclaration/-klogging/io.klogging/index.html
