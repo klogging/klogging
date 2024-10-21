@@ -24,21 +24,27 @@ import io.klogging.internal.warn
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
+import javax.net.ssl.HttpsURLConnection
 
 internal actual fun sendToElk(endpoint: ElkEndpoint, batch: List<LogEvent>) {
     val conn = elkConnection(endpoint)
     try {
         trace("ELK", "Sending events to ELK in context ${Thread.currentThread().name}")
         conn.outputStream.use { it.write(elkBatch(batch).toByteArray()) }
+        val response = conn.inputStream.use { String(it.readAllTheBytes()) }
+        if (conn.responseCode != HttpURLConnection.HTTP_OK) {
+            warn("ELK", "Error response ${conn.responseCode} sending event to ELK: $response")
+        }
     } catch (e: IOException) {
         warn("ELK", "exception sending message to ELK: $e")
     }
 }
 
 private fun elkConnection(endpoint: ElkEndpoint): HttpURLConnection {
-    val conn = URL(endpoint.url).openConnection() as HttpURLConnection
-//    if (endpoint.checkCertificate != "true")
-//        TrustModifier.relaxHostChecking(conn)
+    val conn = URL(endpoint.url).openConnection() as HttpsURLConnection
+    if (!endpoint.checkCertificate) {
+        Certificates.relaxHostChecking(conn)
+    }
     conn.requestMethod = "POST"
     conn.setRequestProperty("Content-Type", "application/json")
     conn.doOutput = true

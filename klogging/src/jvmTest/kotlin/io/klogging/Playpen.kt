@@ -26,6 +26,8 @@ import io.klogging.rendering.RENDER_CLEF
 import io.klogging.rendering.RenderString
 import io.klogging.rendering.evalTemplate
 import io.klogging.rendering.renderHec
+import io.klogging.sending.ElkEndpoint
+import io.klogging.sending.SendElk
 import io.klogging.sending.SendString
 import io.klogging.sending.seqServer
 import io.klogging.sending.splunkServer
@@ -85,6 +87,20 @@ suspend fun main() = coroutineScope {
             logging {
                 toSink("seq")
             }
+        }
+    }
+
+    if (System.getenv("ELK_CONFIG") == "true") {
+        loggingConfiguration {
+            sink(
+                "elk",
+                SendElk(
+                    ElkEndpoint(
+                        url = getenv("ELK_URL")!!,
+                        checkCertificate = false,
+                    )
+                )
+            )
         }
     }
 

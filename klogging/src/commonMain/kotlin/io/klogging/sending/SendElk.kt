@@ -26,13 +26,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class ElkEndpoint(
     val url: String,
-    val checkCertificate: String = "true",
+    val checkCertificate: Boolean = true,
 )
 
 /**
  * Send a batch of events to an ELK server in ECS format.
  */
-internal class SendElk(val endpoint: ElkEndpoint) : EventSender {
+public class SendElk(private val endpoint: ElkEndpoint) : EventSender {
     override fun invoke(batch: List<LogEvent>) {
         SendingLauncher.launch {
             sendToElk(endpoint, batch)

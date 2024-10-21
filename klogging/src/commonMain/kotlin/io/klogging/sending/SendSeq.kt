@@ -19,7 +19,7 @@
 package io.klogging.sending
 
 /** Send a rendered string to a Seq server. */
-internal fun seqServer(
+public fun seqServer(
     url: String,
     apiKey: String?,
     checkCertificate: Boolean,
