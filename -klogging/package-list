@@ -174,9 +174,10 @@ $dokka.location:io.klogging.sending//STDERR/#/PointingToDeclaration/-klogging/i
 $dokka.location:io.klogging.sending//STDOUT/#/PointingToDeclaration/-klogging/io.klogging.sending/-s-t-d-o-u-t.html
 $dokka.location:io.klogging.sending//receiveBatch/#kotlinx.coroutines.channels.ReceiveChannel[TypeParam(bounds=[kotlin.Any?])]#kotlin.Long#kotlin.Int/PointingToDeclaration/-klogging/io.klogging.sending/receive-batch.html
 $dokka.location:io.klogging.sending//senderFrom/#io.klogging.rendering.RenderString#io.klogging.sending.SendString/PointingToDeclaration/-klogging/io.klogging.sending/sender-from.html
+$dokka.location:io.klogging.sending//seqServer/#kotlin.String#kotlin.String?#kotlin.Boolean/PointingToDeclaration/-klogging/io.klogging.sending/seq-server.html
 $dokka.location:io.klogging.sending//splunkServer/#kotlin.String#kotlin.String#kotlin.Boolean/PointingToDeclaration/-klogging/io.klogging.sending/splunk-server.html
 $dokka.location:io.klogging.sending/ElkEndpoint///PointingToDeclaration/-klogging/io.klogging.sending/-elk-endpoint/index.html
-$dokka.location:io.klogging.sending/ElkEndpoint/ElkEndpoint/#kotlin.String#kotlin.String/PointingToDeclaration/-klogging/io.klogging.sending/-elk-endpoint/-elk-endpoint.html
+$dokka.location:io.klogging.sending/ElkEndpoint/ElkEndpoint/#kotlin.String#kotlin.Boolean/PointingToDeclaration/-klogging/io.klogging.sending/-elk-endpoint/-elk-endpoint.html
 $dokka.location:io.klogging.sending/ElkEndpoint/checkCertificate/#/PointingToDeclaration/-klogging/io.klogging.sending/-elk-endpoint/check-certificate.html
 $dokka.location:io.klogging.sending/ElkEndpoint/url/#/PointingToDeclaration/-klogging/io.klogging.sending/-elk-endpoint/url.html
 $dokka.location:io.klogging.sending/Endpoint///PointingToDeclaration/-klogging/io.klogging.sending/-endpoint/index.html
@@ -185,6 +186,9 @@ $dokka.location:io.klogging.sending/Endpoint/host/#/PointingToDeclaration/-klog
 $dokka.location:io.klogging.sending/Endpoint/port/#/PointingToDeclaration/-klogging/io.klogging.sending/-endpoint/port.html
 $dokka.location:io.klogging.sending/EventSender///PointingToDeclaration/-klogging/io.klogging.sending/-event-sender/index.html
 $dokka.location:io.klogging.sending/EventSender/invoke/#kotlin.collections.List[io.klogging.events.LogEvent]/PointingToDeclaration/-klogging/io.klogging.sending/-event-sender/invoke.html
+$dokka.location:io.klogging.sending/SendElk///PointingToDeclaration/-klogging/io.klogging.sending/-send-elk/index.html
+$dokka.location:io.klogging.sending/SendElk/SendElk/#io.klogging.sending.ElkEndpoint/PointingToDeclaration/-klogging/io.klogging.sending/-send-elk/-send-elk.html
+$dokka.location:io.klogging.sending/SendElk/invoke/#kotlin.collections.List[io.klogging.events.LogEvent]/PointingToDeclaration/-klogging/io.klogging.sending/-send-elk/invoke.html
 $dokka.location:io.klogging.sending/SendString///PointingToDeclaration/-klogging/io.klogging.sending/-send-string/index.html
 $dokka.location:io.klogging.sending/SendString/invoke/#kotlin.String/PointingToDeclaration/-klogging/io.klogging.sending/-send-string/invoke.html
 $dokka.location:io.klogging.sending/SplunkEndpoint///PointingToDeclaration/-klogging/io.klogging.sending/-splunk-endpoint/index.html
