@@ -1042,6 +1042,11 @@ public final class io/klogging/sending/SplunkEndpoint$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
+public final class io/klogging/sending/SplunkHec : io/klogging/sending/EventSender {
+	public fun <init> (Lio/klogging/sending/SplunkEndpoint;Lio/klogging/rendering/RenderString;)V
+	public fun invoke (Ljava/util/List;)V
+}
+
 public final class io/klogging/templating/TemplatingKt {
 	public static final fun templateItems (Ljava/lang/String;[Ljava/lang/Object;)Ljava/util/Map;
 }
