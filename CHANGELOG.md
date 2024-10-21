@@ -1,5 +1,11 @@
 # Klogging changes
 
+## Version 0.7.3
+- Gradle version update to 8.10.2
+- Dependency updates
+- KMP updates
+- Improvements to Splunk and ELK sending
+
 ## Version 0.7.2
 - `RenderString` and `SendString` are specified using `fun interface`.
 - Kotlin version update to 2.0.20
