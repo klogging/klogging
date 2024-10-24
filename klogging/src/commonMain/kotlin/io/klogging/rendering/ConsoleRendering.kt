@@ -73,7 +73,7 @@ private const val delimiters = ". /:-+"
  * @return The shortened name if it exceeds the width, otherwise the original name.
  */
 public fun CharSequence.shortenName(width: Int = DEFAULT_MAX_WIDTH): CharSequence {
-    val maxWidth = if (width < MINIMUM_MAX_WIDTH) DEFAULT_MAX_WIDTH else width
+    val maxWidth = if (width < MINIMUM_MAX_WIDTH) MINIMUM_MAX_WIDTH else width
     if (length <= maxWidth) return this
     forEachIndexed { idx, char ->
         if (char in delimiters && idx > 0) {
