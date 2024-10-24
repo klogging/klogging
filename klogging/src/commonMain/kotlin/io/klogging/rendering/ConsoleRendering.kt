@@ -27,6 +27,7 @@ import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
 import io.klogging.events.LogEvent
 import kotlinx.datetime.Instant
+import kotlin.math.max
 
 internal const val MINIMUM_MAX_WIDTH = 5
 internal const val DEFAULT_MAX_WIDTH = 20
@@ -45,7 +46,15 @@ public fun brightRed(str: String): String = "${ESC}91m$str${ESC}0m"
 
 // Right-aligned level name in 5 character space.
 private val Level.rpad5: String
-    get() = " $name".let { it.substring(it.length - 5) }
+    get() = this.rpad(5)
+
+internal fun Level.rpad(width: Int): String {
+    val padWidth = max(1, width)
+    return if (padWidth > name.length)
+        (" ".repeat(padWidth) + name).let { it.substring(it.length - padWidth)}
+    else
+        name.substring(0, padWidth)
+}
 
 /** Render a level in colour using ANSI colour escapes. */
 public val Level.colour5: String
