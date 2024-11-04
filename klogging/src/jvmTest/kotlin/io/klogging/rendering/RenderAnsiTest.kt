@@ -21,7 +21,7 @@ package io.klogging.rendering
 import io.klogging.Level
 import io.klogging.logEvent
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldEndWith
 import kotlinx.datetime.Instant
 
 class RenderAnsiTest : DescribeSpec({
@@ -33,33 +33,34 @@ class RenderAnsiTest : DescribeSpec({
             logger = "com.example.Thing",
             message = "Test"
         )
+        // Use `shouldEndWith` to avoid issues with different timezones.
         it("renders standard widths") {
-            renderAnsi(contextWidth = 20, loggerWidth = 20)(event) shouldBe
-                    "10:08:42.123456 DEBUG [          D-worker-5] :    com.example.Thing : Test"
+            renderAnsi(contextWidth = 20, loggerWidth = 20)(event) shouldEndWith
+                    "DEBUG [          D-worker-5] :    com.example.Thing : Test"
         }
         it("renders adjusted widths") {
-            renderAnsi(contextWidth = 10, loggerWidth = 30)(event) shouldBe
-                    "10:08:42.123456 DEBUG [D-worker-5] :              com.example.Thing : Test"
+            renderAnsi(contextWidth = 10, loggerWidth = 30)(event) shouldEndWith
+                    "DEBUG [D-worker-5] :              com.example.Thing : Test"
         }
         it("omits context if contextWidth is zero") {
-            renderAnsi(contextWidth = 0, loggerWidth = 20)(event) shouldBe
-                    "10:08:42.123456 DEBUG :    com.example.Thing : Test"
+            renderAnsi(contextWidth = 0, loggerWidth = 20)(event) shouldEndWith
+                    "DEBUG :    com.example.Thing : Test"
         }
         it("omits logger name if loggerWidth is zero") {
-            renderAnsi(contextWidth = 10, loggerWidth = 0)(event) shouldBe
-                    "10:08:42.123456 DEBUG [D-worker-5] : Test"
+            renderAnsi(contextWidth = 10, loggerWidth = 0)(event) shouldEndWith
+                    "DEBUG [D-worker-5] : Test"
         }
         it("includes any context items") {
-            renderAnsi(0, 0)(event.copy(items = mapOf("this" to "that"))) shouldBe
-                    "10:08:42.123456 DEBUG : Test : {this=that}"
+            renderAnsi(0, 0)(event.copy(items = mapOf("this" to "that"))) shouldEndWith
+                    "DEBUG : Test : {this=that}"
         }
         it("includes any stacktrace") {
             renderAnsi(0, 0)(
                 event.copy(
                     stackTrace = "io.klogging.PretendException: message\n    at io.klogging.test.BlahTest.blah"
                 )
-            ) shouldBe
-                    "10:08:42.123456 DEBUG : Test\nio.klogging.PretendException: message\n" +
+            ) shouldEndWith
+                    "DEBUG : Test\nio.klogging.PretendException: message\n" +
                     "    at io.klogging.test.BlahTest.blah"
         }
     }
