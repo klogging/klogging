@@ -18,15 +18,8 @@
 
 package io.klogging.rendering
 
-import io.klogging.events.LogEvent
+public fun CharSequence.padRight(maxLength: Int): String =
+    (" ".repeat(maxLength) + this).let { it.substring(it.length - maxLength) }
 
-/** Interface for rendering a [LogEvent] to a String. */
-public fun interface RenderString {
-    /**
-     * Render a log event into a string.
-     *
-     * @param event log event
-     * @return a string representation of the event
-     */
-    public operator fun invoke(event: LogEvent): String
-}
+public fun CharSequence.right(maxLength: Int): String =
+    shortenName(maxLength).padRight(maxLength)

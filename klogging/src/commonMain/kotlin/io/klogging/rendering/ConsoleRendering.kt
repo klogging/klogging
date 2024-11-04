@@ -51,7 +51,7 @@ private val Level.rpad5: String
 internal fun Level.rpad(width: Int): String {
     val padWidth = max(1, width)
     return if (padWidth > name.length)
-        (" ".repeat(padWidth) + name).let { it.substring(it.length - padWidth)}
+        (" ".repeat(padWidth) + name).let { it.substring(it.length - padWidth) }
     else
         name.substring(0, padWidth)
 }
@@ -66,6 +66,17 @@ public val Level.colour5: String
         ERROR -> red(rpad5)
         FATAL -> brightRed(rpad5)
         else -> rpad5
+    }
+
+public fun Level.colour(width: Int = 5): String =
+    when (this) {
+        TRACE -> grey(rpad(width))
+        DEBUG -> rpad(width)
+        INFO -> green(rpad(width))
+        WARN -> yellow(rpad(width))
+        ERROR -> red(rpad(width))
+        FATAL -> brightRed(rpad(width))
+        else -> rpad(width)
     }
 
 public val String.right20: String

@@ -22,10 +22,24 @@ package io.klogging.rendering
  * Implementation of [RenderString] like that for Log4J2 with ANSI colouring of
  * level output to a console.
  */
-public val RENDER_ANSI: RenderString = RenderString { event ->
+public val RENDER_ANSI: RenderString = renderAnsi(5, 20, 20)
+
+/**
+ * Function that returns a [RenderString] similar to Log4J2 with ANSI colouring of
+ * level output for console, with configurable field widths.
+ */
+public fun renderAnsi(
+    levelWidth: Int = 5,
+    contextWidth: Int = 20,
+    loggerWidth: Int = 20
+): RenderString = RenderString { event ->
     buildString {
-        append("${event.timestamp.localTime} ${event.level.colour5} [${event.context?.right20}] :" +
-                " ${event.logger.right20} : ${event.evalTemplate()}")
+        append(
+            "${event.timestamp.localTime} ${event.level.colour(levelWidth)}" +
+                    " [${event.context?.right(contextWidth)}] :" +
+                    " ${event.logger.right(loggerWidth)} :" +
+                    " ${event.evalTemplate()}"
+        )
         append(event.itemsAndStackTrace)
     }
 }
