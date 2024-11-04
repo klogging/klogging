@@ -26,20 +26,32 @@ import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.Exhaustive
 import io.kotest.property.arbitrary.int
+import io.kotest.property.arbitrary.string
 import io.kotest.property.checkAll
 import io.kotest.property.exhaustive.enum
 
 class ConsoleRenderingTest : DescribeSpec({
 
-    describe("right20 extension property") {
-        it("right-aligns a short name") {
-            "main".right20 shouldBe "                main"
+    describe("`CharSequence.padRight()` extension function") {
+        describe("returns the string when exact width specified") {
+            checkAll(Arb.string(1, 100)) { str ->
+                str.padRight(str.length) shouldBe str
+            }
         }
-        it("right-aligns a longer name") {
-            "io.klogging.Klogging".right20 shouldBe "io.klogging.Klogging"
+        describe("returns empty string when zero width specified") {
+            checkAll(Arb.string(1, 100)) { str ->
+                str.padRight(0) shouldBe ""
+            }
         }
-        it("shortens package names in a too-long name") {
-            "io.klogging.events.LogEvent".right20 shouldBe " i.k.events.LogEvent"
+        describe("returns right-aligned, space-padded string when longer width specified") {
+            checkAll(Arb.string(1, 50), Arb.int(1, 50)) { str, extra ->
+                str.padRight(str.length + extra) shouldBe " ".repeat(extra) + str
+            }
+        }
+        describe("returns right-most characters only when shorter width specified") {
+            checkAll(Arb.string(50, 100), Arb.int(1, 49)) { str, narrower ->
+                str.padRight(narrower) shouldBe str.substring(str.length - narrower)
+            }
         }
     }
 

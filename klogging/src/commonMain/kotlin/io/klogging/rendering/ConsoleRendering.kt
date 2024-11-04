@@ -68,9 +68,22 @@ public val Level.colour5: String
         else -> rpad5
     }
 
-public val String.right20: String
-    get() = "                    ${this.shortenName(DEFAULT_MAX_WIDTH)}"
-        .let { it.substring(it.length - DEFAULT_MAX_WIDTH) }
+/**
+ * Shortens a character sequence and right-pads it if shorter than the specified width.
+ */
+public fun CharSequence.shortenRight(width: Int): CharSequence = this
+    .shortenName(width)
+    .padRight(width)
+
+/**
+ * Right-pads a character sequence within the specified width if it fits; else the
+ * right-most characters of that sequence.
+ *
+ * @param width number of characters into which to fit this sequence
+ * @return right-padded or shortened or the same sequence
+ */
+public fun CharSequence.padRight(width: Int): CharSequence =
+    (" ".repeat(width) + this).let { it.substring(it.length - width) }
 
 private const val delimiters = ". /:-+"
 
