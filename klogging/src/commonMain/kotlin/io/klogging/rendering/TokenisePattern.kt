@@ -20,41 +20,29 @@ package io.klogging.rendering
 
 import io.klogging.internal.warn
 
-internal sealed class RenderToken
-internal data class StringToken(val value: String) : RenderToken()
-internal data class TimestampToken(val width: Int = 0) : RenderToken()
-internal data class HostToken(val width: Int = 0) : RenderToken()
-internal data class LoggerToken(val width: Int = 0) : RenderToken()
-internal data class ContextToken(val width: Int = 0) : RenderToken()
-internal data class LevelToken(val width: Int = 0) : RenderToken()
-internal data class MessageToken(val width: Int = 0) : RenderToken()
-internal object StacktraceToken : RenderToken()
-internal object ItemsToken : RenderToken()
-internal object NewlineToken : RenderToken()
-
 private enum class TokeniserState { NONE, IN_STRING, IN_PERCENT }
 
 private val digits = setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-')
 
 internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
     var state = TokeniserState.NONE
-    var width = StringBuilder()
+    var tokenWidth = StringBuilder()
     var tokenString = StringBuilder()
 
-    fun widthToInt(idx: Int): Int {
-        if (width.isEmpty()) return 0
-        val widthString = width.toString()
+    fun tokenWidthAsInt(charPos: Int): Int {
+        if (tokenWidth.isEmpty()) return 0
+        val widthString = tokenWidth.toString()
         val widthOrNull = widthString.toIntOrNull()
         return if (widthOrNull == null) {
             warn(
                 "tokeniser",
-                "Pattern \"$pattern\" contains invalid width \"$widthString\" at character ${idx - widthString.length + 1}"
+                "Pattern \"$pattern\" contains invalid width \"$widthString\" at character ${charPos - widthString.length}"
             )
             0
         } else widthOrNull
     }
 
-    fun handleToken(ch: Char, idx: Int, ctor: (Int) -> RenderToken) {
+    fun createToken(ch: Char, idx: Int) {
         when (state) {
             TokeniserState.NONE -> {
                 tokenString = StringBuilder()
@@ -63,8 +51,10 @@ internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
             }
 
             TokeniserState.IN_PERCENT -> {
-                add(ctor(widthToInt(idx)))
-                width = StringBuilder()
+                tokens[ch]?.let { creator ->
+                    add(creator(tokenWidthAsInt(idx + 1)))
+                }
+                tokenWidth = StringBuilder()
                 state = TokeniserState.NONE
             }
 
@@ -73,6 +63,7 @@ internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
             }
         }
     }
+
 
     pattern.forEachIndexed { idx, ch ->
         when (ch) {
@@ -89,23 +80,7 @@ internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
                 }
             }
 
-            't' -> handleToken(ch, idx) { width -> TimestampToken(width) }
-
-            'h' -> handleToken(ch, idx) { width -> HostToken(width) }
-
-            'l' -> handleToken(ch, idx) { width -> LoggerToken(width) }
-
-            'c' -> handleToken(ch, idx) { width -> ContextToken(width) }
-
-            'v' -> handleToken(ch, idx) { width -> LevelToken(width) }
-
-            's' -> handleToken(ch, idx) { StacktraceToken }
-
-            'i' -> handleToken(ch, idx) { ItemsToken }
-
-            'm' -> handleToken(ch, idx) { width -> MessageToken(width) }
-
-            'n' -> handleToken(ch, idx) { NewlineToken }
+            in tokens.keys -> createToken(ch, idx)
 
             in digits -> when (state) {
                 TokeniserState.NONE -> {
@@ -115,7 +90,7 @@ internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
                 }
 
                 TokeniserState.IN_PERCENT -> {
-                    width.append(ch)
+                    tokenWidth.append(ch)
                 }
 
                 TokeniserState.IN_STRING -> {
