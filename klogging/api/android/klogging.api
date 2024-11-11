@@ -900,6 +900,13 @@ public final class io/klogging/rendering/RenderIso8601Kt {
 	public static final fun getRENDER_ISO8601 ()Lio/klogging/rendering/RenderString;
 }
 
+public final class io/klogging/rendering/RenderPattern : io/klogging/rendering/RenderString {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun invoke (Lio/klogging/events/LogEvent;)Ljava/lang/String;
+}
+
 public final class io/klogging/rendering/RenderSimpleKt {
 	public static final fun getLocalString (Lkotlinx/datetime/Instant;)Ljava/lang/String;
 	public static final fun getRENDER_SIMPLE ()Lio/klogging/rendering/RenderString;
