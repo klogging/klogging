@@ -34,6 +34,8 @@ internal object NewlineToken : RenderToken()
 
 private enum class TokeniserState { NONE, IN_STRING, IN_PERCENT }
 
+private val digits = setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-')
+
 internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
     var state = TokeniserState.NONE
     var width = StringBuilder()
@@ -52,6 +54,26 @@ internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
         } else widthOrNull
     }
 
+    fun handleToken(ch: Char, idx: Int, ctor: (Int) -> RenderToken) {
+        when (state) {
+            TokeniserState.NONE -> {
+                tokenString = StringBuilder()
+                tokenString.append(ch)
+                state = TokeniserState.IN_STRING
+            }
+
+            TokeniserState.IN_PERCENT -> {
+                add(ctor(widthToInt(idx)))
+                width = StringBuilder()
+                state = TokeniserState.NONE
+            }
+
+            TokeniserState.IN_STRING -> {
+                tokenString.append(ch)
+            }
+        }
+    }
+
     pattern.forEachIndexed { idx, ch ->
         when (ch) {
             '%' -> when (state) {
@@ -67,166 +89,25 @@ internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
                 }
             }
 
-            't' -> when (state) {
-                TokeniserState.NONE -> {
-                    tokenString = StringBuilder()
-                    tokenString.append(ch)
-                    state = TokeniserState.IN_STRING
-                }
+            't' -> handleToken(ch, idx) { width -> TimestampToken(width) }
 
-                TokeniserState.IN_PERCENT -> {
-                    add(TimestampToken(widthToInt(idx)))
-                    width = StringBuilder()
-                    state = TokeniserState.NONE
-                }
+            'h' -> handleToken(ch, idx) { width -> HostToken(width) }
 
-                TokeniserState.IN_STRING -> {
-                    tokenString.append(ch)
-                }
-            }
+            'l' -> handleToken(ch, idx) { width -> LoggerToken(width) }
 
-            'h' -> when (state) {
-                TokeniserState.NONE -> {
-                    tokenString = StringBuilder()
-                    tokenString.append(ch)
-                    state = TokeniserState.IN_STRING
-                }
+            'c' -> handleToken(ch, idx) { width -> ContextToken(width) }
 
-                TokeniserState.IN_PERCENT -> {
-                    add(HostToken(widthToInt(idx)))
-                    width = StringBuilder()
-                    state = TokeniserState.NONE
-                }
+            'v' -> handleToken(ch, idx) { width -> LevelToken(width) }
 
-                TokeniserState.IN_STRING -> {
-                    tokenString.append(ch)
-                }
-            }
+            's' -> handleToken(ch, idx) { StacktraceToken }
 
-            'l' -> when (state) {
-                TokeniserState.NONE -> {
-                    tokenString = StringBuilder()
-                    tokenString.append(ch)
-                    state = TokeniserState.IN_STRING
-                }
+            'i' -> handleToken(ch, idx) { ItemsToken }
 
-                TokeniserState.IN_PERCENT -> {
-                    add(LoggerToken(widthToInt(idx)))
-                    width = StringBuilder()
-                    state = TokeniserState.NONE
-                }
+            'm' -> handleToken(ch, idx) { width -> MessageToken(width) }
 
-                TokeniserState.IN_STRING -> {
-                    tokenString.append(ch)
-                }
-            }
+            'n' -> handleToken(ch, idx) { NewlineToken }
 
-            'c' -> when (state) {
-                TokeniserState.NONE -> {
-                    tokenString = StringBuilder()
-                    tokenString.append(ch)
-                    state = TokeniserState.IN_STRING
-                }
-
-                TokeniserState.IN_PERCENT -> {
-                    add(ContextToken(widthToInt(idx)))
-                    width = StringBuilder()
-                    state = TokeniserState.NONE
-                }
-
-                TokeniserState.IN_STRING -> {
-                    tokenString.append(ch)
-                }
-            }
-
-            'v' -> when (state) {
-                TokeniserState.NONE -> {
-                    tokenString = StringBuilder()
-                    tokenString.append(ch)
-                    state = TokeniserState.IN_STRING
-                }
-
-                TokeniserState.IN_PERCENT -> {
-                    add(LevelToken(widthToInt(idx)))
-                    width = StringBuilder()
-                    state = TokeniserState.NONE
-                }
-
-                TokeniserState.IN_STRING -> {
-                    tokenString.append(ch)
-                }
-            }
-
-            's' -> when (state) {
-                TokeniserState.NONE -> {
-                    tokenString = StringBuilder()
-                    tokenString.append(ch)
-                    state = TokeniserState.IN_STRING
-                }
-
-                TokeniserState.IN_PERCENT -> {
-                    add(StacktraceToken)
-                    state = TokeniserState.NONE
-                }
-
-                TokeniserState.IN_STRING -> {
-                    tokenString.append(ch)
-                }
-            }
-
-            'i' -> when (state) {
-                TokeniserState.NONE -> {
-                    tokenString = StringBuilder()
-                    tokenString.append(ch)
-                    state = TokeniserState.IN_STRING
-                }
-
-                TokeniserState.IN_PERCENT -> {
-                    add(ItemsToken)
-                    state = TokeniserState.NONE
-                }
-
-                TokeniserState.IN_STRING -> {
-                    tokenString.append(ch)
-                }
-            }
-
-            'm' -> when (state) {
-                TokeniserState.NONE -> {
-                    tokenString = StringBuilder()
-                    tokenString.append(ch)
-                    state = TokeniserState.IN_STRING
-                }
-
-                TokeniserState.IN_PERCENT -> {
-                    add(MessageToken(widthToInt(idx)))
-                    width = StringBuilder()
-                    state = TokeniserState.NONE
-                }
-
-                TokeniserState.IN_STRING -> {
-                    tokenString.append(ch)
-                }
-            }
-
-            'n' -> when (state) {
-                TokeniserState.NONE -> {
-                    tokenString = StringBuilder()
-                    tokenString.append(ch)
-                    state = TokeniserState.IN_STRING
-                }
-
-                TokeniserState.IN_PERCENT -> {
-                    add(NewlineToken)
-                    state = TokeniserState.NONE
-                }
-
-                TokeniserState.IN_STRING -> {
-                    tokenString.append(ch)
-                }
-            }
-
-            in setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-') -> when (state) {
+            in digits -> when (state) {
                 TokeniserState.NONE -> {
                     tokenString = StringBuilder()
                     tokenString.append(ch)
