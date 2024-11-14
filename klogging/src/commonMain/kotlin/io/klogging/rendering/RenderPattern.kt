@@ -27,6 +27,7 @@ public class RenderPattern(
         val tokens = tokenisePattern(pattern)
         tokens.forEach { token ->
             when (token) {
+                is FormatToken -> append(token.value)
                 is StringToken -> append(token.value)
                 is TimestampToken -> append(event.timestamp)
                 is HostToken -> append(event.host)
