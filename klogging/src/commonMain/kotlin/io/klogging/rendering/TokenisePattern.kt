@@ -26,9 +26,15 @@ private val digits = setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'
 
 internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
     var state = TokeniserState.NONE
+    var previousToken: RenderToken = NoToken
     var previousState = TokeniserState.NONE
     var tokenWidth = StringBuilder()
     var tokenString = StringBuilder()
+
+    fun addToken(token: RenderToken) {
+        previousToken = token
+        add(token)
+    }
 
     fun setState(newState: TokeniserState) {
         previousState = state
@@ -58,7 +64,7 @@ internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
 
             TokeniserState.IN_PERCENT -> {
                 tokens[ch]?.let { creator ->
-                    add(creator(tokenWidthAsInt(idx + 1)))
+                    addToken(creator(tokenWidthAsInt(idx + 1)))
                 }
                 tokenWidth = StringBuilder()
                 setState(TokeniserState.NONE)
@@ -80,12 +86,12 @@ internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
             '%' -> when (state) {
                 TokeniserState.NONE -> setState(TokeniserState.IN_PERCENT)
                 TokeniserState.IN_PERCENT -> {
-                    add(StringToken("%"))
+                    addToken(StringToken("%"))
                     setState(TokeniserState.NONE)
                 }
 
                 TokeniserState.IN_STRING -> {
-                    add(StringToken(tokenString.toString()))
+                    addToken(StringToken(tokenString.toString()))
                     setState(TokeniserState.IN_PERCENT)
                 }
 
@@ -139,7 +145,9 @@ internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
                 TokeniserState.IN_FORMAT -> {
                     when (ch) {
                         '}' -> {
-                            add(FormatToken(tokenString.toString()))
+                            if (previousToken != NoToken) {
+                                previousToken.format = tokenString.toString()
+                            }
                             setState(TokeniserState.NONE)
                         }
 
@@ -150,6 +158,6 @@ internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
         }
     }
     if (state == TokeniserState.IN_STRING || state == TokeniserState.IN_FORMAT) {
-        add(StringToken(tokenString.toString()))
+        addToken(StringToken(tokenString.toString()))
     }
 }

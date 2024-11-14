@@ -50,10 +50,9 @@ class TokenisePatternTest : DescribeSpec({
             }
         }
         it("returns tokens found in the string") {
-            tokenisePattern("%t{LOCALTIME} : %h : %l : %c : %v : %m : %i : %s : %n")
+            tokenisePattern("%t : %h : %l : %c : %v : %m : %i : %s : %n")
                 .shouldContainInOrder(
                     TimestampToken(),
-                    FormatToken("LOCALTIME"),
                     StringToken(" : "),
                     HostToken(),
                     StringToken(" : "),
@@ -89,11 +88,11 @@ class TokenisePatternTest : DescribeSpec({
                 NewlineToken,
             )
         }
-        it("returns format that follows immediately after a token") {
-            tokenisePattern("%4h{COLOUR}").shouldContainInOrder(
-                HostToken(4),
-                FormatToken("COLOUR"),
-            )
+        it("formats a token if the formatting string follows immediately") {
+            with(tokenisePattern("%4v{COLOUR}").first()) {
+                shouldBe(LevelToken(4))
+                format shouldBe "COLOUR"
+            }
         }
         it("ignores formatting that is not immediately after a token") {
             tokenisePattern("%4h {COLOUR}").shouldContainInOrder(
