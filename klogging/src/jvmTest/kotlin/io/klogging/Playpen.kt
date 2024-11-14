@@ -23,10 +23,12 @@ import io.klogging.config.loggingConfiguration
 import io.klogging.context.Context
 import io.klogging.context.logContext
 import io.klogging.rendering.RENDER_CLEF
+import io.klogging.rendering.RenderPattern
 import io.klogging.rendering.RenderString
 import io.klogging.rendering.evalTemplate
 import io.klogging.rendering.renderHec
 import io.klogging.sending.ElkEndpoint
+import io.klogging.sending.STDOUT
 import io.klogging.sending.SendElk
 import io.klogging.sending.SendString
 import io.klogging.sending.seqServer
@@ -51,6 +53,17 @@ fun localNow(): LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.curr
 suspend fun main() = coroutineScope {
     val logger = logger("io.klogging.example.KloggerPlaypen", "source" to "Playpen")
     Context.addBaseContext("app" to "Playpen")
+
+    loggingConfiguration(append = false) {
+        sink(
+            "console",
+            RenderPattern("%12t{LOCAL_TIME} [%-5v{COLOUR}] %m"),
+            STDOUT
+        )
+        logging {
+            fromMinLevel(Level.TRACE) { toSink("console") }
+        }
+    }
 
     noCoLogger("OneOffLogger", logger).info("Here it is", mapOf("black" to "white", "up" to "down"))
 
