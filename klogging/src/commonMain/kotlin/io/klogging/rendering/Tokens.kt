@@ -18,7 +18,8 @@
 
 package io.klogging.rendering
 
-internal sealed class RenderToken
+internal sealed class RenderToken(var format: String? = null)
+internal object NoToken : RenderToken()
 internal data class StringToken(val value: String) : RenderToken()
 internal data class TimestampToken(val width: Int = 0) : RenderToken()
 internal data class HostToken(val width: Int = 0) : RenderToken()

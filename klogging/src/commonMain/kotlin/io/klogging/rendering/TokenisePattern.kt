@@ -20,14 +20,26 @@ package io.klogging.rendering
 
 import io.klogging.internal.warn
 
-private enum class TokeniserState { NONE, IN_STRING, IN_PERCENT }
+private enum class TokeniserState { NONE, IN_STRING, IN_PERCENT, IN_FORMAT }
 
 private val digits = setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-')
 
 internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
     var state = TokeniserState.NONE
+    var previousToken: RenderToken = NoToken
+    var previousState = TokeniserState.NONE
     var tokenWidth = StringBuilder()
     var tokenString = StringBuilder()
+
+    fun addToken(token: RenderToken) {
+        previousToken = token
+        add(token)
+    }
+
+    fun setState(newState: TokeniserState) {
+        previousState = state
+        state = newState
+    }
 
     fun tokenWidthAsInt(charPos: Int): Int {
         if (tokenWidth.isEmpty()) return 0
@@ -47,18 +59,22 @@ internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
             TokeniserState.NONE -> {
                 tokenString = StringBuilder()
                 tokenString.append(ch)
-                state = TokeniserState.IN_STRING
+                setState(TokeniserState.IN_STRING)
             }
 
             TokeniserState.IN_PERCENT -> {
                 tokens[ch]?.let { creator ->
-                    add(creator(tokenWidthAsInt(idx + 1)))
+                    addToken(creator(tokenWidthAsInt(idx + 1)))
                 }
                 tokenWidth = StringBuilder()
-                state = TokeniserState.NONE
+                setState(TokeniserState.NONE)
             }
 
             TokeniserState.IN_STRING -> {
+                tokenString.append(ch)
+            }
+
+            TokeniserState.IN_FORMAT -> {
                 tokenString.append(ch)
             }
         }
@@ -68,15 +84,19 @@ internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
     pattern.forEachIndexed { idx, ch ->
         when (ch) {
             '%' -> when (state) {
-                TokeniserState.NONE -> state = TokeniserState.IN_PERCENT
+                TokeniserState.NONE -> setState(TokeniserState.IN_PERCENT)
                 TokeniserState.IN_PERCENT -> {
-                    add(StringToken("%"))
-                    state = TokeniserState.NONE
+                    addToken(StringToken("%"))
+                    setState(TokeniserState.NONE)
                 }
 
                 TokeniserState.IN_STRING -> {
-                    add(StringToken(tokenString.toString()))
-                    state = TokeniserState.IN_PERCENT
+                    addToken(StringToken(tokenString.toString()))
+                    setState(TokeniserState.IN_PERCENT)
+                }
+
+                TokeniserState.IN_FORMAT -> {
+                    tokenString.append(ch)
                 }
             }
 
@@ -86,7 +106,7 @@ internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
                 TokeniserState.NONE -> {
                     tokenString = StringBuilder()
                     tokenString.append(ch)
-                    state = TokeniserState.IN_STRING
+                    setState(TokeniserState.IN_STRING)
                 }
 
                 TokeniserState.IN_PERCENT -> {
@@ -96,27 +116,48 @@ internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
                 TokeniserState.IN_STRING -> {
                     tokenString.append(ch)
                 }
+
+                TokeniserState.IN_FORMAT -> {
+                    tokenString.append(ch)
+                }
             }
 
             else -> when (state) {
                 TokeniserState.NONE -> {
                     tokenString = StringBuilder()
-                    tokenString.append(ch)
-                    state = TokeniserState.IN_STRING
+                    if (ch == '{' && previousState == TokeniserState.IN_PERCENT) {
+                        setState(TokeniserState.IN_FORMAT)
+                    } else {
+                        tokenString.append(ch)
+                        setState(TokeniserState.IN_STRING)
+                    }
                 }
 
                 TokeniserState.IN_PERCENT -> {
                     warn("tokeniser", "Pattern \"$pattern\" contains invalid token \"%$ch\" at character $idx")
-                    state = TokeniserState.NONE
+                    setState(TokeniserState.NONE)
                 }
 
                 TokeniserState.IN_STRING -> {
                     tokenString.append(ch)
                 }
+
+                TokeniserState.IN_FORMAT -> {
+                    when (ch) {
+                        '}' -> {
+                            if (previousToken != NoToken) {
+                                previousToken.format = tokenString.toString()
+                            }
+                            setState(TokeniserState.NONE)
+                        }
+
+                        else -> tokenString.append(ch)
+                    }
+                }
             }
         }
     }
-    if (state == TokeniserState.IN_STRING) {
-        add(StringToken(tokenString.toString()))
+    if (state == TokeniserState.IN_STRING || state == TokeniserState.IN_FORMAT) {
+        addToken(StringToken(tokenString.toString()))
     }
 }

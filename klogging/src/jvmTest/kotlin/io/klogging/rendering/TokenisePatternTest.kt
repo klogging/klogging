@@ -33,6 +33,7 @@ class TokenisePatternTest : DescribeSpec({
         describe("returns a single token if that is found") {
             withData(
                 mapOf(
+                    "StringToken" to ("{LOCAL}" to StringToken("{LOCAL}")),
                     "StringToken" to (" : " to StringToken(" : ")),
                     "TimestampToken" to ("%t" to TimestampToken()),
                     "HostToken" to ("%h" to HostToken()),
@@ -85,6 +86,18 @@ class TokenisePatternTest : DescribeSpec({
                 StringToken(" "),
                 StringToken("%"),
                 NewlineToken,
+            )
+        }
+        it("formats a token if the formatting string follows immediately") {
+            with(tokenisePattern("%4v{COLOUR}").first()) {
+                shouldBe(LevelToken(4))
+                format shouldBe "COLOUR"
+            }
+        }
+        it("ignores formatting that is not immediately after a token") {
+            tokenisePattern("%4h {COLOUR}").shouldContainInOrder(
+                HostToken(4),
+                StringToken(" {COLOUR}"),
             )
         }
         it("accepts positive widths for property tokens") {
