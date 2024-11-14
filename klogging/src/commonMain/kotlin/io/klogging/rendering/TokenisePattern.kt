@@ -32,6 +32,18 @@ internal object StacktraceToken : RenderToken()
 internal object ItemsToken : RenderToken()
 internal object NewlineToken : RenderToken()
 
+private val tokens = mapOf<Char, (Int) -> RenderToken>(
+    't' to { TimestampToken(it) },
+    'h' to { HostToken(it) },
+    'l' to { LoggerToken(it) },
+    'c' to { ContextToken(it) },
+    'v' to { LevelToken(it) },
+    'm' to { MessageToken(it) },
+    's' to { StacktraceToken },
+    'i' to { ItemsToken },
+    'n' to { NewlineToken },
+)
+
 private enum class TokeniserState { NONE, IN_STRING, IN_PERCENT }
 
 private val digits = setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-')
@@ -54,7 +66,7 @@ internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
         } else widthOrNull
     }
 
-    fun handleToken(ch: Char, idx: Int, ctor: (Int) -> RenderToken) {
+    fun newToken(ch: Char, idx: Int) {
         when (state) {
             TokeniserState.NONE -> {
                 tokenString = StringBuilder()
@@ -63,7 +75,7 @@ internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
             }
 
             TokeniserState.IN_PERCENT -> {
-                add(ctor(widthToInt(idx)))
+                tokens[ch]?.let { add(it(widthToInt(idx))) }
                 width = StringBuilder()
                 state = TokeniserState.NONE
             }
@@ -73,6 +85,7 @@ internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
             }
         }
     }
+
 
     pattern.forEachIndexed { idx, ch ->
         when (ch) {
@@ -89,23 +102,7 @@ internal fun tokenisePattern(pattern: String): List<RenderToken> = buildList {
                 }
             }
 
-            't' -> handleToken(ch, idx) { width -> TimestampToken(width) }
-
-            'h' -> handleToken(ch, idx) { width -> HostToken(width) }
-
-            'l' -> handleToken(ch, idx) { width -> LoggerToken(width) }
-
-            'c' -> handleToken(ch, idx) { width -> ContextToken(width) }
-
-            'v' -> handleToken(ch, idx) { width -> LevelToken(width) }
-
-            's' -> handleToken(ch, idx) { StacktraceToken }
-
-            'i' -> handleToken(ch, idx) { ItemsToken }
-
-            'm' -> handleToken(ch, idx) { width -> MessageToken(width) }
-
-            'n' -> handleToken(ch, idx) { NewlineToken }
+            in tokens.keys -> newToken(ch, idx)
 
             in digits -> when (state) {
                 TokeniserState.NONE -> {
