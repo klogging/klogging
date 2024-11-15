@@ -41,7 +41,7 @@ class TokenisePatternTest : DescribeSpec({
                     "ContextToken" to ("%c" to ContextToken()),
                     "LevelToken" to ("%v" to LevelToken()),
                     "MessageToken" to ("%m" to MessageToken()),
-                    "StacktraceToken" to ("%s" to StacktraceToken),
+                    "StacktraceToken" to ("%s" to StacktraceToken()),
                     "ItemsToken" to ("%i" to ItemsToken),
                     "NewlineToken" to ("%n" to NewlineToken),
                 )
@@ -66,7 +66,7 @@ class TokenisePatternTest : DescribeSpec({
                     StringToken(" : "),
                     ItemsToken,
                     StringToken(" : "),
-                    StacktraceToken,
+                    StacktraceToken(),
                     StringToken(" : "),
                     NewlineToken,
                 )

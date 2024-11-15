@@ -54,10 +54,10 @@ suspend fun main() = coroutineScope {
     val logger = logger("io.klogging.example.KloggerPlaypen", "source" to "Playpen")
     Context.addBaseContext("app" to "Playpen")
 
-    loggingConfiguration(append = false) {
+    loggingConfiguration(append = true) {
         sink(
             "console",
-            RenderPattern("%12t{LOCAL_TIME} [%-5v{COLOUR}] %m"),
+            RenderPattern("%t{LOCAL_TIME} %-5v{COLOUR} [%-20c] - %20l - %m - %i%s"),
             STDOUT
         )
         logging {
