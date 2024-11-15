@@ -21,6 +21,30 @@ package io.klogging.rendering
 import io.klogging.Level
 import io.klogging.events.LogEvent
 
+/**
+ * [RenderString] implementation that interprets a string pattern of
+ * tokens specifying log event fields to show.
+ *
+ * Pattern syntax is modelled after pattern layouts from Log4j and Logback.
+ *
+ * Token format is `%[WIDTH]X[{FORMAT}]` where:
+ * - WIDTH is an optional integer width. If the field is wider than the specified width,
+ *   it is truncated to that width. If the field is narrower, it is padded with spaces
+ *   to that width: left-aligned if width is positive and right-aligned if it is negative.
+ * - X specifies the log event field to render:
+ *   - `t` -> [LogEvent.timestamp] in ISO8601 format.
+ *     Use the format LOCAL_TIME to output local time.
+ *   - 'h' -> [LogEvent.host].
+ *   - 'l' -> [LogEvent.logger].
+ *   - 'c' -> [LogEvent.context], if present.
+ *   - 'v' -> [LogEvent.level]. Use the format COLOUR or COLOR to output different colours
+ *     for different levels.
+ *   - 'm' -> [LogEvent.message] after evaluating it as a message template.
+ *   - 's' -> [LogEvent.stackTrace] if present, preceded by a newline. If WIDTH is specified,
+ *     limit the number of lines output.
+ *   - 'i' -> [LogEvent.items], if there are any.
+ *   - 'n' -> output a newline.
+ */
 public class RenderPattern(
     private val pattern: String = "%m%n",
 ) : RenderString {
@@ -31,13 +55,13 @@ public class RenderPattern(
                 is NoToken -> append("")
                 is StringToken -> append(token.value)
                 is TimestampToken -> append(token.render(event))
-                is HostToken -> append(event.host)
-                is LoggerToken -> append(event.logger)
-                is ContextToken -> append(event.context)
+                is HostToken -> append(token.render(event))
+                is LoggerToken -> append(token.render(event))
+                is ContextToken -> append(token.render(event))
                 is LevelToken -> append(token.render(event))
-                is MessageToken -> append(event.message)
-                is StacktraceToken -> append(event.stackTrace)
-                is ItemsToken -> append(event.items)
+                is MessageToken -> append(event.evalTemplate())
+                is StacktraceToken -> append(token.render(event))
+                is ItemsToken -> if (event.items.isNotEmpty()) append(event.items)
                 is NewlineToken -> append("\n")
             }
         }
@@ -53,12 +77,14 @@ private fun String.padRight(width: Int): String = when {
     else -> this
 }
 
+private fun String.shortenAndPad(width: Int) = when {
+    width > 0 -> shortenName(width).toString().padLeft(width)
+    width < 0 -> shortenName(-width).toString().padRight(-width)
+    else -> this
+}
+
 private fun LevelToken.render(event: LogEvent): String {
-    val string = when {
-        width > 0 -> event.level.toString().padLeft(width)
-        width < 0 -> event.level.toString().padRight(-width)
-        else -> event.level.toString()
-    }
+    val string = event.level.toString().shortenAndPad(width)
     return when (format) {
         in setOf("COLOUR", "COLOR") -> when (event.level) {
             Level.TRACE -> grey(string)
@@ -84,3 +110,19 @@ private fun TimestampToken.render(event: LogEvent): String {
         else -> string
     }
 }
+
+private fun HostToken.render(event: LogEvent): String =
+    event.host.shortenAndPad(width)
+
+private fun ContextToken.render(event: LogEvent): String =
+    event.context?.shortenAndPad(width) ?: ""
+
+private fun LoggerToken.render(event: LogEvent): String =
+    event.logger.shortenAndPad(width)
+
+private fun StacktraceToken.render(event: LogEvent): String = event.stackTrace?.let {
+    val trace = if (maxLines > 0) {
+        it.split('\n').take(maxLines).joinToString("\n")
+    } else it
+    "\n$trace"
+} ?: ""

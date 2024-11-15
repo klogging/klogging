@@ -23,6 +23,7 @@ import io.kotest.datatest.withData
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldContainInOrder
+import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 
 class TokenisePatternTest : DescribeSpec({
@@ -41,7 +42,7 @@ class TokenisePatternTest : DescribeSpec({
                     "ContextToken" to ("%c" to ContextToken()),
                     "LevelToken" to ("%v" to LevelToken()),
                     "MessageToken" to ("%m" to MessageToken()),
-                    "StacktraceToken" to ("%s" to StacktraceToken),
+                    "StacktraceToken" to ("%s" to StacktraceToken()),
                     "ItemsToken" to ("%i" to ItemsToken),
                     "NewlineToken" to ("%n" to NewlineToken),
                 )
@@ -66,7 +67,7 @@ class TokenisePatternTest : DescribeSpec({
                     StringToken(" : "),
                     ItemsToken,
                     StringToken(" : "),
-                    StacktraceToken,
+                    StacktraceToken(),
                     StringToken(" : "),
                     NewlineToken,
                 )
@@ -99,6 +100,12 @@ class TokenisePatternTest : DescribeSpec({
                 HostToken(4),
                 StringToken(" {COLOUR}"),
             )
+        }
+        it("ignores formatting that is incomplete") {
+            with(tokenisePattern("%v{COLOUR").first()) {
+                shouldBe(LevelToken(0))
+                format.shouldBeNull()
+            }
         }
         it("accepts positive widths for property tokens") {
             tokenisePattern("%11t %1288m").shouldContainInOrder(
