@@ -27,7 +27,7 @@ internal data class LoggerToken(val width: Int = 0) : RenderToken()
 internal data class ContextToken(val width: Int = 0) : RenderToken()
 internal data class LevelToken(val width: Int = 0) : RenderToken()
 internal data class MessageToken(val width: Int = 0) : RenderToken()
-internal object StacktraceToken : RenderToken()
+internal data class StacktraceToken(val maxLines: Int = 0) : RenderToken()
 internal object ItemsToken : RenderToken()
 internal object NewlineToken : RenderToken()
 
@@ -38,7 +38,7 @@ internal val tokens = mapOf<Char, (Int) -> RenderToken>(
     'c' to { ContextToken(it) },
     'v' to { LevelToken(it) },
     'm' to { MessageToken(it) },
-    's' to { StacktraceToken },
+    's' to { StacktraceToken(it) },
     'i' to { ItemsToken },
     'n' to { NewlineToken },
 )
