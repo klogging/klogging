@@ -38,7 +38,7 @@ class RenderPatternTest : DescribeSpec({
             val event = logEvent(context = "main")
             RenderPattern("%t %v [%c] : %l : %m : %i%n")(event) shouldBe
                     "${event.timestamp} ${event.level} [${event.context}] : " +
-                    "${event.logger} : ${event.message} : ${event.items}\n"
+                    "${event.logger} : ${event.message} : \n"
         }
         it("renders string sections as provided") {
             RenderPattern("Hello")(logEvent()) shouldBe "Hello"
@@ -175,7 +175,7 @@ class RenderPatternTest : DescribeSpec({
         }
         describe("rendering context items") {
             it("outputs empty braces if there are no items") {
-                RenderPattern("Items: %i")(logEvent()) shouldBe "Items: {}"
+                RenderPattern("Items: %i")(logEvent()) shouldBe "Items: "
             }
             it("outputs items in braces if present") {
                 RenderPattern("Items: %i")(logEvent(

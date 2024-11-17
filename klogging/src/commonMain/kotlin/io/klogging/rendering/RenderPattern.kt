@@ -37,7 +37,7 @@ public class RenderPattern(
                 is LevelToken -> append(token.render(event))
                 is MessageToken -> append(event.evalTemplate())
                 is StacktraceToken -> append(token.render(event))
-                is ItemsToken -> append(event.items)
+                is ItemsToken -> if (event.items.isNotEmpty()) append(event.items)
                 is NewlineToken -> append("\n")
             }
         }
