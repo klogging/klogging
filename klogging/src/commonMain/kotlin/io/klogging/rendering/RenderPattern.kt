@@ -21,6 +21,30 @@ package io.klogging.rendering
 import io.klogging.Level
 import io.klogging.events.LogEvent
 
+/**
+ * [RenderString] implementation that interprets a string pattern of
+ * tokens specifying log event fields to show.
+ *
+ * Pattern syntax is modelled after pattern layouts from Log4j and Logback.
+ *
+ * Token format is `%[WIDTH]X[{FORMAT}]` where:
+ * - WIDTH is an optional integer width. If the field is wider than the specified width,
+ *   it is truncated to that width. If the field is narrower, it is padded with spaces
+ *   to that width: left-aligned if width is positive and right-aligned if it is negative.
+ * - X specifies the log event field to render:
+ *   - `t` -> [LogEvent.timestamp] in ISO8601 format.
+ *     Use the format LOCAL_TIME to output local time.
+ *   - 'h' -> [LogEvent.host].
+ *   - 'l' -> [LogEvent.logger].
+ *   - 'c' -> [LogEvent.context], if present.
+ *   - 'v' -> [LogEvent.level]. Use the format COLOUR or COLOR to output different colours
+ *     for different levels.
+ *   - 'm' -> [LogEvent.message] after evaluating it as a message template.
+ *   - 's' -> [LogEvent.stackTrace] if present, preceded by a newline. If WIDTH is specified,
+ *     limit the number of lines output.
+ *   - 'i' -> [LogEvent.items], if there are any.
+ *   - 'n' -> output a newline.
+ */
 public class RenderPattern(
     private val pattern: String = "%m%n",
 ) : RenderString {
