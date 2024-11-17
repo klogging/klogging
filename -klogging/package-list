@@ -168,6 +168,9 @@ $dokka.location:io.klogging.rendering//serializeMap/#kotlin.collections.Map[kotl
 $dokka.location:io.klogging.rendering//shortenName/kotlin.CharSequence#kotlin.Int/PointingToDeclaration/-klogging/io.klogging.rendering/shorten-name.html
 $dokka.location:io.klogging.rendering//shortenRight/kotlin.CharSequence#kotlin.Int/PointingToDeclaration/-klogging/io.klogging.rendering/shorten-right.html
 $dokka.location:io.klogging.rendering//yellow/#kotlin.String/PointingToDeclaration/-klogging/io.klogging.rendering/yellow.html
+$dokka.location:io.klogging.rendering/RenderPattern///PointingToDeclaration/-klogging/io.klogging.rendering/-render-pattern/index.html
+$dokka.location:io.klogging.rendering/RenderPattern/RenderPattern/#kotlin.String/PointingToDeclaration/-klogging/io.klogging.rendering/-render-pattern/-render-pattern.html
+$dokka.location:io.klogging.rendering/RenderPattern/invoke/#io.klogging.events.LogEvent/PointingToDeclaration/-klogging/io.klogging.rendering/-render-pattern/invoke.html
 $dokka.location:io.klogging.rendering/RenderString///PointingToDeclaration/-klogging/io.klogging.rendering/-render-string/index.html
 $dokka.location:io.klogging.rendering/RenderString/invoke/#io.klogging.events.LogEvent/PointingToDeclaration/-klogging/io.klogging.rendering/-render-string/invoke.html
 $dokka.location:io.klogging.sending////PointingToDeclaration/-klogging/io.klogging.sending/index.html
