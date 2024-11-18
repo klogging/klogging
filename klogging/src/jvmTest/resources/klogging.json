@@ -1,7 +1,7 @@
 {
   "sinks": {
     "stdout": {
-      "renderWith": "RENDER_ANSI",
+      "renderPattern": "%t{LOCAL_TIME} %-5v{COLOUR} [%-15c] : %-25l : %m : %i%s",
       "sendTo": "STDOUT"
     },
     "seq": {

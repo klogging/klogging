@@ -34,16 +34,16 @@ import io.klogging.events.LogEvent
  * - X specifies the log event field to render:
  *   - `t` -> [LogEvent.timestamp] in ISO8601 format.
  *     Use the format LOCAL_TIME to output local time.
- *   - 'h' -> [LogEvent.host].
- *   - 'l' -> [LogEvent.logger].
- *   - 'c' -> [LogEvent.context], if present.
- *   - 'v' -> [LogEvent.level]. Use the format COLOUR or COLOR to output different colours
+ *   - `h` -> [LogEvent.host].
+ *   - `l` -> [LogEvent.logger].
+ *   - `c` -> [LogEvent.context], if present.
+ *   - `v` -> [LogEvent.level]. Use the format COLOUR or COLOR to output different colours
  *     for different levels.
- *   - 'm' -> [LogEvent.message] after evaluating it as a message template.
- *   - 's' -> [LogEvent.stackTrace] if present, preceded by a newline. If WIDTH is specified,
+ *   - `m` -> [LogEvent.message] after evaluating it as a message template.
+ *   - `s` -> [LogEvent.stackTrace] if present, preceded by a newline. If WIDTH is specified,
  *     limit the number of lines output.
- *   - 'i' -> [LogEvent.items], if there are any.
- *   - 'n' -> output a newline.
+ *   - `i` -> [LogEvent.items], if there are any.
+ *   - `n` -> output a newline.
  */
 public class RenderPattern(
     private val pattern: String = "%m%n",

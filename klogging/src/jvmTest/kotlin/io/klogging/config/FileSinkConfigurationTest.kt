@@ -18,10 +18,17 @@
 
 package io.klogging.config
 
+import io.klogging.events.LogEvent
 import io.klogging.randomString
+import io.klogging.rendering.RENDER_ANSI
+import io.klogging.rendering.RenderPattern
+import io.klogging.sending.EventSender
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.string.shouldNotContain
+import io.kotest.matchers.types.shouldBeInstanceOf
 
 class FileSinkConfigurationTest : DescribeSpec({
     describe("`FileSinkConfiguration`") {
@@ -33,5 +40,24 @@ class FileSinkConfigurationTest : DescribeSpec({
                 shouldContain("apiKey=********")
             }
         }
+        it("if `eventSender` is present, it overrides any specified render and sender") {
+            val sinkConfig = FileSinkConfiguration(eventSender = TestEventSender::class.qualifiedName!!)
+                .toSinkConfiguration()
+            sinkConfig.shouldNotBeNull()
+            sinkConfig.eventSender.shouldBeInstanceOf<TestEventSender>()
+        }
+        it("if `renderPattern` is present, it overrides `renderWith`") {
+            val sinkConfig = FileSinkConfiguration(renderWith = "RENDER_ANSI", renderPattern = "%m", sendTo = "STDOUT")
+                .toSinkConfiguration()
+            sinkConfig.shouldNotBeNull()
+            sinkConfig.renderer.shouldNotBeNull()
+            sinkConfig.renderer shouldNotBe RENDER_ANSI
+            sinkConfig.renderer.shouldBeInstanceOf<RenderPattern>()
+        }
+
     }
 })
+
+class TestEventSender : EventSender {
+    override fun invoke(batch: List<LogEvent>) {}
+}

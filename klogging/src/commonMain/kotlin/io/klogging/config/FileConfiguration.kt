@@ -23,6 +23,7 @@ import io.klogging.Level.FATAL
 import io.klogging.Level.TRACE
 import io.klogging.internal.debug
 import io.klogging.rendering.RENDER_CLEF
+import io.klogging.rendering.RenderPattern
 import io.klogging.rendering.RenderString
 import io.klogging.rendering.renderHec
 import io.klogging.sending.EventSender
@@ -65,6 +66,7 @@ public data class FileConfiguration(
 @Serializable
 public data class FileSinkConfiguration(
     val renderWith: String? = null,
+    val renderPattern: String? = null,
     val sendTo: String? = null,
     val seqServer: String? = null,
     val apiKey: String? = null,
@@ -84,7 +86,8 @@ public data class FileSinkConfiguration(
                 return SinkConfiguration(eventSender = sender)
             }
         }
-        val renderer = builtInRenderers[renderWith]
+        val renderer = renderPattern?.let { RenderPattern(it) }
+            ?: builtInRenderers[renderWith]
             ?: loadByClassName(renderWith)
             ?: renderHec?.renderer
         if (splunkServer != null) {
