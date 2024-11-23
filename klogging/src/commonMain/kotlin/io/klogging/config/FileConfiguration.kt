@@ -119,6 +119,9 @@ public data class FileSinkConfiguration(
             if (renderWith != null) {
                 add("renderWith=$renderWith")
             }
+            if (renderPattern != null) {
+                add("renderPattern=\"$renderPattern\"")
+            }
             if (sendTo != null) {
                 add("sendTo=$sendTo")
             }
