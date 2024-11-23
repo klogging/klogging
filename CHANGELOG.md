@@ -1,5 +1,9 @@
 # Klogging changes
 
+## Version 0.8.0
+- String pattern-based rendering definitions - [issue 306](https://github.com/klogging/klogging/issues/306)
+- Dependency updates
+
 ## Version 0.7.3
 - Gradle version update to 8.10.2
 - Dependency updates
