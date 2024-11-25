@@ -46,7 +46,7 @@ import io.klogging.events.LogEvent
  *   - `n` -> output a newline.
  */
 public class RenderPattern(
-    private val pattern: String = "%m%n",
+    private val pattern: String = "%m",
 ) : RenderString {
     override fun invoke(event: LogEvent): String = buildString {
         val tokens = tokenisePattern(pattern)

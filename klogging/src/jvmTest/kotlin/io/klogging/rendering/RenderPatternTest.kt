@@ -28,7 +28,7 @@ class RenderPatternTest : DescribeSpec({
     describe("RenderPattern") {
         it("renders message and newline only by default") {
             val event = logEvent()
-            RenderPattern()(event) shouldBe "${event.message}\n"
+            RenderPattern()(event) shouldBe event.message
         }
         it("renders message only if %m specified") {
             val event = logEvent()
