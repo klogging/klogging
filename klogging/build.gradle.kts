@@ -85,6 +85,8 @@ kotlin {
                 implementation(libs.kotest.xml)
                 implementation(libs.kotest.property)
                 implementation(libs.html.reporter)
+                implementation(libs.kotlin.debug)
+                implementation(libs.blockhound)
             }
         }
         val jsMain by getting

@@ -1,6 +1,7 @@
 [versions]
 atomicfu = "0.26.1"
 binary-compatibility-validator = "0.16.3"
+blockhound = "1.0.10.RELEASE"
 dokka = "1.9.20"
 hexagon = { strictly = "3.4.7" }
 html-reporter = "0.7.1"
@@ -17,6 +18,7 @@ test-logger = "3.2.0"
 android-library = "8.7.3"
 
 [libraries]
+blockhound = { module = "io.projectreactor.tools:blockhound", version.ref = "blockhound" }
 hexagon-core = { module = "com.hexagonkt:core", version.ref = "hexagon" }
 html-reporter = { module = "com.michaelstrasser:kotest-html-reporter", version.ref = "html-reporter" }
 kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
@@ -25,6 +27,7 @@ kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest"
 kotest-xml = { module = "io.kotest:kotest-extensions-junitxml-jvm", version.ref = "kotest" }
 kotlin-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu" }
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
+kotlin-debug = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-debug", version.ref = "kotlin-coroutines" }
 kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-datetime" }
 kotlin-serialisation-hocon = { module = "org.jetbrains.kotlinx:kotlinx-serialization-hocon", version.ref = "kotlin-serialisation" }
 kotlin-serialisation-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialisation" }

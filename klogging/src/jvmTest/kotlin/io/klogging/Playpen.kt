@@ -35,12 +35,14 @@ import io.klogging.sending.seqServer
 import io.klogging.sending.splunkServer
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.debug.CoroutinesBlockHoundIntegration
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import reactor.blockhound.BlockHound
 import java.io.File
 import java.util.UUID.randomUUID
 import kotlin.random.Random
@@ -51,6 +53,8 @@ fun localNow(): LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.curr
  * Main program for experimenting with Klogging features as they are developed.
  */
 suspend fun main() = coroutineScope {
+    BlockHound.install(CoroutinesBlockHoundIntegration())
+
     val logger = logger("io.klogging.example.KloggerPlaypen", "source" to "Playpen")
     Context.addBaseContext("app" to "Playpen")
 
