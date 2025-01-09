@@ -1,6 +1,7 @@
 [versions]
 atomicfu = "0.26.1"
 binary-compatibility-validator = "0.17.0"
+blockhound = "1.0.10.RELEASE"
 dokka = "2.0.0"
 hexagon = { strictly = "3.4.7" }
 html-reporter = "0.7.1"
