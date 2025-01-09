@@ -55,10 +55,10 @@ suspend fun main() = coroutineScope {
     Context.addBaseContext("app" to "Playpen")
 
     if (System.getenv("RENDER_PATTERN") == "true") {
-        loggingConfiguration(append = true) {
+        loggingConfiguration(append = false) {
             sink(
                 "console",
-                RenderPattern("%t{LOCAL_TIME} %-5v{COLOUR} [%-20c] - %20l - %m - %i%s"),
+                RenderPattern("%t{LOCAL_TIME} %-5v [%-20c] - %20l - %m - %i%2s"),
                 STDOUT
             )
             logging {

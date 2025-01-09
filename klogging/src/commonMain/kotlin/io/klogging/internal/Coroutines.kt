@@ -30,3 +30,12 @@ internal val kloggingParentContext: CoroutineContext by lazy {
 }
 
 internal expect fun parentContext(): CoroutineContext
+
+/**
+ * Sending job of all Klogging sending jobs, used by [SendingLauncher].
+ */
+internal val sendingParentContext: CoroutineContext by lazy {
+    sendingContext()
+}
+
+internal expect fun sendingContext(): CoroutineContext
