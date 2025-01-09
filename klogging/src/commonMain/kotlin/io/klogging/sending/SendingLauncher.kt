@@ -18,7 +18,7 @@
 
 package io.klogging.sending
 
-import io.klogging.internal.kloggingParentContext
+import io.klogging.internal.sendingParentContext
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -27,7 +27,7 @@ import kotlin.coroutines.CoroutineContext
 internal object SendingLauncher : CoroutineScope {
 
     override val coroutineContext: CoroutineContext
-        get() = kloggingParentContext
+        get() = sendingParentContext
 
     internal fun launch(block: () -> Unit) = launch(CoroutineName("SendingLauncher")) {
         block()

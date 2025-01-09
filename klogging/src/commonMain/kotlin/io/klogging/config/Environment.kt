@@ -34,6 +34,8 @@ internal const val ENV_KLOGGING_OUTPUT_FORMAT_PREFIX = "KLOGGING_OUTPUT_FORMAT_"
 internal const val ENV_KLOGGING_FF_EXECUTOR_THREAD_POOL = "KLOGGING_FF_EXECUTOR_THREAD_POOL"
 internal const val ENV_KLOGGING_FF_GLOBAL_SCOPE = "KLOGGING_FF_GLOBAL_SCOPE"
 
+internal const val ENV_KLOGGING_DISPATCHERS_IO = "KLOGGING_DISPATCHERS_IO"
+
 /**
  * ☠️ This function should be `private`, but as it is implemented in multiplatform, must be
  * `internal`. Do not call this function directly outside this file.

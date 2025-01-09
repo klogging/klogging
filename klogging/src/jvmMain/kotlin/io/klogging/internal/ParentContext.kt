@@ -21,9 +21,11 @@ package io.klogging.internal
 import io.klogging.config.ENV_KLOGGING_COROUTINE_THREADS
 import io.klogging.config.ENV_KLOGGING_FF_EXECUTOR_THREAD_POOL
 import io.klogging.config.ENV_KLOGGING_FF_GLOBAL_SCOPE
+import io.klogging.config.ENV_KLOGGING_DISPATCHERS_IO
 import io.klogging.config.getenvBoolean
 import io.klogging.config.getenvInt
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.asCoroutineDispatcher
@@ -71,6 +73,9 @@ internal actual fun parentContext(): CoroutineContext =
     } else if (getenvBoolean(ENV_KLOGGING_FF_GLOBAL_SCOPE, false)) {
         debug("Coroutines", "Creating parent context for Klogging using GlobalScope")
         GlobalScope.coroutineContext
+    } else if (getenvBoolean(ENV_KLOGGING_DISPATCHERS_IO, false)) {
+        debug("Coroutines", "Creating parent context for Klogging using Dispatchers.IO")
+        Dispatchers.IO
     } else {
         debug("Coroutines", "Creating parent context for Klogging with default dispatcher")
         Job()

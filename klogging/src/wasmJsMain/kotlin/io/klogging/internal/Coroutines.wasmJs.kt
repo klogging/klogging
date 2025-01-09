@@ -1,6 +1,6 @@
 /*
 
-   Copyright 2021-2024 Michael Strasser.
+   Copyright 2021-2025 Michael Strasser.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -15,27 +15,12 @@
    limitations under the License.
 
 */
-
 package io.klogging.internal
 
-import io.klogging.impl.NoCoLoggerImpl
+import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext
 
-/**
- * Parent job of all Klogging coroutine jobs. Used by coroutine launchers
- * in Klogging: [Dispatcher], [Emitter], [Sink] and [NoCoLoggerImpl].
- */
-internal val kloggingParentContext: CoroutineContext by lazy {
-    parentContext()
+internal actual fun sendingContext(): CoroutineContext {
+    debug("Coroutines", "Creating sending context for Klogging using Dispatchers.Unconfined")
+    return Dispatchers.Unconfined
 }
-
-internal expect fun parentContext(): CoroutineContext
-
-/**
- * Sending job of all Klogging sending jobs, used by [SendingLauncher].
- */
-internal val sendingParentContext: CoroutineContext by lazy {
-    sendingContext()
-}
-
-internal expect fun sendingContext(): CoroutineContext
