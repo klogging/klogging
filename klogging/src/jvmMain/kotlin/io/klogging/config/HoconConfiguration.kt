@@ -48,30 +48,35 @@ public object HoconConfiguration {
 
     /** Load [KloggingConfiguration] from HOCON configuration string. */
     public fun configure(configHocon: String): KloggingConfiguration? =
-        readConfig(configHocon)?.let { (configName, minLogLevel, minDirectLogLevel, sinks, logging, baseContext) ->
-            if (baseContext.isNotEmpty()) {
-                val contextItems = baseContext.entries.map { it.key to evalEnv(it.value) }.toTypedArray()
-                Context.addBaseContext(*contextItems)
-            }
-            val config = KloggingConfiguration()
-            if (configName != null) {
-                builtInConfigurations[configName]?.let { config.apply(it) }
-            } else {
-                config.kloggingMinLogLevel = minLogLevel
-                config.minDirectLogLevel = minDirectLogLevel
+        try {
+            readConfig(configHocon)?.let { (configName, minLogLevel, minDirectLogLevel, sinks, logging, baseContext) ->
+                if (baseContext.isNotEmpty()) {
+                    val contextItems = baseContext.entries.map { it.key to evalEnv(it.value) }.toTypedArray()
+                    Context.addBaseContext(*contextItems)
+                }
+                val config = KloggingConfiguration()
+                if (configName != null) {
+                    builtInConfigurations[configName]?.let { config.apply(it) }
+                } else {
+                    config.kloggingMinLogLevel = minLogLevel
+                    config.minDirectLogLevel = minDirectLogLevel
 
-                sinks.forEach { (key, value) ->
-                    value.toSinkConfiguration()?.let {
-                        debug("HOCON Configuration", "Setting sink `$key` with $value")
-                        config.sinks[key] = it
+                    sinks.forEach { (key, value) ->
+                        value.toSinkConfiguration()?.let {
+                            debug("HOCON Configuration", "Setting sink `$key` with $value")
+                            config.sinks[key] = it
+                        }
+                    }
+
+                    logging.forEach {
+                        debug("HOCON Configuration", "Adding logging config $it")
+                        config.configs.add(it.toLoggingConfig())
                     }
                 }
-
-                logging.forEach {
-                    debug("HOCON Configuration", "Adding logging config $it")
-                    config.configs.add(it.toLoggingConfig())
-                }
+                config
             }
-            config
+        } catch (e: Exception) {
+            warn("HoconConfiguration", "Exception parsing HOCON", e)
+            null
         }
 }
