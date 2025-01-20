@@ -49,6 +49,12 @@ class TemplatingTest : DescribeSpec({
                 "One: {${names[0]}}, two: {${names[1]}} and three: {${names[2]}}",
             ) shouldContainInOrder names
         }
+        it("returns item names that start with $ or @") {
+            val names = listOf("item", "\$item", "@item")
+            extractItemNames(
+                "One: {${names[0]}}, two: {${names[1]}} and three: {${names[2]}}",
+            ) shouldContainInOrder names
+        }
         it("ignores any names in double braces like {{this}}") {
             extractItemNames("This {{name}} is not a hole") shouldBe listOf()
             extractItemNames("Escaped brace {{ and {a} hole") shouldBe listOf("a")
@@ -60,14 +66,14 @@ class TemplatingTest : DescribeSpec({
             val template = randomString()
             templateItems(template) shouldHaveSize 0
         }
-        it("evaluates a single named hole using the first supplied item") {
+        it("extracts a single named hole using the first supplied item") {
             val template = "User {Name} logged in"
             val name = randomString()
             val items = templateItems(template, name)
 
             items shouldContain ("Name" to name)
         }
-        it("evaluates multiple holes in a template") {
+        it("extracts multiple holes in a template") {
             val testTemplate = "User {Name} logged in from {IpAddress} at {LoginTime}"
 
             val items = templateItems(testTemplate, "Fred", "192.168.1.1", 1626091790484)
@@ -81,9 +87,13 @@ class TemplatingTest : DescribeSpec({
             val items = templateItems("User {Name} logged in", "Joe", "192.168.2.2")
             items shouldBe mapOf("Name" to "Joe")
         }
-        it("only evaluates provided items") {
+        it("only extracts provided items") {
             val items = templateItems("User {Name} logged in from {IpAddress}", "Sue")
             items shouldBe mapOf("Name" to "Sue")
+        }
+        it("includes names that start with $ or @") {
+            val items = templateItems("Item {\$item} found at {@coords}", "Fred", Pair(-27.51, 153.04))
+            items shouldContainExactly mapOf("\$item" to "Fred", "@coords" to Pair(-27.51, 153.04))
         }
     }
 })
