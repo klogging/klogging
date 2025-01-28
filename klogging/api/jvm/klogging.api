@@ -873,7 +873,8 @@ public final class io/klogging/rendering/EvalTemplateKt {
 }
 
 public final class io/klogging/rendering/JsonKt {
-	public static final fun serializeMap (Ljava/util/Map;)Ljava/lang/String;
+	public static final fun serializeMap (Ljava/util/Map;Z)Ljava/lang/String;
+	public static synthetic fun serializeMap$default (Ljava/util/Map;ZILjava/lang/Object;)Ljava/lang/String;
 }
 
 public final class io/klogging/rendering/RenderAnsiKt {

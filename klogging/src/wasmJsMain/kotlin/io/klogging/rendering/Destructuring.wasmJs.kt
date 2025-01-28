@@ -20,9 +20,6 @@ package io.klogging.rendering
 
 import io.klogging.events.EventItems
 
-internal fun destructureToJson(obj: Any): String = serializeMap(
-    map = destructure(obj),
-    omitNullValues = false
-)
-
-internal expect fun destructure(obj: Any): EventItems
+internal actual fun destructure(obj: Any): EventItems {
+    TODO("Not yet implemented")
+}

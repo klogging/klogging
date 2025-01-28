@@ -18,54 +18,38 @@
 
 package io.klogging.rendering
 
+import io.kotest.assertions.json.shouldEqualJson
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.matchers.nulls.shouldBeNull
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeInstanceOf
-import io.kotest.property.Arb
-import io.kotest.property.arbitrary.double
-import io.kotest.property.arbitrary.int
-import io.kotest.property.checkAll
 
 data class User(val name: String, val age: Int)
 data class Coords(val x: Double, val y: Double)
 data class Valid(val valid: Boolean, val reason: String)
 data class Nullable(val name: String, val age: Int?)
+data class Login(val user: User, val source: String)
 
 class DataClassDestructuringTest : DescribeSpec({
-    describe("parseValue() function") {
-        it("parses an integer as type Int") {
-            checkAll(Arb.int()) { int ->
-                parseValue("$int").shouldBeInstanceOf<Int>()
-            }
-        }
-        it("parses a double as type Double") {
-            checkAll(Arb.double()) { double ->
-                parseValue("$double").shouldBeInstanceOf<Double>()
-            }
-        }
-        it("""parses "null" as null""") {
-            parseValue("null").shouldBeNull()
-        }
-    }
     describe("Destructuring data classes") {
         it("with string and integer properties") {
-            destructure(User("Derek", 42)) shouldBe
+            destructureToJson(User("Derek", 42)) shouldEqualJson
                     """{"name":"Derek","age":42,"${'$'}type":"User"}"""
         }
         it("with decimal property") {
-            destructure(Coords(-27.51, 153.04)) shouldBe
+            destructureToJson(Coords(-27.51, 153.04)) shouldEqualJson
                     """{"x":-27.51,"y":153.04,"${'$'}type":"Coords"}"""
         }
         it("with boolean and string properties") {
-            destructure(Valid(true, "Good stuff")) shouldBe
+            destructureToJson(Valid(true, "Good stuff")) shouldEqualJson
                     """{"valid":true,"reason":"Good stuff","${'$'}type":"Valid"}"""
-            destructure(Valid(false, "You lied to me")) shouldBe
+            destructureToJson(Valid(false, "You lied to me")) shouldEqualJson
                     """{"valid":false,"reason":"You lied to me","${'$'}type":"Valid"}"""
         }
         it("with null value") {
-            destructure(Nullable("Fred", null)) shouldBe
+            destructureToJson(Nullable("Fred", null)) shouldEqualJson
                     """{"name":"Fred","age":null,"${'$'}type":"Nullable"}"""
+        }
+        it("with nested data classes") {
+            destructureToJson(Login(User("Fred", 21), "Mobile")) shouldEqualJson
+                    """{"user":{"name":"Fred","age":21,"${'$'}type":"User"},"source":"Mobile","${'$'}type":"Login"}"""
         }
     }
 })
