@@ -1,5 +1,10 @@
 # Klogging changes
 
+## Version 0.9.0
+- Object destructuring in message templates with `@` operator [JVM] - [issue 328](https://github.com/klogging/klogging/issues/328)
+- Use non-blocking coroutine dispatcher for sending to sinks [JVM] - [issue 320](https://github.com/klogging/klogging/issues/320)
+- Many dependency updates
+
 ## Version 0.8.0
 - String pattern-based rendering definitions - [issue 306](https://github.com/klogging/klogging/issues/306)
 - Dependency updates
