@@ -20,9 +20,14 @@ package io.klogging.rendering
 
 import io.klogging.events.EventItems
 
-internal fun destructureToJson(obj: Any): String = serializeMap(
-    map = destructure(obj),
-    omitNullValues = false
-)
-
 internal expect fun destructure(obj: Any): EventItems
+
+internal val EventItems.destructured: EventItems
+    get() = buildMap {
+        this@destructured.forEach { entry ->
+            if (entry.key.startsWith('@'))
+                put(entry.key.substring(1), entry.value?.let { destructure(it) })
+            else
+                put(entry.key, entry.value)
+        }
+    }

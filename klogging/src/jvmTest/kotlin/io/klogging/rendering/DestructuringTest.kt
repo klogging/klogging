@@ -18,11 +18,13 @@
 
 package io.klogging.rendering
 
+import io.klogging.events.EventItems
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.maps.shouldContainExactly
 
 class DestructuringTest : DescribeSpec({
-    describe("Destructuring classes") {
+    describe("Destructuring classes into maps using reflection") {
         it("data class with string and integer properties") {
             data class User(val name: String, val age: Int)
             destructure(User("Derek", 42)) shouldContainExactly
@@ -76,6 +78,27 @@ class DestructuringTest : DescribeSpec({
             data class Thing(val names: List<String>)
             destructure(Thing(listOf("one", "two"))) shouldContainExactly
                     mapOf("names" to listOf("one", "two"), typeKey to "Thing")
+        }
+    }
+    describe("EventItems.destructured extension property") {
+        it("ignores any items without destructuring indicators") {
+            val items: EventItems = mapOf("name" to "Joe", "age" to 23)
+            items.destructured shouldContainExactly
+                    mapOf("name" to "Joe", "age" to 23)
+        }
+        it("strips leading `@` from keys that indicate destructuring") {
+            data class User(val name: String, val age: Int)
+            val items: EventItems = mapOf("@user" to User("Olive", 8))
+            items.destructured.keys shouldContainExactly setOf("user")
+        }
+        it("replaces values with a destructuring map when keys start with `@`") {
+            data class User(val name: String, val age: Int)
+            val items: EventItems = mapOf("@user" to User("Mabel", 4))
+            items.destructured shouldContainExactly mapOf("user" to mapOf(
+                "name" to "Mabel",
+                "age" to 4,
+                typeKey to "User"
+            ))
         }
     }
 })

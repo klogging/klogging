@@ -23,6 +23,8 @@ import io.klogging.events.LogEvent
 /**
  * Render a [LogEvent] into [CLEF](https://clef-json.org) compact JSON format.
  *
+ * - Any items with destructuring indicators (names starting with `@`) are destructured into maps
+ *   before deserialisation.
  * - If `context` is not null, include it with key `context`.
  * - If `template` is not null, include it with key `@mt`, else include `message` with key `@m`.
  * - If `stackTrace` is not null, include it with key `@x`.
@@ -34,7 +36,7 @@ public val RENDER_CLEF: RenderString = RenderString { event ->
                 "@l" to event.level.name,
                 "host" to event.host,
                 "logger" to event.logger,
-            ) + event.items
+            ) + event.items.destructured
             ).toMutableMap()
     if (event.context != null) eventMap["context"] = event.context
     if (event.template != null)
@@ -43,5 +45,5 @@ public val RENDER_CLEF: RenderString = RenderString { event ->
         eventMap["@m"] = event.message
     if (event.stackTrace != null) eventMap["@x"] = event.stackTrace
 
-    serializeMap(eventMap)
+    serializeMap(eventMap, omitNullValues = false)
 }
