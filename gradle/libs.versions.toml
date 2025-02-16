@@ -8,7 +8,7 @@ kotlin = "2.1.10"
 kotest = "5.9.1"
 kover = "0.9.1"
 kotlin-coroutines = "1.10.1"
-kotlin-datetime = "0.6.1"
+kotlin-datetime = "0.6.2"
 kotlin-serialisation = { strictly = "1.7.3" }
 reckon = "0.19.1"
 slf4j = "2.0.16"
