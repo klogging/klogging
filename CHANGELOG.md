@@ -1,5 +1,9 @@
 # Klogging changes
 
+## Version 0.9.1
+- Non-strict version of Kotlin Serialization - [issue 337](https://github.com/klogging/klogging/issues/337)
+- Gradle 8.12.1
+
 ## Version 0.9.0
 - Object destructuring in message templates with `@` operator [JVM] - [issue 328](https://github.com/klogging/klogging/issues/328)
 - Use non-blocking coroutine dispatcher for sending to sinks [JVM] - [issue 320](https://github.com/klogging/klogging/issues/320)
