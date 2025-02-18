@@ -1,5 +1,9 @@
 # Klogging changes
 
+## Version 0.9.2
+- KotlinX Serialization 1.8.0
+- Object destructuring used in all JSON-generating renderers [JVM] - [issue 328](https://github.com/klogging/klogging/issues/328)
+
 ## Version 0.9.1
 - Non-strict version of Kotlin Serialization - [issue 337](https://github.com/klogging/klogging/issues/337)
 - Gradle 8.12.1
