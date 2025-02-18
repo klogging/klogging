@@ -44,7 +44,7 @@ public val RENDER_GELF: RenderString = RenderString { event ->
                 "timestamp" to TIME_MARKER,
                 "level" to event.level.syslog,
                 "_logger" to event.logger,
-            ) + event.items.mapKeys { (k, _) -> "_$k" }
+            ) + event.items.destructured.mapKeys { (k, _) -> "_$k" }
             ).filterValues { it != null }
 
     serializeMap(eventMap)

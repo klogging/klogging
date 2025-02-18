@@ -1,6 +1,6 @@
 /*
 
-   Copyright 2024 Baris Ceviz.
+   Copyright 2024-2025 Baris Ceviz and Michael Strasser.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ public val RENDER_STANDARD: RenderString = RenderString { event ->
                 "level" to event.level.name,
                 "host" to event.host,
                 "logger" to event.logger,
-            ) + event.items
+            ) + event.items.destructured
             ).toMutableMap()
     if (event.context != null) eventMap["context"] = event.context
     eventMap["message"] = event.evalTemplate()

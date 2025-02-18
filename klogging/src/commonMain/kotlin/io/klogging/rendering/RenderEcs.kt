@@ -52,7 +52,7 @@ public val RENDER_ECS: RenderString = RenderString { event ->
         eventMap += "labels" to mapOf("context" to event.context)
     }
     if (event.items.isNotEmpty()) {
-        eventMap += "items" to event.items
+        eventMap += "items" to event.items.destructured
     }
 
     serializeMap(eventMap.filterValues { it != null })

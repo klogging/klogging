@@ -44,7 +44,7 @@ public fun renderHec(
                 "context" to event.context,
                 "stackTrace" to event.stackTrace,
                 "message" to event.evalTemplate(),
-            ) + event.items
+            ) + event.items.destructured
             ).filterValues { it != null }
     val splunkMap: MutableMap<String, Any?> = mutableMapOf(
         "time" to TIME_MARKER,

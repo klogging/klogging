@@ -51,7 +51,7 @@ public val RENDER_ECS_DOTNET: RenderString = RenderString { event ->
     if (event.context != null) {
         eventMap += "labels" to mapOf("context" to event.context)
     }
-    val metadata = mutableMapOf<String, Any?>().apply { putAll(event.items) }
+    val metadata = mutableMapOf<String, Any?>().apply { putAll(event.items.destructured) }
     if (event.template != null) {
         metadata += "message_template" to event.template
     }

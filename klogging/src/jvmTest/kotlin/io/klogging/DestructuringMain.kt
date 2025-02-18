@@ -1,6 +1,8 @@
 package io.klogging
 
 import io.klogging.config.loggingConfiguration
+import io.klogging.rendering.RENDER_ECS_DOTNET
+import io.klogging.sending.STDOUT
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 
@@ -13,9 +15,11 @@ suspend fun main() = coroutineScope {
 
     val logger = logger("io.klogging.DestructuringMain")
 
-    loggingConfiguration(append = true) {
+    loggingConfiguration(append = false) {
         kloggingMinLogLevel = Level.DEBUG
         minDirectLogLevel = Level.DEBUG
+        sink("console", RENDER_ECS_DOTNET, STDOUT)
+        logging { fromMinLevel(Level.DEBUG) { toSink("console") } }
     }
     val user = User("John", 23)
     val login = Login(user, Source.MOBILE)
