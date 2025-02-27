@@ -11,7 +11,7 @@ kotlin-coroutines = "1.10.1"
 kotlin-datetime = "0.6.2"
 kotlin-serialisation = "1.8.0"
 reckon = "0.19.1"
-slf4j = "2.0.16"
+slf4j = "2.0.17"
 spotless = "7.0.2"
 test-logger = "3.2.0"
 android-library = { strictly = "[8.7, 8.8[" }

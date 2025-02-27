@@ -35,7 +35,7 @@ public const val REQUESTED_API_VERSION: String = "2.0.99"
 public class KloggingServiceProvider : SLF4JServiceProvider {
     private lateinit var loggerFactory: ILoggerFactory
     private lateinit var markerFactory: IMarkerFactory
-    private lateinit var mdcAdapter: MDCAdapter
+    private val mdcAdapter: MDCAdapter = BasicMDCAdapter()
 
     override fun getLoggerFactory(): ILoggerFactory = loggerFactory
 
@@ -48,7 +48,6 @@ public class KloggingServiceProvider : SLF4JServiceProvider {
     override fun initialize() {
         loggerFactory = NoCoLoggerFactory()
         markerFactory = BasicMarkerFactory()
-        mdcAdapter = BasicMDCAdapter()
 
         // Ensure any MDC items are included in every log event, whether an `NoCoLoggerWrapper` or not.
         Context.addItemExtractor {
