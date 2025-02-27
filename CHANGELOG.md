@@ -1,5 +1,8 @@
 # Klogging changes
 
+## Version 0.9.3
+- Support SLF4J 2.0.17 – [issue 340](https://github.com/klogging/klogging/issues/340) - Thanks @gavvvr!
+
 ## Version 0.9.2
 - KotlinX Serialization 1.8.0
 - Object destructuring used in all JSON-generating renderers [JVM] - [issue 328](https://github.com/klogging/klogging/issues/328)
