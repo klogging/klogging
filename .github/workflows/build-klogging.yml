@@ -64,7 +64,7 @@ jobs:
         if: success() || failure()
 
       - name: Test report
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v2
         with:
           name: Kotest report
           path: ./klogging/build/test-results/test/*.xml
