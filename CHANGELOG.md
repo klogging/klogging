@@ -1,5 +1,9 @@
 # Klogging changes
 
+## Version 0.9.4
+- Fix bug where collection classes cannot be destructured [JVM] – [issue 343](https://github.com/klogging/klogging/issues/343)
+- Gradle 8.13
+
 ## Version 0.9.3
 - Support SLF4J 2.0.17 – [issue 340](https://github.com/klogging/klogging/issues/340) - Thanks @gavvvr!
 
