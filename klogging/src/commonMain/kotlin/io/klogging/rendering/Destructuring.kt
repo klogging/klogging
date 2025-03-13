@@ -26,7 +26,13 @@ internal val EventItems.destructured: EventItems
     get() = buildMap {
         this@destructured.forEach { entry ->
             if (entry.key.startsWith('@'))
-                put(entry.key.substring(1), entry.value?.let { destructure(it) })
+                put(entry.key.substring(1), entry.value?.let { value ->
+                    try {
+                        destructure(value)
+                    } catch (_: Throwable) {
+                        value
+                    }
+                })
             else
                 put(entry.key, entry.value)
         }

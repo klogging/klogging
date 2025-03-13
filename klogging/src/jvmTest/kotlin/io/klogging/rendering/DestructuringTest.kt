@@ -19,6 +19,7 @@
 package io.klogging.rendering
 
 import io.klogging.events.EventItems
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.maps.shouldContainExactly
@@ -79,6 +80,15 @@ class DestructuringTest : DescribeSpec({
             destructure(Thing(listOf("one", "two"))) shouldContainExactly
                     mapOf("names" to listOf("one", "two"), typeKey to "Thing")
         }
+        it("list throws an error or exception") {
+            shouldThrow<Throwable> { destructure(listOf("one", "two", "three")) }
+        }
+        it("set throws an error or exception") {
+            shouldThrow<Throwable> { destructure(setOf(1, 2, 3)) }
+        }
+        it("map throws an error or exception") {
+            shouldThrow<Throwable> { destructure(mapOf("this" to "that", "black" to "white")) }
+        }
     }
     describe("EventItems.destructured extension property") {
         it("ignores any items without destructuring indicators") {
@@ -88,17 +98,21 @@ class DestructuringTest : DescribeSpec({
         }
         it("strips leading `@` from keys that indicate destructuring") {
             data class User(val name: String, val age: Int)
+
             val items: EventItems = mapOf("@user" to User("Olive", 8))
             items.destructured.keys shouldContainExactly setOf("user")
         }
         it("replaces values with a destructuring map when keys start with `@`") {
             data class User(val name: String, val age: Int)
+
             val items: EventItems = mapOf("@user" to User("Mabel", 4))
-            items.destructured shouldContainExactly mapOf("user" to mapOf(
-                "name" to "Mabel",
-                "age" to 4,
-                typeKey to "User"
-            ))
+            items.destructured shouldContainExactly mapOf(
+                "user" to mapOf(
+                    "name" to "Mabel",
+                    "age" to 4,
+                    typeKey to "User"
+                )
+            )
         }
     }
 })
