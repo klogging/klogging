@@ -56,6 +56,11 @@ jobs:
       - name: Code coverage
         run: ./gradlew :klogging:koverHtmlReport
 
+      - name: SonarQube scan
+        uses: SonarSource/sonarqube-scan-action@v5.0.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
       - name: Check test output existence
         id: check_test_output
         uses: andstor/file-existence-action@v3
