@@ -142,6 +142,11 @@ $dokka.location:io.klogging.impl/NoCoLoggerImpl/e/#kotlin.String#kotlin.Array[ko
 $dokka.location:io.klogging.impl/NoCoLoggerImpl/emitEvent/#io.klogging.Level#kotlin.Throwable?#kotlin.Any?#kotlin.collections.Map[kotlin.String,kotlin.Any?]/PointingToDeclaration/-klogging/io.klogging.impl/-no-co-logger-impl/emit-event.html
 $dokka.location:io.klogging.impl/NoCoLoggerImpl/loggerContextItems/#/PointingToDeclaration/-klogging/io.klogging.impl/-no-co-logger-impl/logger-context-items.html
 $dokka.location:io.klogging.impl/NoCoLoggerImpl/name/#/PointingToDeclaration/-klogging/io.klogging.impl/-no-co-logger-impl/name.html
+$dokka.location:io.klogging.java////PointingToDeclaration/-klogging/io.klogging.java/index.html
+$dokka.location:io.klogging.java/LoggerFactory///PointingToDeclaration/-klogging/io.klogging.java/-logger-factory/index.html
+$dokka.location:io.klogging.java/LoggerFactory/LoggerFactory/#/PointingToDeclaration/-klogging/io.klogging.java/-logger-factory/-logger-factory.html
+$dokka.location:io.klogging.java/LoggerFactory/getLogger/#java.lang.Class<?>/PointingToDeclaration/-klogging/io.klogging.java/-logger-factory/get-logger.html
+$dokka.location:io.klogging.java/LoggerFactory/getLogger/#java.lang.String/PointingToDeclaration/-klogging/io.klogging.java/-logger-factory/get-logger.html
 $dokka.location:io.klogging.rendering////PointingToDeclaration/-klogging/io.klogging.rendering/index.html
 $dokka.location:io.klogging.rendering//RENDER_ANSI/#/PointingToDeclaration/-klogging/io.klogging.rendering/-r-e-n-d-e-r_-a-n-s-i.html
 $dokka.location:io.klogging.rendering//RENDER_CLEF/#/PointingToDeclaration/-klogging/io.klogging.rendering/-r-e-n-d-e-r_-c-l-e-f.html
@@ -376,6 +381,7 @@ io.klogging.config
 io.klogging.context
 io.klogging.events
 io.klogging.impl
+io.klogging.java
 io.klogging.rendering
 io.klogging.sending
 io.klogging.templating
