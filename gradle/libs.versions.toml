@@ -12,6 +12,7 @@ kotlin-datetime = "0.6.2"
 kotlin-serialisation = "1.8.1"
 reckon = "0.19.1"
 slf4j = "2.0.17"
+sonar = "6.0.1.5171"
 spotless = "7.0.2"
 test-logger = "3.2.0"
 android-library = { strictly = "[8.7, 8.8[" }
@@ -43,5 +44,6 @@ binaryCompatibilityValidator = { id = "org.jetbrains.kotlinx.binary-compatibilit
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 serialisation = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+sonarqube = { id = "org.sonarqube", version.ref = "sonar" }
 testLogger = { id = "com.adarshr.test-logger", version.ref = "test-logger" }
 android-library = { id = "com.android.library", version.ref = "android-library" }
