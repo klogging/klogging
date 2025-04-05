@@ -58,7 +58,7 @@ suspend fun main() = coroutineScope {
         loggingConfiguration(append = false) {
             sink(
                 "console",
-                RenderPattern("%t{LOCAL_TIME} %-5v [%-20c] - %20l - %m - %i%2s"),
+                RenderPattern("%t{LOCAL_TIME} %-5v{COLOUR} [%-20c] - %20l - %m - %i%4s"),
                 STDOUT
             )
             logging {
