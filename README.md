@@ -159,7 +159,7 @@ repositories {
 
 dependencies {
     // ...
-    implementation("io.klogging:klogging-jvm:0.9.4-SNAPSHOT")
+    implementation("io.klogging:klogging-jvm:0.10.0-SNAPSHOT")
 }
 ```
 

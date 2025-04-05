@@ -848,6 +848,12 @@ public final class io/klogging/impl/NoCoLoggerImpl : io/klogging/NoCoLogger, kot
 	public fun warn (Lkotlin/jvm/functions/Function1;)V
 }
 
+public class io/klogging/java/LoggerFactory {
+	public fun <init> ()V
+	public static fun getLogger (Ljava/lang/Class;)Lio/klogging/NoCoLogger;
+	public static fun getLogger (Ljava/lang/String;)Lio/klogging/NoCoLogger;
+}
+
 public final class io/klogging/rendering/ConsoleRenderingKt {
 	public static final fun brightRed (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun getColour5 (Lio/klogging/Level;)Ljava/lang/String;
