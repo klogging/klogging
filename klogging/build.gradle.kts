@@ -29,7 +29,6 @@ plugins {
     alias(libs.plugins.binaryCompatibilityValidator)
     alias(libs.plugins.testLogger)
     alias(libs.plugins.kover)
-    alias(libs.plugins.sonarqube)
 
     alias(libs.plugins.android.library)
 }
@@ -119,13 +118,5 @@ android {
 
     defaultConfig {
         minSdk = 21
-    }
-}
-
-sonar {
-    properties {
-        property("sonar.projectKey", "klogging_klogging")
-        property("sonar.organization", "klogging")
-        property("sonar.host.url", "https://sonarcloud.io")
     }
 }
