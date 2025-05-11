@@ -18,6 +18,7 @@
 
 package io.klogging.internal
 
+import io.klogging.Level
 import io.klogging.Level.INFO
 import io.klogging.Level.WARN
 import io.klogging.config.loggingConfiguration
@@ -42,14 +43,16 @@ fun main() {
             fromMinLevel(WARN) { toSink("stdout") }
         }
     }
-    val numRuns = 100
+    val numRuns = 10
     var totalTime = 0L
+    val levels = Level.values()
     repeat(numRuns) {
         val howLong = measureTimeMillis {
             repeat(10_000) {
                 val id = Random.nextLong(10_000)
+                val level = levels[Random.nextInt(levels.size)]
                 repeat(10_000) {
-                    Dispatcher.cachedSinksFor("dev.Logger-$id", INFO)
+                    Dispatcher.cachedSinksFor("test.Logger-$id", level)
                 }
             }
         }
