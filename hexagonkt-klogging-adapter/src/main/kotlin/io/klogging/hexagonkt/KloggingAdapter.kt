@@ -30,14 +30,15 @@ import io.klogging.noCoLogger
  */
 @Suppress("CUSTOM_GETTERS_SETTERS")
 internal val LoggingLevel.kloggingLevel: Level
-    get() = when (this) {
-        LoggingLevel.TRACE -> Level.TRACE
-        LoggingLevel.DEBUG -> Level.DEBUG
-        LoggingLevel.INFO -> Level.INFO
-        LoggingLevel.WARN -> Level.WARN
-        LoggingLevel.ERROR -> Level.ERROR
-        else -> Level.NONE
-    }
+    get() =
+        when (this) {
+            LoggingLevel.TRACE -> Level.TRACE
+            LoggingLevel.DEBUG -> Level.DEBUG
+            LoggingLevel.INFO -> Level.INFO
+            LoggingLevel.WARN -> Level.WARN
+            LoggingLevel.ERROR -> Level.ERROR
+            else -> Level.NONE
+        }
 
 /**
  * Klogging implementation of Hexagon [LoggingPort] to set up Klogging in Hexagon applications.
@@ -58,7 +59,10 @@ public class KloggingAdapter : LoggingPort {
      *
      * Results are cached in a map keyed by logger name.
      */
-    public override fun isLoggerLevelEnabled(name: String, level: LoggingLevel): Boolean =
+    public override fun isLoggerLevelEnabled(
+        name: String,
+        level: LoggingLevel,
+    ): Boolean =
         loggerLevels[name]?.let { loggerLevel ->
             loggerLevel <= level
         } ?: noCoLogger(name).isLevelEnabled(level.kloggingLevel)
@@ -66,7 +70,10 @@ public class KloggingAdapter : LoggingPort {
     /**
      * Explicitly set the level for a named logger.
      */
-    public override fun setLoggerLevel(name: String, level: LoggingLevel) {
+    public override fun setLoggerLevel(
+        name: String,
+        level: LoggingLevel,
+    ) {
         loggerLevels[name] = level
     }
 }

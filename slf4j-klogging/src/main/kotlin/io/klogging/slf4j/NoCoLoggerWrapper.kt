@@ -73,7 +73,10 @@ public class NoCoLoggerWrapper(
      * @param format the format string
      * @param argument the argument
      */
-    public override fun trace(format: String?, argument: Any?) {
+    public override fun trace(
+        format: String?,
+        argument: Any?,
+    ) {
         format?.let {
             emitEvent(TRACE, format, argument)
         }
@@ -102,7 +105,10 @@ public class NoCoLoggerWrapper(
      * @param format the format string
      * @param arguments list of three or more arguments
      */
-    public override fun trace(format: String?, vararg arguments: Any?) {
+    public override fun trace(
+        format: String?,
+        vararg arguments: Any?,
+    ) {
         format?.let {
             emitEvent(TRACE, format, *arguments)
         }
@@ -113,7 +119,10 @@ public class NoCoLoggerWrapper(
      *
      * @param message the message
      */
-    public override fun trace(message: String?, throwable: Throwable?) {
+    public override fun trace(
+        message: String?,
+        throwable: Throwable?,
+    ) {
         logWithThrowable(TRACE, message, throwable)
     }
 
@@ -162,7 +171,10 @@ public class NoCoLoggerWrapper(
      * @param format the format string
      * @param argument the argument
      */
-    public override fun debug(format: String?, argument: Any?) {
+    public override fun debug(
+        format: String?,
+        argument: Any?,
+    ) {
         format?.let { emitEvent(DEBUG, it, argument) }
     }
 
@@ -187,7 +199,10 @@ public class NoCoLoggerWrapper(
      * @param format the format string
      * @param arguments list of three or more arguments
      */
-    public override fun debug(format: String?, vararg arguments: Any?) {
+    public override fun debug(
+        format: String?,
+        vararg arguments: Any?,
+    ) {
         format?.let { emitEvent(DEBUG, it, arguments) }
     }
 
@@ -196,7 +211,10 @@ public class NoCoLoggerWrapper(
      *
      * @param message the message
      */
-    public override fun debug(message: String?, throwable: Throwable?) {
+    public override fun debug(
+        message: String?,
+        throwable: Throwable?,
+    ) {
         logWithThrowable(DEBUG, message, throwable)
     }
 
@@ -222,7 +240,10 @@ public class NoCoLoggerWrapper(
      * @param format the format string
      * @param argument the argument
      */
-    public override fun info(format: String?, argument: Any?) {
+    public override fun info(
+        format: String?,
+        argument: Any?,
+    ) {
         format?.let { emitEvent(INFO, it, argument) }
     }
 
@@ -247,7 +268,10 @@ public class NoCoLoggerWrapper(
      * @param format the format string
      * @param arguments list of three or more arguments
      */
-    public override fun info(format: String?, vararg arguments: Any?) {
+    public override fun info(
+        format: String?,
+        vararg arguments: Any?,
+    ) {
         format?.let { emitEvent(INFO, it, *arguments) }
     }
 
@@ -256,7 +280,10 @@ public class NoCoLoggerWrapper(
      *
      * @param message the message
      */
-    public override fun info(message: String?, throwable: Throwable?) {
+    public override fun info(
+        message: String?,
+        throwable: Throwable?,
+    ) {
         logWithThrowable(INFO, message, throwable)
     }
 
@@ -282,7 +309,10 @@ public class NoCoLoggerWrapper(
      * @param format the format string
      * @param argument the argument
      */
-    public override fun warn(format: String?, argument: Any?) {
+    public override fun warn(
+        format: String?,
+        argument: Any?,
+    ) {
         format?.let {
             emitEvent(WARN, format, argument)
         }
@@ -311,7 +341,10 @@ public class NoCoLoggerWrapper(
      * @param format the format string
      * @param arguments list of three or more arguments
      */
-    public override fun warn(format: String?, vararg arguments: Any?) {
+    public override fun warn(
+        format: String?,
+        vararg arguments: Any?,
+    ) {
         format?.let {
             emitEvent(WARN, format, *arguments)
         }
@@ -322,7 +355,10 @@ public class NoCoLoggerWrapper(
      *
      * @param message the message
      */
-    public override fun warn(message: String?, throwable: Throwable?) {
+    public override fun warn(
+        message: String?,
+        throwable: Throwable?,
+    ) {
         logWithThrowable(WARN, message, throwable)
     }
 
@@ -348,7 +384,10 @@ public class NoCoLoggerWrapper(
      * @param format the format string
      * @param argument the argument
      */
-    public override fun error(format: String?, argument: Any?) {
+    public override fun error(
+        format: String?,
+        argument: Any?,
+    ) {
         format?.let { emitEvent(ERROR, it, argument) }
     }
 
@@ -373,7 +412,10 @@ public class NoCoLoggerWrapper(
      * @param format the format string
      * @param arguments list of three or more arguments
      */
-    public override fun error(format: String?, vararg arguments: Any?) {
+    public override fun error(
+        format: String?,
+        vararg arguments: Any?,
+    ) {
         format?.let { emitEvent(ERROR, it, arguments) }
     }
 
@@ -382,7 +424,10 @@ public class NoCoLoggerWrapper(
      *
      * @param message the message
      */
-    public override fun error(message: String?, throwable: Throwable?) {
+    public override fun error(
+        message: String?,
+        throwable: Throwable?,
+    ) {
         logWithThrowable(ERROR, message, throwable)
     }
 
@@ -454,11 +499,12 @@ public class NoCoLoggerWrapper(
  * @param slf4jLevel SLF4J severity level
  * @return the corresponding Klogging level
  */
-internal fun kloggingLevel(slf4jLevel: org.slf4j.event.Level?): Level = when (slf4jLevel) {
-    org.slf4j.event.Level.TRACE -> TRACE
-    org.slf4j.event.Level.DEBUG -> DEBUG
-    org.slf4j.event.Level.INFO -> INFO
-    org.slf4j.event.Level.WARN -> WARN
-    org.slf4j.event.Level.ERROR -> ERROR
-    else -> NONE
-}
+internal fun kloggingLevel(slf4jLevel: org.slf4j.event.Level?): Level =
+    when (slf4jLevel) {
+        org.slf4j.event.Level.TRACE -> TRACE
+        org.slf4j.event.Level.DEBUG -> DEBUG
+        org.slf4j.event.Level.INFO -> INFO
+        org.slf4j.event.Level.WARN -> WARN
+        org.slf4j.event.Level.ERROR -> ERROR
+        else -> NONE
+    }

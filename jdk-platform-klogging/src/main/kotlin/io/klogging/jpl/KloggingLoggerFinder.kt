@@ -33,6 +33,8 @@ public class KloggingLoggerFinder : LoggerFinder() {
      * @param module Java module for which the logger is being requested; CURRENTLY IGNORED
      * @return a wrapped Klogging logger with the specified name
      */
-    override fun getLogger(name: String, module: Module): Logger =
-        NoCoLoggerWrapper(noCoLogger(name))
+    override fun getLogger(
+        name: String,
+        module: Module,
+    ): Logger = NoCoLoggerWrapper(noCoLogger(name))
 }

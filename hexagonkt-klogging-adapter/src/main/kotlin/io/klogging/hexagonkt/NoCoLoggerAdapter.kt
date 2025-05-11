@@ -28,11 +28,16 @@ import io.klogging.NoCoLogger
  *
  * @param noCoLogger
  */
-internal class NoCoLoggerAdapter(private val noCoLogger: NoCoLogger) : LoggerPort {
+internal class NoCoLoggerAdapter(
+    private val noCoLogger: NoCoLogger,
+) : LoggerPort {
     /**
      * Emit and send a log message with the specified level.
      */
-    override fun log(level: LoggingLevel, message: () -> Any?) {
+    override fun log(
+        level: LoggingLevel,
+        message: () -> Any?,
+    ) {
         noCoLogger.log(level.kloggingLevel, message())
     }
 

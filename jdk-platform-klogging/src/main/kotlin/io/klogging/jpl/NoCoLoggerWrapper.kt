@@ -34,15 +34,16 @@ import java.util.ResourceBundle
  */
 @Suppress("CUSTOM_GETTERS_SETTERS")
 internal val System.Logger.Level.toKloggingLevel: Level
-    get() = when (this) {
-        System.Logger.Level.TRACE -> TRACE
-        System.Logger.Level.DEBUG -> DEBUG
-        System.Logger.Level.INFO -> INFO
-        System.Logger.Level.WARNING -> WARN
-        System.Logger.Level.ERROR -> ERROR
-        System.Logger.Level.ALL -> TRACE
-        System.Logger.Level.OFF -> NONE
-    }
+    get() =
+        when (this) {
+            System.Logger.Level.TRACE -> TRACE
+            System.Logger.Level.DEBUG -> DEBUG
+            System.Logger.Level.INFO -> INFO
+            System.Logger.Level.WARNING -> WARN
+            System.Logger.Level.ERROR -> ERROR
+            System.Logger.Level.ALL -> TRACE
+            System.Logger.Level.OFF -> NONE
+        }
 
 /**
  * JDK Platform Logging implementation of [System.Logger] that wraps a Klogging `NoCoLogger` instance.
@@ -50,7 +51,9 @@ internal val System.Logger.Level.toKloggingLevel: Level
  * @param noCoLogger the wrapped Klogging logger
  */
 @Suppress("WRONG_NEWLINES") // Stop Diktat false positives
-public class NoCoLoggerWrapper(private val noCoLogger: io.klogging.NoCoLogger) : System.Logger {
+public class NoCoLoggerWrapper(
+    private val noCoLogger: io.klogging.NoCoLogger,
+) : System.Logger {
     /**
      * Return the wrapped logger name as the [System.Logger] name.
      */
@@ -62,8 +65,7 @@ public class NoCoLoggerWrapper(private val noCoLogger: io.klogging.NoCoLogger) :
      * @param level JDK system logger level
      * @return true if this logger will log at the specified level
      */
-    override fun isLoggable(level: System.Logger.Level): Boolean =
-        noCoLogger.isLevelEnabled(level.toKloggingLevel)
+    override fun isLoggable(level: System.Logger.Level): Boolean = noCoLogger.isLevelEnabled(level.toKloggingLevel)
 
     /**
      * Log a message and possibly an associated throwable object. This version is called if [thrown] is not null.
@@ -73,16 +75,22 @@ public class NoCoLoggerWrapper(private val noCoLogger: io.klogging.NoCoLogger) :
      * @param msg a string message; can be null.
      * @param thrown a [Throwable] object associated with the message; can be null
      */
-    override fun log(level: System.Logger.Level, bundle: ResourceBundle?, msg: String?, thrown: Throwable?) {
+    override fun log(
+        level: System.Logger.Level,
+        bundle: ResourceBundle?,
+        msg: String?,
+        thrown: Throwable?,
+    ) {
         val kloggingLevel = level.toKloggingLevel
 
-        val message = msg?.let {
-            bundle?.let {
-                bundle.getString(msg)
-            } ?: msg
-        } ?: thrown?.let {
-            thrown.message ?: "Something went wrong"
-        } ?: "Null log message and throwable"
+        val message =
+            msg?.let {
+                bundle?.let {
+                    bundle.getString(msg)
+                } ?: msg
+            } ?: thrown?.let {
+                thrown.message ?: "Something went wrong"
+            } ?: "Null log message and throwable"
 
         thrown?.let {
             noCoLogger.log(kloggingLevel, thrown, message)
@@ -98,16 +106,22 @@ public class NoCoLoggerWrapper(private val noCoLogger: io.klogging.NoCoLogger) :
      * @param format a string message or message format; can be null.
      * @param params parameters to use with the message format; can be empty or null
      */
-    override fun log(level: System.Logger.Level, bundle: ResourceBundle?, format: String?, params: Array<Any>?) {
+    override fun log(
+        level: System.Logger.Level,
+        bundle: ResourceBundle?,
+        format: String?,
+        params: Array<Any>?,
+    ) {
         val kloggingLevel = level.toKloggingLevel
 
-        val message = format?.let {
-            bundle?.let {
-                bundle.getString(format)
-            } ?: params?.let {
-                MessageFormat(format).format(params)
-            } ?: format
-        } ?: "Null message supplied"
+        val message =
+            format?.let {
+                bundle?.let {
+                    bundle.getString(format)
+                } ?: params?.let {
+                    MessageFormat(format).format(params)
+                } ?: format
+            } ?: "Null message supplied"
 
         noCoLogger.log(kloggingLevel, message)
     }
