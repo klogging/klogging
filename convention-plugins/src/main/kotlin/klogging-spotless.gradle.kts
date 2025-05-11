@@ -42,13 +42,13 @@ $licenceText
 
 """
 
-val ktlintVersion = "0.49.1"
+val ktlintVersion = "1.5.0"
 
 spotless {
     format("markdown") {
         target("**/*.md")
         targetExclude(".gradle/**", ".gradle-cache/**", "build/**")
-        indentWithSpaces()
+        leadingTabsToSpaces()
         endWithNewline()
     }
 
@@ -56,7 +56,7 @@ spotless {
         target("**/.gitignore", "**/*.yaml", "**/*.yml", "**/*.sh", "**/Dockerfile")
         targetExclude("**/*.md", ".gradle/**", ".gradle-cache/**", "build/**")
         trimTrailingWhitespace()
-        indentWithSpaces()
+        leadingTabsToSpaces()
         endWithNewline()
     }
 
@@ -72,7 +72,7 @@ spotless {
         )
 
         trimTrailingWhitespace()
-        indentWithSpaces()
+        leadingTabsToSpaces()
         endWithNewline()
     }
 
@@ -84,7 +84,7 @@ spotless {
         licenseHeader(kotlinLicenceHeader)
 
         trimTrailingWhitespace()
-        indentWithSpaces()
+        leadingTabsToSpaces()
         endWithNewline()
     }
 
@@ -102,7 +102,7 @@ spotless {
         licenseHeader(kotlinLicenceHeader)
 
         trimTrailingWhitespace()
-        indentWithSpaces()
+        leadingTabsToSpaces()
         endWithNewline()
     }
 }

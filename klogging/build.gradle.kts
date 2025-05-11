@@ -45,7 +45,7 @@ kotlin {
         nodejs()
     }
 
-    jvm() {
+    jvm {
     }
 
     androidTarget {
@@ -114,7 +114,7 @@ testlogger {
 
 android {
     namespace = "io.klogging"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 21
