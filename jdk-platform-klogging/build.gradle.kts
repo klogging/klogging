@@ -65,12 +65,22 @@ testlogger {
     showFailed = true
 }
 
+java {
+    withJavadocJar()
+}
+
+val javadocJar =
+    tasks.named<Jar>("javadocJar") {
+        from(tasks.named("dokkaHtml"))
+    }
+
 // Create a publication to sign to publish.
 publishing {
     publications {
         create<MavenPublication>("jvm") {
             from(components["kotlin"])
             artifact(tasks.named("sourcesJar"))
+            artifact(javadocJar)
             pom {
                 name.set("jdk-platform-klogging")
                 description.set("JDK Platform System.Logger implemented with Klogging logging library")

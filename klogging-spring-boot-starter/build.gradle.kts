@@ -26,8 +26,6 @@ plugins {
 group = "io.klogging"
 description = "Starter for using Klogging for logging. An alternative to spring-boot-starter-logging"
 
-fun getExtraString(name: String) = extra[name]?.toString()
-
 mavenPublishing {
 
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
@@ -37,6 +35,7 @@ mavenPublishing {
         name.set("klogging-spring-boot-starter")
         description.set("Spring Boot starter for Klogging logging library")
         url.set("https://klogging.io/")
+        inceptionYear.set("2021")
         licenses {
             license {
                 name.set("The Apache License, Version 2.0")

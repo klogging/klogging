@@ -33,6 +33,7 @@ mavenPublishing {
         name.set("klogging")
         description.set("Kotlin logging library with structured logging and coroutines support")
         url.set("https://klogging.io")
+        inceptionYear.set("2021")
         licenses {
             license {
                 name.set("The Apache License, Version 2.0")
