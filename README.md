@@ -154,7 +154,7 @@ If you want to use the latest snapshot builds, specify these in your `build.grad
 ```kotlin
 repositories {
     // ...
-    maven ("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+    maven ("https://central.sonatype.com/repository/maven-snapshots/")
 }
 
 dependencies {

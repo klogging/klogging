@@ -46,4 +46,5 @@ dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 serialisation = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 testLogger = { id = "com.adarshr.test-logger", version.ref = "test-logger" }
+vanniktech = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech" }
 android-library = { id = "com.android.library", version.ref = "android-library" }

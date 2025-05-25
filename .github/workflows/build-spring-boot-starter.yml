@@ -32,5 +32,5 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Publish Spring Boot starter to Maven Central
-        run: ./gradlew :klogging-spring-boot-starter:publishJvmPublicationToMavenCentralRepository
+        run: ./gradlew :klogging-spring-boot-starter:publishAllPublicationsToMavenCentralRepository
         if: github.repository == 'klogging/klogging' && github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
