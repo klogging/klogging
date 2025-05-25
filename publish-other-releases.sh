@@ -5,5 +5,4 @@
 
 ./gradlew :slf4j-klogging:publishJvmPublicationToMavenCentralRepository && \
   ./gradlew :klogging-spring-boot-starter:publishAllPublicationsToMavenCentralRepository && \
-  ./gradlew :jdk-platform-klogging:publishJvmPublicationToMavenCentralRepository && \
-  ./gradlew :hexagonkt-klogging-adapter:publishJvmPublicationToMavenCentralRepository
+  ./gradlew :jdk-platform-klogging:publishJvmPublicationToMavenCentralRepository

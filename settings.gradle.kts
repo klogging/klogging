@@ -43,7 +43,6 @@ include(
     "slf4j-klogging",
     "klogging-spring-boot-starter",
     "jdk-platform-klogging",
-    "hexagonkt-klogging-adapter",
 )
 
 // Reckon plugin to set version based on Git tags.

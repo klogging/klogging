@@ -2,7 +2,6 @@
 atomicfu = "0.27.0"
 binary-compatibility-validator = "0.17.0"
 dokka = "2.0.0"
-hexagon = { strictly = "3.4.7" }
 html-reporter = "0.7.1"
 kotlin = "2.1.20"
 kotest = "5.9.1"
@@ -18,7 +17,6 @@ vanniktech = "0.32.0"
 android-library = { strictly = "[8.7, 8.8[" }
 
 [libraries]
-hexagon-core = { module = "com.hexagonkt:core", version.ref = "hexagon" }
 html-reporter = { module = "com.michaelstrasser:kotest-html-reporter", version.ref = "html-reporter" }
 kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
 kotest-json = { module = "io.kotest:kotest-assertions-json", version.ref = "kotest" }

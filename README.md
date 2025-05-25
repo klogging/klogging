@@ -14,9 +14,8 @@ events. It takes advantage of
 environments that use them, for example the [Ktor](https://ktor.io)
 asynchronous service framework.
 
-This repository also includes an [SLF4J provider](slf4j-klogging), a
-[Spring Boot starter](klogging-spring-boot-starter) and a
-[Hexagon logging adapter](hexagonkt-klogging-adapter)
+This repository also includes an [SLF4J provider](slf4j-klogging) and a
+[Spring Boot starter](klogging-spring-boot-starter)
 that use Klogging.
 
 See [https://klogging.io](https://klogging.io) for more detailed documentation.
