@@ -9,11 +9,11 @@ jobs:
     name: Publish Spring Boot starter POM
     runs-on: ubuntu-latest
     env:
-      SIGNING_KEY_ID: 40D4E7C6
-      OSSRH_USERNAME: mjstrasser
-      OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-      SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+      ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVENCENTRALUSERNAME }}
+      ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVENCENTRALPASSWORD }}
+      ORG_GRADLE_PROJECT_signingInMemoryKeyId: 40D4E7C6
+      ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
+      ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
       TERM: xterm-256color
 
     permissions:
@@ -31,10 +31,6 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Publish Spring Boot starter snapshot
-        run: ./gradlew :klogging-spring-boot-starter:publishPomPublicationToSnapshotsRepository
+      - name: Publish Spring Boot starter to Maven Central
+        run: ./gradlew :klogging-spring-boot-starter:publishJvmPublicationToMavenCentralRepository
         if: github.repository == 'klogging/klogging' && github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
-
-      - name: Publish Spring Boot starter release
-        run: ./gradlew :klogging-spring-boot-starter:publishPomPublicationToReleasesRepository
-        if: github.repository == 'klogging/klogging' && startsWith(github.ref, 'refs/tags/') && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')

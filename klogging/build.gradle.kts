@@ -24,7 +24,6 @@ plugins {
     id("klogging-kotlin")
     id("klogging-spotless")
     id("klogging-publishing")
-    alias(libs.plugins.dokka)
     alias(libs.plugins.serialisation)
     alias(libs.plugins.binaryCompatibilityValidator)
     alias(libs.plugins.testLogger)
@@ -93,16 +92,6 @@ kotlin {
         val wasmJsMain by getting
         val wasmJsTest by getting
         val androidMain by getting
-    }
-}
-
-tasks.dokkaHtml.configure {
-    moduleName.set("Klogging")
-    dokkaSourceSets {
-        configureEach {
-            includeNonPublic.set(true)
-            includes.from("src/commonMain/kotlin/packages.md")
-        }
     }
 }
 

@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 /*
 
    Copyright 2021-2025 Michael Strasser.
@@ -17,59 +19,46 @@
 */
 
 plugins {
-    `maven-publish`
     id("klogging-signing")
+    id("com.vanniktech.maven.publish")
+    id("org.jetbrains.dokka")
 }
 
 group = "io.klogging"
 
-fun getExtraString(name: String) = extra[name]?.toString()
-
-publishing {
-    // Configure maven central repository
-    repositories {
-        maven {
-            name = "snapshots"
-            setUrl("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-            credentials {
-                username = getExtraString("ossrhUsername")
-                password = getExtraString("ossrhPassword")
+mavenPublishing {
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
+    signAllPublications()
+    pom {
+        name.set("klogging")
+        description.set("Kotlin logging library with structured logging and coroutines support")
+        url.set("https://klogging.io")
+        licenses {
+            license {
+                name.set("The Apache License, Version 2.0")
+                url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
             }
-        }
-        maven {
-            name = "releases"
-            setUrl("https://s01.oss.sonatype.org/content/repositories/releases/")
-            credentials {
-                username = getExtraString("ossrhUsername")
-                password = getExtraString("ossrhPassword")
+            developers {
+                developer {
+                    id.set("mjstrasser")
+                    name.set("Michael Strasser")
+                    email.set("mjstrasser@klogging.io")
+                }
             }
-        }
-    }
-
-    // Configure all publications
-    publications.withType<MavenPublication> {
-        // Provide artifacts information requited by Maven Central
-        pom {
-            name.set("klogging")
-            description.set("Kotlin logging library with structured logging and coroutines support")
-            url.set("https://klogging.io")
-            licenses {
-                license {
-                    name.set("The Apache License, Version 2.0")
-                    url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
-                }
-                developers {
-                    developer {
-                        id.set("mjstrasser")
-                        name.set("Michael Strasser")
-                        email.set("mjstrasser@klogging.io")
-                    }
-                }
-                scm {
-                    connection.set("scm:git:git://github.com/klogging/klogging.git")
-                    url.set("https://github.com/klogging/klogging")
-                }
+            scm {
+                connection.set("scm:git:git://github.com/klogging/klogging.git")
+                url.set("https://github.com/klogging/klogging")
             }
         }
     }
+}
+
+tasks.dokkaHtml.configure {
+    moduleName.set("Klogging")
+//    dokkaSourceSets {
+//        configureEach {
+//            includeNonPublic.set(true)
+//            includes.from("src/commonMain/kotlin/packages.md")
+//        }
+//    }
 }
