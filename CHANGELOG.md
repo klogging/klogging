@@ -1,5 +1,9 @@
 # Klogging changes
 
+## Version 0.9.5
+- Minor updates
+- Publish to the new Maven Central Publishing portal
+
 ## Version 0.9.4
 - Fix bug where collection classes cannot be destructured [JVM] – [issue 343](https://github.com/klogging/klogging/issues/343)
 - Gradle 8.13

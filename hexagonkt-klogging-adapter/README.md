@@ -11,7 +11,7 @@ A logging adapter for the [Hexagon](https://hexagonkt.com/) microservices toolki
 Specify this library as the dependency. Gradle:
 
 ```kotlin
-    implementation("io.klogging:hexagonkt-klogging-adapter:0.9.4")
+    implementation("io.klogging:hexagonkt-klogging-adapter:0.9.5")
 ```
 
 Maven:
@@ -22,7 +22,7 @@ Maven:
     <dependency>
         <groupId>io.klogging</groupId>
         <artifactId>hexagonkt-klogging-adapter</artifactId>
-        <version>0.9.4</version>
+        <version>0.9.5</version>
     </dependency>
 </dependencies>
 ```
