@@ -16,11 +16,10 @@
 
 */
 
-import com.vanniktech.maven.publish.JavaPlatform
 import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
-    `java-platform`
+    `java-library`
     id("com.vanniktech.maven.publish")
     id("klogging-signing")
 }
@@ -28,7 +27,11 @@ plugins {
 group = "io.klogging"
 description = "Starter for using Klogging for logging. An alternative to spring-boot-starter-logging"
 
-javaPlatform.allowDependencies()
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
+}
 
 dependencies {
     api(project(":klogging"))
@@ -36,7 +39,6 @@ dependencies {
 }
 
 mavenPublishing {
-    configure(JavaPlatform())
 
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
     signAllPublications()
