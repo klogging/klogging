@@ -19,6 +19,7 @@
 import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
+    `java-library` // Needed for vanniktech plugin to work. It causes too many artifacts to be built and published.
     id("com.vanniktech.maven.publish")
     id("klogging-signing")
 }

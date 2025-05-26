@@ -1,5 +1,3 @@
-import com.vanniktech.maven.publish.SonatypeHost
-
 /*
 
    Copyright 2021-2025 Michael Strasser.
@@ -17,6 +15,8 @@ import com.vanniktech.maven.publish.SonatypeHost
    limitations under the License.
 
 */
+
+import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
     id("klogging-signing")
