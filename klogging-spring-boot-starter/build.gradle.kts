@@ -16,10 +16,11 @@
 
 */
 
+import com.vanniktech.maven.publish.JavaPlatform
 import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
-    `java-library` // Needed for vanniktech plugin to work. It causes too many artifacts to be built and published.
+    `java-platform`
     id("com.vanniktech.maven.publish")
     id("klogging-signing")
 }
@@ -28,6 +29,7 @@ group = "io.klogging"
 description = "Starter for using Klogging for logging. An alternative to spring-boot-starter-logging"
 
 mavenPublishing {
+    configure(JavaPlatform())
 
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
     signAllPublications()
