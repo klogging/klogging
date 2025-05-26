@@ -1,5 +1,10 @@
 # Klogging changes
 
+## Version 0.10.0
+- No more Hexagon toolkit adapter
+- Publishing fixes
+- Dependency updates
+
 ## Version 0.9.5
 - Minor updates
 - Publish to the new Maven Central Publishing portal

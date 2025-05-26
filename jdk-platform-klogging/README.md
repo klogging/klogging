@@ -13,7 +13,7 @@ or later.
 Specify this library as the dependency. Gradle:
 
 ```kotlin
-    implementation("io.klogging:jdk-platform-klogging:0.9.5")
+    implementation("io.klogging:jdk-platform-klogging:0.10.0")
 ```
 
 Maven:
@@ -23,7 +23,7 @@ Maven:
     <dependency>
         <groupId>io.klogging</groupId>
         <artifactId>jdk-platform-klogging</artifactId>
-        <version>0.9.5</version>
+        <version>0.10.0</version>
     </dependency>
 </dependencies>
 ```
