@@ -28,6 +28,13 @@ plugins {
 group = "io.klogging"
 description = "Starter for using Klogging for logging. An alternative to spring-boot-starter-logging"
 
+javaPlatform.allowDependencies()
+
+dependencies {
+    api(project(":klogging"))
+    api(project(":slf4j-klogging"))
+}
+
 mavenPublishing {
     configure(JavaPlatform())
 
@@ -55,22 +62,6 @@ mavenPublishing {
         scm {
             connection.set("scm:git:git://github.com/klogging/klogging.git")
             url.set("https://github.com/klogging/klogging")
-        }
-        withXml {
-            asNode().appendNode("dependencies").apply {
-                appendNode("dependency").apply {
-                    appendNode("groupId", "io.klogging")
-                    appendNode("artifactId", "klogging-jvm")
-                    appendNode("version", project.version)
-                    appendNode("scope", "compile")
-                }
-                appendNode("dependency").apply {
-                    appendNode("groupId", "io.klogging")
-                    appendNode("artifactId", "slf4j-klogging")
-                    appendNode("version", project.version)
-                    appendNode("scope", "compile")
-                }
-            }
         }
     }
 }
