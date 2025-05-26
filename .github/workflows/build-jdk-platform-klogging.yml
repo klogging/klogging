@@ -75,4 +75,3 @@ jobs:
 
       - name: Publish Klogging JPL implementation to Maven Central
         run: ./gradlew :jdk-platform-klogging:publishJvmPublicationToMavenCentralRepository
-        if: github.repository == 'klogging/klogging' && github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')

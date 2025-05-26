@@ -111,4 +111,3 @@ jobs:
 
       - name: Publish to Maven Central
         run: ./gradlew :klogging:publishIosArm64PublicationToMavenCentralRepository :klogging:publishIosX64PublicationToMavenCentralRepository :klogging:publishIosSimulatorArm64PublicationToMavenCentralRepository
-        if: github.repository == 'klogging/klogging' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')

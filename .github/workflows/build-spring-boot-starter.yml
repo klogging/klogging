@@ -2,6 +2,9 @@ name: publish-spring-boot-starter
 
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows: [ build-publish-slf4j-klogging ]
+    types: [ completed ]
 
 jobs:
 
@@ -33,4 +36,3 @@ jobs:
 
       - name: Publish Spring Boot starter to Maven Central
         run: ./gradlew :klogging-spring-boot-starter:publishAllPublicationsToMavenCentralRepository
-        if: github.repository == 'klogging/klogging' && github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
