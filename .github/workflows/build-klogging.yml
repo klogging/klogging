@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    tags:
-      - '*'
     paths:
       - .github/**
       - gradle/**
@@ -15,7 +13,7 @@ on:
 jobs:
 
   build-klogging:
-    name: Build and test Klogging library
+    name: Build, test and publish Klogging library
     runs-on: ubuntu-latest
     env:
       ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVENCENTRALUSERNAME }}
@@ -73,7 +71,6 @@ jobs:
 
       - name: Publish to Maven Central
         run: ./gradlew :klogging:publishAllPublicationsToMavenCentralRepository
-        if: github.repository == 'klogging/klogging' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
   build-klogging-apple:
     name: Build apple versions of Klogging library

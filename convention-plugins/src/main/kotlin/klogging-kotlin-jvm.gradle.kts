@@ -39,10 +39,15 @@ kotlin {
             apiVersion = "1.6"
         }
     }
+
+    java {
+        compilerOptions {
+            freeCompilerArgs.add("-Xjvm-default=all-compatibility")
+        }
+    }
 }
 
 tasks.register<Jar>("sourcesJar") {
     archiveClassifier.set("sources")
     from(sourceSets.main.get().allSource)
 }
-

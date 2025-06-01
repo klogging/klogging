@@ -1,18 +1,7 @@
 name: publish-spring-boot-starter
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - .github/**
-      - gradle/**
-      - klogging-spring-boot-starter/**
-      - "!klogging-spring-boot-starter/README.md"
   workflow_dispatch:
-  workflow_run:
-    workflows: [ build-publish-slf4j-klogging ]
-    types: [ completed ]
 
 jobs:
 
