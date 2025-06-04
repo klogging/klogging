@@ -13,7 +13,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter") {
         exclude(group = "ch.qos.logback")
     }
-    implementation("io.klogging:klogging-spring-boot-starter:0.10.0")
+    implementation("io.klogging:klogging-spring-boot-starter:0.10.1")
     // Other runtime dependencies.
     
     testImplementation("org.springframework.boot:spring-boot-starter-test") {

@@ -1,5 +1,8 @@
 # Klogging changes
 
+## Version 0.10.1
+- Fixed configuration of Klogging Spring Boot Starter
+
 ## Version 0.10.0
 - No more Hexagon toolkit adapter
 - Publishing fixes
