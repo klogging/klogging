@@ -1,18 +1,7 @@
 name: build-publish-jdk-platform-klogging
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - .github/**
-      - gradle/**
-      - jdk-platform-klogging/**
-      - "!jdk-platform-klogging/README.md"
   workflow_dispatch:
-  workflow_run:
-    workflows: [build-publish-klogging]
-    types: [completed]
 
 jobs:
 

@@ -2,12 +2,6 @@ name: publish-dokka-github-pages
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - .github/**
-      - klogging/src/**
 
 jobs:
   deploy:
