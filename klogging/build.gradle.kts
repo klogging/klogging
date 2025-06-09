@@ -84,7 +84,7 @@ kotlin {
                 implementation(libs.kotest.datatest)
                 implementation(libs.kotest.xml)
                 implementation(libs.kotest.property)
-                implementation(libs.html.reporter)
+                implementation(libs.kotest.html.reporter)
             }
         }
         val jsMain by getting

@@ -2,9 +2,9 @@
 atomicfu = "0.27.0"
 binary-compatibility-validator = "0.17.0"
 dokka = "2.0.0"
-html-reporter = "0.7.3"
 kotlin = "2.1.21"
-kotest = "5.9.1"
+kotest = { strictly = "[5.+, 6.0)" }
+kotest-html-reporter = { strictly = "[0.7.3, 0.8.0)" } # Version 0.8.0+ supports Kotest 6.0+
 kover = "0.9.1"
 kotlin-coroutines = "1.10.2"
 kotlin-datetime = "0.6.2"
@@ -14,11 +14,11 @@ slf4j = "2.0.17"
 spotless = "7.0.4"
 test-logger = "3.2.0"
 vanniktech = "0.32.0"
-android-library = { strictly = "[8.7, 8.8[" }
+android-library = { strictly = "[8.7, 8.8)" }
 
 [libraries]
-html-reporter = { module = "com.michaelstrasser:kotest-html-reporter", version.ref = "html-reporter" }
 kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
+kotest-html-reporter = { module = "com.michaelstrasser:kotest-html-reporter", version.ref = "kotest-html-reporter" }
 kotest-json = { module = "io.kotest:kotest-assertions-json", version.ref = "kotest" }
 kotest-junit = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }

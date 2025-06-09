@@ -53,7 +53,7 @@ dependencies {
 
     testImplementation(libs.kotest.junit)
     testImplementation(libs.kotest.datatest)
-    testImplementation(libs.html.reporter)
+    testImplementation(libs.kotest.html.reporter)
 }
 
 tasks.withType<Test> {
