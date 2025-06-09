@@ -51,15 +51,20 @@ internal actual fun sendToSeq(
 }
 
 /** Construct an HTTP connection to the Seq server. */
-private fun seqConnection(serverUrl: String, apiKey: String?, checkCertificate: Boolean): HttpURLConnection {
+private fun seqConnection(
+    serverUrl: String,
+    apiKey: String?,
+    checkCertificate: Boolean,
+): HttpURLConnection {
     val url = URL("$serverUrl/api/events/raw")
-    val conn = if (serverUrl.startsWith("https://")) {
-        (url.openConnection() as HttpsURLConnection).also {
-            if (!checkCertificate) Certificates.relaxHostChecking(it)
+    val conn =
+        if (serverUrl.startsWith("https://")) {
+            (url.openConnection() as HttpsURLConnection).also {
+                if (!checkCertificate) Certificates.relaxHostChecking(it)
+            }
+        } else {
+            url.openConnection() as HttpURLConnection
         }
-    } else {
-        url.openConnection() as HttpURLConnection
-    }
     conn.requestMethod = "POST"
     conn.setRequestProperty("Content-Type", "application/vnd.serilog.clef")
     if (apiKey != null) conn.setRequestProperty("X-Seq-ApiKey", apiKey)

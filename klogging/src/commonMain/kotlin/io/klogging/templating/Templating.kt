@@ -32,7 +32,10 @@ import io.klogging.events.EventItems
  *               each hole.
  * @return a map of the values, keyed by the text in each of the holes.
  */
-public fun templateItems(template: String, vararg values: Any?): EventItems {
+public fun templateItems(
+    template: String,
+    vararg values: Any?,
+): EventItems {
     val itemNames = extractItemNames(template)
     return itemNames.zip(values).toMap()
 }
@@ -54,19 +57,21 @@ internal fun extractItemNames(template: String): List<String> {
     var holeStart = 0
     template.forEachIndexed { i, c ->
         when (c) {
-            '{' -> if (state == TextOrHole.TEXT) {
-                holeStart = i
-                state = TextOrHole.HOLE
-            } else {
-                if (holeStart == i - 1) {
+            '{' ->
+                if (state == TextOrHole.TEXT) {
+                    holeStart = i
+                    state = TextOrHole.HOLE
+                } else {
+                    if (holeStart == i - 1) {
+                        state = TextOrHole.TEXT
+                    }
+                }
+
+            '}' ->
+                if (state == TextOrHole.HOLE) {
+                    if (i - holeStart > 1) itemNames.add(template.substring(holeStart + 1, i))
                     state = TextOrHole.TEXT
                 }
-            }
-
-            '}' -> if (state == TextOrHole.HOLE) {
-                if (i - holeStart > 1) itemNames.add(template.substring(holeStart + 1, i))
-                state = TextOrHole.TEXT
-            }
         }
     }
     return itemNames

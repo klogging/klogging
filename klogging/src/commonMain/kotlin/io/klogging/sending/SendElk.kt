@@ -32,7 +32,9 @@ public data class ElkEndpoint(
 /**
  * Send a batch of events to an ELK server in ECS format.
  */
-public class SendElk(private val endpoint: ElkEndpoint) : EventSender {
+public class SendElk(
+    private val endpoint: ElkEndpoint,
+) : EventSender {
     override fun invoke(batch: List<LogEvent>) {
         SendingLauncher.launch {
             sendToElk(endpoint, batch)
@@ -40,7 +42,11 @@ public class SendElk(private val endpoint: ElkEndpoint) : EventSender {
     }
 }
 
-internal expect fun sendToElk(endpoint: ElkEndpoint, batch: List<LogEvent>)
+internal expect fun sendToElk(
+    endpoint: ElkEndpoint,
+    batch: List<LogEvent>,
+)
 
-internal fun elkBatch(batch: List<LogEvent>): String = batch
-    .joinToString("\n") { RENDER_ECS(it) }
+internal fun elkBatch(batch: List<LogEvent>): String =
+    batch
+        .joinToString("\n") { RENDER_ECS(it) }

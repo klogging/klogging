@@ -28,41 +28,43 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.extensions.system.withEnvironment
 import io.kotest.matchers.shouldBe
 
-class ConfigurationExtensionsTest : DescribeSpec({
-    describe("`SinkConfiguration.updateRenderer` function") {
-        it("sets the renderer to RENDER_CLEF when the name is CLEF") {
-            val sinkConfig = SinkConfiguration(RENDER_SIMPLE, STDOUT)
-            sinkConfig.updateRenderer("CLEF").renderer shouldBe RENDER_CLEF
-        }
-        it("does not set the renderer when the name does not match a built-in one") {
-            val testRenderer: RenderString = object : RenderString {
-                override fun invoke(event: LogEvent): String = "Test"
+class ConfigurationExtensionsTest :
+    DescribeSpec({
+        describe("`SinkConfiguration.updateRenderer` function") {
+            it("sets the renderer to RENDER_CLEF when the name is CLEF") {
+                val sinkConfig = SinkConfiguration(RENDER_SIMPLE, STDOUT)
+                sinkConfig.updateRenderer("CLEF").renderer shouldBe RENDER_CLEF
             }
-            val sinkConfig = SinkConfiguration(testRenderer, STDERR)
-            sinkConfig.updateRenderer("JUNK").renderer shouldBe testRenderer
-        }
-    }
-    describe("`KloggingConfiguration.updateFromEnvironment` function") {
-        it("updates the output format when the sink and renderer names match") {
-            withEnvironment("KLOGGING_OUTPUT_FORMAT_STDOUT" to "CLEF") {
-                val config = KloggingConfiguration()
-                config.sinks["stdout"] = SinkConfiguration(RENDER_SIMPLE, STDOUT)
-                config.updateFromEnvironment().sinks["stdout"]?.renderer shouldBe RENDER_CLEF
+            it("does not set the renderer when the name does not match a built-in one") {
+                val testRenderer: RenderString =
+                    object : RenderString {
+                        override fun invoke(event: LogEvent): String = "Test"
+                    }
+                val sinkConfig = SinkConfiguration(testRenderer, STDERR)
+                sinkConfig.updateRenderer("JUNK").renderer shouldBe testRenderer
             }
         }
-        it("does not update the output format when the sink name does not match") {
-            withEnvironment("KLOGGING_OUTPUT_FORMAT_STDERR" to "CLEF") {
-                val config = KloggingConfiguration()
-                config.sinks["stdout"] = SinkConfiguration(RENDER_SIMPLE, STDOUT)
-                config.updateFromEnvironment().sinks["stdout"]?.renderer shouldBe RENDER_SIMPLE
+        describe("`KloggingConfiguration.updateFromEnvironment` function") {
+            it("updates the output format when the sink and renderer names match") {
+                withEnvironment("KLOGGING_OUTPUT_FORMAT_STDOUT" to "CLEF") {
+                    val config = KloggingConfiguration()
+                    config.sinks["stdout"] = SinkConfiguration(RENDER_SIMPLE, STDOUT)
+                    config.updateFromEnvironment().sinks["stdout"]?.renderer shouldBe RENDER_CLEF
+                }
+            }
+            it("does not update the output format when the sink name does not match") {
+                withEnvironment("KLOGGING_OUTPUT_FORMAT_STDERR" to "CLEF") {
+                    val config = KloggingConfiguration()
+                    config.sinks["stdout"] = SinkConfiguration(RENDER_SIMPLE, STDOUT)
+                    config.updateFromEnvironment().sinks["stdout"]?.renderer shouldBe RENDER_SIMPLE
+                }
+            }
+            it("does not update the output format when the renderer name does not match") {
+                withEnvironment("KLOGGING_OUTPUT_FORMAT_STDOUT" to "Test") {
+                    val config = KloggingConfiguration()
+                    config.sinks["stdout"] = SinkConfiguration(RENDER_SIMPLE, STDOUT)
+                    config.updateFromEnvironment().sinks["stdout"]?.renderer shouldBe RENDER_SIMPLE
+                }
             }
         }
-        it("does not update the output format when the renderer name does not match") {
-            withEnvironment("KLOGGING_OUTPUT_FORMAT_STDOUT" to "Test") {
-                val config = KloggingConfiguration()
-                config.sinks["stdout"] = SinkConfiguration(RENDER_SIMPLE, STDOUT)
-                config.updateFromEnvironment().sinks["stdout"]?.renderer shouldBe RENDER_SIMPLE
-            }
-        }
-    }
-})
+    })

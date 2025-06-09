@@ -28,7 +28,6 @@ import kotlinx.atomicfu.update
 internal class AtomicMutableList<E>(
     vararg elements: E,
 ) : MutableList<E> {
-
     private val list = atomic(listOf(*elements))
 
     override val size: Int
@@ -47,7 +46,10 @@ internal class AtomicMutableList<E>(
         return changed
     }
 
-    override fun addAll(index: Int, elements: Collection<E>): Boolean {
+    override fun addAll(
+        index: Int,
+        elements: Collection<E>,
+    ): Boolean {
         var changed = false
         list.update { current ->
             buildList {
@@ -58,7 +60,10 @@ internal class AtomicMutableList<E>(
         return changed
     }
 
-    override fun add(index: Int, element: E) = list.update { current ->
+    override fun add(
+        index: Int,
+        element: E,
+    ) = list.update { current ->
         buildList {
             addAll(current)
             add(index, element)
@@ -97,10 +102,15 @@ internal class AtomicMutableList<E>(
         return removed
     }
 
-    override fun subList(fromIndex: Int, toIndex: Int): MutableList<E> =
-        list.value.toMutableList().subList(fromIndex, toIndex)
+    override fun subList(
+        fromIndex: Int,
+        toIndex: Int,
+    ): MutableList<E> = list.value.toMutableList().subList(fromIndex, toIndex)
 
-    override fun set(index: Int, element: E): E {
+    override fun set(
+        index: Int,
+        element: E,
+    ): E {
         checkElementIndex(index, size)
         val replaced: E = get(index)
         list.update { current ->
@@ -156,7 +166,10 @@ internal class AtomicMutableList<E>(
     /**
      * Copied from Kotlin [AbstractList] internal code.
      */
-    private fun checkElementIndex(index: Int, size: Int) {
+    private fun checkElementIndex(
+        index: Int,
+        size: Int,
+    ) {
         if (index < 0 || index >= size) {
             throw IndexOutOfBoundsException("index: $index, size: $size")
         }

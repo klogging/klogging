@@ -35,57 +35,61 @@ import io.kotest.property.arbitrary.uuid
 import io.kotest.property.checkAll
 import kotlinx.coroutines.launch
 
-class LogEventTest : DescribeSpec({
-    describe("Constructing logging events") {
-        describe("with context items") {
-            it("does not include context items if there are none") {
-                val logger = logger("LogEventTest")
-                val saved = savedEvents()
-                logger.info("Test message")
-
-                saved.first().items.size shouldBe 0
-            }
-            it("includes any items from the coroutine log context") {
-                launch(logContext("colour" to "white")) {
+class LogEventTest :
+    DescribeSpec({
+        describe("Constructing logging events") {
+            describe("with context items") {
+                it("does not include context items if there are none") {
                     val logger = logger("LogEventTest")
                     val saved = savedEvents()
                     logger.info("Test message")
 
-                    saved.first().items shouldContain ("colour" to "white")
+                    saved.first().items.size shouldBe 0
                 }
-            }
-        }
-    }
+                it("includes any items from the coroutine log context") {
+                    launch(logContext("colour" to "white")) {
+                        val logger = logger("LogEventTest")
+                        val saved = savedEvents()
+                        logger.info("Test message")
 
-    describe("LogEvent.copyWith() extension function") {
-        it("appends supplied items to those already in the event") {
-            checkAll(genLoggerName, genString, Arb.uuid(), genMessage) { name, id, run, message ->
-                val event = LogEvent(
-                    logger = name,
-                    level = INFO,
-                    message = message,
-                    items = mapOf("id" to id),
-                )
-                with(event.copyWith(DEBUG, null, mapOf("run" to run))) {
-                    items shouldContainAll mapOf(
-                        "id" to id,
-                        "run" to run,
-                    )
+                        saved.first().items shouldContain ("colour" to "white")
+                    }
                 }
             }
         }
-        it("ignores any supplied items with the same keys as those already present") {
-            checkAll(genLoggerName, genMessage, Arb.uuid(), Arb.uuid()) { name, msg, run1, run2 ->
-                val event = LogEvent(
-                    logger = name,
-                    level = INFO,
-                    message = msg,
-                    items = mapOf("run" to run1),
-                )
-                with(event.copyWith(DEBUG, null, mapOf("run" to run2))) {
-                    items shouldBe mapOf("run" to run1)
+
+        describe("LogEvent.copyWith() extension function") {
+            it("appends supplied items to those already in the event") {
+                checkAll(genLoggerName, genString, Arb.uuid(), genMessage) { name, id, run, message ->
+                    val event =
+                        LogEvent(
+                            logger = name,
+                            level = INFO,
+                            message = message,
+                            items = mapOf("id" to id),
+                        )
+                    with(event.copyWith(DEBUG, null, mapOf("run" to run))) {
+                        items shouldContainAll
+                            mapOf(
+                                "id" to id,
+                                "run" to run,
+                            )
+                    }
+                }
+            }
+            it("ignores any supplied items with the same keys as those already present") {
+                checkAll(genLoggerName, genMessage, Arb.uuid(), Arb.uuid()) { name, msg, run1, run2 ->
+                    val event =
+                        LogEvent(
+                            logger = name,
+                            level = INFO,
+                            message = msg,
+                            items = mapOf("run" to run1),
+                        )
+                    with(event.copyWith(DEBUG, null, mapOf("run" to run2))) {
+                        items shouldBe mapOf("run" to run1)
+                    }
                 }
             }
         }
-    }
-})
+    })

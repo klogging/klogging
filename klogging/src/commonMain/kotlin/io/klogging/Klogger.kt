@@ -37,7 +37,6 @@ import io.klogging.events.LogEvent
  * @see NoCoLogger for the corresponding non-coroutine interface.
  */
 public interface Klogger : BaseLogger {
-
     /**
      * Emit a log event and associated throwable object at the specified severity level.
      *
@@ -59,7 +58,10 @@ public interface Klogger : BaseLogger {
      * @param level severity level of the log event
      * @param event a representation of the event, if any
      */
-    public suspend fun log(level: Level, event: Any?) {
+    public suspend fun log(
+        level: Level,
+        event: Any?,
+    ) {
         if (!isLevelEnabled(level)) return
         emitEvent(level, null, event)
     }
@@ -71,7 +73,11 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param event a representation of the event, if any
      */
-    public suspend fun log(level: Level, throwable: Throwable, event: Any?) {
+    public suspend fun log(
+        level: Level,
+        throwable: Throwable,
+        event: Any?,
+    ) {
         if (!isLevelEnabled(level)) return
         emitEvent(level, throwable, event)
     }
@@ -107,7 +113,11 @@ public interface Klogger : BaseLogger {
      * @param template a [message template](https://messagetemplates.org)
      * @param values values associated with holes in the message template
      */
-    public suspend fun log(level: Level, template: String, vararg values: Any?) {
+    public suspend fun log(
+        level: Level,
+        template: String,
+        vararg values: Any?,
+    ) {
         if (!isLevelEnabled(level)) return
         if (values.isEmpty()) {
             emitEvent(level, null, template)
@@ -123,7 +133,11 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param event lambda that returns a representation of the event
      */
-    public suspend fun log(level: Level, throwable: Throwable, event: suspend Klogger.() -> Any?) {
+    public suspend fun log(
+        level: Level,
+        throwable: Throwable,
+        event: suspend Klogger.() -> Any?,
+    ) {
         if (!isLevelEnabled(level)) return
         emitEvent(level, throwable, event())
     }
@@ -134,7 +148,10 @@ public interface Klogger : BaseLogger {
      * @param level severity level of the log event
      * @param event lambda that returns a representation of the event
      */
-    public suspend fun log(level: Level, event: suspend Klogger.() -> Any?) {
+    public suspend fun log(
+        level: Level,
+        event: suspend Klogger.() -> Any?,
+    ) {
         if (!isLevelEnabled(level)) return
         emitEvent(level, null, event())
     }
@@ -146,8 +163,11 @@ public interface Klogger : BaseLogger {
      * @param message message to include in the log event
      * @param items items to include in the log event
      */
-    public suspend fun log(level: Level, message: String, items: EventItems): Unit =
-        emitEvent(level, null, message, items)
+    public suspend fun log(
+        level: Level,
+        message: String,
+        items: EventItems,
+    ): Unit = emitEvent(level, null, message, items)
 
     /**
      * Log an event with an associated throwable, a message and an explicit set of items.
@@ -157,16 +177,19 @@ public interface Klogger : BaseLogger {
      * @param message message to include in the log event
      * @param items items to include in the log event
      */
-    public suspend fun log(level: Level, throwable: Throwable, message: String, items: EventItems): Unit =
-        emitEvent(level, throwable, message, items)
+    public suspend fun log(
+        level: Level,
+        throwable: Throwable,
+        message: String,
+        items: EventItems,
+    ): Unit = emitEvent(level, throwable, message, items)
 
     /**
      * Emit a log event at [TRACE] level.
      *
      * @param event a representation of the event
      */
-    public suspend fun trace(event: Any?): Unit =
-        log(TRACE, event)
+    public suspend fun trace(event: Any?): Unit = log(TRACE, event)
 
     /**
      * Emit a log event from a message template at [TRACE] level.
@@ -174,8 +197,10 @@ public interface Klogger : BaseLogger {
      * @param template a [message template](https://messagetemplates.org)
      * @param values values associated with holes in the message template
      */
-    public suspend fun trace(template: String, vararg values: Any?): Unit =
-        log(TRACE, template, *values)
+    public suspend fun trace(
+        template: String,
+        vararg values: Any?,
+    ): Unit = log(TRACE, template, *values)
 
     /**
      * Emit a log event and associated throwable object at [TRACE] level.
@@ -183,8 +208,10 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param event a representation of the event
      */
-    public suspend fun trace(throwable: Throwable, event: Any?): Unit =
-        log(WARN, throwable, event)
+    public suspend fun trace(
+        throwable: Throwable,
+        event: Any?,
+    ): Unit = log(WARN, throwable, event)
 
     /**
      * Emit a log event from a message template and associated throwable object at [TRACE] level.
@@ -193,16 +220,18 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param values values associated with holes in the message template
      */
-    public suspend fun trace(throwable: Throwable, template: String, vararg values: Any?): Unit =
-        log(TRACE, throwable, template, *values)
+    public suspend fun trace(
+        throwable: Throwable,
+        template: String,
+        vararg values: Any?,
+    ): Unit = log(TRACE, throwable, template, *values)
 
     /**
      * Emit a log event from a lambda at [TRACE] level.
      *
      * @param event lambda that returns a representation of the event
      */
-    public suspend fun trace(event: suspend Klogger.() -> Any?): Unit =
-        log(TRACE, event)
+    public suspend fun trace(event: suspend Klogger.() -> Any?): Unit = log(TRACE, event)
 
     /**
      * Emit a log event from a lambda and associated throwable object at [TRACE] level.
@@ -210,16 +239,17 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param event lambda that returns a representation of the event
      */
-    public suspend fun trace(throwable: Throwable, event: suspend Klogger.() -> Any?): Unit =
-        log(TRACE, throwable, event)
+    public suspend fun trace(
+        throwable: Throwable,
+        event: suspend Klogger.() -> Any?,
+    ): Unit = log(TRACE, throwable, event)
 
     /**
      * Emit a log event at [DEBUG] level.
      *
      * @param event a representation of the event
      */
-    public suspend fun debug(event: Any?): Unit =
-        log(DEBUG, event)
+    public suspend fun debug(event: Any?): Unit = log(DEBUG, event)
 
     /**
      * Emit a log event from a message template at [DEBUG] level.
@@ -227,8 +257,10 @@ public interface Klogger : BaseLogger {
      * @param template a [message template](https://messagetemplates.org)
      * @param values values associated with holes in the message template
      */
-    public suspend fun debug(template: String, vararg values: Any?): Unit =
-        log(DEBUG, template, *values)
+    public suspend fun debug(
+        template: String,
+        vararg values: Any?,
+    ): Unit = log(DEBUG, template, *values)
 
     /**
      * Emit a log event and associated throwable object at [DEBUG] level.
@@ -236,8 +268,10 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param event a representation of the event
      */
-    public suspend fun debug(throwable: Throwable, event: Any?): Unit =
-        log(DEBUG, throwable, event)
+    public suspend fun debug(
+        throwable: Throwable,
+        event: Any?,
+    ): Unit = log(DEBUG, throwable, event)
 
     /**
      * Emit a log event from a message template and associated throwable object at [DEBUG] level.
@@ -246,16 +280,18 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param values values associated with holes in the message template
      */
-    public suspend fun debug(throwable: Throwable, template: String, vararg values: Any?): Unit =
-        log(DEBUG, throwable, template, *values)
+    public suspend fun debug(
+        throwable: Throwable,
+        template: String,
+        vararg values: Any?,
+    ): Unit = log(DEBUG, throwable, template, *values)
 
     /**
      * Emit a log event from a lambda at [DEBUG] level.
      *
      * @param event lambda that returns a representation of the event
      */
-    public suspend fun debug(event: suspend Klogger.() -> Any?): Unit =
-        log(DEBUG, event)
+    public suspend fun debug(event: suspend Klogger.() -> Any?): Unit = log(DEBUG, event)
 
     /**
      * Emit a log event from a lambda and associated throwable object at [DEBUG] level.
@@ -263,16 +299,17 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param event lambda that returns a representation of the event
      */
-    public suspend fun debug(throwable: Throwable, event: suspend Klogger.() -> Any?): Unit =
-        log(DEBUG, throwable, event)
+    public suspend fun debug(
+        throwable: Throwable,
+        event: suspend Klogger.() -> Any?,
+    ): Unit = log(DEBUG, throwable, event)
 
     /**
      * Emit a log event at [INFO] level.
      *
      * @param event a representation of the event
      */
-    public suspend fun info(event: Any?): Unit =
-        log(INFO, event)
+    public suspend fun info(event: Any?): Unit = log(INFO, event)
 
     /**
      * Emit a log event from a message template at [INFO] level.
@@ -280,8 +317,10 @@ public interface Klogger : BaseLogger {
      * @param template a [message template](https://messagetemplates.org)
      * @param values values associated with holes in the message template
      */
-    public suspend fun info(template: String, vararg values: Any?): Unit =
-        log(INFO, template, *values)
+    public suspend fun info(
+        template: String,
+        vararg values: Any?,
+    ): Unit = log(INFO, template, *values)
 
     /**
      * Emit a log event and associated throwable object at [INFO] level.
@@ -289,8 +328,10 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param event a representation of the event
      */
-    public suspend fun info(throwable: Throwable, event: Any?): Unit =
-        log(INFO, throwable, event)
+    public suspend fun info(
+        throwable: Throwable,
+        event: Any?,
+    ): Unit = log(INFO, throwable, event)
 
     /**
      * Emit a log event from a message template and associated throwable object at [INFO] level.
@@ -299,16 +340,18 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param values values associated with holes in the message template
      */
-    public suspend fun info(throwable: Throwable, template: String, vararg values: Any?): Unit =
-        log(INFO, throwable, template, *values)
+    public suspend fun info(
+        throwable: Throwable,
+        template: String,
+        vararg values: Any?,
+    ): Unit = log(INFO, throwable, template, *values)
 
     /**
      * Emit a log event from a lambda at [INFO] level.
      *
      * @param event lambda that returns a representation of the event
      */
-    public suspend fun info(event: suspend Klogger.() -> Any?): Unit =
-        log(INFO, event)
+    public suspend fun info(event: suspend Klogger.() -> Any?): Unit = log(INFO, event)
 
     /**
      * Emit a log event from a lambda and associated throwable object at [INFO] level.
@@ -316,16 +359,17 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param event lambda that returns a representation of the event
      */
-    public suspend fun info(throwable: Throwable, event: suspend Klogger.() -> Any?): Unit =
-        log(INFO, throwable, event)
+    public suspend fun info(
+        throwable: Throwable,
+        event: suspend Klogger.() -> Any?,
+    ): Unit = log(INFO, throwable, event)
 
     /**
      * Emit a log event at [WARN] level.
      *
      * @param event a representation of the event
      */
-    public suspend fun warn(event: Any?): Unit =
-        log(WARN, event)
+    public suspend fun warn(event: Any?): Unit = log(WARN, event)
 
     /**
      * Emit a log event from a message template at [WARN] level.
@@ -333,8 +377,10 @@ public interface Klogger : BaseLogger {
      * @param template a [message template](https://messagetemplates.org)
      * @param values values associated with holes in the message template
      */
-    public suspend fun warn(template: String, vararg values: Any?): Unit =
-        log(WARN, template, *values)
+    public suspend fun warn(
+        template: String,
+        vararg values: Any?,
+    ): Unit = log(WARN, template, *values)
 
     /**
      * Emit a log event and associated throwable object at [WARN] level.
@@ -342,8 +388,10 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param event a representation of the event
      */
-    public suspend fun warn(throwable: Throwable, event: Any?): Unit =
-        log(WARN, throwable, event)
+    public suspend fun warn(
+        throwable: Throwable,
+        event: Any?,
+    ): Unit = log(WARN, throwable, event)
 
     /**
      * Emit a log event from a message template and associated throwable object at [WARN] level.
@@ -352,16 +400,18 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param values values associated with holes in the message template
      */
-    public suspend fun warn(throwable: Throwable, template: String, vararg values: Any?): Unit =
-        log(WARN, throwable, template, *values)
+    public suspend fun warn(
+        throwable: Throwable,
+        template: String,
+        vararg values: Any?,
+    ): Unit = log(WARN, throwable, template, *values)
 
     /**
      * Emit a log event from a lambda at [WARN] level.
      *
      * @param event lambda that returns a representation of the event
      */
-    public suspend fun warn(event: suspend Klogger.() -> Any?): Unit =
-        log(WARN, event)
+    public suspend fun warn(event: suspend Klogger.() -> Any?): Unit = log(WARN, event)
 
     /**
      * Emit a log event from a lambda and associated throwable object at [WARN] level.
@@ -369,16 +419,17 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param event lambda that returns a representation of the event
      */
-    public suspend fun warn(throwable: Throwable, event: suspend Klogger.() -> Any?): Unit =
-        log(WARN, throwable, event)
+    public suspend fun warn(
+        throwable: Throwable,
+        event: suspend Klogger.() -> Any?,
+    ): Unit = log(WARN, throwable, event)
 
     /**
      * Emit a log event at [ERROR] level.
      *
      * @param event a representation of the event
      */
-    public suspend fun error(event: Any?): Unit =
-        log(ERROR, event)
+    public suspend fun error(event: Any?): Unit = log(ERROR, event)
 
     /**
      * Emit a log event from a message template at [ERROR] level.
@@ -386,8 +437,10 @@ public interface Klogger : BaseLogger {
      * @param template a [message template](https://messagetemplates.org)
      * @param values values associated with holes in the message template
      */
-    public suspend fun error(template: String, vararg values: Any?): Unit =
-        log(ERROR, template, *values)
+    public suspend fun error(
+        template: String,
+        vararg values: Any?,
+    ): Unit = log(ERROR, template, *values)
 
     /**
      * Emit a log event and associated throwable object at [ERROR] level.
@@ -395,8 +448,10 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param event a representation of the event
      */
-    public suspend fun error(throwable: Throwable, event: Any?): Unit =
-        log(ERROR, throwable, event)
+    public suspend fun error(
+        throwable: Throwable,
+        event: Any?,
+    ): Unit = log(ERROR, throwable, event)
 
     /**
      * Emit a log event from a message template and associated throwable object at [INFO] level.
@@ -405,16 +460,18 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param values values associated with holes in the message template
      */
-    public suspend fun error(throwable: Throwable, template: String, vararg values: Any?): Unit =
-        log(ERROR, throwable, template, *values)
+    public suspend fun error(
+        throwable: Throwable,
+        template: String,
+        vararg values: Any?,
+    ): Unit = log(ERROR, throwable, template, *values)
 
     /**
      * Emit a log event from a lambda at [ERROR] level.
      *
      * @param event lambda that returns a representation of the event
      */
-    public suspend fun error(event: suspend Klogger.() -> Any?): Unit =
-        log(ERROR, event)
+    public suspend fun error(event: suspend Klogger.() -> Any?): Unit = log(ERROR, event)
 
     /**
      * Emit a log event from a lambda and associated throwable object at [ERROR] level.
@@ -422,16 +479,17 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param event lambda that returns a representation of the event
      */
-    public suspend fun error(throwable: Throwable, event: suspend Klogger.() -> Any?): Unit =
-        log(ERROR, throwable, event)
+    public suspend fun error(
+        throwable: Throwable,
+        event: suspend Klogger.() -> Any?,
+    ): Unit = log(ERROR, throwable, event)
 
     /**
      * Emit a log event at [FATAL] level.
      *
      * @param event a representation of the event
      */
-    public suspend fun fatal(event: Any?): Unit =
-        log(FATAL, event)
+    public suspend fun fatal(event: Any?): Unit = log(FATAL, event)
 
     /**
      * Emit a log event from a message template at [FATAL] level.
@@ -439,8 +497,10 @@ public interface Klogger : BaseLogger {
      * @param template a [message template](https://messagetemplates.org)
      * @param values values associated with holes in the message template
      */
-    public suspend fun fatal(template: String, vararg values: Any?): Unit =
-        log(FATAL, template, *values)
+    public suspend fun fatal(
+        template: String,
+        vararg values: Any?,
+    ): Unit = log(FATAL, template, *values)
 
     /**
      * Emit a log event and associated throwable object at [FATAL] level.
@@ -448,8 +508,10 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param event a representation of the event
      */
-    public suspend fun fatal(throwable: Throwable, event: Any?): Unit =
-        log(FATAL, throwable, event)
+    public suspend fun fatal(
+        throwable: Throwable,
+        event: Any?,
+    ): Unit = log(FATAL, throwable, event)
 
     /**
      * Emit a log event from a message template and associated throwable object at [FATAL] level.
@@ -458,16 +520,18 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param values values associated with holes in the message template
      */
-    public suspend fun fatal(throwable: Throwable, template: String, vararg values: Any?): Unit =
-        log(FATAL, throwable, template, *values)
+    public suspend fun fatal(
+        throwable: Throwable,
+        template: String,
+        vararg values: Any?,
+    ): Unit = log(FATAL, throwable, template, *values)
 
     /**
      * Emit a log event from a lambda at [FATAL] level.
      *
      * @param event lambda that returns a representation of the event
      */
-    public suspend fun fatal(event: suspend Klogger.() -> Any?): Unit =
-        log(FATAL, event)
+    public suspend fun fatal(event: suspend Klogger.() -> Any?): Unit = log(FATAL, event)
 
     /**
      * Emit a log event from a lambda and associated throwable object at [FATAL] level.
@@ -475,8 +539,10 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param event lambda that returns a representation of the event
      */
-    public suspend fun fatal(throwable: Throwable, event: suspend Klogger.() -> Any?): Unit =
-        log(FATAL, throwable, event)
+    public suspend fun fatal(
+        throwable: Throwable,
+        event: suspend Klogger.() -> Any?,
+    ): Unit = log(FATAL, throwable, event)
 
     /**
      * Emit a log event with a message and an explicit map of items at [TRACE] level.
@@ -484,7 +550,10 @@ public interface Klogger : BaseLogger {
      * @param message the message
      * @param items a map of items to include in the log event
      */
-    public suspend fun trace(message: String, items: EventItems): Unit = log(TRACE, message, items)
+    public suspend fun trace(
+        message: String,
+        items: EventItems,
+    ): Unit = log(TRACE, message, items)
 
     /**
      * Emit a log event with a message and an explicit map of items at [DEBUG] level.
@@ -492,7 +561,10 @@ public interface Klogger : BaseLogger {
      * @param message the message
      * @param items a map of items to include in the log event
      */
-    public suspend fun debug(message: String, items: EventItems): Unit = log(DEBUG, message, items)
+    public suspend fun debug(
+        message: String,
+        items: EventItems,
+    ): Unit = log(DEBUG, message, items)
 
     /**
      * Emit a log event with a message and an explicit map of items at [INFO] level.
@@ -500,7 +572,10 @@ public interface Klogger : BaseLogger {
      * @param message the message
      * @param items a map of items to include in the log event
      */
-    public suspend fun info(message: String, items: EventItems): Unit = log(INFO, message, items)
+    public suspend fun info(
+        message: String,
+        items: EventItems,
+    ): Unit = log(INFO, message, items)
 
     /**
      * Emit a log event with a message and an explicit map of items at [WARN] level.
@@ -508,7 +583,10 @@ public interface Klogger : BaseLogger {
      * @param message the message
      * @param items a map of items to include in the log event
      */
-    public suspend fun warn(message: String, items: EventItems): Unit = log(WARN, message, items)
+    public suspend fun warn(
+        message: String,
+        items: EventItems,
+    ): Unit = log(WARN, message, items)
 
     /**
      * Emit a log event with a message and an explicit map of items at [ERROR] level.
@@ -516,7 +594,10 @@ public interface Klogger : BaseLogger {
      * @param message the message
      * @param items a map of items to include in the log event
      */
-    public suspend fun error(message: String, items: EventItems): Unit = log(ERROR, message, items)
+    public suspend fun error(
+        message: String,
+        items: EventItems,
+    ): Unit = log(ERROR, message, items)
 
     /**
      * Emit a log event with a message and an explicit map of items at [FATAL] level.
@@ -524,7 +605,10 @@ public interface Klogger : BaseLogger {
      * @param message the message
      * @param items a map of items to include in the log event
      */
-    public suspend fun fatal(message: String, items: EventItems): Unit = log(FATAL, message, items)
+    public suspend fun fatal(
+        message: String,
+        items: EventItems,
+    ): Unit = log(FATAL, message, items)
 
     /**
      * Emit a log event with a message, associated throwable object and an explicit map of items at [TRACE] level.
@@ -533,8 +617,11 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param items a map of items to include in the log event
      */
-    public suspend fun trace(message: String, throwable: Throwable, items: EventItems): Unit =
-        log(TRACE, throwable, message, items)
+    public suspend fun trace(
+        message: String,
+        throwable: Throwable,
+        items: EventItems,
+    ): Unit = log(TRACE, throwable, message, items)
 
     /**
      * Emit a log event with a message, associated throwable object and an explicit map of items at [DEBUG] level.
@@ -543,8 +630,11 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param items a map of items to include in the log event
      */
-    public suspend fun debug(message: String, throwable: Throwable, items: EventItems): Unit =
-        log(DEBUG, throwable, message, items)
+    public suspend fun debug(
+        message: String,
+        throwable: Throwable,
+        items: EventItems,
+    ): Unit = log(DEBUG, throwable, message, items)
 
     /**
      * Emit a log event with a message, associated throwable object and an explicit map of items at [INFO] level.
@@ -553,8 +643,11 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param items a map of items to include in the log event
      */
-    public suspend fun info(message: String, throwable: Throwable, items: EventItems): Unit =
-        log(INFO, throwable, message, items)
+    public suspend fun info(
+        message: String,
+        throwable: Throwable,
+        items: EventItems,
+    ): Unit = log(INFO, throwable, message, items)
 
     /**
      * Emit a log event with a message, associated throwable object and an explicit map of items at [WARN] level.
@@ -563,8 +656,11 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param items a map of items to include in the log event
      */
-    public suspend fun warn(message: String, throwable: Throwable, items: EventItems): Unit =
-        log(WARN, throwable, message, items)
+    public suspend fun warn(
+        message: String,
+        throwable: Throwable,
+        items: EventItems,
+    ): Unit = log(WARN, throwable, message, items)
 
     /**
      * Emit a log event with a message, associated throwable object and an explicit map of items at [ERROR] level.
@@ -573,8 +669,11 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param items a map of items to include in the log event
      */
-    public suspend fun error(message: String, throwable: Throwable, items: EventItems): Unit =
-        log(ERROR, throwable, message, items)
+    public suspend fun error(
+        message: String,
+        throwable: Throwable,
+        items: EventItems,
+    ): Unit = log(ERROR, throwable, message, items)
 
     /**
      * Emit a log event with a message, associated throwable object and an explicit map of items at [FATAL] level.
@@ -583,8 +682,11 @@ public interface Klogger : BaseLogger {
      * @param throwable a throwable object associated with this event
      * @param items a map of items to include in the log event
      */
-    public suspend fun fatal(message: String, throwable: Throwable, items: EventItems): Unit =
-        log(FATAL, throwable, message, items)
+    public suspend fun fatal(
+        message: String,
+        throwable: Throwable,
+        items: EventItems,
+    ): Unit = log(FATAL, throwable, message, items)
 
     /**
      * Evaluates a message template with the supplied values, returning an event.
@@ -593,5 +695,8 @@ public interface Klogger : BaseLogger {
      * @param values values associated with holes in the message template
      */
     @Suppress("IDENTIFIER_LENGTH")
-    public suspend fun e(template: String, vararg values: Any?): LogEvent
+    public suspend fun e(
+        template: String,
+        vararg values: Any?,
+    ): LogEvent
 }

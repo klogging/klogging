@@ -66,16 +66,13 @@ public fun noCoLogger(
 ): NoCoLogger = noCoLoggerFor(classNameOf(ownerClass), *loggerContextItems, otherLogger = otherLogger)
 
 /** Returns a [NoCoLogger] with the name of the specified class. */
-public inline fun <reified T> noCoLogger(
-    vararg loggerContextItems: ContextItem,
-): NoCoLogger =
+public inline fun <reified T> noCoLogger(vararg loggerContextItems: ContextItem): NoCoLogger =
     noCoLogger(T::class, *loggerContextItems)
 
 public inline fun <reified T> noCoLogger(
     otherLogger: BaseLogger?,
     vararg loggerContextItems: ContextItem,
-): NoCoLogger =
-    noCoLogger(T::class, otherLogger, *loggerContextItems)
+): NoCoLogger = noCoLogger(T::class, otherLogger, *loggerContextItems)
 
 /**
  * Utility interface that supplies a [NoCoLogger] property called `logger`.

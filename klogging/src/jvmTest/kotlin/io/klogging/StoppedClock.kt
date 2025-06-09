@@ -12,8 +12,9 @@ import kotlin.time.Duration
  *
  * @param start starting instant
  */
-class StoppedClock(start: Instant) : Clock {
-
+class StoppedClock(
+    start: Instant,
+) : Clock {
     /**
      * Atomic holder whose current value will be returned on every call to [now].
      */

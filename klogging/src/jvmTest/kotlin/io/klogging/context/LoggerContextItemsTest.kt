@@ -25,45 +25,46 @@ import io.klogging.savedEvents
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContain
 
-class LoggerContextItemsTest : DescribeSpec({
-    describe("Kloggers with logger context items") {
-        it("include a single context item in logging output") {
-            val events = savedEvents()
-            val loggerContextItem = randomString() to randomString()
-            logger(randomString(), loggerContextItem).info(randomString())
-            events.first().items.shouldContain(loggerContextItem)
+class LoggerContextItemsTest :
+    DescribeSpec({
+        describe("Kloggers with logger context items") {
+            it("include a single context item in logging output") {
+                val events = savedEvents()
+                val loggerContextItem = randomString() to randomString()
+                logger(randomString(), loggerContextItem).info(randomString())
+                events.first().items.shouldContain(loggerContextItem)
+            }
+            it("include multiple context items in logging output") {
+                val events = savedEvents()
+                val item1 = randomString() to randomString()
+                val item2 = randomString() to randomString()
+                logger(randomString(), item1, item2).info(randomString())
+                events.first().items.shouldContain(item1)
+                events.first().items.shouldContain(item2)
+            }
         }
-        it("include multiple context items in logging output") {
-            val events = savedEvents()
-            val item1 = randomString() to randomString()
-            val item2 = randomString() to randomString()
-            logger(randomString(), item1, item2).info(randomString())
-            events.first().items.shouldContain(item1)
-            events.first().items.shouldContain(item2)
+        describe("NoCoLoggers with logger context items") {
+            it("include a single context item in logging output") {
+                val events = savedEvents()
+                val loggerContextItem = randomString() to randomString()
+                noCoLogger(randomString(), loggerContextItem).info(randomString())
+                events.first().items.shouldContain(loggerContextItem)
+            }
+            it("include multiple context items in logging output") {
+                val events = savedEvents()
+                val item1 = randomString() to randomString()
+                val item2 = randomString() to randomString()
+                noCoLogger(randomString(), item1, item2).info(randomString())
+                events.first().items.shouldContain(item1)
+                events.first().items.shouldContain(item2)
+            }
         }
-    }
-    describe("NoCoLoggers with logger context items") {
-        it("include a single context item in logging output") {
-            val events = savedEvents()
-            val loggerContextItem = randomString() to randomString()
-            noCoLogger(randomString(), loggerContextItem).info(randomString())
-            events.first().items.shouldContain(loggerContextItem)
+        describe("Loggers with context items from other loggers") {
+            it("include those context items in logging output") {
+                val events = savedEvents()
+                val loggerContextItem = randomString() to randomString()
+                logger(randomString(), noCoLogger(randomString(), loggerContextItem)).info(randomString())
+                events.first().items.shouldContain(loggerContextItem)
+            }
         }
-        it("include multiple context items in logging output") {
-            val events = savedEvents()
-            val item1 = randomString() to randomString()
-            val item2 = randomString() to randomString()
-            noCoLogger(randomString(), item1, item2).info(randomString())
-            events.first().items.shouldContain(item1)
-            events.first().items.shouldContain(item2)
-        }
-    }
-    describe("Loggers with context items from other loggers") {
-        it("include those context items in logging output") {
-            val events = savedEvents()
-            val loggerContextItem = randomString() to randomString()
-            logger(randomString(), noCoLogger(randomString(), loggerContextItem)).info(randomString())
-            events.first().items.shouldContain(loggerContextItem)
-        }
-    }
-})
+    })

@@ -38,26 +38,28 @@ import io.klogging.events.LogEvent
  * - `context` (if present) -> `context` in `labels` object
  * - `items` (if present) -> `metadata` (object)
  */
-public val RENDER_ECS_DOTNET: RenderString = RenderString { event ->
-    val eventMap: MutableMap<String, Any?> = mutableMapOf(
-        "@timestamp" to event.timestamp,
-        "host.name" to event.host,
-        "log" to mapOf("logger" to event.logger),
-        "log.level" to event.level.name,
-        "message" to event.evalTemplate(),
-        "error.stack_trace" to event.stackTrace,
-        "error.message" to event.stackTrace?.let { event.evalTemplate() },
-    )
-    if (event.context != null) {
-        eventMap += "labels" to mapOf("context" to event.context)
-    }
-    val metadata = mutableMapOf<String, Any?>().apply { putAll(event.items.destructured) }
-    if (event.template != null) {
-        metadata += "message_template" to event.template
-    }
-    if (metadata.isNotEmpty()) {
-        eventMap += "metadata" to metadata
-    }
+public val RENDER_ECS_DOTNET: RenderString =
+    RenderString { event ->
+        val eventMap: MutableMap<String, Any?> =
+            mutableMapOf(
+                "@timestamp" to event.timestamp,
+                "host.name" to event.host,
+                "log" to mapOf("logger" to event.logger),
+                "log.level" to event.level.name,
+                "message" to event.evalTemplate(),
+                "error.stack_trace" to event.stackTrace,
+                "error.message" to event.stackTrace?.let { event.evalTemplate() },
+            )
+        if (event.context != null) {
+            eventMap += "labels" to mapOf("context" to event.context)
+        }
+        val metadata = mutableMapOf<String, Any?>().apply { putAll(event.items.destructured) }
+        if (event.template != null) {
+            metadata += "message_template" to event.template
+        }
+        if (metadata.isNotEmpty()) {
+            eventMap += "metadata" to metadata
+        }
 
-    serializeMap(eventMap.filterValues { it != null })
-}
+        serializeMap(eventMap.filterValues { it != null })
+    }

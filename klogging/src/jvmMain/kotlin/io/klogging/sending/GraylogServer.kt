@@ -31,15 +31,19 @@ import java.net.InetAddress
  * @param endpoint [Endpoint] of the Graylog server
  * @param eventString GELF-formatted log event
  */
-internal actual fun sendToGraylog(endpoint: Endpoint, eventString: String) {
+internal actual fun sendToGraylog(
+    endpoint: Endpoint,
+    eventString: String,
+) {
     val bytes = eventString.toByteArray()
-    val packet = DatagramPacket(
-        bytes,
-        0,
-        bytes.size,
-        InetAddress.getByName(endpoint.host),
-        endpoint.port,
-    )
+    val packet =
+        DatagramPacket(
+            bytes,
+            0,
+            bytes.size,
+            InetAddress.getByName(endpoint.host),
+            endpoint.port,
+        )
     try {
         trace("Graylog", "Sending GELF event in context ${Thread.currentThread().name}")
         DatagramSocket().use { it.send(packet) }

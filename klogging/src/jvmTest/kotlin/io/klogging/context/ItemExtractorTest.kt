@@ -25,63 +25,64 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.maps.shouldContainExactly
 
-class ItemExtractorTest : DescribeSpec({
-    afterTest { Context.clearItemExtractors() }
-    describe("Item extractor function") {
-        val logger = logger<ItemExtractorTest>()
-        it("is not used if not set") {
-            val saved = savedEvents()
+class ItemExtractorTest :
+    DescribeSpec({
+        afterTest { Context.clearItemExtractors() }
+        describe("Item extractor function") {
+            val logger = logger<ItemExtractorTest>()
+            it("is not used if not set") {
+                val saved = savedEvents()
 
-            logger.info("No items here")
+                logger.info("No items here")
 
-            saved.first().items.shouldBeEmpty()
+                saved.first().items.shouldBeEmpty()
+            }
+            it("adds to Klogger events with simple text messages") {
+                val saved = savedEvents()
+                Context.addItemExtractor { mapOf("one" to "two") }
+
+                logger.info("An event")
+
+                saved.first().items.shouldContainExactly(mapOf("one" to "two"))
+            }
+            it("adds to Klogger events with templated messages") {
+                val saved = savedEvents()
+                Context.addItemExtractor { mapOf("one" to "two") }
+
+                logger.info("Hello, {name}", "Fred")
+
+                saved.first().items.shouldContainExactly(mapOf("one" to "two", "name" to "Fred"))
+            }
+            it("can add Java thread-local values") {
+                val saved = savedEvents()
+                val threadLocal = JavaThreadLocalExtractor("value")
+                Context.addItemExtractor(threadLocal.itemExtractor("item"))
+
+                logger.info("Hello {name}", "John")
+
+                saved.first().items.shouldContainExactly(mapOf("name" to "John", "item" to "value"))
+                threadLocal.clear()
+            }
+            it("adds items to NoCoLogger events with simple text messages") {
+                val ncLogger = noCoLogger<ItemExtractorTest>()
+                val saved = savedEvents()
+                Context.addItemExtractor { mapOf("coroutine?" to "nope") }
+
+                ncLogger.info("This happened")
+
+                saved.first().items.shouldContainExactly(mapOf("coroutine?" to "nope"))
+            }
+            it("adds items to NoCoLogger events with templated messages") {
+                val ncLogger = noCoLogger<ItemExtractorTest>()
+                val saved = savedEvents()
+                Context.addItemExtractor { mapOf("coroutine?" to "nope") }
+
+                ncLogger.info("This happened to {whom}", "Wallace")
+
+                saved.first().items.shouldContainExactly(mapOf("coroutine?" to "nope", "whom" to "Wallace"))
+            }
         }
-        it("adds to Klogger events with simple text messages") {
-            val saved = savedEvents()
-            Context.addItemExtractor { mapOf("one" to "two") }
-
-            logger.info("An event")
-
-            saved.first().items.shouldContainExactly(mapOf("one" to "two"))
-        }
-        it("adds to Klogger events with templated messages") {
-            val saved = savedEvents()
-            Context.addItemExtractor { mapOf("one" to "two") }
-
-            logger.info("Hello, {name}", "Fred")
-
-            saved.first().items.shouldContainExactly(mapOf("one" to "two", "name" to "Fred"))
-        }
-        it("can add Java thread-local values") {
-            val saved = savedEvents()
-            val threadLocal = JavaThreadLocalExtractor("value")
-            Context.addItemExtractor(threadLocal.itemExtractor("item"))
-
-            logger.info("Hello {name}", "John")
-
-            saved.first().items.shouldContainExactly(mapOf("name" to "John", "item" to "value"))
-            threadLocal.clear()
-        }
-        it("adds items to NoCoLogger events with simple text messages") {
-            val ncLogger = noCoLogger<ItemExtractorTest>()
-            val saved = savedEvents()
-            Context.addItemExtractor { mapOf("coroutine?" to "nope") }
-
-            ncLogger.info("This happened")
-
-            saved.first().items.shouldContainExactly(mapOf("coroutine?" to "nope"))
-        }
-        it("adds items to NoCoLogger events with templated messages") {
-            val ncLogger = noCoLogger<ItemExtractorTest>()
-            val saved = savedEvents()
-            Context.addItemExtractor { mapOf("coroutine?" to "nope") }
-
-            ncLogger.info("This happened to {whom}", "Wallace")
-
-            saved.first().items.shouldContainExactly(mapOf("coroutine?" to "nope", "whom" to "Wallace"))
-        }
-    }
-})
+    })
 
 private class JavaThreadLocalExtractor(
     private val value: String,

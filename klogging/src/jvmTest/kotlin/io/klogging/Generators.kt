@@ -31,17 +31,21 @@ import io.kotest.property.arbitrary.withEdgecases
 import io.kotest.property.exhaustive.enum
 
 fun Codepoint.Companion.identifier(): Arb<Codepoint> =
-    Arb.of(((('a'..'z') + ('A'..'Z')).toList() + listOf('.', '_')).map { Codepoint(it.code) })
+    Arb
+        .of(((('a'..'z') + ('A'..'Z')).toList() + listOf('.', '_')).map { Codepoint(it.code) })
         .withEdgecases(Codepoint('.'.code))
 
-class TestException(message: String) : Exception(message)
+class TestException(
+    message: String,
+) : Exception(message)
 
 val genLoggerName = Arb.string(1, 60, Codepoint.identifier())
 val genLevel = Exhaustive.enum<Level>()
 val genMessage = Arb.string(1, 120)
 val genString = Arb.string(1, 20, Codepoint.alphanumeric())
 val genException = genMessage.map { message -> Exception(message).fillInStackTrace() }
-val genLogEvent = Arb.bind(genLoggerName, genLevel.toArb(), genMessage) { name, level, message ->
-    LogEvent(logger = name, level = level, message = message)
-}
+val genLogEvent =
+    Arb.bind(genLoggerName, genLevel.toArb(), genMessage) { name, level, message ->
+        LogEvent(logger = name, level = level, message = message)
+    }
 val genItem = Arb.bind(genString, genString) { key, value -> key to value }

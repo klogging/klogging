@@ -36,7 +36,6 @@ import kotlin.coroutines.CoroutineContext
  * All static state should be managed here.
  */
 internal object KloggingEngine {
-
     /** Default, empty configuration. */
     private val DEFAULT_CONFIG = KloggingConfiguration()
 

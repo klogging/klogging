@@ -38,10 +38,15 @@ public val Instant.localTime: String
 
 // ANSI colour escapes
 private const val ESC = "\u001B["
+
 public fun grey(str: String): String = "${ESC}90m$str${ESC}0m"
+
 public fun green(str: String): String = "${ESC}32m$str${ESC}0m"
+
 public fun yellow(str: String): String = "${ESC}33m$str${ESC}0m"
+
 public fun red(str: String): String = "${ESC}31m$str${ESC}0m"
+
 public fun brightRed(str: String): String = "${ESC}91m$str${ESC}0m"
 
 // Right-aligned level name in 5 character space.
@@ -50,30 +55,33 @@ private val Level.rpad5: String
 
 internal fun Level.rpad(width: Int): String {
     val padWidth = max(1, width)
-    return if (padWidth > name.length)
-        (" ".repeat(padWidth) + name).let { it.substring(it.length - padWidth)}
-    else
+    return if (padWidth > name.length) {
+        (" ".repeat(padWidth) + name).let { it.substring(it.length - padWidth) }
+    } else {
         name.substring(0, padWidth)
+    }
 }
 
 /** Render a level in colour using ANSI colour escapes. */
 public val Level.colour5: String
-    get() = when (this) {
-        TRACE -> grey(rpad5)
-        DEBUG -> rpad5
-        INFO -> green(rpad5)
-        WARN -> yellow(rpad5)
-        ERROR -> red(rpad5)
-        FATAL -> brightRed(rpad5)
-        else -> rpad5
-    }
+    get() =
+        when (this) {
+            TRACE -> grey(rpad5)
+            DEBUG -> rpad5
+            INFO -> green(rpad5)
+            WARN -> yellow(rpad5)
+            ERROR -> red(rpad5)
+            FATAL -> brightRed(rpad5)
+            else -> rpad5
+        }
 
 /**
  * Shortens a character sequence and right-pads it if shorter than the specified width.
  */
-public fun CharSequence.shortenRight(width: Int): CharSequence = this
-    .shortenName(width)
-    .padRight(width)
+public fun CharSequence.shortenRight(width: Int): CharSequence =
+    this
+        .shortenName(width)
+        .padRight(width)
 
 /**
  * Right-pads a character sequence within the specified width if it fits; else the
@@ -109,13 +117,14 @@ public fun CharSequence.shortenName(width: Int = DEFAULT_MAX_WIDTH): CharSequenc
  * Extension property that extracts the list of items and stack trace if present in a [LogEvent].
  */
 public val LogEvent.itemsAndStackTrace: String
-    get() = buildString {
-        if (items.isNotEmpty()) {
-            append(" : ")
-            append(items)
+    get() =
+        buildString {
+            if (items.isNotEmpty()) {
+                append(" : ")
+                append(items)
+            }
+            stackTrace?.let { stackTrace ->
+                append("\n")
+                append(stackTrace)
+            }
         }
-        stackTrace?.let { stackTrace ->
-            append("\n")
-            append(stackTrace)
-        }
-    }

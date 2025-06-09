@@ -21,7 +21,11 @@ package io.klogging.sending
 import io.klogging.events.LogEvent
 import io.klogging.rendering.RenderString
 
-internal actual fun sendToSplunk(endpoint: SplunkEndpoint, renderer: RenderString, batch: List<LogEvent>) {
+internal actual fun sendToSplunk(
+    endpoint: SplunkEndpoint,
+    renderer: RenderString,
+    batch: List<LogEvent>,
+) {
     TODO("Not yet implemented")
 }
 

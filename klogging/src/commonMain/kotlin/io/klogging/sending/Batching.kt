@@ -45,7 +45,8 @@ public suspend fun <E> receiveBatch(
     whileSelect {
         onTimeout(maxTimeMillis) { false }
         channel.onReceiveCatching { result ->
-            result.onFailure { if (it != null) throw it }
+            result
+                .onFailure { if (it != null) throw it }
                 .onClosed { return@onReceiveCatching false }
                 .onSuccess { batch += it }
             batch.size < maxSize

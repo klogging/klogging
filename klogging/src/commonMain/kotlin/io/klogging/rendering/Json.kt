@@ -28,17 +28,21 @@ import kotlinx.serialization.json.JsonPrimitive
 /**
  * Serialize a map with string keys to JSON.
  */
-public fun serializeMap(map: EventItems, omitNullValues: Boolean = true): String {
+public fun serializeMap(
+    map: EventItems,
+    omitNullValues: Boolean = true,
+): String {
     val element = map.toJsonElement(omitNullValues)
     return element.toString()
 }
 
-private fun primitive(value: Any?): JsonPrimitive = when (value) {
-    null -> JsonNull
-    is Number -> JsonPrimitive(value)
-    is Boolean -> JsonPrimitive(value)
-    else -> JsonPrimitive(value.toString())
-}
+private fun primitive(value: Any?): JsonPrimitive =
+    when (value) {
+        null -> JsonNull
+        is Number -> JsonPrimitive(value)
+        is Boolean -> JsonPrimitive(value)
+        else -> JsonPrimitive(value.toString())
+    }
 
 private fun List<*>.toJsonElement(omitNullValues: Boolean): JsonElement {
     val list: MutableList<JsonElement> = mutableListOf()

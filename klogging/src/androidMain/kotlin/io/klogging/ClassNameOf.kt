@@ -13,4 +13,3 @@ import kotlin.reflect.KClass
  * 2. Kotlin reflection is only supported for JVM, not for JS
  */
 internal actual fun classNameOf(ownerClass: KClass<*>): String? = ownerClass.qualifiedName
-

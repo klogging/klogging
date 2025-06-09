@@ -19,9 +19,9 @@
 package io.klogging.internal
 
 import io.klogging.config.ENV_KLOGGING_COROUTINE_THREADS
+import io.klogging.config.ENV_KLOGGING_DISPATCHERS_IO
 import io.klogging.config.ENV_KLOGGING_FF_EXECUTOR_THREAD_POOL
 import io.klogging.config.ENV_KLOGGING_FF_GLOBAL_SCOPE
-import io.klogging.config.ENV_KLOGGING_DISPATCHERS_IO
 import io.klogging.config.getenvBoolean
 import io.klogging.config.getenvInt
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -67,9 +67,10 @@ internal actual fun parentContext(): CoroutineContext =
             "Coroutines",
             "Creating parent context for Klogging with pool of $kloggingThreadPoolSize threads",
         )
-        Executors.newFixedThreadPool(kloggingThreadPoolSize) { r ->
-            Thread(r, "klogging-${threadCount.incrementAndGet()}")
-        }.asCoroutineDispatcher()
+        Executors
+            .newFixedThreadPool(kloggingThreadPoolSize) { r ->
+                Thread(r, "klogging-${threadCount.incrementAndGet()}")
+            }.asCoroutineDispatcher()
     } else if (getenvBoolean(ENV_KLOGGING_FF_GLOBAL_SCOPE, false)) {
         debug("Coroutines", "Creating parent context for Klogging using GlobalScope")
         GlobalScope.coroutineContext

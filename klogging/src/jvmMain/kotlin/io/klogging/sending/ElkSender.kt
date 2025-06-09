@@ -26,7 +26,10 @@ import java.net.HttpURLConnection
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
-internal actual fun sendToElk(endpoint: ElkEndpoint, batch: List<LogEvent>) {
+internal actual fun sendToElk(
+    endpoint: ElkEndpoint,
+    batch: List<LogEvent>,
+) {
     val conn = elkConnection(endpoint)
     try {
         trace("ELK", "Sending events to ELK in context ${Thread.currentThread().name}")

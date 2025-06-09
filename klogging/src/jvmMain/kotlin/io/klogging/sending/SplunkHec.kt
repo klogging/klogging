@@ -27,7 +27,11 @@ import java.net.HttpURLConnection
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
-internal actual fun sendToSplunk(endpoint: SplunkEndpoint, renderer: RenderString, batch: List<LogEvent>) {
+internal actual fun sendToSplunk(
+    endpoint: SplunkEndpoint,
+    renderer: RenderString,
+    batch: List<LogEvent>,
+) {
     val conn = hecConnection(endpoint.hecUrl, endpoint.hecToken, endpoint.checkCertificate == "true")
     try {
         trace("Splunk", "Sending events to Splunk in context ${Thread.currentThread().name}")
@@ -41,7 +45,11 @@ internal actual fun sendToSplunk(endpoint: SplunkEndpoint, renderer: RenderStrin
     }
 }
 
-private fun hecConnection(hecUrl: String, hecToken: String, checkCertificate: Boolean): HttpURLConnection {
+private fun hecConnection(
+    hecUrl: String,
+    hecToken: String,
+    checkCertificate: Boolean,
+): HttpURLConnection {
     val conn =
         URL("$hecUrl/services/collector/event").openConnection() as HttpsURLConnection
     if (!checkCertificate) {

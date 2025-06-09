@@ -20,8 +20,9 @@ package io.klogging.sending
 
 import io.klogging.internal.printErr
 
-public actual val STDERR: SendString = object : SendString {
-    override fun invoke(eventString: String) {
-        printErr(eventString)
+public actual val STDERR: SendString =
+    object : SendString {
+        override fun invoke(eventString: String) {
+            printErr(eventString)
+        }
     }
-}

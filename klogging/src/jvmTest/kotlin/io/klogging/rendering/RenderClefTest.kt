@@ -26,16 +26,27 @@ import io.klogging.randomString
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 
-class RenderClefTest : DescribeSpec({
-    describe("Render a `LogEvent` to CLEF") {
-        it("omits @x if `stackTrace` is null") {
-            val ts = timestampNow()
-            val event = LogEvent(
-                randomString(), ts, "test.local", "Test", threadContext(), INFO,
-                null, "Message", null, mapOf(),
-            )
+class RenderClefTest :
+    DescribeSpec({
+        describe("Render a `LogEvent` to CLEF") {
+            it("omits @x if `stackTrace` is null") {
+                val ts = timestampNow()
+                val event =
+                    LogEvent(
+                        randomString(),
+                        ts,
+                        "test.local",
+                        "Test",
+                        threadContext(),
+                        INFO,
+                        null,
+                        "Message",
+                        null,
+                        mapOf(),
+                    )
 
-            RENDER_CLEF(event) shouldBe """{
+                RENDER_CLEF(event) shouldBe
+                    """{
             |"@t":"${event.timestamp}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
@@ -43,18 +54,27 @@ class RenderClefTest : DescribeSpec({
             |"context":"${event.context}",
             |"@m":"${event.message}"
             |}
-            """.trimMargin().replace("\n", "")
-        }
-        it("includes @x if `stackTrace` is present") {
-            val ts = timestampNow()
-            val trace = randomString()
-            val event =
-                LogEvent(
-                    randomString(), ts, "test.local", "Test", threadContext(), INFO,
-                    null, "Message", trace, mapOf(),
-                )
+                    """.trimMargin().replace("\n", "")
+            }
+            it("includes @x if `stackTrace` is present") {
+                val ts = timestampNow()
+                val trace = randomString()
+                val event =
+                    LogEvent(
+                        randomString(),
+                        ts,
+                        "test.local",
+                        "Test",
+                        threadContext(),
+                        INFO,
+                        null,
+                        "Message",
+                        trace,
+                        mapOf(),
+                    )
 
-            RENDER_CLEF(event) shouldBe """{
+                RENDER_CLEF(event) shouldBe
+                    """{
             |"@t":"${event.timestamp}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
@@ -63,16 +83,26 @@ class RenderClefTest : DescribeSpec({
             |"@m":"${event.message}",
             |"@x":"${event.stackTrace}"
             |}
-            """.trimMargin().replace("\n", "")
-        }
-        it("includes @m but not @mt if `template` is null") {
-            val ts = timestampNow()
-            val event = LogEvent(
-                randomString(), ts, "test.local", "Test", threadContext(), INFO,
-                null, "Message", null, mapOf(),
-            )
+                    """.trimMargin().replace("\n", "")
+            }
+            it("includes @m but not @mt if `template` is null") {
+                val ts = timestampNow()
+                val event =
+                    LogEvent(
+                        randomString(),
+                        ts,
+                        "test.local",
+                        "Test",
+                        threadContext(),
+                        INFO,
+                        null,
+                        "Message",
+                        null,
+                        mapOf(),
+                    )
 
-            RENDER_CLEF(event) shouldBe """{
+                RENDER_CLEF(event) shouldBe
+                    """{
             |"@t":"${event.timestamp}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
@@ -80,17 +110,27 @@ class RenderClefTest : DescribeSpec({
             |"context":"${event.context}",
             |"@m":"${event.message}"
             |}
-            """.trimMargin().replace("\n", "")
-        }
-        it("includes @mt but not @m if `template` is included") {
-            val ts = timestampNow()
-            val id = randomString()
-            val event = LogEvent(
-                randomString(), ts, "test.local", "Test", threadContext(), INFO,
-                "Id={Id}", "Id={Id}", null, mapOf("Id" to id),
-            )
+                    """.trimMargin().replace("\n", "")
+            }
+            it("includes @mt but not @m if `template` is included") {
+                val ts = timestampNow()
+                val id = randomString()
+                val event =
+                    LogEvent(
+                        randomString(),
+                        ts,
+                        "test.local",
+                        "Test",
+                        threadContext(),
+                        INFO,
+                        "Id={Id}",
+                        "Id={Id}",
+                        null,
+                        mapOf("Id" to id),
+                    )
 
-            RENDER_CLEF(event) shouldBe """{
+                RENDER_CLEF(event) shouldBe
+                    """{
             |"@t":"${event.timestamp}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
@@ -99,23 +139,33 @@ class RenderClefTest : DescribeSpec({
             |"context":"${event.context}",
             |"@mt":"${event.template}"
             |}
-            """.trimMargin().replace("\n", "")
-        }
-        it("omits context if the event `context` is null") {
-            val ts = timestampNow()
-            val event = LogEvent(
-                randomString(), ts, "test.local", "Test", null, INFO,
-                null, "Message", null, mapOf(),
-            )
+                    """.trimMargin().replace("\n", "")
+            }
+            it("omits context if the event `context` is null") {
+                val ts = timestampNow()
+                val event =
+                    LogEvent(
+                        randomString(),
+                        ts,
+                        "test.local",
+                        "Test",
+                        null,
+                        INFO,
+                        null,
+                        "Message",
+                        null,
+                        mapOf(),
+                    )
 
-            RENDER_CLEF(event) shouldBe """{
+                RENDER_CLEF(event) shouldBe
+                    """{
             |"@t":"${event.timestamp}",
             |"@l":"${event.level}",
             |"host":"${event.host}",
             |"logger":"${event.logger}",
             |"@m":"${event.message}"
             |}
-            """.trimMargin().replace("\n", "")
+                    """.trimMargin().replace("\n", "")
+            }
         }
-    }
-})
+    })

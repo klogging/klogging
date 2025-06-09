@@ -25,11 +25,11 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 internal object SendingLauncher : CoroutineScope {
-
     override val coroutineContext: CoroutineContext
         get() = sendingParentContext
 
-    internal fun launch(block: () -> Unit) = launch(CoroutineName("SendingLauncher")) {
-        block()
-    }
+    internal fun launch(block: () -> Unit) =
+        launch(CoroutineName("SendingLauncher")) {
+            block()
+        }
 }

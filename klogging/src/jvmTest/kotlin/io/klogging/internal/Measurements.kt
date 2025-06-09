@@ -28,7 +28,6 @@ import io.klogging.sending.STDOUT
 import kotlin.random.Random
 import kotlin.system.measureTimeMillis
 
-
 fun main() {
     repeat(10_000) { logger("test.Logger-$it") }
     repeat(10_000) { logger("test.sub.Logger-$it") }
@@ -47,15 +46,16 @@ fun main() {
     var totalTime = 0L
     val levels = Level.values()
     repeat(numRuns) {
-        val howLong = measureTimeMillis {
-            repeat(10_000) {
-                val id = Random.nextLong(10_000)
-                val level = levels[Random.nextInt(levels.size)]
+        val howLong =
+            measureTimeMillis {
                 repeat(10_000) {
-                    Dispatcher.cachedSinksFor("test.Logger-$id", level)
+                    val id = Random.nextLong(10_000)
+                    val level = levels[Random.nextInt(levels.size)]
+                    repeat(10_000) {
+                        Dispatcher.cachedSinksFor("test.Logger-$id", level)
+                    }
                 }
             }
-        }
         totalTime += howLong
         println("$howLong")
     }

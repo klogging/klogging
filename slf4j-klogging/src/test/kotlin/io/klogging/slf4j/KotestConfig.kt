@@ -24,7 +24,8 @@ import mjs.kotest.HtmlReporter
 
 /** Create an HTML report for every test run. */
 object KotestConfig : AbstractProjectConfig() {
-    override fun extensions(): List<Extension> = listOf(
-        HtmlReporter(),
-    )
+    override fun extensions(): List<Extension> =
+        listOf(
+            HtmlReporter(),
+        )
 }

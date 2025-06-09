@@ -25,13 +25,14 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 
-internal class LevelRangeTest : DescribeSpec({
-    describe("LevelRange") {
-        it("is also a Kotlin range") {
-            LevelRange(DEBUG, WARN).shouldBeInstanceOf<ClosedRange<Level>>()
+internal class LevelRangeTest :
+    DescribeSpec({
+        describe("LevelRange") {
+            it("is also a Kotlin range") {
+                LevelRange(DEBUG, WARN).shouldBeInstanceOf<ClosedRange<Level>>()
+            }
+            it("ensures the minLevel value is not greater than the maxLevel value") {
+                LevelRange(WARN, DEBUG) shouldBe LevelRange(DEBUG, WARN)
+            }
         }
-        it("ensures the minLevel value is not greater than the maxLevel value") {
-            LevelRange(WARN, DEBUG) shouldBe LevelRange(DEBUG, WARN)
-        }
-    }
-})
+    })

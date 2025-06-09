@@ -37,78 +37,79 @@ import io.kotest.matchers.string.shouldStartWith
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.kotest.matchers.types.shouldBeTypeOf
 
-class FileConfigurationTest : DescribeSpec({
-    describe("`FileLevelRange.toLevelRange` function") {
-        it("sets full range if no levels are set") {
-            FileLevelRange().toLevelRange() shouldBe LevelRange(TRACE, FATAL)
+class FileConfigurationTest :
+    DescribeSpec({
+        describe("`FileLevelRange.toLevelRange` function") {
+            it("sets full range if no levels are set") {
+                FileLevelRange().toLevelRange() shouldBe LevelRange(TRACE, FATAL)
+            }
+            it("sets single level if only `atLevel` is set") {
+                FileLevelRange(
+                    atLevel = INFO,
+                ).toLevelRange() shouldBe LevelRange(INFO, INFO)
+            }
+            it("sets single level from `atLevel` if any other levels are also set") {
+                FileLevelRange(
+                    atLevel = INFO,
+                    fromMinLevel = DEBUG,
+                ).toLevelRange() shouldBe LevelRange(INFO, INFO)
+                FileLevelRange(
+                    atLevel = INFO,
+                    toMaxLevel = ERROR,
+                ).toLevelRange() shouldBe LevelRange(INFO, INFO)
+            }
+            it("sets lower bound if only `fromMinLevel` is set") {
+                FileLevelRange(
+                    fromMinLevel = INFO,
+                ).toLevelRange() shouldBe LevelRange(INFO, FATAL)
+            }
+            it("sets upper bound if only `toMaxLevel` is set") {
+                FileLevelRange(
+                    toMaxLevel = INFO,
+                ).toLevelRange() shouldBe LevelRange(TRACE, INFO)
+            }
+            it("sets a range if `fromMinLevel` and `toMaxLevel` are set") {
+                FileLevelRange(
+                    fromMinLevel = INFO,
+                    toMaxLevel = WARN,
+                ).toLevelRange() shouldBe LevelRange(INFO, WARN)
+            }
         }
-        it("sets single level if only `atLevel` is set") {
-            FileLevelRange(
-                atLevel = INFO,
-            ).toLevelRange() shouldBe LevelRange(INFO, INFO)
+        describe("`loadByClassName()` function") {
+            it("instantiates a class from the classpath by its name") {
+                val testRenderer = loadByClassName<RenderString>("io.klogging.config.TestRenderer")
+                testRenderer.shouldBeInstanceOf<RenderString>()
+                testRenderer.shouldBeTypeOf<TestRenderer>()
+            }
+            it("finds an object from the classpath by its name") {
+                val testRenderer = loadByClassName<SendString>("io.klogging.config.DoNothingSender")
+                testRenderer.shouldBeInstanceOf<SendString>()
+                testRenderer.shouldBeTypeOf<DoNothingSender>()
+            }
         }
-        it("sets single level from `atLevel` if any other levels are also set") {
-            FileLevelRange(
-                atLevel = INFO,
-                fromMinLevel = DEBUG,
-            ).toLevelRange() shouldBe LevelRange(INFO, INFO)
-            FileLevelRange(
-                atLevel = INFO,
-                toMaxLevel = ERROR,
-            ).toLevelRange() shouldBe LevelRange(INFO, INFO)
-        }
-        it("sets lower bound if only `fromMinLevel` is set") {
-            FileLevelRange(
-                fromMinLevel = INFO,
-            ).toLevelRange() shouldBe LevelRange(INFO, FATAL)
-        }
-        it("sets upper bound if only `toMaxLevel` is set") {
-            FileLevelRange(
-                toMaxLevel = INFO,
-            ).toLevelRange() shouldBe LevelRange(TRACE, INFO)
-        }
-        it("sets a range if `fromMinLevel` and `toMaxLevel` are set") {
-            FileLevelRange(
-                fromMinLevel = INFO,
-                toMaxLevel = WARN,
-            ).toLevelRange() shouldBe LevelRange(INFO, WARN)
-        }
-    }
-    describe("`loadByClassName()` function") {
-        it("instantiates a class from the classpath by its name") {
-            val testRenderer = loadByClassName<RenderString>("io.klogging.config.TestRenderer")
-            testRenderer.shouldBeInstanceOf<RenderString>()
-            testRenderer.shouldBeTypeOf<TestRenderer>()
-        }
-        it("finds an object from the classpath by its name") {
-            val testRenderer = loadByClassName<SendString>("io.klogging.config.DoNothingSender")
-            testRenderer.shouldBeInstanceOf<SendString>()
-            testRenderer.shouldBeTypeOf<DoNothingSender>()
-        }
-    }
-    describe("`findConfigFile()` function`") {
-        it("uses a specified path if the file exists") {
-            val path = fixturePath("klogging-test.json")
-            val configFile = findConfigFile(path)
-            configFile.shouldNotBeNull()
-            configFile.path shouldBe path
-        }
-        it("uses a path specified in the `KLOGGING_CONFIG_PATH` environment variable") {
-            val path = fixturePath("klogging-test.json")
-            withEnvironment(ENV_KLOGGING_CONFIG_PATH, path) {
-                val configFile = findConfigFile()
+        describe("`findConfigFile()` function`") {
+            it("uses a specified path if the file exists") {
+                val path = fixturePath("klogging-test.json")
+                val configFile = findConfigFile(path)
                 configFile.shouldNotBeNull()
                 configFile.path shouldBe path
             }
+            it("uses a path specified in the `KLOGGING_CONFIG_PATH` environment variable") {
+                val path = fixturePath("klogging-test.json")
+                withEnvironment(ENV_KLOGGING_CONFIG_PATH, path) {
+                    val configFile = findConfigFile()
+                    configFile.shouldNotBeNull()
+                    configFile.path shouldBe path
+                }
+            }
+            it("finds `klogging.json` on the classpath") {
+                val configFile = findConfigFile()
+                configFile.shouldNotBeNull()
+                configFile.path shouldEndWith ".json"
+                configFile.contents shouldStartWith "{"
+            }
         }
-        it("finds `klogging.json` on the classpath") {
-            val configFile = findConfigFile()
-            configFile.shouldNotBeNull()
-            configFile.path shouldEndWith ".json"
-            configFile.contents shouldStartWith "{"
-        }
-    }
-})
+    })
 
 class TestRenderer : RenderString {
     override fun invoke(event: LogEvent): String = event.message

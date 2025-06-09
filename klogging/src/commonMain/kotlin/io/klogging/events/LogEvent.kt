@@ -71,26 +71,26 @@ public data class LogEvent(
         newLevel: Level,
         newStacktrace: String? = null,
         contextItems: EventItems = mapOf(),
-    ): LogEvent = LogEvent(
-        id = id,
-        timestamp = timestamp,
-        host = host,
-        logger = logger,
-        context = context ?: threadContext(),
-        level = newLevel,
-        template = template,
-        message = message,
-        stackTrace = newStacktrace,
-        items = contextItems + items,
-    )
+    ): LogEvent =
+        LogEvent(
+            id = id,
+            timestamp = timestamp,
+            host = host,
+            logger = logger,
+            context = context ?: threadContext(),
+            level = newLevel,
+            template = template,
+            message = message,
+            stackTrace = newStacktrace,
+            items = contextItems + items,
+        )
 
     /**
      * Add context items to an event, returning a new event.
      * @param contextItems context items to add to an event
      * @return a new [LogEvent] with added context items
      */
-    internal fun addContext(contextItems: EventItems) =
-        copyWith(this.level, this.stackTrace, contextItems)
+    internal fun addContext(contextItems: EventItems) = copyWith(this.level, this.stackTrace, contextItems)
 }
 
 /**

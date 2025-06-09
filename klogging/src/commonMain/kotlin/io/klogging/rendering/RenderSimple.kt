@@ -28,9 +28,10 @@ import kotlinx.datetime.toLocalDateTime
  * The simple mechanism is to render as ISO8601 and replace the `T` with a space.
  */
 public val Instant.localString: String
-    get() = toLocalDateTime(TimeZone.currentSystemDefault())
-        .toString()
-        .replace('T', ' ')
+    get() =
+        toLocalDateTime(TimeZone.currentSystemDefault())
+            .toString()
+            .replace('T', ' ')
 
 /**
  * Simple implementation of [RenderString] for output to the standard output stream, mostly on one
@@ -38,10 +39,11 @@ public val Instant.localString: String
  *
  * If there is a stack trace it is on second and following lines.
  */
-public val RENDER_SIMPLE: RenderString = RenderString { event ->
-    val message =
-        "${event.timestamp.localString} ${event.level} [${event.context}] ${event.logger} : ${event.evalTemplate()}"
-    val maybeItems = if (event.items.isNotEmpty()) " : ${event.items}" else ""
-    val maybeStackTrace = if (event.stackTrace != null) "\n${event.stackTrace}" else ""
-    message + maybeItems + maybeStackTrace
-}
+public val RENDER_SIMPLE: RenderString =
+    RenderString { event ->
+        val message =
+            "${event.timestamp.localString} ${event.level} [${event.context}] ${event.logger} : ${event.evalTemplate()}"
+        val maybeItems = if (event.items.isNotEmpty()) " : ${event.items}" else ""
+        val maybeStackTrace = if (event.stackTrace != null) "\n${event.stackTrace}" else ""
+        message + maybeItems + maybeStackTrace
+    }

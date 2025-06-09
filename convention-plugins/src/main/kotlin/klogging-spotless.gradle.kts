@@ -68,7 +68,7 @@ spotless {
 
         licenseHeader(
             kotlinLicenceHeader,
-            "@file|import|tasks|apply|plugins|rootProject|dependencyResolutionManagement"
+            "@file|import|tasks|apply|plugins|rootProject|dependencyResolutionManagement",
         )
 
         trimTrailingWhitespace()

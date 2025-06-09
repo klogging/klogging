@@ -56,8 +56,7 @@ public fun seq(
     apiKey: String? = null,
     checkCertificate: Boolean = false,
     renderer: RenderString = RENDER_CLEF,
-): SinkConfiguration =
-    SinkConfiguration(renderer, seqServer(url, apiKey, checkCertificate))
+): SinkConfiguration = SinkConfiguration(renderer, seqServer(url, apiKey, checkCertificate))
 
 /**
  * Sink configuration for a [Graylog](https://www.graylog.org/) server.
@@ -70,5 +69,4 @@ public fun graylog(
     host: String,
     port: Int,
     renderer: RenderString = RENDER_GELF,
-): SinkConfiguration =
-    SinkConfiguration(renderer, graylogServer(Endpoint(host, port)))
+): SinkConfiguration = SinkConfiguration(renderer, graylogServer(Endpoint(host, port)))

@@ -21,33 +21,37 @@ package io.klogging
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 
-@Suppress("ktlint:max-line-length")
-class KloggingTest : DescribeSpec({
-    describe("logger name") {
-        it("can be set explicitly") {
-            logger("LoggerName").name shouldBe "LoggerName"
+@Suppress("ktlint:standard:max-line-length")
+class KloggingTest :
+    DescribeSpec({
+        describe("logger name") {
+            it("can be set explicitly") {
+                logger("LoggerName").name shouldBe "LoggerName"
+            }
+            it("is the full name of the class when it implements Klogging") {
+                ImplementingClass().logger.name shouldBe "io.klogging.ImplementingClass"
+            }
+            it("is the full name of the class when its companion object implements Klogging") {
+                ClassWithImplementingCompanion.logger.name shouldBe "io.klogging.ClassWithImplementingCompanion"
+            }
+            it("is the full name of the class when its named companion object implements Klogging") {
+                ClassWithNamedImplementingCompanion.logger.name shouldBe
+                    "io.klogging.ClassWithNamedImplementingCompanion"
+            }
+            it("is the full name of the class that creates a property using the logger() function") {
+                ClassWithLoggerProperty().logger.name shouldBe "io.klogging.ClassWithLoggerProperty"
+            }
+            it(
+                "is the full name of the class with a companion object that creates a property using the logger() function",
+            ) {
+                ClassWithLoggerInCompanion.logger.name shouldBe "io.klogging.ClassWithLoggerInCompanion"
+            }
+            it("is the full name of the reified class used in a call to generic `logger()` function") {
+                logger<ClassUsedInCallWithReifiedGeneric>().name shouldBe
+                    "io.klogging.ClassUsedInCallWithReifiedGeneric"
+            }
         }
-        it("is the full name of the class when it implements Klogging") {
-            ImplementingClass().logger.name shouldBe "io.klogging.ImplementingClass"
-        }
-        it("is the full name of the class when its companion object implements Klogging") {
-            ClassWithImplementingCompanion.logger.name shouldBe "io.klogging.ClassWithImplementingCompanion"
-        }
-        it("is the full name of the class when its named companion object implements Klogging") {
-            ClassWithNamedImplementingCompanion.logger.name shouldBe "io.klogging.ClassWithNamedImplementingCompanion"
-        }
-        it("is the full name of the class that creates a property using the logger() function") {
-            ClassWithLoggerProperty().logger.name shouldBe "io.klogging.ClassWithLoggerProperty"
-        }
-        it("is the full name of the class with a companion object that creates a property using the logger() function") {
-            ClassWithLoggerInCompanion.logger.name shouldBe "io.klogging.ClassWithLoggerInCompanion"
-        }
-        it("is the full name of the reified class used in a call to generic `logger()` function") {
-            logger<ClassUsedInCallWithReifiedGeneric>().name shouldBe
-                "io.klogging.ClassUsedInCallWithReifiedGeneric"
-        }
-    }
-})
+    })
 
 class ImplementingClass : Klogging
 

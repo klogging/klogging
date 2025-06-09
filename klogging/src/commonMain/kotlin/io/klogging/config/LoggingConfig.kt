@@ -33,7 +33,6 @@ internal val matchAll: Matcher = { true }
  * maps to a list of sinks for each.
  */
 public class LoggingConfig {
-
     /** Flag signifying that searching for  should stop after the first match. */
     internal var stopOnMatch: Boolean = false
 
@@ -50,7 +49,10 @@ public class LoggingConfig {
      * @param stopOnMatch stop using loggers after this one if it matches
      */
     @ConfigDsl
-    public fun fromLoggerBase(baseName: String, stopOnMatch: Boolean = false) {
+    public fun fromLoggerBase(
+        baseName: String,
+        stopOnMatch: Boolean = false,
+    ) {
         nameMatcher = { it.startsWith(baseName) }
         this.stopOnMatch = stopOnMatch
     }
@@ -62,7 +64,10 @@ public class LoggingConfig {
      * @param stopOnMatch stop using loggers after this one if it matches
      */
     @ConfigDsl
-    public fun exactLogger(exactName: String, stopOnMatch: Boolean = false) {
+    public fun exactLogger(
+        exactName: String,
+        stopOnMatch: Boolean = false,
+    ) {
         nameMatcher = { it == exactName }
         this.stopOnMatch = stopOnMatch
     }
@@ -75,7 +80,10 @@ public class LoggingConfig {
      * @param stopOnMatch stop using loggers after this one if it matches
      */
     @ConfigDsl
-    public fun matchLogger(pattern: String, stopOnMatch: Boolean = false) {
+    public fun matchLogger(
+        pattern: String,
+        stopOnMatch: Boolean = false,
+    ) {
         nameMatcher = { Regex(pattern).matches(it) }
         this.stopOnMatch = stopOnMatch
     }
@@ -119,7 +127,10 @@ public class LoggingConfig {
      * @param configBlock configuration for this range of levels
      */
     @ConfigDsl
-    public fun atLevel(level: Level, configBlock: LevelRange.() -> Unit) {
+    public fun atLevel(
+        level: Level,
+        configBlock: LevelRange.() -> Unit,
+    ) {
         val range = LevelRange(level, level)
         range.apply(configBlock)
         if (range.sinkNames.isNotEmpty()) ranges.add(range)
@@ -133,7 +144,11 @@ public class LoggingConfig {
      * @param configBlock configuration for this range of levels
      */
     @ConfigDsl
-    public fun inLevelRange(minLevel: Level, maxLevel: Level, configBlock: LevelRange.() -> Unit) {
+    public fun inLevelRange(
+        minLevel: Level,
+        maxLevel: Level,
+        configBlock: LevelRange.() -> Unit,
+    ) {
         val range = LevelRange(minLevel, maxLevel)
         range.apply(configBlock)
         if (range.sinkNames.isNotEmpty()) ranges.add(range)

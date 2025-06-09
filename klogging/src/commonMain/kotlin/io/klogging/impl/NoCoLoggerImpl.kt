@@ -41,8 +41,8 @@ import kotlin.coroutines.CoroutineContext
 public class NoCoLoggerImpl(
     override val name: String,
     override val loggerContextItems: EventItems = mapOf(),
-) : CoroutineScope, NoCoLogger {
-
+) : CoroutineScope,
+    NoCoLogger {
     /**
      * Context in which this logger will launch coroutines
      */
@@ -73,11 +73,12 @@ public class NoCoLoggerImpl(
         }
     }
 
-    private fun otherItems(): EventItems = KloggingEngine.otherItemExtractors
-        .fold(mutableMapOf()) { items, extractor ->
-            items.putAll(extractor())
-            items
-        }
+    private fun otherItems(): EventItems =
+        KloggingEngine.otherItemExtractors
+            .fold(mutableMapOf()) { items, extractor ->
+                items.putAll(extractor())
+                items
+            }
 
     /**
      * Construct a [LogEvent] from a template and values.
@@ -86,7 +87,10 @@ public class NoCoLoggerImpl(
      * @return a [LogEvent] with context items mapped to the template
      */
     @Suppress("IDENTIFIER_LENGTH")
-    public override fun e(template: String, vararg values: Any?): LogEvent {
+    public override fun e(
+        template: String,
+        vararg values: Any?,
+    ): LogEvent {
         val items = templateItems(template, *values)
         return LogEvent(
             timestamp = timestampNow(),

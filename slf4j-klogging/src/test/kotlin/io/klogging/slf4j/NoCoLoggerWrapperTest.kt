@@ -39,232 +39,235 @@ import org.slf4j.MDC
 import kotlin.random.Random
 
 @Suppress("TOO_MANY_LINES_IN_LAMBDA", "PARAMETER_NAME_IN_OUTER_LAMBDA")
-class NoCoLoggerWrapperTest : DescribeSpec({
-    describe("NoCoLoggerWrapper") {
+class NoCoLoggerWrapperTest :
+    DescribeSpec({
+        describe("NoCoLoggerWrapper") {
 
-        describe("logs at level") {
-            it("`TRACE`") {
-                val saved = savedEvents()
-                LoggerFactory.getLogger(randomString()).trace(randomString())
+            describe("logs at level") {
+                it("`TRACE`") {
+                    val saved = savedEvents()
+                    LoggerFactory.getLogger(randomString()).trace(randomString())
 
-                saved shouldHaveSize 1
-                saved.first().level shouldBe TRACE
-            }
-            it("`DEBUG`") {
-                val saved = savedEvents()
-                LoggerFactory.getLogger(randomString()).trace(randomString())
+                    saved shouldHaveSize 1
+                    saved.first().level shouldBe TRACE
+                }
+                it("`DEBUG`") {
+                    val saved = savedEvents()
+                    LoggerFactory.getLogger(randomString()).trace(randomString())
 
-                saved shouldHaveSize 1
-                saved.first().level shouldBe TRACE
-            }
-            it("`INFO`") {
-                val saved = savedEvents()
-                LoggerFactory.getLogger(randomString()).info(randomString())
+                    saved shouldHaveSize 1
+                    saved.first().level shouldBe TRACE
+                }
+                it("`INFO`") {
+                    val saved = savedEvents()
+                    LoggerFactory.getLogger(randomString()).info(randomString())
 
-                saved shouldHaveSize 1
-                saved.first().level shouldBe INFO
-            }
-            it("`WARN`") {
-                val saved = savedEvents()
-                LoggerFactory.getLogger(randomString()).warn(randomString())
+                    saved shouldHaveSize 1
+                    saved.first().level shouldBe INFO
+                }
+                it("`WARN`") {
+                    val saved = savedEvents()
+                    LoggerFactory.getLogger(randomString()).warn(randomString())
 
-                saved shouldHaveSize 1
-                saved.first().level shouldBe WARN
-            }
-            it("`ERROR`") {
-                val saved = savedEvents()
-                LoggerFactory.getLogger(randomString()).error(randomString())
+                    saved shouldHaveSize 1
+                    saved.first().level shouldBe WARN
+                }
+                it("`ERROR`") {
+                    val saved = savedEvents()
+                    LoggerFactory.getLogger(randomString()).error(randomString())
 
-                saved shouldHaveSize 1
-                saved.first().level shouldBe ERROR
-            }
-        }
-
-        describe("uses minimum log level") {
-            it("`DEBUG`") {
-                val saved = savedEvents(minLevel = DEBUG)
-                LoggerFactory.getLogger(randomString()).trace(randomString())
-                LoggerFactory.getLogger(randomString()).debug(randomString())
-
-                saved shouldHaveSize 1
-                saved.first().level shouldBe DEBUG
-            }
-            it("`INFO`") {
-                val saved = savedEvents(minLevel = INFO)
-                LoggerFactory.getLogger(randomString()).debug(randomString())
-                LoggerFactory.getLogger(randomString()).info(randomString())
-
-                saved shouldHaveSize 1
-                saved.first().level shouldBe INFO
-            }
-            it("`WARN`") {
-                val saved = savedEvents(minLevel = WARN)
-                LoggerFactory.getLogger(randomString()).info(randomString())
-                LoggerFactory.getLogger(randomString()).warn(randomString())
-
-                saved shouldHaveSize 1
-                saved.first().level shouldBe WARN
-            }
-            it("`ERROR`") {
-                val saved = savedEvents(minLevel = ERROR)
-                LoggerFactory.getLogger(randomString()).warn(randomString())
-                LoggerFactory.getLogger(randomString()).error(randomString())
-
-                saved shouldHaveSize 1
-                saved.first().level shouldBe ERROR
-            }
-        }
-
-        describe("uses message templates") {
-            it("with one item") {
-                val saved = savedEvents()
-                val id = randomString()
-                LoggerFactory.getLogger(randomString()).info("User {id} logged in", id)
-
-                saved shouldHaveSize 1
-                with(saved.first()) {
-                    template shouldBe "User {id} logged in"
-                    items shouldContainExactly mapOf("id" to id)
+                    saved shouldHaveSize 1
+                    saved.first().level shouldBe ERROR
                 }
             }
-            it("with two items") {
-                val saved = savedEvents()
-                val id = randomString()
-                val name = randomString()
-                LoggerFactory.getLogger(randomString()).info("User {id} is called {name}", id, name)
 
-                saved shouldHaveSize 1
-                with(saved.first()) {
-                    template shouldBe "User {id} is called {name}"
-                    items shouldContainExactly mapOf("id" to id, "name" to name)
+            describe("uses minimum log level") {
+                it("`DEBUG`") {
+                    val saved = savedEvents(minLevel = DEBUG)
+                    LoggerFactory.getLogger(randomString()).trace(randomString())
+                    LoggerFactory.getLogger(randomString()).debug(randomString())
+
+                    saved shouldHaveSize 1
+                    saved.first().level shouldBe DEBUG
+                }
+                it("`INFO`") {
+                    val saved = savedEvents(minLevel = INFO)
+                    LoggerFactory.getLogger(randomString()).debug(randomString())
+                    LoggerFactory.getLogger(randomString()).info(randomString())
+
+                    saved shouldHaveSize 1
+                    saved.first().level shouldBe INFO
+                }
+                it("`WARN`") {
+                    val saved = savedEvents(minLevel = WARN)
+                    LoggerFactory.getLogger(randomString()).info(randomString())
+                    LoggerFactory.getLogger(randomString()).warn(randomString())
+
+                    saved shouldHaveSize 1
+                    saved.first().level shouldBe WARN
+                }
+                it("`ERROR`") {
+                    val saved = savedEvents(minLevel = ERROR)
+                    LoggerFactory.getLogger(randomString()).warn(randomString())
+                    LoggerFactory.getLogger(randomString()).error(randomString())
+
+                    saved shouldHaveSize 1
+                    saved.first().level shouldBe ERROR
                 }
             }
-            // TODO: Fix this test (why did it break?)
-            it("with three items") {
+
+            describe("uses message templates") {
+                it("with one item") {
+                    val saved = savedEvents()
+                    val id = randomString()
+                    LoggerFactory.getLogger(randomString()).info("User {id} logged in", id)
+
+                    saved shouldHaveSize 1
+                    with(saved.first()) {
+                        template shouldBe "User {id} logged in"
+                        items shouldContainExactly mapOf("id" to id)
+                    }
+                }
+                it("with two items") {
+                    val saved = savedEvents()
+                    val id = randomString()
+                    val name = randomString()
+                    LoggerFactory.getLogger(randomString()).info("User {id} is called {name}", id, name)
+
+                    saved shouldHaveSize 1
+                    with(saved.first()) {
+                        template shouldBe "User {id} is called {name}"
+                        items shouldContainExactly mapOf("id" to id, "name" to name)
+                    }
+                }
+                // TODO: Fix this test (why did it break?)
+                it("with three items") {
+                    val saved = savedEvents()
+                    val id = randomString()
+                    val name = randomString()
+                    val age = Random.nextInt(50)
+                    LoggerFactory.getLogger(randomString()).info(
+                        "User {id} called {name} is {age}",
+                        id,
+                        name,
+                        age,
+                    )
+
+                    saved shouldHaveSize 1
+                    with(saved.first()) {
+                        template shouldBe "User {id} called {name} is {age}"
+                        items shouldContainExactly mapOf("id" to id, "name" to name, "age" to age)
+                    }
+                }
+            }
+
+            describe("works with SLF4J placeholders") {
+                it("replaces SLF4J placeholders with provided values") {
+                    val saved = savedEvents()
+                    val id = randomString()
+                    LoggerFactory.getLogger(randomString()).info("User {} logged in", id)
+
+                    saved shouldHaveSize 1
+                    with(saved.first()) {
+                        template shouldBe "User $id logged in"
+                        message shouldBe "User $id logged in"
+                    }
+                }
+                it("replaces SLF4J placeholders but does not add items") {
+                    val saved = savedEvents()
+                    val id = randomString()
+                    LoggerFactory.getLogger(randomString()).info("User {} logged in", id)
+
+                    saved shouldHaveSize 1
+                    saved.first().items shouldHaveSize 0
+                }
+                it("ignores SLF4J placeholders without provided values") {
+                    val saved = savedEvents()
+                    LoggerFactory.getLogger(randomString()).debug("User {} logged out")
+
+                    saved shouldHaveSize 1
+                    saved.first().message shouldBe "User {} logged out"
+                }
+                it("does not work with SLF4J placeholder and message template hole") {
+                    val saved = savedEvents()
+                    val id = randomString()
+                    val name = randomString()
+                    LoggerFactory.getLogger(randomString()).warn("User [{}] {name}", id, name)
+
+                    saved shouldHaveSize 1
+                    with(saved.first()) {
+                        template shouldBe "User [$id] {name}"
+                        message shouldBe "User [$id] {name}"
+                        // First arg goes in items:
+                        items shouldContainExactly mapOf("name" to id)
+                    }
+                }
+                it("does not work with message template hole and SLF4J placeholder") {
+                    val saved = savedEvents()
+                    val id = randomString()
+                    val name = randomString()
+                    LoggerFactory.getLogger(randomString()).warn("User {name} [{}]", name, id)
+
+                    saved shouldHaveSize 1
+                    with(saved.first()) {
+                        template shouldBe "User {name} [$name]"
+                        message shouldBe "User {name} [$name]"
+                        // First arg goes in items:
+                        items shouldContainExactly mapOf("name" to name)
+                    }
+                }
+            }
+
+            it("passes `Throwable` object") {
                 val saved = savedEvents()
-                val id = randomString()
-                val name = randomString()
-                val age = Random.nextInt(50)
-                LoggerFactory.getLogger(randomString()).info(
-                    "User {id} called {name} is {age}",
-                    id,
-                    name,
-                    age,
+                LoggerFactory.getLogger(randomString()).warn(
+                    randomString(),
+                    java.lang.RuntimeException(randomString()),
                 )
 
                 saved shouldHaveSize 1
-                with(saved.first()) {
-                    template shouldBe "User {id} called {name} is {age}"
-                    items shouldContainExactly mapOf("id" to id, "name" to name, "age" to age)
+                saved.first().stackTrace shouldNotBe null
+            }
+
+            it("includes MDC items when they are available") {
+                val saved = savedEvents()
+                val runId = randomString()
+                MDC.putCloseable("runId", runId).use {
+                    LoggerFactory.getLogger(randomString()).info(randomString())
                 }
-            }
-        }
-
-        describe("works with SLF4J placeholders") {
-            it("replaces SLF4J placeholders with provided values") {
-                val saved = savedEvents()
-                val id = randomString()
-                LoggerFactory.getLogger(randomString()).info("User {} logged in", id)
 
                 saved shouldHaveSize 1
-                with(saved.first()) {
-                    template shouldBe "User $id logged in"
-                    message shouldBe "User $id logged in"
+                saved.first().items shouldContainExactly mapOf("runId" to runId)
+            }
+
+            it("includes MDC items in events from Klogger instances") {
+                val saved = savedEvents()
+                val runId = randomString()
+                MDC.putCloseable("runId", runId).use {
+                    logger<NoCoLoggerWrapperTest>().info(randomString())
                 }
-            }
-            it("replaces SLF4J placeholders but does not add items") {
-                val saved = savedEvents()
-                val id = randomString()
-                LoggerFactory.getLogger(randomString()).info("User {} logged in", id)
 
-                saved shouldHaveSize 1
-                saved.first().items shouldHaveSize 0
+                saved.first().items shouldContainExactly mapOf("runId" to runId)
             }
-            it("ignores SLF4J placeholders without provided values") {
-                val saved = savedEvents()
-                LoggerFactory.getLogger(randomString()).debug("User {} logged out")
 
-                saved shouldHaveSize 1
-                saved.first().message shouldBe "User {} logged out"
-            }
-            it("does not work with SLF4J placeholder and message template hole") {
+            it("includes MDC items in events from non-SLF4J NoCoLogger instances") {
                 val saved = savedEvents()
-                val id = randomString()
-                val name = randomString()
-                LoggerFactory.getLogger(randomString()).warn("User [{}] {name}", id, name)
-
-                saved shouldHaveSize 1
-                with(saved.first()) {
-                    template shouldBe "User [$id] {name}"
-                    message shouldBe "User [$id] {name}"
-                    // First arg goes in items:
-                    items shouldContainExactly mapOf("name" to id)
+                val runId = randomString()
+                MDC.putCloseable("runId", runId).use {
+                    noCoLogger<NoCoLoggerWrapperTest>().info(randomString())
                 }
-            }
-            it("does not work with message template hole and SLF4J placeholder") {
-                val saved = savedEvents()
-                val id = randomString()
-                val name = randomString()
-                LoggerFactory.getLogger(randomString()).warn("User {name} [{}]", name, id)
 
-                saved shouldHaveSize 1
-                with(saved.first()) {
-                    template shouldBe "User {name} [$name]"
-                    message shouldBe "User {name} [$name]"
-                    // First arg goes in items:
-                    items shouldContainExactly mapOf("name" to name)
+                saved.first().items shouldContainExactly mapOf("runId" to runId)
+            }
+
+            describe("maps SLF4J log levels to Klogging levels") {
+                withData(listOf("ERROR", "WARN", "INFO", "DEBUG", "TRACE")) { levelName ->
+                    val slf4jLevel =
+                        org.slf4j.event.Level
+                            .valueOf(levelName)
+                    kloggingLevel(slf4jLevel).shouldNotBeNull().toString() shouldBe levelName
                 }
+                kloggingLevel(null) shouldBe NONE
             }
         }
-
-        it("passes `Throwable` object") {
-            val saved = savedEvents()
-            LoggerFactory.getLogger(randomString()).warn(
-                randomString(),
-                java.lang.RuntimeException(randomString()),
-            )
-
-            saved shouldHaveSize 1
-            saved.first().stackTrace shouldNotBe null
-        }
-
-        it("includes MDC items when they are available") {
-            val saved = savedEvents()
-            val runId = randomString()
-            MDC.putCloseable("runId", runId).use {
-                LoggerFactory.getLogger(randomString()).info(randomString())
-            }
-
-            saved shouldHaveSize 1
-            saved.first().items shouldContainExactly mapOf("runId" to runId)
-        }
-
-        it("includes MDC items in events from Klogger instances") {
-            val saved = savedEvents()
-            val runId = randomString()
-            MDC.putCloseable("runId", runId).use {
-                logger<NoCoLoggerWrapperTest>().info(randomString())
-            }
-
-            saved.first().items shouldContainExactly mapOf("runId" to runId)
-        }
-
-        it("includes MDC items in events from non-SLF4J NoCoLogger instances") {
-            val saved = savedEvents()
-            val runId = randomString()
-            MDC.putCloseable("runId", runId).use {
-                noCoLogger<NoCoLoggerWrapperTest>().info(randomString())
-            }
-
-            saved.first().items shouldContainExactly mapOf("runId" to runId)
-        }
-
-        describe("maps SLF4J log levels to Klogging levels") {
-            withData(listOf("ERROR", "WARN", "INFO", "DEBUG", "TRACE")) { levelName ->
-                val slf4jLevel = org.slf4j.event.Level.valueOf(levelName)
-                kloggingLevel(slf4jLevel).shouldNotBeNull().toString() shouldBe levelName
-            }
-            kloggingLevel(null) shouldBe NONE
-        }
-    }
-})
+    })

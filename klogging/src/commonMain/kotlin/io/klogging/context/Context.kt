@@ -34,7 +34,6 @@ public typealias ItemExtractor = () -> EventItems
  * Object for configuring context information that will be included in log events.
  */
 public object Context {
-
     /**
      * Add one or more items to the base context, to be included in every log event.
      *

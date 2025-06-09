@@ -32,7 +32,6 @@ import javax.net.ssl.X509TrustManager
  * A trust modifier for accepting any TLS certificates.
  */
 internal object Certificates {
-
     private val TRUSTING_HOSTNAME_VERIFIER = TrustingHostnameVerifier()
     private val factory: SSLSocketFactory by lazy { prepFactory() }
 
@@ -51,17 +50,24 @@ internal object Certificates {
     }
 
     private class TrustingHostnameVerifier : HostnameVerifier {
-        override fun verify(hostname: String, session: SSLSession): Boolean {
-            return true
-        }
+        override fun verify(
+            hostname: String,
+            session: SSLSession,
+        ): Boolean = true
     }
 
     /** A trust-everything trust manager. */
     private class AlwaysTrustManager : X509TrustManager {
-        override fun checkClientTrusted(arg0: Array<X509Certificate?>?, arg1: String?) {
+        override fun checkClientTrusted(
+            arg0: Array<X509Certificate?>?,
+            arg1: String?,
+        ) {
         }
 
-        override fun checkServerTrusted(arg0: Array<X509Certificate?>?, arg1: String?) {
+        override fun checkServerTrusted(
+            arg0: Array<X509Certificate?>?,
+            arg1: String?,
+        ) {
         }
 
         override fun getAcceptedIssuers(): Array<X509Certificate> = arrayOf()

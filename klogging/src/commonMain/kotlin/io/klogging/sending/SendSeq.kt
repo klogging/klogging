@@ -23,11 +23,12 @@ public fun seqServer(
     url: String,
     apiKey: String?,
     checkCertificate: Boolean,
-): SendString = SendString { eventString ->
-    SendingLauncher.launch {
-        sendToSeq(url, apiKey, checkCertificate, eventString)
+): SendString =
+    SendString { eventString ->
+        SendingLauncher.launch {
+            sendToSeq(url, apiKey, checkCertificate, eventString)
+        }
     }
-}
 
 internal expect fun sendToSeq(
     url: String,

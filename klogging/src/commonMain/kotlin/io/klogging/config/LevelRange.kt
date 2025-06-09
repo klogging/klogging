@@ -33,7 +33,6 @@ public data class LevelRange private constructor(
     val minLevel: Level,
     val maxLevel: Level,
 ) : ClosedRange<Level> {
-
     public companion object {
         /**
          * Operator invoke function that ensures minimum and maximum levels are ordered correctly.
@@ -41,7 +40,10 @@ public data class LevelRange private constructor(
          * @param min minimum level
          * @param max maximum level
          */
-        public operator fun invoke(min: Level, max: Level): LevelRange =
+        public operator fun invoke(
+            min: Level,
+            max: Level,
+        ): LevelRange =
             if (min > max) {
                 LevelRange(max, min).also {
                     warn("Configuration", "LevelRange maxLevel must be greater than minLevel. Constructing as $it")

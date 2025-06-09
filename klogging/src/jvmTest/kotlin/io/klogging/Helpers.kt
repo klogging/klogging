@@ -63,11 +63,12 @@ fun logEvent(
     items = items,
 )
 
-fun eventSaver(saved: MutableList<LogEvent>): EventSender = object : EventSender {
-    override fun invoke(batch: List<LogEvent>) {
-        saved.addAll(batch)
+fun eventSaver(saved: MutableList<LogEvent>): EventSender =
+    object : EventSender {
+        override fun invoke(batch: List<LogEvent>) {
+            saved.addAll(batch)
+        }
     }
-}
 
 /**
  * Configuration that saves all logged events into a list for checking by tests.
@@ -76,7 +77,10 @@ fun eventSaver(saved: MutableList<LogEvent>): EventSender = object : EventSender
  * @param logDirect send all log events directly
  * @return list of saved log events
  */
-fun savedEvents(append: Boolean = false, logDirect: Boolean = true): List<LogEvent> {
+fun savedEvents(
+    append: Boolean = false,
+    logDirect: Boolean = true,
+): List<LogEvent> {
     val saved = mutableListOf<LogEvent>()
     loggingConfiguration(append) {
         if (logDirect) minDirectLogLevel(TRACE)
@@ -89,6 +93,7 @@ fun savedEvents(append: Boolean = false, logDirect: Boolean = true): List<LogEve
 /**
  * Absolute path of a file relative to the fixtures directory.
  */
-fun fixturePath(fixturePath: String): String? = System.getProperty("user.dir")?.let { userDir ->
-    Path(userDir, "src/jvmTest/fixtures", fixturePath).toString()
-}
+fun fixturePath(fixturePath: String): String? =
+    System.getProperty("user.dir")?.let { userDir ->
+        Path(userDir, "src/jvmTest/fixtures", fixturePath).toString()
+    }

@@ -36,11 +36,12 @@ public fun splunkServer(
     hecUrl: String,
     hecToken: String,
     checkCertificate: Boolean = true,
-): SendString = SendString { eventString ->
-    SendingLauncher.launch {
-        sendToSplunk(hecUrl, hecToken, checkCertificate, eventString)
+): SendString =
+    SendString { eventString ->
+        SendingLauncher.launch {
+            sendToSplunk(hecUrl, hecToken, checkCertificate, eventString)
+        }
     }
-}
 
 /** Model of a Splunk server HEC endpoint. */
 @Serializable
@@ -59,30 +60,32 @@ public data class SplunkEndpoint(
      * `hecToken` contains `"${SPLUNK_HEC_TOKEN}"` then the value of the env var is
      * substituted into `hecToken`.
      */
-    public fun evalEnv(): SplunkEndpoint = SplunkEndpoint(
-        hecUrl = evalEnv(hecUrl),
-        hecToken = evalEnv(hecToken),
-        index = index?.let { evalEnv(it) },
-        sourceType = sourceType?.let { evalEnv(it) },
-        source = source?.let { evalEnv(it) },
-        checkCertificate = evalEnv(checkCertificate),
-    )
+    public fun evalEnv(): SplunkEndpoint =
+        SplunkEndpoint(
+            hecUrl = evalEnv(hecUrl),
+            hecToken = evalEnv(hecToken),
+            index = index?.let { evalEnv(it) },
+            sourceType = sourceType?.let { evalEnv(it) },
+            source = source?.let { evalEnv(it) },
+            checkCertificate = evalEnv(checkCertificate),
+        )
 
     public override fun toString(): String {
-        val props = buildList {
-            add("hecUrl=$hecUrl")
-            add("hecToken=********")
-            if (index != null) {
-                add("index=$index")
+        val props =
+            buildList {
+                add("hecUrl=$hecUrl")
+                add("hecToken=********")
+                if (index != null) {
+                    add("index=$index")
+                }
+                if (sourceType != null) {
+                    add("sourceType=$sourceType")
+                }
+                if (source != null) {
+                    add("source=$source")
+                }
+                add("checkCertificate=$checkCertificate")
             }
-            if (sourceType != null) {
-                add("sourceType=$sourceType")
-            }
-            if (source != null) {
-                add("source=$source")
-            }
-            add("checkCertificate=$checkCertificate")
-        }
         return "SplunkEndpoint(${props.joinToString(", ")})"
     }
 }
@@ -93,7 +96,7 @@ public data class SplunkEndpoint(
  */
 public class SplunkHec(
     private val endpoint: SplunkEndpoint,
-    private val renderer: RenderString
+    private val renderer: RenderString,
 ) : EventSender {
     override fun invoke(batch: List<LogEvent>) {
         SendingLauncher.launch {
@@ -102,9 +105,16 @@ public class SplunkHec(
     }
 }
 
-internal expect fun sendToSplunk(endpoint: SplunkEndpoint, renderer: RenderString, batch: List<LogEvent>)
+internal expect fun sendToSplunk(
+    endpoint: SplunkEndpoint,
+    renderer: RenderString,
+    batch: List<LogEvent>,
+)
 
-internal fun splunkBatch(renderer: RenderString, batch: List<LogEvent>): String =
+internal fun splunkBatch(
+    renderer: RenderString,
+    batch: List<LogEvent>,
+): String =
     batch.joinToString("\n") { event ->
         renderer(event)
     }

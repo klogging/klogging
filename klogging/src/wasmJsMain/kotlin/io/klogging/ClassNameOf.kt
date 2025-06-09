@@ -26,5 +26,4 @@ import kotlin.reflect.KClass
  * @param ownerClass a [KClass] whose name is needed
  * @return the name of the class, if found
  */
-internal actual fun classNameOf(ownerClass: KClass<*>): String? =
-    ownerClass.simpleName
+internal actual fun classNameOf(ownerClass: KClass<*>): String? = ownerClass.simpleName

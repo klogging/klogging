@@ -21,4 +21,3 @@ package io.klogging.events
 import platform.Foundation.NSThread
 
 internal actual fun threadContext(): String? = NSThread.currentThread.name
-

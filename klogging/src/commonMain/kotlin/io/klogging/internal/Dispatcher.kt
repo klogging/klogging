@@ -25,7 +25,6 @@ import io.klogging.events.LogEvent
 
 /** Object that handles dispatching of [LogEvent]s to zero or more sinks. */
 internal object Dispatcher {
-
     @Suppress("TYPE_ALIAS")
     private val sinkCache: AtomicMutableMap<Pair<String, Level>, List<Sink>> = AtomicMutableMap()
 
@@ -75,8 +74,10 @@ internal object Dispatcher {
      * @param level: level of the event
      * @return sinks to dispatch from the specified logger and level
      */
-    internal fun cachedSinksFor(loggerName: String, level: Level): List<Sink> =
-        sinkCache.getOrPut(Pair(loggerName, level)) { sinksFor(loggerName, level) }
+    internal fun cachedSinksFor(
+        loggerName: String,
+        level: Level,
+    ): List<Sink> = sinkCache.getOrPut(Pair(loggerName, level)) { sinksFor(loggerName, level) }
 
     /**
      * Clear the internal cache of sinks, to be called whenever the global Klogging
@@ -98,20 +99,25 @@ internal object Dispatcher {
      *
      * @return the list of [Sink]s for this logger at this level, which may be empty
      */
-    internal fun sinksFor(loggerName: String, level: Level): List<Sink> {
+    internal fun sinksFor(
+        loggerName: String,
+        level: Level,
+    ): List<Sink> {
         var keepMatching = true
-        val sinkNames = KloggingEngine.configs()
-            .filter { config ->
-                val matches = config.nameMatcher(loggerName)
-                (keepMatching && matches).also {
-                    keepMatching = keepMatching && !(matches && config.stopOnMatch)
-                }
-            }
-            .flatMap { config -> config.ranges }
-            .filter { range -> level in range }
-            .flatMap { range -> range.sinkNames }
-            .distinct()
-        return KloggingEngine.sinks()
+        val sinkNames =
+            KloggingEngine
+                .configs()
+                .filter { config ->
+                    val matches = config.nameMatcher(loggerName)
+                    (keepMatching && matches).also {
+                        keepMatching = keepMatching && !(matches && config.stopOnMatch)
+                    }
+                }.flatMap { config -> config.ranges }
+                .filter { range -> level in range }
+                .flatMap { range -> range.sinkNames }
+                .distinct()
+        return KloggingEngine
+            .sinks()
             .filterKeys { key -> key in sinkNames }
             .map { entry -> entry.value }
     }

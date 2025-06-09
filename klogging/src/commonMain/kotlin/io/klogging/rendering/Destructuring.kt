@@ -23,17 +23,22 @@ import io.klogging.events.EventItems
 internal expect fun destructure(obj: Any): EventItems
 
 internal val EventItems.destructured: EventItems
-    get() = buildMap {
-        this@destructured.forEach { entry ->
-            if (entry.key.startsWith('@'))
-                put(entry.key.substring(1), entry.value?.let { value ->
-                    try {
-                        destructure(value)
-                    } catch (_: Throwable) {
-                        value
-                    }
-                })
-            else
-                put(entry.key, entry.value)
+    get() =
+        buildMap {
+            this@destructured.forEach { entry ->
+                if (entry.key.startsWith('@')) {
+                    put(
+                        entry.key.substring(1),
+                        entry.value?.let { value ->
+                            try {
+                                destructure(value)
+                            } catch (_: Throwable) {
+                                value
+                            }
+                        },
+                    )
+                } else {
+                    put(entry.key, entry.value)
+                }
+            }
         }
-    }

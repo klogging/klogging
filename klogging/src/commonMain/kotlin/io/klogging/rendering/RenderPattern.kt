@@ -48,62 +48,66 @@ import io.klogging.events.LogEvent
 public class RenderPattern(
     private val pattern: String = "%m",
 ) : RenderString {
-    override fun invoke(event: LogEvent): String = buildString {
-        val tokens = tokenisePattern(pattern)
-        tokens.forEach { token ->
-            when (token) {
-                is NoToken -> append("")
-                is StringToken -> append(token.value)
-                is TimestampToken -> append(token.render(event))
-                is HostToken -> append(token.render(event))
-                is LoggerToken -> append(token.render(event))
-                is ContextToken -> append(token.render(event))
-                is LevelToken -> append(token.render(event))
-                is MessageToken -> append(event.evalTemplate())
-                is StacktraceToken -> append(token.render(event))
-                is ItemsToken -> if (event.items.isNotEmpty()) append(event.items)
-                is NewlineToken -> append("\n")
+    override fun invoke(event: LogEvent): String =
+        buildString {
+            val tokens = tokenisePattern(pattern)
+            tokens.forEach { token ->
+                when (token) {
+                    is NoToken -> append("")
+                    is StringToken -> append(token.value)
+                    is TimestampToken -> append(token.render(event))
+                    is HostToken -> append(token.render(event))
+                    is LoggerToken -> append(token.render(event))
+                    is ContextToken -> append(token.render(event))
+                    is LevelToken -> append(token.render(event))
+                    is MessageToken -> append(event.evalTemplate())
+                    is StacktraceToken -> append(token.render(event))
+                    is ItemsToken -> if (event.items.isNotEmpty()) append(event.items)
+                    is NewlineToken -> append("\n")
+                }
             }
         }
+}
+
+private fun String.padLeft(width: Int): String = (this + " ".repeat(width)).substring(0, width)
+
+private fun String.padRight(width: Int): String =
+    when {
+        width > length -> " ".repeat(width - length) + this
+        width in 0..length -> this.substring(0, width)
+        else -> this
     }
-}
 
-private fun String.padLeft(width: Int): String =
-    (this + " ".repeat(width)).substring(0, width)
-
-private fun String.padRight(width: Int): String = when {
-    width > length -> " ".repeat(width - length) + this
-    width in 0..length -> this.substring(0, width)
-    else -> this
-}
-
-private fun String.shortenAndPad(width: Int) = when {
-    width > 0 -> shortenName(width).toString().padLeft(width)
-    width < 0 -> shortenName(-width).toString().padRight(-width)
-    else -> this
-}
+private fun String.shortenAndPad(width: Int) =
+    when {
+        width > 0 -> shortenName(width).toString().padLeft(width)
+        width < 0 -> shortenName(-width).toString().padRight(-width)
+        else -> this
+    }
 
 private fun LevelToken.render(event: LogEvent): String {
     val string = event.level.toString().shortenAndPad(width)
     return when (format) {
-        in setOf("COLOUR", "COLOR") -> when (event.level) {
-            Level.TRACE -> grey(string)
-            Level.INFO -> green(string)
-            Level.WARN -> yellow(string)
-            Level.ERROR -> red(string)
-            Level.FATAL -> brightRed(string)
-            else -> string
-        }
+        in setOf("COLOUR", "COLOR") ->
+            when (event.level) {
+                Level.TRACE -> grey(string)
+                Level.INFO -> green(string)
+                Level.WARN -> yellow(string)
+                Level.ERROR -> red(string)
+                Level.FATAL -> brightRed(string)
+                else -> string
+            }
 
         else -> string
     }
 }
 
 private fun TimestampToken.render(event: LogEvent): String {
-    val string = when (format) {
-        "LOCAL_TIME" -> event.timestamp.localTime
-        else -> event.timestamp.toString()
-    }
+    val string =
+        when (format) {
+            "LOCAL_TIME" -> event.timestamp.localTime
+            else -> event.timestamp.toString()
+        }
     return when {
         width > 0 -> string.padLeft(width)
         width < 0 -> string.padRight(-width)
@@ -111,18 +115,19 @@ private fun TimestampToken.render(event: LogEvent): String {
     }
 }
 
-private fun HostToken.render(event: LogEvent): String =
-    event.host.shortenAndPad(width)
+private fun HostToken.render(event: LogEvent): String = event.host.shortenAndPad(width)
 
-private fun ContextToken.render(event: LogEvent): String =
-    event.context?.shortenAndPad(width) ?: ""
+private fun ContextToken.render(event: LogEvent): String = event.context?.shortenAndPad(width) ?: ""
 
-private fun LoggerToken.render(event: LogEvent): String =
-    event.logger.shortenAndPad(width)
+private fun LoggerToken.render(event: LogEvent): String = event.logger.shortenAndPad(width)
 
-private fun StacktraceToken.render(event: LogEvent): String = event.stackTrace?.let {
-    val trace = if (maxLines > 0) {
-        it.split('\n').take(maxLines).joinToString("\n")
-    } else it
-    "\n$trace"
-} ?: ""
+private fun StacktraceToken.render(event: LogEvent): String =
+    event.stackTrace?.let {
+        val trace =
+            if (maxLines > 0) {
+                it.split('\n').take(maxLines).joinToString("\n")
+            } else {
+                it
+            }
+        "\n$trace"
+    } ?: ""

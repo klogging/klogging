@@ -23,14 +23,15 @@ import io.klogging.internal.warn
 import kotlin.reflect.full.createInstance
 
 @Suppress("UNCHECKED_CAST")
-internal actual fun <T : Any> loadByClassName(className: String?): T? = className?.let { name ->
-    try {
-        val kClass = Class.forName(name).kotlin
-        val theObject = (kClass.objectInstance ?: kClass.createInstance()) as T
-        debug("File Configuration", "Loaded class $name")
-        theObject
-    } catch (ex: Exception) {
-        warn("File Configuration", "Failed to load class $name", ex)
-        null
+internal actual fun <T : Any> loadByClassName(className: String?): T? =
+    className?.let { name ->
+        try {
+            val kClass = Class.forName(name).kotlin
+            val theObject = (kClass.objectInstance ?: kClass.createInstance()) as T
+            debug("File Configuration", "Loaded class $name")
+            theObject
+        } catch (ex: Exception) {
+            warn("File Configuration", "Failed to load class $name", ex)
+            null
+        }
     }
-}

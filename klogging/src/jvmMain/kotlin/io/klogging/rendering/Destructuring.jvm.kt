@@ -25,26 +25,28 @@ import kotlin.reflect.jvm.isAccessible
 
 internal const val typeKey = "\$type"
 
-internal actual fun destructure(obj: Any): EventItems = buildMap {
-    obj::class.memberProperties.forEach { property ->
-        property.isAccessible = true
-        val objClass = property.returnType.classifier as? KClass<*> ?: return@forEach
-        val name = property.name
-        val value = property.getter.call(obj)
-        if (value == null) put(name, null)
-        when (objClass) {
-            String::class,
-            Int::class,
-            Long::class,
-            Float::class,
-            Double::class,
-            List::class,
-            Set::class,
-            Map::class,
-            Boolean::class -> put(name, value)
+internal actual fun destructure(obj: Any): EventItems =
+    buildMap {
+        obj::class.memberProperties.forEach { property ->
+            property.isAccessible = true
+            val objClass = property.returnType.classifier as? KClass<*> ?: return@forEach
+            val name = property.name
+            val value = property.getter.call(obj)
+            if (value == null) put(name, null)
+            when (objClass) {
+                String::class,
+                Int::class,
+                Long::class,
+                Float::class,
+                Double::class,
+                List::class,
+                Set::class,
+                Map::class,
+                Boolean::class,
+                -> put(name, value)
 
-            else -> put(name, destructure(value!!))
+                else -> put(name, destructure(value!!))
+            }
         }
+        put(typeKey, obj::class.simpleName)
     }
-    put(typeKey, obj::class.simpleName)
-}

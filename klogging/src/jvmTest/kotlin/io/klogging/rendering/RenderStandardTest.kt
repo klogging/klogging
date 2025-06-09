@@ -26,16 +26,27 @@ import io.klogging.randomString
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 
-class RenderStandardTest : DescribeSpec({
-    describe("Render a `LogEvent` to STANDARD") {
-        it("omits stackTrace if `stackTrace` is null") {
-            val ts = timestampNow()
-            val event = LogEvent(
-                randomString(), ts, "test.local", "Test", threadContext(), INFO,
-                null, "Message", null, mapOf(),
-            )
+class RenderStandardTest :
+    DescribeSpec({
+        describe("Render a `LogEvent` to STANDARD") {
+            it("omits stackTrace if `stackTrace` is null") {
+                val ts = timestampNow()
+                val event =
+                    LogEvent(
+                        randomString(),
+                        ts,
+                        "test.local",
+                        "Test",
+                        threadContext(),
+                        INFO,
+                        null,
+                        "Message",
+                        null,
+                        mapOf(),
+                    )
 
-            RENDER_STANDARD(event) shouldBe """{
+                RENDER_STANDARD(event) shouldBe
+                    """{
             |"timestamp":"${event.timestamp}",
             |"level":"${event.level}",
             |"host":"${event.host}",
@@ -43,18 +54,27 @@ class RenderStandardTest : DescribeSpec({
             |"context":"${event.context}",
             |"message":"${event.message}"
             |}
-            """.trimMargin().replace("\n", "")
-        }
-        it("includes stackTrace if `stackTrace` is present") {
-            val ts = timestampNow()
-            val trace = randomString()
-            val event =
-                LogEvent(
-                    randomString(), ts, "test.local", "Test", threadContext(), INFO,
-                    null, "Message", trace, mapOf(),
-                )
+                    """.trimMargin().replace("\n", "")
+            }
+            it("includes stackTrace if `stackTrace` is present") {
+                val ts = timestampNow()
+                val trace = randomString()
+                val event =
+                    LogEvent(
+                        randomString(),
+                        ts,
+                        "test.local",
+                        "Test",
+                        threadContext(),
+                        INFO,
+                        null,
+                        "Message",
+                        trace,
+                        mapOf(),
+                    )
 
-            RENDER_STANDARD(event) shouldBe """{
+                RENDER_STANDARD(event) shouldBe
+                    """{
             |"timestamp":"${event.timestamp}",
             |"level":"${event.level}",
             |"host":"${event.host}",
@@ -63,16 +83,26 @@ class RenderStandardTest : DescribeSpec({
             |"message":"${event.message}",
             |"stackTrace":"${event.stackTrace}"
             |}
-            """.trimMargin().replace("\n", "")
-        }
-        it("includes message") {
-            val ts = timestampNow()
-            val event = LogEvent(
-                randomString(), ts, "test.local", "Test", threadContext(), INFO,
-                null, "Message", null, mapOf(),
-            )
+                    """.trimMargin().replace("\n", "")
+            }
+            it("includes message") {
+                val ts = timestampNow()
+                val event =
+                    LogEvent(
+                        randomString(),
+                        ts,
+                        "test.local",
+                        "Test",
+                        threadContext(),
+                        INFO,
+                        null,
+                        "Message",
+                        null,
+                        mapOf(),
+                    )
 
-            RENDER_STANDARD(event) shouldBe """{
+                RENDER_STANDARD(event) shouldBe
+                    """{
             |"timestamp":"${event.timestamp}",
             |"level":"${event.level}",
             |"host":"${event.host}",
@@ -80,33 +110,53 @@ class RenderStandardTest : DescribeSpec({
             |"context":"${event.context}",
             |"message":"${event.message}"
             |}
-            """.trimMargin().replace("\n", "")
-        }
-        it("omits context if the event `context` is null") {
-            val ts = timestampNow()
-            val event = LogEvent(
-                randomString(), ts, "test.local", "Test", null, INFO,
-                null, "Message", null, mapOf(),
-            )
+                    """.trimMargin().replace("\n", "")
+            }
+            it("omits context if the event `context` is null") {
+                val ts = timestampNow()
+                val event =
+                    LogEvent(
+                        randomString(),
+                        ts,
+                        "test.local",
+                        "Test",
+                        null,
+                        INFO,
+                        null,
+                        "Message",
+                        null,
+                        mapOf(),
+                    )
 
-            RENDER_STANDARD(event) shouldBe """{
+                RENDER_STANDARD(event) shouldBe
+                    """{
             |"timestamp":"${event.timestamp}",
             |"level":"${event.level}",
             |"host":"${event.host}",
             |"logger":"${event.logger}",
             |"message":"${event.message}"
             |}
-            """.trimMargin().replace("\n", "")
-        }
-        it("evaluates templated items into the message") {
-            val ts = timestampNow()
-            val id = randomString()
-            val event = LogEvent(
-                randomString(), ts, "test.local", "Test", null, INFO,
-                "ID is {id}", "ID is {id}", null, mapOf("id" to id),
-            )
+                    """.trimMargin().replace("\n", "")
+            }
+            it("evaluates templated items into the message") {
+                val ts = timestampNow()
+                val id = randomString()
+                val event =
+                    LogEvent(
+                        randomString(),
+                        ts,
+                        "test.local",
+                        "Test",
+                        null,
+                        INFO,
+                        "ID is {id}",
+                        "ID is {id}",
+                        null,
+                        mapOf("id" to id),
+                    )
 
-            RENDER_STANDARD(event) shouldBe """{
+                RENDER_STANDARD(event) shouldBe
+                    """{
             |"timestamp":"${event.timestamp}",
             |"level":"${event.level}",
             |"host":"${event.host}",
@@ -114,7 +164,7 @@ class RenderStandardTest : DescribeSpec({
             |"id":"$id",
             |"message":"${event.evalTemplate()}"
             |}
-            """.trimMargin().replace("\n", "")
+                    """.trimMargin().replace("\n", "")
+            }
         }
-    }
-})
+    })

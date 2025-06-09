@@ -51,7 +51,7 @@ public data class FileConfiguration(
     val minDirectLogLevel: Level = defaultMinDirectLogLevel,
     val sinks: Map<String, FileSinkConfiguration> = mapOf(),
     val logging: List<FileLoggingConfig> = listOf(),
-    val baseContext: Map<String, String> = mapOf()
+    val baseContext: Map<String, String> = mapOf(),
 )
 
 /**
@@ -86,10 +86,11 @@ public data class FileSinkConfiguration(
                 return SinkConfiguration(eventSender = sender)
             }
         }
-        val renderer = renderPattern?.let { RenderPattern(it) }
-            ?: builtInRenderers[renderWith]
-            ?: loadByClassName(renderWith)
-            ?: renderHec?.renderer
+        val renderer =
+            renderPattern?.let { RenderPattern(it) }
+                ?: builtInRenderers[renderWith]
+                ?: loadByClassName(renderWith)
+                ?: renderHec?.renderer
         if (splunkServer != null) {
             return SinkConfiguration(eventSender = SplunkHec(splunkServer.evalEnv(), renderer ?: renderHec()))
         }
@@ -101,8 +102,9 @@ public data class FileSinkConfiguration(
                 renderer ?: RENDER_CLEF,
             )
         }
-        val sender = builtInSenders[sendTo]
-            ?: loadByClassName(sendTo)
+        val sender =
+            builtInSenders[sendTo]
+                ?: loadByClassName(sendTo)
         return if (renderer != null && sender != null) {
             SinkConfiguration(renderer, sender)
         } else {
@@ -115,32 +117,33 @@ public data class FileSinkConfiguration(
      * @return string rendering
      */
     public override fun toString(): String {
-        val props = buildList {
-            if (renderWith != null) {
-                add("renderWith=$renderWith")
+        val props =
+            buildList {
+                if (renderWith != null) {
+                    add("renderWith=$renderWith")
+                }
+                if (renderPattern != null) {
+                    add("renderPattern=\"$renderPattern\"")
+                }
+                if (sendTo != null) {
+                    add("sendTo=$sendTo")
+                }
+                if (seqServer != null) {
+                    add("seqServer=$seqServer")
+                }
+                if (apiKey != null) {
+                    add("apiKey=********")
+                }
+                if (checkCertificate != null) {
+                    add("checkCertificate=$checkCertificate")
+                }
+                if (splunkServer != null) {
+                    add("splunkServer=$splunkServer")
+                }
+                if (renderHec != null) {
+                    add("renderHec=$renderHec")
+                }
             }
-            if (renderPattern != null) {
-                add("renderPattern=\"$renderPattern\"")
-            }
-            if (sendTo != null) {
-                add("sendTo=$sendTo")
-            }
-            if (seqServer != null) {
-                add("seqServer=$seqServer")
-            }
-            if (apiKey != null) {
-                add("apiKey=********")
-            }
-            if (checkCertificate != null) {
-                add("checkCertificate=$checkCertificate")
-            }
-            if (splunkServer != null) {
-                add("splunkServer=$splunkServer")
-            }
-            if (renderHec != null) {
-                add("renderHec=$renderHec")
-            }
-        }
         return "FileSinkConfiguration(${props.joinToString(", ")})"
     }
 }
@@ -223,12 +226,13 @@ public data class FileLevelRange(
      * @return a [LevelRange] object as specifed in the file
      */
     internal fun toLevelRange(): LevelRange {
-        val range = when {
-            // `atLevel` has priority over everything else
-            atLevel != null -> LevelRange(atLevel, atLevel)
-            // min and max levels
-            else -> LevelRange(fromMinLevel ?: TRACE, toMaxLevel ?: FATAL)
-        }
+        val range =
+            when {
+                // `atLevel` has priority over everything else
+                atLevel != null -> LevelRange(atLevel, atLevel)
+                // min and max levels
+                else -> LevelRange(fromMinLevel ?: TRACE, toMaxLevel ?: FATAL)
+            }
         toSinks?.let { range.sinkNames.addAll(it) }
         debug("File Configuration", "Setting log levels range $range for sinks $toSinks")
         return range

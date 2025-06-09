@@ -53,7 +53,6 @@ internal class Sink(
     internal val name: String,
     internal val eventSender: EventSender,
 ) : CoroutineScope {
-
     /**
      * Context in which to launch coroutines
      */

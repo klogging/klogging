@@ -24,44 +24,46 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.string.shouldEndWith
 import kotlinx.datetime.Instant
 
-class RenderAnsiTest : DescribeSpec({
-    describe("`renderAnsi()` function") {
-        val event = logEvent(
-            timestamp = Instant.parse("2024-11-03T00:08:42.123456Z"),
-            level = Level.DEBUG,
-            context = "DefaultDispatcher-worker-5",
-            logger = "com.example.Thing",
-            message = "Test"
-        )
-        // Use `shouldEndWith` to avoid issues with different timezones.
-        it("renders standard widths") {
-            renderAnsi(contextWidth = 20, loggerWidth = 20)(event) shouldEndWith
-                    "DEBUG [          D-worker-5] :    com.example.Thing : Test"
-        }
-        it("renders adjusted widths") {
-            renderAnsi(contextWidth = 10, loggerWidth = 30)(event) shouldEndWith
-                    "DEBUG [D-worker-5] :              com.example.Thing : Test"
-        }
-        it("omits context if contextWidth is zero") {
-            renderAnsi(contextWidth = 0, loggerWidth = 20)(event) shouldEndWith
-                    "DEBUG :    com.example.Thing : Test"
-        }
-        it("omits logger name if loggerWidth is zero") {
-            renderAnsi(contextWidth = 10, loggerWidth = 0)(event) shouldEndWith
-                    "DEBUG [D-worker-5] : Test"
-        }
-        it("includes any context items") {
-            renderAnsi(0, 0)(event.copy(items = mapOf("this" to "that"))) shouldEndWith
-                    "DEBUG : Test : {this=that}"
-        }
-        it("includes any stacktrace") {
-            renderAnsi(0, 0)(
-                event.copy(
-                    stackTrace = "io.klogging.PretendException: message\n    at io.klogging.test.BlahTest.blah"
+class RenderAnsiTest :
+    DescribeSpec({
+        describe("`renderAnsi()` function") {
+            val event =
+                logEvent(
+                    timestamp = Instant.parse("2024-11-03T00:08:42.123456Z"),
+                    level = Level.DEBUG,
+                    context = "DefaultDispatcher-worker-5",
+                    logger = "com.example.Thing",
+                    message = "Test",
                 )
-            ) shouldEndWith
+            // Use `shouldEndWith` to avoid issues with different timezones.
+            it("renders standard widths") {
+                renderAnsi(contextWidth = 20, loggerWidth = 20)(event) shouldEndWith
+                    "DEBUG [          D-worker-5] :    com.example.Thing : Test"
+            }
+            it("renders adjusted widths") {
+                renderAnsi(contextWidth = 10, loggerWidth = 30)(event) shouldEndWith
+                    "DEBUG [D-worker-5] :              com.example.Thing : Test"
+            }
+            it("omits context if contextWidth is zero") {
+                renderAnsi(contextWidth = 0, loggerWidth = 20)(event) shouldEndWith
+                    "DEBUG :    com.example.Thing : Test"
+            }
+            it("omits logger name if loggerWidth is zero") {
+                renderAnsi(contextWidth = 10, loggerWidth = 0)(event) shouldEndWith
+                    "DEBUG [D-worker-5] : Test"
+            }
+            it("includes any context items") {
+                renderAnsi(0, 0)(event.copy(items = mapOf("this" to "that"))) shouldEndWith
+                    "DEBUG : Test : {this=that}"
+            }
+            it("includes any stacktrace") {
+                renderAnsi(0, 0)(
+                    event.copy(
+                        stackTrace = "io.klogging.PretendException: message\n    at io.klogging.test.BlahTest.blah",
+                    ),
+                ) shouldEndWith
                     "DEBUG : Test\nio.klogging.PretendException: message\n" +
                     "    at io.klogging.test.BlahTest.blah"
+            }
         }
-    }
-})
+    })

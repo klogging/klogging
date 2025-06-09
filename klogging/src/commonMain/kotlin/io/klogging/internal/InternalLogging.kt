@@ -50,12 +50,13 @@ internal fun log(
     throwable: Throwable? = null,
 ) {
     if (level < KloggingEngine.kloggingMinLogLevel()) return
-    val event = LogEvent(
-        logger = logger,
-        level = level,
-        message = message,
-        stackTrace = throwable?.stackTraceToString(),
-    )
+    val event =
+        LogEvent(
+            logger = logger,
+            level = level,
+            message = message,
+            stackTrace = throwable?.stackTraceToString(),
+        )
     if (level <= INFO) {
         println(RENDER_ANSI(event))
     } else {
@@ -75,7 +76,11 @@ internal expect fun printErr(message: String)
  * @param message message to print
  * @param throwable possible [Throwable] associated with the message
  */
-internal fun trace(logger: String, message: String, throwable: Throwable? = null) {
+internal fun trace(
+    logger: String,
+    message: String,
+    throwable: Throwable? = null,
+) {
     log(logger, TRACE, message, throwable)
 }
 
@@ -85,7 +90,11 @@ internal fun trace(logger: String, message: String, throwable: Throwable? = null
  * @param message message to print
  * @param throwable possible [Throwable] associated with the message
  */
-internal fun debug(logger: String, message: String, throwable: Throwable? = null) {
+internal fun debug(
+    logger: String,
+    message: String,
+    throwable: Throwable? = null,
+) {
     log(logger, DEBUG, message, throwable)
 }
 
@@ -95,7 +104,11 @@ internal fun debug(logger: String, message: String, throwable: Throwable? = null
  * @param message message to print
  * @param throwable possible [Throwable] associated with the message
  */
-internal fun info(logger: String, message: String, throwable: Throwable? = null) {
+internal fun info(
+    logger: String,
+    message: String,
+    throwable: Throwable? = null,
+) {
     log(logger, INFO, message, throwable)
 }
 
@@ -105,7 +118,11 @@ internal fun info(logger: String, message: String, throwable: Throwable? = null)
  * @param message message to print
  * @param throwable possible [Throwable] associated with the message
  */
-internal fun warn(logger: String, message: String, throwable: Throwable? = null) {
+internal fun warn(
+    logger: String,
+    message: String,
+    throwable: Throwable? = null,
+) {
     log(logger, WARN, message, throwable)
 }
 
@@ -115,6 +132,10 @@ internal fun warn(logger: String, message: String, throwable: Throwable? = null)
  * @param message message to print
  * @param throwable possible [Throwable] associated with the message
  */
-internal fun error(logger: String, message: String, throwable: Throwable? = null) {
+internal fun error(
+    logger: String,
+    message: String,
+    throwable: Throwable? = null,
+) {
     log(logger, ERROR, message, throwable)
 }

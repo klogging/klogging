@@ -34,7 +34,6 @@ import kotlin.coroutines.coroutineContext
 public class LogContext internal constructor(
     private val items: MutableMap<String, Any?>,
 ) : AbstractCoroutineContextElement(LogContext) {
-
     /**
      * Key used to retrieve the [LogContext] from the coroutine context.
      */
@@ -79,9 +78,11 @@ public class LogContext internal constructor(
  * @return a [LogContext] containing the specified items
  */
 public suspend fun logContext(vararg items: ContextItem): CoroutineContext {
-    val allItems = coroutineContext[LogContext]
-        ?.getAll()?.toMutableMap()
-        ?: mutableMapOf()
+    val allItems =
+        coroutineContext[LogContext]
+            ?.getAll()
+            ?.toMutableMap()
+            ?: mutableMapOf()
     allItems.putAll(items)
     return LogContext(allItems)
 }
@@ -97,9 +98,10 @@ public suspend fun logContext(vararg items: ContextItem): CoroutineContext {
 public suspend fun <R> withLogContext(
     vararg items: ContextItem,
     block: suspend CoroutineScope.() -> R,
-): R = withContext(logContext(*items)) {
-    block()
-}
+): R =
+    withContext(logContext(*items)) {
+        block()
+    }
 
 /**
  * Adds zero or more items to the [LogContext] in the current coroutine scope.

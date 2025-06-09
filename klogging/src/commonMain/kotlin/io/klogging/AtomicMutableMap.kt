@@ -28,7 +28,6 @@ import kotlinx.atomicfu.update
 internal class AtomicMutableMap<K, V>(
     vararg pairs: Pair<K, V>,
 ) : MutableMap<K, V> {
-
     private val map = atomic(mapOf(*pairs))
 
     override val entries: MutableSet<MutableMap.MutableEntry<K, V>>
@@ -57,14 +56,18 @@ internal class AtomicMutableMap<K, V>(
         return removedValue
     }
 
-    override fun putAll(from: Map<out K, V>) = map.update { current ->
-        buildMap {
-            putAll(current)
-            putAll(from)
+    override fun putAll(from: Map<out K, V>) =
+        map.update { current ->
+            buildMap {
+                putAll(current)
+                putAll(from)
+            }
         }
-    }
 
-    override fun put(key: K, value: V): V? {
+    override fun put(
+        key: K,
+        value: V,
+    ): V? {
         var previousValue: V? = null
         map.update { current ->
             buildMap {

@@ -66,16 +66,13 @@ public fun logger(
 ): Klogger = loggerFor(classNameOf(ownerClass), *loggerContextItems, otherLogger = otherLogger)
 
 /** Returns a [Klogger] with the name of the specified class. */
-public inline fun <reified T> logger(
-    vararg loggerContextItems: ContextItem,
-): Klogger =
+public inline fun <reified T> logger(vararg loggerContextItems: ContextItem): Klogger =
     logger(T::class, *loggerContextItems)
 
 public inline fun <reified T> logger(
     otherLogger: BaseLogger?,
     vararg loggerContextItems: ContextItem,
-): Klogger =
-    logger(T::class, otherLogger, *loggerContextItems)
+): Klogger = logger(T::class, otherLogger, *loggerContextItems)
 
 /**
  * Utility interface that supplies a [Klogger] property called `logger`.

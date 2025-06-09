@@ -41,7 +41,6 @@ public class KloggerImpl(
     override val name: String,
     override val loggerContextItems: EventItems = mapOf(),
 ) : Klogger {
-
     /**
      * Emit an event to be dispatched and sent.
      * @param level logging level for the event
@@ -53,7 +52,7 @@ public class KloggerImpl(
         level: Level,
         throwable: Throwable?,
         event: Any?,
-        items: EventItems
+        items: EventItems,
     ) {
         val eventToLog =
             eventFrom(contextName(), level, throwable, event, loggerContextItems + items + contextItems())
@@ -65,13 +64,15 @@ public class KloggerImpl(
     }
 
     private suspend inline fun contextItems(): EventItems {
-        val kloggingContextItems = coroutineContext[LogContext]?.getAll()?.toMutableMap()
-            ?: mutableMapOf()
-        val coroutineItems = KloggingEngine.otherContextExtractors.entries
-            .fold(kloggingContextItems) { contextItems, entry ->
-                contextItems.putAll(currentCoroutineContext().otherContextItems(entry.key, entry.value))
-                contextItems
-            }
+        val kloggingContextItems =
+            coroutineContext[LogContext]?.getAll()?.toMutableMap()
+                ?: mutableMapOf()
+        val coroutineItems =
+            KloggingEngine.otherContextExtractors.entries
+                .fold(kloggingContextItems) { contextItems, entry ->
+                    contextItems.putAll(currentCoroutineContext().otherContextItems(entry.key, entry.value))
+                    contextItems
+                }
         return KloggingEngine.otherItemExtractors
             .fold(coroutineItems) { items, extractor ->
                 items.putAll(extractor())
@@ -86,7 +87,10 @@ public class KloggerImpl(
      * @return a [LogEvent] with context items mapped to the template
      */
     @Suppress("IDENTIFIER_LENGTH")
-    public override suspend fun e(template: String, vararg values: Any?): LogEvent {
+    public override suspend fun e(
+        template: String,
+        vararg values: Any?,
+    ): LogEvent {
         val items = templateItems(template, *values)
         return LogEvent(
             timestamp = timestampNow(),

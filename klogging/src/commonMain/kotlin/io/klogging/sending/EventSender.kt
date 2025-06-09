@@ -19,5 +19,7 @@ public fun interface EventSender {
  * @param renderer the [RenderString] that renders a log event into a string
  * @param sender the [SendString] that sends the rendered event string somewhere
  */
-public fun senderFrom(renderer: RenderString, sender: SendString): EventSender =
-    EventSender { batch -> sender(batch.joinToString("\n") { renderer(it) }) }
+public fun senderFrom(
+    renderer: RenderString,
+    sender: SendString,
+): EventSender = EventSender { batch -> sender(batch.joinToString("\n") { renderer(it) }) }

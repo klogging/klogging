@@ -18,9 +18,10 @@
 
 package io.klogging.rendering
 
-public val RENDER_ISO8601: RenderString = RenderString { event ->
-    buildString {
-        append("${event.timestamp} ${event.level} [${event.context}] ${event.logger} : ${event.evalTemplate()}")
-        append(event.itemsAndStackTrace)
+public val RENDER_ISO8601: RenderString =
+    RenderString { event ->
+        buildString {
+            append("${event.timestamp} ${event.level} [${event.context}] ${event.logger} : ${event.evalTemplate()}")
+            append(event.itemsAndStackTrace)
+        }
     }
-}

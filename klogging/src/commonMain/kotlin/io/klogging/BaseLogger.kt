@@ -34,7 +34,6 @@ import io.klogging.internal.KloggingEngine
  * [NoCoLogger] interface when not using coroutines.
  */
 public interface BaseLogger {
-
     /** Name of the logger: usually a class name in Java. */
     public val name: String
 
@@ -54,10 +53,11 @@ public interface BaseLogger {
      * @param level level at which to check
      * @return `true` if logger will emit events at the specified level
      */
-    public fun isLevelEnabled(level: Level): Boolean = when (level) {
-        NONE -> false
-        else -> minLevel() <= level
-    }
+    public fun isLevelEnabled(level: Level): Boolean =
+        when (level) {
+            NONE -> false
+            else -> minLevel() <= level
+        }
 
     /** Is this logger enabled to emit [TRACE] events? */
     public fun isTraceEnabled(): Boolean = isLevelEnabled(TRACE)
@@ -98,8 +98,8 @@ public interface BaseLogger {
         throwable: Throwable? = null,
         eventObject: Any? = null,
         contextItems: EventItems = mapOf(),
-    ): LogEvent {
-        return when (eventObject) {
+    ): LogEvent =
+        when (eventObject) {
             is LogEvent ->
                 eventObject.copyWith(level, throwable?.stackTraceToString(), contextItems)
 
@@ -115,7 +115,6 @@ public interface BaseLogger {
                 )
             }
         }
-    }
 }
 
 /**
@@ -130,7 +129,10 @@ public interface BaseLogger {
  *   - If the object is not a throwable, return `toString()` on the object
  *     and any stack trace on the supplied throwable.
  */
-internal fun messageAndStackTrace(obj: Any?, throwable: Throwable?): Pair<String, String?> =
+internal fun messageAndStackTrace(
+    obj: Any?,
+    throwable: Throwable?,
+): Pair<String, String?> =
     when (obj) {
         is Throwable -> (obj.message ?: "Throwable") to obj.stackTraceToString()
         else -> obj.toString() to throwable?.stackTraceToString()

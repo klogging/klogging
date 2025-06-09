@@ -21,12 +21,13 @@ package io.klogging.config
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldNotBe
 
-internal class FilesTest : DescribeSpec({
-    describe("Configuration files") {
-        it("should find `klogging.json` on the classpath") {
-            val jsonText = findConfigFile()
+internal class FilesTest :
+    DescribeSpec({
+        describe("Configuration files") {
+            it("should find `klogging.json` on the classpath") {
+                val jsonText = findConfigFile()
 
-            jsonText shouldNotBe null
+                jsonText shouldNotBe null
+            }
         }
-    }
-})
+    })

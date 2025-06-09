@@ -29,10 +29,11 @@ import kotlinx.serialization.json.Json
  */
 public object JsonConfiguration {
     /** Set up the JSON deserialiser to be accepting of unknown and malformed values. */
-    private val json = Json {
-        ignoreUnknownKeys = true
-        isLenient = true
-    }
+    private val json =
+        Json {
+            ignoreUnknownKeys = true
+            isLenient = true
+        }
 
     /**
      * Read configuration from JSON into a [JsonConfiguration] object.

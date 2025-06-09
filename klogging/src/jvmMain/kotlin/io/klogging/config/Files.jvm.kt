@@ -30,7 +30,9 @@ import kotlin.text.Charsets.UTF_8
  * @return the text in the file, or `null` if the file is not found.
  */
 internal fun readResourceText(resourcePath: String): String? =
-    Thread.currentThread().contextClassLoader
+    Thread
+        .currentThread()
+        .contextClassLoader
         .getResourceAsStream(resourcePath)
         ?.bufferedReader(UTF_8)
         ?.let {
@@ -41,17 +43,18 @@ internal fun readResourceText(resourcePath: String): String? =
 /**
  * Read the contents of the file specified by absolute [filePath], if found.
  */
-internal actual fun fileText(filePath: String?): String? = filePath?.let { path ->
-    File(path).let { file ->
-        if (file.exists()) {
-            debug("Configuration", "Reading configuration from $filePath")
-            file.readText(UTF_8)
-        } else {
-            warn("Configuration", "Specified configuration file $filePath not found")
-            null
+internal actual fun fileText(filePath: String?): String? =
+    filePath?.let { path ->
+        File(path).let { file ->
+            if (file.exists()) {
+                debug("Configuration", "Reading configuration from $filePath")
+                file.readText(UTF_8)
+            } else {
+                warn("Configuration", "Specified configuration file $filePath not found")
+                null
+            }
         }
     }
-}
 
 /**
  * Look for the JSON or HOCON configuration file in one of three places:
@@ -64,10 +67,10 @@ internal actual fun fileText(filePath: String?): String? = filePath?.let { path 
  * @return a [ConfigFile] object with the path and contents, if found; else null
  */
 internal actual fun findConfigFile(configPath: String?): ConfigFile? {
-
-    val filePath = configPath
-        ?: getenv(ENV_KLOGGING_CONFIG_JSON_PATH)
-        ?: getenv(ENV_KLOGGING_CONFIG_PATH)
+    val filePath =
+        configPath
+            ?: getenv(ENV_KLOGGING_CONFIG_JSON_PATH)
+            ?: getenv(ENV_KLOGGING_CONFIG_PATH)
 
     var path = filePath
     var contents = fileText(filePath)
@@ -83,10 +86,11 @@ internal actual fun findConfigFile(configPath: String?): ConfigFile? {
     return path?.let { contents?.let { ConfigFile(path, contents) } }
 }
 
-internal actual fun configureFromFile(configFile: ConfigFile?): KloggingConfiguration? = configFile?.let {
-    when {
-        configFile.path.lowercase().endsWith(".json") -> JsonConfiguration.configure(configFile.contents)
-        configFile.path.lowercase().endsWith(".conf") -> HoconConfiguration.configure(configFile.contents)
-        else -> null
+internal actual fun configureFromFile(configFile: ConfigFile?): KloggingConfiguration? =
+    configFile?.let {
+        when {
+            configFile.path.lowercase().endsWith(".json") -> JsonConfiguration.configure(configFile.contents)
+            configFile.path.lowercase().endsWith(".conf") -> HoconConfiguration.configure(configFile.contents)
+            else -> null
+        }
     }
-}

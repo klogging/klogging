@@ -39,89 +39,98 @@ import io.kotest.matchers.string.shouldInclude
 import io.kotest.matchers.string.shouldNotContain
 import io.kotest.matchers.types.shouldBeInstanceOf
 
-class FileSinkConfigurationTest : DescribeSpec({
-    describe("`FileSinkConfiguration`") {
-        it("`toString()` masks `apiKey` values to ******** if present") {
-            val key = randomString()
-            val config = FileSinkConfiguration(renderWith = "RENDER_CLEF", apiKey = key)
-            with(config.toString()) {
-                shouldNotContain(key)
-                shouldContain("apiKey=********")
+class FileSinkConfigurationTest :
+    DescribeSpec({
+        describe("`FileSinkConfiguration`") {
+            it("`toString()` masks `apiKey` values to ******** if present") {
+                val key = randomString()
+                val config = FileSinkConfiguration(renderWith = "RENDER_CLEF", apiKey = key)
+                with(config.toString()) {
+                    shouldNotContain(key)
+                    shouldContain("apiKey=********")
+                }
+            }
+            describe("`toSinkConfiguration` function") {
+                it("returns null if no renderer or sender is specified") {
+                    FileSinkConfiguration().toSinkConfiguration() shouldBe null
+                }
+                it("if `eventSender` is present, it overrides any specified render and sender") {
+                    val sinkConfig =
+                        FileSinkConfiguration(eventSender = TestEventSender::class.qualifiedName!!)
+                            .toSinkConfiguration()
+                    sinkConfig.shouldNotBeNull()
+                    sinkConfig.eventSender.shouldBeInstanceOf<TestEventSender>()
+                }
+                it("if `renderPattern` is present, it overrides `renderWith`") {
+                    val sinkConfig =
+                        FileSinkConfiguration(renderWith = "RENDER_ANSI", renderPattern = "%m", sendTo = "STDOUT")
+                            .toSinkConfiguration()
+                    sinkConfig.shouldNotBeNull()
+                    sinkConfig.renderer.shouldNotBeNull()
+                    sinkConfig.renderer shouldNotBe RENDER_ANSI
+                    sinkConfig.renderer.shouldBeInstanceOf<RenderPattern>()
+                }
+                it("if `renderWith` names a built-in renderer, it is used for rendering") {
+                    val sinkConfig =
+                        FileSinkConfiguration(renderWith = "RENDER_ANSI", sendTo = "STDOUT")
+                            .toSinkConfiguration()
+                    sinkConfig.shouldNotBeNull()
+                    sinkConfig.renderer shouldBe RENDER_ANSI
+                }
+                it("if `renderWith` names a `RenderString` class, it is used for rendering") {
+                    val sinkConfig =
+                        FileSinkConfiguration(renderWith = TestRenderString::class.qualifiedName!!, sendTo = "STDOUT")
+                            .toSinkConfiguration()
+                    sinkConfig.shouldNotBeNull()
+                    sinkConfig.renderer(logEvent()) shouldBe "TestRenderString"
+                }
+                it("if `renderWith` is not named but `renderHec` is, the latter is used") {
+                    val index = randomString()
+                    val sinkConfig =
+                        FileSinkConfiguration(renderHec = RenderHec(index = index), sendTo = "STDOUT")
+                            .toSinkConfiguration()
+                    sinkConfig.shouldNotBeNull()
+                    sinkConfig.renderer(logEvent()).shouldInclude(""""index":"$index"""")
+                }
+                it("if `splunkServer` is present, it overrides all other configuration") {
+                    val sinkConfig =
+                        FileSinkConfiguration(
+                            splunkServer =
+                                SplunkEndpoint(
+                                    hecUrl = "http://localhost:8000",
+                                    hecToken = "TEST_TOKEN",
+                                ),
+                        ).toSinkConfiguration()
+                    sinkConfig.shouldNotBeNull()
+                    sinkConfig.eventSender.shouldNotBeNull()
+                    sinkConfig.eventSender.shouldBeInstanceOf<SplunkHec>()
+                }
+                it("if `sendTo` names a built-in sender, it is used for sending") {
+                    val sinkConfig =
+                        FileSinkConfiguration(renderWith = "RENDER_SIMPLE", sendTo = "STDOUT")
+                            .toSinkConfiguration()
+                    sinkConfig.shouldNotBeNull()
+                    sinkConfig.stringSender shouldBe STDOUT
+                }
+                it("if `sendTo` names a `SendString` class, it is used for sending") {
+                    val sinkConfig =
+                        FileSinkConfiguration(
+                            renderWith = "RENDER_SIMPLE",
+                            sendTo = TestStringSender::class.qualifiedName!!,
+                        ).toSinkConfiguration()
+                    sinkConfig.shouldNotBeNull()
+                    sinkConfig.stringSender.shouldBeInstanceOf<TestStringSender>()
+                }
+                it("else if `seqServer` is present, it overrides other configuration") {
+                    val sinkConfig =
+                        FileSinkConfiguration(seqServer = "http://localhost:5341")
+                            .toSinkConfiguration()
+                    sinkConfig.shouldNotBeNull()
+                    sinkConfig.renderer shouldBe RENDER_CLEF
+                }
             }
         }
-        describe("`toSinkConfiguration` function") {
-            it("returns null if no renderer or sender is specified") {
-                FileSinkConfiguration().toSinkConfiguration() shouldBe null
-            }
-            it("if `eventSender` is present, it overrides any specified render and sender") {
-                val sinkConfig = FileSinkConfiguration(eventSender = TestEventSender::class.qualifiedName!!)
-                    .toSinkConfiguration()
-                sinkConfig.shouldNotBeNull()
-                sinkConfig.eventSender.shouldBeInstanceOf<TestEventSender>()
-            }
-            it("if `renderPattern` is present, it overrides `renderWith`") {
-                val sinkConfig =
-                    FileSinkConfiguration(renderWith = "RENDER_ANSI", renderPattern = "%m", sendTo = "STDOUT")
-                        .toSinkConfiguration()
-                sinkConfig.shouldNotBeNull()
-                sinkConfig.renderer.shouldNotBeNull()
-                sinkConfig.renderer shouldNotBe RENDER_ANSI
-                sinkConfig.renderer.shouldBeInstanceOf<RenderPattern>()
-            }
-            it("if `renderWith` names a built-in renderer, it is used for rendering") {
-                val sinkConfig = FileSinkConfiguration(renderWith = "RENDER_ANSI", sendTo = "STDOUT")
-                    .toSinkConfiguration()
-                sinkConfig.shouldNotBeNull()
-                sinkConfig.renderer shouldBe RENDER_ANSI
-            }
-            it("if `renderWith` names a `RenderString` class, it is used for rendering") {
-                val sinkConfig =
-                    FileSinkConfiguration(renderWith = TestRenderString::class.qualifiedName!!, sendTo = "STDOUT")
-                        .toSinkConfiguration()
-                sinkConfig.shouldNotBeNull()
-                sinkConfig.renderer(logEvent()) shouldBe "TestRenderString"
-            }
-            it("if `renderWith` is not named but `renderHec` is, the latter is used") {
-                val index = randomString()
-                val sinkConfig = FileSinkConfiguration(renderHec = RenderHec(index = index), sendTo = "STDOUT")
-                    .toSinkConfiguration()
-                sinkConfig.shouldNotBeNull()
-                sinkConfig.renderer(logEvent()).shouldInclude(""""index":"$index"""")
-            }
-            it("if `splunkServer` is present, it overrides all other configuration") {
-                val sinkConfig = FileSinkConfiguration(
-                    splunkServer = SplunkEndpoint(
-                        hecUrl = "http://localhost:8000",
-                        hecToken = "TEST_TOKEN",
-                    )
-                ).toSinkConfiguration()
-                sinkConfig.shouldNotBeNull()
-                sinkConfig.eventSender.shouldNotBeNull()
-                sinkConfig.eventSender.shouldBeInstanceOf<SplunkHec>()
-            }
-            it("if `sendTo` names a built-in sender, it is used for sending") {
-                val sinkConfig = FileSinkConfiguration(renderWith = "RENDER_SIMPLE", sendTo = "STDOUT")
-                    .toSinkConfiguration()
-                sinkConfig.shouldNotBeNull()
-                sinkConfig.stringSender shouldBe STDOUT
-            }
-            it("if `sendTo` names a `SendString` class, it is used for sending") {
-                val sinkConfig = FileSinkConfiguration(
-                    renderWith = "RENDER_SIMPLE",
-                    sendTo = TestStringSender::class.qualifiedName!!
-                ).toSinkConfiguration()
-                sinkConfig.shouldNotBeNull()
-                sinkConfig.stringSender.shouldBeInstanceOf<TestStringSender>()
-            }
-            it("else if `seqServer` is present, it overrides other configuration") {
-                val sinkConfig = FileSinkConfiguration(seqServer = "http://localhost:5341")
-                    .toSinkConfiguration()
-                sinkConfig.shouldNotBeNull()
-                sinkConfig.renderer shouldBe RENDER_CLEF
-            }
-        }
-    }
-})
+    })
 
 class TestEventSender : EventSender {
     override fun invoke(batch: List<LogEvent>) {}

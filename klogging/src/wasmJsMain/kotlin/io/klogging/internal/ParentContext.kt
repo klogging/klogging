@@ -23,6 +23,4 @@ import kotlinx.coroutines.GlobalScope
 import kotlin.coroutines.CoroutineContext
 
 @OptIn(DelicateCoroutinesApi::class)
-internal actual fun parentContext(): CoroutineContext {
-    return GlobalScope.coroutineContext
-}
+internal actual fun parentContext(): CoroutineContext = GlobalScope.coroutineContext

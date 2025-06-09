@@ -39,7 +39,13 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 public enum class Level {
-    TRACE, DEBUG, INFO, WARN, ERROR, FATAL, NONE
+    TRACE,
+    DEBUG,
+    INFO,
+    WARN,
+    ERROR,
+    FATAL,
+    NONE,
 }
 
 /**
@@ -59,12 +65,13 @@ public enum class Level {
  * @todo [NONE] should not map to syslog's Debug?  Perhaps return an `Int?`?
  */
 public val Level.syslog: Int
-    get() = when (this) {
-        NONE -> 7
-        TRACE -> 7
-        DEBUG -> 7
-        INFO -> 6
-        WARN -> 4
-        ERROR -> 3
-        FATAL -> 2
-    }
+    get() =
+        when (this) {
+            NONE -> 7
+            TRACE -> 7
+            DEBUG -> 7
+            INFO -> 6
+            WARN -> 4
+            ERROR -> 3
+            FATAL -> 2
+        }

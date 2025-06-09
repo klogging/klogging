@@ -28,6 +28,7 @@ import io.klogging.events.LogEvent
  * "userId" to "uid_nO59TmsQfqHxqbFL", [evalTemplate] returns the string
  * "User ID uid_nO59TmsQfqHxqbFL signed in".
  */
-public fun LogEvent.evalTemplate(): String = items.entries
-    .filter { entry -> entry.value != null }
-    .fold(message) { message, (key, value) -> message.replace("{$key}", value.toString()) }
+public fun LogEvent.evalTemplate(): String =
+    items.entries
+        .filter { entry -> entry.value != null }
+        .fold(message) { message, (key, value) -> message.replace("{$key}", value.toString()) }

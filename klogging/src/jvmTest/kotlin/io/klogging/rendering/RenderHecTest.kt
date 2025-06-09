@@ -24,21 +24,24 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.datetime.Instant
 
-class RenderHecTest : DescribeSpec({
-    describe("`renderHec()` function") {
-        val ts = Instant.fromEpochSeconds(1632804634, 266123000)
-        val event = LogEvent(
-            id = "id",
-            timestamp = ts,
-            host = "local",
-            logger = "SendSplunkTest",
-            context = "test-context",
-            level = INFO,
-            message = "This is a message",
-            items = mapOf("colour" to "green"),
-        )
-        it("constructs a JSON event without optional values") {
-            renderHec()(event) shouldBe """{
+class RenderHecTest :
+    DescribeSpec({
+        describe("`renderHec()` function") {
+            val ts = Instant.fromEpochSeconds(1632804634, 266123000)
+            val event =
+                LogEvent(
+                    id = "id",
+                    timestamp = ts,
+                    host = "local",
+                    logger = "SendSplunkTest",
+                    context = "test-context",
+                    level = INFO,
+                    message = "This is a message",
+                    items = mapOf("colour" to "green"),
+                )
+            it("constructs a JSON event without optional values") {
+                renderHec()(event) shouldBe
+                    """{
             |"time":1632804634.266123000,
             |"host":"local",
             |"event":{
@@ -48,10 +51,11 @@ class RenderHecTest : DescribeSpec({
             |"message":"This is a message",
             |"colour":"green"
             |}}
-            """.trimMargin().replace("\n", "")
-        }
-        it("constructs a JSON event with specified index") {
-            renderHec(index = "general")(event) shouldBe """{
+                    """.trimMargin().replace("\n", "")
+            }
+            it("constructs a JSON event with specified index") {
+                renderHec(index = "general")(event) shouldBe
+                    """{
             |"time":1632804634.266123000,
             |"index":"general",
             |"host":"local",
@@ -62,10 +66,11 @@ class RenderHecTest : DescribeSpec({
             |"message":"This is a message",
             |"colour":"green"
             |}}
-            """.trimMargin().replace("\n", "")
-        }
-        it("constructs a JSON event with a specified sourceType") {
-            renderHec(sourceType = "Klogging")(event) shouldBe """{
+                    """.trimMargin().replace("\n", "")
+            }
+            it("constructs a JSON event with a specified sourceType") {
+                renderHec(sourceType = "Klogging")(event) shouldBe
+                    """{
             |"time":1632804634.266123000,
             |"sourcetype":"Klogging",
             |"host":"local",
@@ -76,10 +81,11 @@ class RenderHecTest : DescribeSpec({
             |"message":"This is a message",
             |"colour":"green"
             |}}
-            """.trimMargin().replace("\n", "")
-        }
-        it("constructs a JSON event with a specified source") {
-            renderHec(source = "Testing")(event) shouldBe """{
+                    """.trimMargin().replace("\n", "")
+            }
+            it("constructs a JSON event with a specified source") {
+                renderHec(source = "Testing")(event) shouldBe
+                    """{
             |"time":1632804634.266123000,
             |"source":"Testing",
             |"host":"local",
@@ -90,7 +96,7 @@ class RenderHecTest : DescribeSpec({
             |"message":"This is a message",
             |"colour":"green"
             |}}
-            """.trimMargin().replace("\n", "")
+                    """.trimMargin().replace("\n", "")
+            }
         }
-    }
-})
+    })

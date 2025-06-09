@@ -20,6 +20,9 @@ package io.klogging.sending
 
 import io.klogging.events.LogEvent
 
-internal actual fun sendToElk(endpoint: ElkEndpoint, batch: List<LogEvent>) {
+internal actual fun sendToElk(
+    endpoint: ElkEndpoint,
+    batch: List<LogEvent>,
+) {
     TODO("Not yet implemented")
 }

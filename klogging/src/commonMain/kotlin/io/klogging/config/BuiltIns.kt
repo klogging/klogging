@@ -24,8 +24,8 @@ import io.klogging.rendering.RENDER_ECS
 import io.klogging.rendering.RENDER_ECS_DOTNET
 import io.klogging.rendering.RENDER_GELF
 import io.klogging.rendering.RENDER_ISO8601
-import io.klogging.rendering.RENDER_STANDARD
 import io.klogging.rendering.RENDER_SIMPLE
+import io.klogging.rendering.RENDER_STANDARD
 import io.klogging.rendering.RenderString
 import io.klogging.sending.STDERR
 import io.klogging.sending.STDOUT

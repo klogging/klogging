@@ -31,14 +31,17 @@ public val RENDER_ANSI: RenderString = renderAnsi(DEFAULT_MAX_WIDTH, DEFAULT_MAX
 public fun renderAnsi(
     contextWidth: Int,
     loggerWidth: Int,
-): RenderString = RenderString { event ->
-    buildString {
-        append("${event.timestamp.localTime} ${event.level.colour5}")
-        if (contextWidth > 0 && event.context != null)
-            append(" [${event.context.shortenRight(contextWidth)}]")
-        if (loggerWidth > 0)
-            append(" : ${event.logger.shortenRight(loggerWidth)}")
-        append(" : ${event.evalTemplate()}")
-        append(event.itemsAndStackTrace)
+): RenderString =
+    RenderString { event ->
+        buildString {
+            append("${event.timestamp.localTime} ${event.level.colour5}")
+            if (contextWidth > 0 && event.context != null) {
+                append(" [${event.context.shortenRight(contextWidth)}]")
+            }
+            if (loggerWidth > 0) {
+                append(" : ${event.logger.shortenRight(loggerWidth)}")
+            }
+            append(" : ${event.evalTemplate()}")
+            append(event.itemsAndStackTrace)
+        }
     }
-}

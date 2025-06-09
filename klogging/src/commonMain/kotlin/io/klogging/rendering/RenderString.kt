@@ -32,5 +32,4 @@ public fun interface RenderString {
 }
 
 /** Right-align the string into a fixed-width space. */
-public fun String.rightAlign(width: Int): String =
-    (" ".repeat(width) + this).let { it.substring(it.length - width) }
+public fun String.rightAlign(width: Int): String = (" ".repeat(width) + this).let { it.substring(it.length - width) }

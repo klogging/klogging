@@ -36,21 +36,23 @@ import io.klogging.sending.SendString
  * Set the default Klogging log level from the environment using name
  * [ENV_KLOGGING_MIN_LOG_LEVEL] if present, else default to [INFO].
  */
-internal val defaultKloggingMinLogLevel: Level = try {
-    getenv(ENV_KLOGGING_MIN_LOG_LEVEL)?.let { Level.valueOf(it) } ?: INFO
-} catch (_: Throwable) {
-    INFO
-}
+internal val defaultKloggingMinLogLevel: Level =
+    try {
+        getenv(ENV_KLOGGING_MIN_LOG_LEVEL)?.let { Level.valueOf(it) } ?: INFO
+    } catch (_: Throwable) {
+        INFO
+    }
 
 /**
  * Set the default level at which Klogging sends events directly instead of
  * via coroutine channels
  */
-internal val defaultMinDirectLogLevel: Level = try {
-    getenv(ENV_KLOGGING_MIN_DIRECT_LOG_LEVEL)?.let { Level.valueOf(it) } ?: WARN
-} catch (_: Throwable) {
-    WARN
-}
+internal val defaultMinDirectLogLevel: Level =
+    try {
+        getenv(ENV_KLOGGING_MIN_DIRECT_LOG_LEVEL)?.let { Level.valueOf(it) } ?: WARN
+    } catch (_: Throwable) {
+        WARN
+    }
 
 /**
  * Root DSL function for creating a [KloggingConfiguration].
@@ -61,7 +63,10 @@ internal val defaultMinDirectLogLevel: Level = try {
  * @param block DSL functions with values to apply to this configuration.
  */
 @ConfigDsl
-public fun loggingConfiguration(append: Boolean = false, block: KloggingConfiguration.() -> Unit) {
+public fun loggingConfiguration(
+    append: Boolean = false,
+    block: KloggingConfiguration.() -> Unit,
+) {
     // Ensure file configuration has been loaded
     KloggingEngine.configuration
     val dslConfig = KloggingConfiguration()
@@ -81,8 +86,7 @@ private fun combineFileAndDsl(config: KloggingConfiguration): KloggingConfigurat
         fileText(configPath)
             ?.let { text ->
                 configureFromFile(ConfigFile(configPath, text))
-            }
-            ?.let { fileConfig ->
+            }?.let { fileConfig ->
                 debug("Configuration", "Configuration read from $configPath")
                 fileConfig.append(config)
                 fileConfig
@@ -93,7 +97,6 @@ private fun combineFileAndDsl(config: KloggingConfiguration): KloggingConfigurat
  * Klogging configuration for a runtime.
  */
 public class KloggingConfiguration {
-
     /** Sinks in this configuration */
     internal val sinks: AtomicMutableMap<String, SinkConfiguration> = AtomicMutableMap()
 
@@ -147,7 +150,10 @@ public class KloggingConfiguration {
      * @param sinkConfig configuration to use
      */
     @ConfigDsl
-    public fun sink(sinkName: String, sinkConfig: SinkConfiguration) {
+    public fun sink(
+        sinkName: String,
+        sinkConfig: SinkConfiguration,
+    ) {
         sinks[sinkName] = sinkConfig
     }
 
@@ -159,7 +165,11 @@ public class KloggingConfiguration {
      * @param sender object that sends an event as string somewhere
      */
     @ConfigDsl
-    public fun sink(sinkName: String, renderer: RenderString, sender: SendString) {
+    public fun sink(
+        sinkName: String,
+        renderer: RenderString,
+        sender: SendString,
+    ) {
         sinks[sinkName] = SinkConfiguration(renderer, sender)
     }
 
@@ -170,7 +180,10 @@ public class KloggingConfiguration {
      * @param eventSender [EventSender] for the sink to use
      */
     @ConfigDsl
-    public fun sink(sinkName: String, eventSender: EventSender) {
+    public fun sink(
+        sinkName: String,
+        eventSender: EventSender,
+    ) {
         sinks[sinkName] = SinkConfiguration(eventSender = eventSender)
     }
 
@@ -192,17 +205,19 @@ public class KloggingConfiguration {
      * @param loggerName name of the logger
      * @return calculated level
      */
-    public fun minimumLevelOf(loggerName: String): Level = configs
-        .filter { it.nameMatcher(loggerName) }
-        .flatMap { it.ranges }
-        .minOfOrNull { it.minLevel } ?: NONE
+    public fun minimumLevelOf(loggerName: String): Level =
+        configs
+            .filter { it.nameMatcher(loggerName) }
+            .flatMap { it.ranges }
+            .minOfOrNull { it.minLevel } ?: NONE
 
     /** Validate that sinks referred to in logging configurations have been defined. */
     internal fun validateSinks() {
-        val loggingSinks = configs
-            .flatMap { it.ranges }
-            .flatMap { it.sinkNames }
-            .toSet()
+        val loggingSinks =
+            configs
+                .flatMap { it.ranges }
+                .flatMap { it.sinkNames }
+                .toSet()
         val extraSinks = loggingSinks - sinks.keys
         extraSinks.forEach {
             warn(

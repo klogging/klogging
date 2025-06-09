@@ -35,7 +35,6 @@ internal val eventChannelCapacity: Int = getenvInt(ENV_KLOGGING_EVENT_CHANNEL_CA
  * The main object for managing log event processing.
  */
 internal object Emitter : CoroutineScope {
-
     /**
      * Context in which to launch coroutines
      */
