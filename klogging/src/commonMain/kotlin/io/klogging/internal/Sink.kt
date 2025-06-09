@@ -69,6 +69,7 @@ internal class Sink(
                 eventSender(listOf(logEvent))
             }
             // … instead of using the experimental coroutine API
+
             /*
             while (true) {
                 val batch = receiveBatch(channel, batchMaxTimeMs, batchMaxSize)

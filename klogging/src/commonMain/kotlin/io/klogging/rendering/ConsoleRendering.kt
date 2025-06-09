@@ -93,7 +93,7 @@ public fun CharSequence.shortenRight(width: Int): CharSequence =
 public fun CharSequence.padRight(width: Int): CharSequence =
     (" ".repeat(width) + this).let { it.substring(it.length - width) }
 
-private const val delimiters = ". /:-+"
+private const val DELIMITERS = ". /:-+"
 
 /**
  * Shortens the given name if it exceeds the specified width.
@@ -106,7 +106,7 @@ public fun CharSequence.shortenName(width: Int = DEFAULT_MAX_WIDTH): CharSequenc
     val maxWidth = if (width < MINIMUM_MAX_WIDTH) MINIMUM_MAX_WIDTH else width
     if (length <= maxWidth) return this
     forEachIndexed { idx, char ->
-        if (char in delimiters && idx > 0) {
+        if (char in DELIMITERS && idx > 0) {
             return substring(0, 1) + char + substring(idx + 1).shortenName(maxWidth - 2)
         }
     }

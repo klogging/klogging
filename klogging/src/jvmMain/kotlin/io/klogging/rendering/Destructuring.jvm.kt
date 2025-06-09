@@ -23,7 +23,7 @@ import kotlin.reflect.KClass
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.isAccessible
 
-internal const val typeKey = "\$type"
+internal const val TYPE_KEY = "\$type"
 
 internal actual fun destructure(obj: Any): EventItems =
     buildMap {
@@ -48,5 +48,5 @@ internal actual fun destructure(obj: Any): EventItems =
                 else -> put(name, destructure(value!!))
             }
         }
-        put(typeKey, obj::class.simpleName)
+        put(TYPE_KEY, obj::class.simpleName)
     }

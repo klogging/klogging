@@ -33,7 +33,7 @@ class DestructuringTest :
                     val age: Int,
                 )
                 destructure(User("Derek", 42)) shouldContainExactly
-                    mapOf("name" to "Derek", "age" to 42, typeKey to "User")
+                    mapOf("name" to "Derek", "age" to 42, TYPE_KEY to "User")
             }
             it("data class with floating point properties") {
                 data class Coords(
@@ -41,7 +41,7 @@ class DestructuringTest :
                     val y: Double,
                 )
                 destructure(Coords(-27.51, 153.04)) shouldContainExactly
-                    mapOf("x" to -27.51, "y" to 153.04, typeKey to "Coords")
+                    mapOf("x" to -27.51, "y" to 153.04, TYPE_KEY to "Coords")
             }
             it("data class with boolean property") {
                 data class Valid(
@@ -49,9 +49,9 @@ class DestructuringTest :
                     val reason: String,
                 )
                 destructure(Valid(true, "Good stuff")) shouldContainExactly
-                    mapOf("valid" to true, "reason" to "Good stuff", typeKey to "Valid")
+                    mapOf("valid" to true, "reason" to "Good stuff", TYPE_KEY to "Valid")
                 destructure(Valid(false, "You lied to me")) shouldContainExactly
-                    mapOf("valid" to false, "reason" to "You lied to me", typeKey to "Valid")
+                    mapOf("valid" to false, "reason" to "You lied to me", TYPE_KEY to "Valid")
             }
             it("with null value") {
                 data class Nullable(
@@ -59,7 +59,7 @@ class DestructuringTest :
                     val age: Int?,
                 )
                 destructure(Nullable("Fred", null)) shouldContainExactly
-                    mapOf("name" to "Fred", "age" to null, typeKey to "Nullable")
+                    mapOf("name" to "Fred", "age" to null, TYPE_KEY to "Nullable")
             }
             it("with nested data classes") {
                 data class User(
@@ -73,9 +73,9 @@ class DestructuringTest :
                 )
                 destructure(Login(User("Fred", 21), "Mobile")) shouldContainExactly
                     mapOf(
-                        "user" to mapOf("name" to "Fred", "age" to 21, typeKey to "User"),
+                        "user" to mapOf("name" to "Fred", "age" to 21, TYPE_KEY to "User"),
                         "source" to "Mobile",
-                        typeKey to "Login",
+                        TYPE_KEY to "Login",
                     )
             }
             it("with ordinary class") {
@@ -85,7 +85,7 @@ class DestructuringTest :
                     val angle: Int = 0,
                 )
                 destructure(ComplexClass("thing", 5.123)) shouldContainExactly
-                    mapOf("name" to "thing", "length" to 5.123, "angle" to 0, typeKey to "ComplexClass")
+                    mapOf("name" to "thing", "length" to 5.123, "angle" to 0, TYPE_KEY to "ComplexClass")
             }
             it("data class with calculated property") {
                 data class Contact(
@@ -99,7 +99,7 @@ class DestructuringTest :
                         "firstName" to "William",
                         "lastName" to "Johnson",
                         "fullName" to "William Johnson",
-                        typeKey to "Contact",
+                        TYPE_KEY to "Contact",
                     )
             }
             it("data class with list property") {
@@ -107,7 +107,7 @@ class DestructuringTest :
                     val names: List<String>,
                 )
                 destructure(Thing(listOf("one", "two"))) shouldContainExactly
-                    mapOf("names" to listOf("one", "two"), typeKey to "Thing")
+                    mapOf("names" to listOf("one", "two"), TYPE_KEY to "Thing")
             }
             it("list throws an error or exception") {
                 shouldThrow<Throwable> { destructure(listOf("one", "two", "three")) }
@@ -147,7 +147,7 @@ class DestructuringTest :
                             mapOf(
                                 "name" to "Mabel",
                                 "age" to 4,
-                                typeKey to "User",
+                                TYPE_KEY to "User",
                             ),
                     )
             }
