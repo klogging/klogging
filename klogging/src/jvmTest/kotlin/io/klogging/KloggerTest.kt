@@ -206,6 +206,31 @@ internal class KloggerTest :
                     TestLogger(loggerLevel).log(eventLevel) { fail("Should not be called") }
                 }
             }
+
+            describe("`toNoCoLogger()` function") {
+                it("copies the source logger name if a new name is not specified") {
+                    val sourceName = randomString()
+                    logger(sourceName).toNoCoLogger().name shouldBe sourceName
+                    logger(sourceName).toNoCoLogger(randomString() to randomString()).name shouldBe sourceName
+                }
+                it("uses a new name if specified") {
+                    val sourceName = randomString()
+                    val sourceLogger = logger(sourceName)
+                    val newName = randomString()
+                    sourceLogger.toNoCoLogger(newName).name shouldBe newName
+                    sourceLogger.toNoCoLogger(newName, randomString() to randomString()).name shouldBe newName
+                }
+                it("adds new logger context items if specified") {
+                    val events = savedEvents()
+                    val contextItems = randomString() to randomString()
+
+                    logger(randomString()).toNoCoLogger(contextItems).info(randomString())
+                    logger(randomString()).toNoCoLogger(randomString(), contextItems).info(randomString())
+
+                    events.first().items shouldContain contextItems
+                    events.last().items shouldContain contextItems
+                }
+            }
         }
     })
 

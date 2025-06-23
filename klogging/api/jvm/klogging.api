@@ -68,6 +68,8 @@ public abstract interface class io/klogging/Klogger : io/klogging/BaseLogger {
 	public abstract fun log (Lio/klogging/Level;Ljava/lang/Throwable;Ljava/lang/String;[Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun log (Lio/klogging/Level;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun log (Lio/klogging/Level;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun toNoCoLogger (Ljava/lang/String;[Lkotlin/Pair;)Lio/klogging/NoCoLogger;
+	public abstract fun toNoCoLogger ([Lkotlin/Pair;)Lio/klogging/NoCoLogger;
 	public abstract fun trace (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun trace (Ljava/lang/String;Ljava/lang/Throwable;Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun trace (Ljava/lang/String;Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -137,6 +139,8 @@ public final class io/klogging/Klogger$DefaultImpls {
 	public static fun log (Lio/klogging/Klogger;Lio/klogging/Level;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static fun log (Lio/klogging/Klogger;Lio/klogging/Level;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static fun minLevel (Lio/klogging/Klogger;)Lio/klogging/Level;
+	public static fun toNoCoLogger (Lio/klogging/Klogger;Ljava/lang/String;[Lkotlin/Pair;)Lio/klogging/NoCoLogger;
+	public static fun toNoCoLogger (Lio/klogging/Klogger;[Lkotlin/Pair;)Lio/klogging/NoCoLogger;
 	public static fun trace (Lio/klogging/Klogger;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static fun trace (Lio/klogging/Klogger;Ljava/lang/String;Ljava/lang/Throwable;Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static fun trace (Lio/klogging/Klogger;Ljava/lang/String;Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -234,6 +238,8 @@ public abstract interface class io/klogging/NoCoLogger : io/klogging/BaseLogger 
 	public abstract fun log (Lio/klogging/Level;Ljava/lang/Throwable;Ljava/lang/String;[Ljava/lang/Object;)V
 	public abstract fun log (Lio/klogging/Level;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
 	public abstract fun log (Lio/klogging/Level;Lkotlin/jvm/functions/Function1;)V
+	public abstract fun toKlogger (Ljava/lang/String;[Lkotlin/Pair;)Lio/klogging/Klogger;
+	public abstract fun toKlogger ([Lkotlin/Pair;)Lio/klogging/Klogger;
 	public abstract fun trace (Ljava/lang/Object;)V
 	public abstract fun trace (Ljava/lang/String;Ljava/lang/Throwable;Ljava/util/Map;)V
 	public abstract fun trace (Ljava/lang/String;Ljava/util/Map;)V
@@ -303,6 +309,8 @@ public final class io/klogging/NoCoLogger$DefaultImpls {
 	public static fun log (Lio/klogging/NoCoLogger;Lio/klogging/Level;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
 	public static fun log (Lio/klogging/NoCoLogger;Lio/klogging/Level;Lkotlin/jvm/functions/Function1;)V
 	public static fun minLevel (Lio/klogging/NoCoLogger;)Lio/klogging/Level;
+	public static fun toKlogger (Lio/klogging/NoCoLogger;Ljava/lang/String;[Lkotlin/Pair;)Lio/klogging/Klogger;
+	public static fun toKlogger (Lio/klogging/NoCoLogger;[Lkotlin/Pair;)Lio/klogging/Klogger;
 	public static fun trace (Lio/klogging/NoCoLogger;Ljava/lang/Object;)V
 	public static fun trace (Lio/klogging/NoCoLogger;Ljava/lang/String;Ljava/lang/Throwable;Ljava/util/Map;)V
 	public static fun trace (Lio/klogging/NoCoLogger;Ljava/lang/String;Ljava/util/Map;)V
@@ -759,6 +767,8 @@ public final class io/klogging/impl/KloggerImpl : io/klogging/Klogger {
 	public fun log (Lio/klogging/Level;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun log (Lio/klogging/Level;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun minLevel ()Lio/klogging/Level;
+	public fun toNoCoLogger (Ljava/lang/String;[Lkotlin/Pair;)Lio/klogging/NoCoLogger;
+	public fun toNoCoLogger ([Lkotlin/Pair;)Lio/klogging/NoCoLogger;
 	public fun trace (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun trace (Ljava/lang/String;Ljava/lang/Throwable;Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun trace (Ljava/lang/String;Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -834,6 +844,8 @@ public final class io/klogging/impl/NoCoLoggerImpl : io/klogging/NoCoLogger, kot
 	public fun log (Lio/klogging/Level;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function1;)V
 	public fun log (Lio/klogging/Level;Lkotlin/jvm/functions/Function1;)V
 	public fun minLevel ()Lio/klogging/Level;
+	public fun toKlogger (Ljava/lang/String;[Lkotlin/Pair;)Lio/klogging/Klogger;
+	public fun toKlogger ([Lkotlin/Pair;)Lio/klogging/Klogger;
 	public fun trace (Ljava/lang/Object;)V
 	public fun trace (Ljava/lang/String;Ljava/lang/Throwable;Ljava/util/Map;)V
 	public fun trace (Ljava/lang/String;Ljava/util/Map;)V

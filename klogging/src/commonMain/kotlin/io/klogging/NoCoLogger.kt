@@ -24,6 +24,7 @@ import io.klogging.Level.FATAL
 import io.klogging.Level.INFO
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
+import io.klogging.context.ContextItem
 import io.klogging.events.EventItems
 import io.klogging.events.LogEvent
 
@@ -347,4 +348,22 @@ public interface NoCoLogger : BaseLogger {
         template: String,
         vararg values: Any?,
     ): LogEvent
+
+    /**
+     * Creates a [Klogger] from this one with the same name.
+     *
+     * @param loggerContextItems zero or more pairs of context items
+     */
+    public fun toKlogger(vararg loggerContextItems: ContextItem): Klogger = logger(this.name, this, *loggerContextItems)
+
+    /**
+     * Creates a [Klogger] from this one with a different name.
+     *
+     * @param name Name of the new logger
+     * @param loggerContextItems zero or more pairs of context items
+     */
+    public fun toKlogger(
+        name: String,
+        vararg loggerContextItems: ContextItem,
+    ): Klogger = logger(name, this, *loggerContextItems)
 }
