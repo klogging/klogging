@@ -233,6 +233,10 @@ $dokka.location:io.klogging//noCoLogger/#kotlin.String#kotlin.Array[kotlin.Pair[
 $dokka.location:io.klogging//noCoLogger/#kotlin.reflect.KClass[*]#io.klogging.BaseLogger?#kotlin.Array[kotlin.Pair[kotlin.String,kotlin.Any?]]/PointingToDeclaration/-klogging/io.klogging/no-co-logger.html
 $dokka.location:io.klogging//noCoLogger/#kotlin.reflect.KClass[*]#kotlin.Array[kotlin.Pair[kotlin.String,kotlin.Any?]]/PointingToDeclaration/-klogging/io.klogging/no-co-logger.html
 $dokka.location:io.klogging//syslog/io.klogging.Level#/PointingToDeclaration/-klogging/io.klogging/syslog.html
+$dokka.location:io.klogging//toKlogger/io.klogging.NoCoLogger#kotlin.Array[kotlin.Pair[kotlin.String,kotlin.Any?]]/PointingToDeclaration/-klogging/io.klogging/to-klogger.html
+$dokka.location:io.klogging//toKlogger/io.klogging.NoCoLogger#kotlin.String#kotlin.Array[kotlin.Pair[kotlin.String,kotlin.Any?]]/PointingToDeclaration/-klogging/io.klogging/to-klogger.html
+$dokka.location:io.klogging//toNoCoLogger/io.klogging.Klogger#kotlin.Array[kotlin.Pair[kotlin.String,kotlin.Any?]]/PointingToDeclaration/-klogging/io.klogging/to-no-co-logger.html
+$dokka.location:io.klogging//toNoCoLogger/io.klogging.Klogger#kotlin.String#kotlin.Array[kotlin.Pair[kotlin.String,kotlin.Any?]]/PointingToDeclaration/-klogging/io.klogging/to-no-co-logger.html
 $dokka.location:io.klogging/BaseLogger///PointingToDeclaration/-klogging/io.klogging/-base-logger/index.html
 $dokka.location:io.klogging/BaseLogger/eventFrom/#kotlin.String?#io.klogging.Level#kotlin.Throwable?#kotlin.Any?#kotlin.collections.Map[kotlin.String,kotlin.Any?]/PointingToDeclaration/-klogging/io.klogging/-base-logger/event-from.html
 $dokka.location:io.klogging/BaseLogger/isDebugEnabled/#/PointingToDeclaration/-klogging/io.klogging/-base-logger/is-debug-enabled.html
@@ -288,8 +292,6 @@ $dokka.location:io.klogging/Klogger/log/#io.klogging.Level#kotlin.Throwable#kotl
 $dokka.location:io.klogging/Klogger/log/#io.klogging.Level#kotlin.Throwable#kotlin.String#kotlin.collections.Map[kotlin.String,kotlin.Any?]/PointingToDeclaration/-klogging/io.klogging/-klogger/log.html
 $dokka.location:io.klogging/Klogger/log/#io.klogging.Level#kotlin.Throwable#kotlin.coroutines.SuspendFunction1[io.klogging.Klogger,kotlin.Any?]/PointingToDeclaration/-klogging/io.klogging/-klogger/log.html
 $dokka.location:io.klogging/Klogger/log/#io.klogging.Level#kotlin.coroutines.SuspendFunction1[io.klogging.Klogger,kotlin.Any?]/PointingToDeclaration/-klogging/io.klogging/-klogger/log.html
-$dokka.location:io.klogging/Klogger/toNoCoLogger/#kotlin.Array[kotlin.Pair[kotlin.String,kotlin.Any?]]/PointingToDeclaration/-klogging/io.klogging/-klogger/to-no-co-logger.html
-$dokka.location:io.klogging/Klogger/toNoCoLogger/#kotlin.String#kotlin.Array[kotlin.Pair[kotlin.String,kotlin.Any?]]/PointingToDeclaration/-klogging/io.klogging/-klogger/to-no-co-logger.html
 $dokka.location:io.klogging/Klogger/trace/#kotlin.Any?/PointingToDeclaration/-klogging/io.klogging/-klogger/trace.html
 $dokka.location:io.klogging/Klogger/trace/#kotlin.String#kotlin.Array[kotlin.Any?]/PointingToDeclaration/-klogging/io.klogging/-klogger/trace.html
 $dokka.location:io.klogging/Klogger/trace/#kotlin.String#kotlin.Throwable#kotlin.collections.Map[kotlin.String,kotlin.Any?]/PointingToDeclaration/-klogging/io.klogging/-klogger/trace.html
@@ -362,8 +364,6 @@ $dokka.location:io.klogging/NoCoLogger/log/#io.klogging.Level#kotlin.Throwable#k
 $dokka.location:io.klogging/NoCoLogger/log/#io.klogging.Level#kotlin.Throwable#kotlin.Function1[io.klogging.NoCoLogger,kotlin.Any?]/PointingToDeclaration/-klogging/io.klogging/-no-co-logger/log.html
 $dokka.location:io.klogging/NoCoLogger/log/#io.klogging.Level#kotlin.Throwable#kotlin.String#kotlin.Array[kotlin.Any?]/PointingToDeclaration/-klogging/io.klogging/-no-co-logger/log.html
 $dokka.location:io.klogging/NoCoLogger/log/#io.klogging.Level#kotlin.Throwable#kotlin.String#kotlin.collections.Map[kotlin.String,kotlin.Any?]/PointingToDeclaration/-klogging/io.klogging/-no-co-logger/log.html
-$dokka.location:io.klogging/NoCoLogger/toKlogger/#kotlin.Array[kotlin.Pair[kotlin.String,kotlin.Any?]]/PointingToDeclaration/-klogging/io.klogging/-no-co-logger/to-klogger.html
-$dokka.location:io.klogging/NoCoLogger/toKlogger/#kotlin.String#kotlin.Array[kotlin.Pair[kotlin.String,kotlin.Any?]]/PointingToDeclaration/-klogging/io.klogging/-no-co-logger/to-klogger.html
 $dokka.location:io.klogging/NoCoLogger/trace/#kotlin.Any?/PointingToDeclaration/-klogging/io.klogging/-no-co-logger/trace.html
 $dokka.location:io.klogging/NoCoLogger/trace/#kotlin.Function1[io.klogging.NoCoLogger,kotlin.Any?]/PointingToDeclaration/-klogging/io.klogging/-no-co-logger/trace.html
 $dokka.location:io.klogging/NoCoLogger/trace/#kotlin.String#kotlin.Array[kotlin.Any?]/PointingToDeclaration/-klogging/io.klogging/-no-co-logger/trace.html
