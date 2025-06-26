@@ -7,7 +7,7 @@ kotest = { strictly = "[5.+, 6.0)" }
 kotest-html-reporter = { strictly = "[0.7.3, 0.8.0)" } # Version 0.8.0+ supports Kotest 6.0+
 kover = "0.9.1"
 kotlin-coroutines = "1.10.2"
-kotlin-datetime = "0.6.2"
+kotlin-datetime = "0.7.0-0.6.x-compat"
 kotlin-serialisation = "1.8.1"
 reckon = "0.19.2"
 slf4j = "2.0.17"
