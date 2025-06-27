@@ -18,7 +18,6 @@
 
 package io.klogging.config
 
-import io.klogging.Level
 import io.klogging.Level.INFO
 import io.klogging.rendering.RENDER_ANSI
 import io.klogging.rendering.RENDER_SIMPLE
@@ -82,22 +81,6 @@ public val ANSI_CONSOLE: KloggingConfiguration.() -> Unit = {
 }
 
 /**
- * Simple default configuration for logging ANSI-coloured strings to the standard output stream.
- *
- * - All loggers are included.
- * - All events at [level] or higher level are included.
- *
- * @param level minimum logging level to emit logs at
- * @return a complete Klogging configuration
- */
-@Suppress("ktlint:standard:function-naming")
-public fun AnsiConsole(level: Level = INFO): KloggingConfiguration.() -> Unit =
-    {
-        sink("console", STDOUT_ANSI)
-        logging { fromMinLevel(level) { toSink("console") } }
-    }
-
-/**
  * Simple default configuration for logging ANSI-coloured strings to the standard error stream.
  *
  * - All loggers are included.
@@ -108,19 +91,3 @@ public val ANSI_STDERR: KloggingConfiguration.() -> Unit = {
     sink("stderr", STDERR_ANSI)
     logging { fromMinLevel(INFO) { toSink("stderr") } }
 }
-
-/**
- * Simple default configuration for logging ANSI-coloured strings to the standard error stream.
- *
- * - All loggers are included.
- * - All events at [level] or higher level are included.
- *
- * @param level minimum logging level to emit logs at
- * @return a complete Klogging configuration
- */
-@Suppress("ktlint:standard:function-naming")
-public fun AnsiStderr(level: Level = INFO): KloggingConfiguration.() -> Unit =
-    {
-        sink("stderr", STDERR_ANSI)
-        logging { fromMinLevel(level) { toSink("stderr") } }
-    }
