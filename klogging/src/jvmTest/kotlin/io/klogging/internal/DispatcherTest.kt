@@ -23,7 +23,7 @@ import io.klogging.Level.ERROR
 import io.klogging.Level.INFO
 import io.klogging.Level.TRACE
 import io.klogging.Level.WARN
-import io.klogging.config.DEFAULT_CONSOLE
+import io.klogging.config.CONSOLE_INFO
 import io.klogging.config.loggingConfiguration
 import io.klogging.context.Context
 import io.klogging.genLevel
@@ -60,13 +60,13 @@ internal class DispatcherTest :
             describe("with default console configuration") {
                 it("returns the sink for INFO") {
                     checkAll(100, genLoggerName) { name ->
-                        loggingConfiguration { DEFAULT_CONSOLE() }
+                        loggingConfiguration { CONSOLE_INFO() }
                         Dispatcher.sinksFor(name, INFO) shouldHaveSize 1
                     }
                 }
                 it("returns no sinks for DEBUG") {
                     checkAll(100, genLoggerName) { name ->
-                        loggingConfiguration { DEFAULT_CONSOLE() }
+                        loggingConfiguration { CONSOLE_INFO() }
                         Dispatcher.sinksFor(name, DEBUG) shouldHaveSize 0
                     }
                 }

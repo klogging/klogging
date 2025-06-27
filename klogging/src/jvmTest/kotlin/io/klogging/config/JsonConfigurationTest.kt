@@ -87,7 +87,7 @@ internal class JsonConfigurationTest :
             }
             describe("simple, using built-in, named configuration") {
                 it("sets up the configuration") {
-                    val simpleJsonConfig = """{ "configName": "DEFAULT_CONSOLE" }"""
+                    val simpleJsonConfig = """{ "configName": "CONSOLE_INFO" }"""
                     val config = JsonConfiguration.configure(simpleJsonConfig)
 
                     config?.apply {
@@ -103,7 +103,7 @@ internal class JsonConfigurationTest :
                     val jsonConfig =
                         """
                         {
-                          "configName":"DEFAULT_CONSOLE",
+                          "configName":"CONSOLE_INFO",
                           "sinks": {
                             "stdout": {
                               "renderWith": "RENDER_SIMPLE",

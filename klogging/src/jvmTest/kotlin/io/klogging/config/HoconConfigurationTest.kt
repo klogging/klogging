@@ -61,7 +61,7 @@ internal class HoconConfigurationTest :
             }
             describe("simple, using built-in, named configuration") {
                 it("sets up the configuration") {
-                    val simpleHoconConfig = """{ configName: DEFAULT_CONSOLE }"""
+                    val simpleHoconConfig = """{ configName: CONSOLE_INFO }"""
                     val config = HoconConfiguration.configure(simpleHoconConfig)
 
                     config?.apply {
@@ -77,7 +77,7 @@ internal class HoconConfigurationTest :
                     val hoconConfig =
                         """
                         {
-                          configName: DEFAULT_CONSOLE,
+                          configName: CONSOLE_INFO,
                           sinks: {
                             stdout: {
                               renderWith: RENDER_SIMPLE,

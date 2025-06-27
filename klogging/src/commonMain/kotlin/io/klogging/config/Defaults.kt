@@ -19,6 +19,7 @@
 package io.klogging.config
 
 import io.klogging.Level.INFO
+import io.klogging.internal.warn
 import io.klogging.rendering.RENDER_ANSI
 import io.klogging.rendering.RENDER_SIMPLE
 import io.klogging.sending.STDERR
@@ -40,8 +41,22 @@ public val STDERR_SIMPLE: SinkConfiguration =
  * - All loggers are included.
  * - All events at [INFO] or higher level are included.
  */
+@Deprecated("Use CONSOLE_INFO instead")
 @Suppress("VARIABLE_NAME_INCORRECT_FORMAT")
 public val DEFAULT_CONSOLE: KloggingConfiguration.() -> Unit = {
+    warn("Configuration", "DEFAULT_CONSOLE is deprecated. Use CONSOLE_INFO instead")
+    sink("console", STDOUT_SIMPLE)
+    logging { fromMinLevel(INFO) { toSink("console") } }
+}
+
+/**
+ * Simple default configuration for logging to the standard output stream.
+ *
+ * - All loggers are included.
+ * - All events at [INFO] or higher level are included.
+ */
+@Suppress("VARIABLE_NAME_INCORRECT_FORMAT")
+public val CONSOLE_INFO: KloggingConfiguration.() -> Unit = {
     sink("console", STDOUT_SIMPLE)
     logging { fromMinLevel(INFO) { toSink("console") } }
 }
@@ -52,8 +67,22 @@ public val DEFAULT_CONSOLE: KloggingConfiguration.() -> Unit = {
  * - All loggers are included.
  * - All events at [INFO] or higher level are included.
  */
+@Deprecated("Use STDERR_INFO instead")
 @Suppress("VARIABLE_NAME_INCORRECT_FORMAT")
 public val DEFAULT_STDERR: KloggingConfiguration.() -> Unit = {
+    warn("Configuration", "DEFAULT_STDERR is deprecated. Use STDERR_INFO instead")
+    sink("stderr", STDERR_SIMPLE)
+    logging { fromMinLevel(INFO) { toSink("stderr") } }
+}
+
+/**
+ * Simple default configuration for logging to the standard error stream.
+ *
+ * - All loggers are included.
+ * - All events at [INFO] or higher level are included.
+ */
+@Suppress("VARIABLE_NAME_INCORRECT_FORMAT")
+public val STDERR_INFO: KloggingConfiguration.() -> Unit = {
     sink("stderr", STDERR_SIMPLE)
     logging { fromMinLevel(INFO) { toSink("stderr") } }
 }
@@ -74,8 +103,21 @@ public val STDERR_ANSI: SinkConfiguration =
  * - All loggers are included.
  * - All events at [INFO] or higher level are included.
  */
+@Deprecated("Use ANSI_INFO instead")
 @Suppress("VARIABLE_NAME_INCORRECT_FORMAT")
 public val ANSI_CONSOLE: KloggingConfiguration.() -> Unit = {
+    sink("console", STDOUT_ANSI)
+    logging { fromMinLevel(INFO) { toSink("console") } }
+}
+
+/**
+ * Simple default configuration for logging ANSI-coloured strings to the standard output stream.
+ *
+ * - All loggers are included.
+ * - All events at [INFO] or higher level are included.
+ */
+@Suppress("VARIABLE_NAME_INCORRECT_FORMAT")
+public val ANSI_INFO: KloggingConfiguration.() -> Unit = {
     sink("console", STDOUT_ANSI)
     logging { fromMinLevel(INFO) { toSink("console") } }
 }
@@ -86,8 +128,21 @@ public val ANSI_CONSOLE: KloggingConfiguration.() -> Unit = {
  * - All loggers are included.
  * - All events at [INFO] or higher level are included.
  */
+@Deprecated("Use ANSI_STDERR_INFO instead")
 @Suppress("VARIABLE_NAME_INCORRECT_FORMAT")
 public val ANSI_STDERR: KloggingConfiguration.() -> Unit = {
+    sink("stderr", STDERR_ANSI)
+    logging { fromMinLevel(INFO) { toSink("stderr") } }
+}
+
+/**
+ * Simple default configuration for logging ANSI-coloured strings to the standard error stream.
+ *
+ * - All loggers are included.
+ * - All events at [INFO] or higher level are included.
+ */
+@Suppress("VARIABLE_NAME_INCORRECT_FORMAT")
+public val ANSI_STDERR_INFO: KloggingConfiguration.() -> Unit = {
     sink("stderr", STDERR_ANSI)
     logging { fromMinLevel(INFO) { toSink("stderr") } }
 }

@@ -34,10 +34,16 @@ import io.klogging.sending.SendString
 /** Map of built-in configurations by name. */
 internal val builtInConfigurations: Map<String, KloggingConfiguration.() -> Unit> by lazy {
     mapOf(
+        // Old names
         "DEFAULT_CONSOLE" to DEFAULT_CONSOLE,
         "DEFAULT_STDERR" to DEFAULT_STDERR,
         "ANSI_CONSOLE" to ANSI_CONSOLE,
         "ANSI_STDERR" to ANSI_STDERR,
+        // New names
+        "CONSOLE_INFO" to CONSOLE_INFO,
+        "ANSI_INFO" to ANSI_INFO,
+        "STDERR_INFO" to STDERR_INFO,
+        "ANSI_STDERR_INFO" to ANSI_STDERR_INFO,
     )
 }
 

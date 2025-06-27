@@ -64,7 +64,7 @@ internal class KloggingConfigurationTest :
                     KloggingEngine.sinkConfigs() shouldContain ("seq" to sinkConfig)
                 }
                 it("adds the default console") {
-                    loggingConfiguration { DEFAULT_CONSOLE() }
+                    loggingConfiguration { CONSOLE_INFO() }
 
                     with(KloggingEngine) {
                         sinkConfigs() shouldContain ("console" to STDOUT_SIMPLE)
@@ -156,7 +156,7 @@ internal class KloggingConfigurationTest :
                     }
                 }
                 it("can combine configurations") {
-                    loggingConfiguration { DEFAULT_CONSOLE() }
+                    loggingConfiguration { CONSOLE_INFO() }
                     loggingConfiguration(append = true) {
                         sink("stderr", RENDER_SIMPLE, STDERR)
                         logging {
@@ -176,7 +176,7 @@ internal class KloggingConfigurationTest :
                     KloggingEngine.minimumLevelOf(genLoggerName.next()) shouldBe INFO
                 }
                 it("returns INFO from the default console configuration") {
-                    loggingConfiguration { DEFAULT_CONSOLE() }
+                    loggingConfiguration { CONSOLE_INFO() }
                     KloggingEngine.minimumLevelOf(genLoggerName.next()) shouldBe INFO
                 }
                 it("returns the level of a single configuration that matches the logger name") {
