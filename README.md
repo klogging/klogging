@@ -39,17 +39,16 @@ See [https://klogging.io](https://klogging.io) for more detailed documentation.
 - Use Kotlin coroutines for carrying scope context information to include in log
   events and for asynchronous dispatching of events.
 - Finest possible resolution of timestamps, down to nanosecond if available.
-- (Future) Pure Kotlin multiplatform. _Current development focuses on the
-  JVM._
+- (Partial) Pure Kotlin multiplatform: some features are only available on the JVM.
 
 ## Quick start (JVM)
 
-Klogging supports JVM versions 8 and above, and Kotlin versions 1.6 and above.
+Klogging supports JVM versions 8 and above, and Kotlin versions 1.8 and above.
 
 1. Include Klogging in your project with Gradle:
 
    ```kotlin
-   implementation("io.klogging:klogging-jvm:0.10.1")
+   implementation("io.klogging:klogging-jvm:0.11.0")
    ```
 
    or Maven:
@@ -58,7 +57,7 @@ Klogging supports JVM versions 8 and above, and Kotlin versions 1.6 and above.
    <dependency>
      <groupId>io.klogging</groupId>
      <artifactId>klogging-jvm</artifactId>
-     <version>0.10.1</version>
+     <version>0.11.0</version>
    </dependency>
    ```
 
@@ -158,7 +157,7 @@ repositories {
 
 dependencies {
     // ...
-    implementation("io.klogging:klogging-jvm:0.11.0-SNAPSHOT")
+    implementation("io.klogging:klogging-jvm:0.12.0-SNAPSHOT")
 }
 ```
 

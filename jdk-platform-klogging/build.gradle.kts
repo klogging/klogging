@@ -40,8 +40,8 @@ kotlin {
 
     sourceSets.all {
         languageSettings.apply {
-            languageVersion = "1.8"
-            apiVersion = "1.6"
+            languageVersion = "2.2"
+            apiVersion = "1.8"
         }
     }
 }

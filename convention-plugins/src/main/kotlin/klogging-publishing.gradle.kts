@@ -16,8 +16,6 @@
 
 */
 
-import com.vanniktech.maven.publish.SonatypeHost
-
 plugins {
     id("klogging-signing")
     id("com.vanniktech.maven.publish")
@@ -27,7 +25,7 @@ plugins {
 group = "io.klogging"
 
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
+    publishToMavenCentral(automaticRelease = true)
     signAllPublications()
     pom {
         name.set("klogging")

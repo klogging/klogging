@@ -1,5 +1,10 @@
 # Klogging changes
 
+## Version 0.11.0
+- Updated Ktlint formatting
+- Extension functions for creating new loggers from existing ones
+- Dependency updates, especially Kotlin 2.2.0. This means minimum supported Kotlin version is 1.8.
+
 ## Version 0.10.1
 - Fixed configuration of Klogging Spring Boot Starter
 
