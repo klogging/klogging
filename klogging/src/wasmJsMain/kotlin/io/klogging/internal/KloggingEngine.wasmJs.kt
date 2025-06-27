@@ -16,9 +16,6 @@
 
 */
 
-package io.klogging.events
+package io.klogging.internal
 
-import android.provider.Settings
-
-// There is no good way to get a hostname on android
-internal actual val hostname: String = Settings.Secure.ANDROID_ID
+internal actual val hostname: String = "wasm"

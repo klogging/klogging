@@ -16,7 +16,7 @@
 
 */
 
-package io.klogging.events
+package io.klogging.internal
 
-// There is no good way to get a hostname on android
-internal actual val hostname: String = "android"
+internal actual val hostname: String
+    get() = TODO("Not yet implemented")

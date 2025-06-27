@@ -148,3 +148,6 @@ internal object KloggingEngine {
      */
     internal fun minDirectLogLevel(): Level = currentConfig.minDirectLogLevel
 }
+
+/** Hostname never changes in a virtual machine */
+internal expect val hostname: String

@@ -23,8 +23,8 @@ import io.klogging.config.SinkConfiguration
 import io.klogging.config.loggingConfiguration
 import io.klogging.events.EventItems
 import io.klogging.events.LogEvent
-import io.klogging.events.hostname
 import io.klogging.events.timestampNow
+import io.klogging.internal.hostname
 import io.klogging.sending.EventSender
 import io.kotest.property.arbitrary.next
 import kotlinx.datetime.Instant

@@ -52,6 +52,7 @@ internal fun log(
     if (level < KloggingEngine.kloggingMinLogLevel()) return
     val event =
         LogEvent(
+            host = "internal",
             logger = logger,
             level = level,
             message = message,

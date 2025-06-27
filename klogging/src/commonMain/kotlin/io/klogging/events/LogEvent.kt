@@ -19,6 +19,7 @@
 package io.klogging.events
 
 import io.klogging.Level
+import io.klogging.internal.hostname
 import kotlinx.coroutines.CoroutineName
 import kotlinx.datetime.Instant
 import kotlin.coroutines.coroutineContext
@@ -102,9 +103,6 @@ public data class LogEvent(
  * @return a short, random string
  */
 private fun randomId(): String = Random.nextUInt().toString(16)
-
-/** Name of the executing host, included in all log events. */
-internal expect val hostname: String
 
 /** Thread name or similar current context identifier. */
 internal expect fun threadContext(): String?

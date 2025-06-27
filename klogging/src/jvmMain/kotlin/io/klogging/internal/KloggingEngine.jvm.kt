@@ -16,7 +16,15 @@
 
 */
 
-package io.klogging.events
+package io.klogging.internal
 
-// There is no good way to get a hostname on android
-internal actual val hostname: String = "browser"
+import java.net.InetAddress
+
+internal actual val hostname: String =
+    try {
+        debug("Hostname", "Getting hostname")
+        InetAddress.getLocalHost().hostName
+    } catch (ex: Exception) {
+        warn("Hostname", "Unable to determine hostname", ex)
+        "host"
+    }

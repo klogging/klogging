@@ -16,8 +16,7 @@
 
 */
 
-package io.klogging.events
+package io.klogging.internal
 
-import java.net.InetAddress
-
-internal actual val hostname: String = InetAddress.getLocalHost().hostName
+internal actual val hostname: String
+    get() = TODO("Not yet implemented")
