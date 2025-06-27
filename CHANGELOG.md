@@ -1,5 +1,9 @@
 # Klogging changes
 
+## Version 0.11.1
+- Safer fetch of hostname on JVM
+- Clearer names for built-in complete configurations
+
 ## Version 0.11.0
 - Updated Ktlint formatting
 - Extension functions for creating new loggers from existing ones
