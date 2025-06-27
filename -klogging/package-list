@@ -3,8 +3,6 @@ $dokka.linkExtension:html
 $dokka.location:io.klogging.config////PointingToDeclaration/-klogging/io.klogging.config/index.html
 $dokka.location:io.klogging.config//ANSI_CONSOLE/#/PointingToDeclaration/-klogging/io.klogging.config/-a-n-s-i_-c-o-n-s-o-l-e.html
 $dokka.location:io.klogging.config//ANSI_STDERR/#/PointingToDeclaration/-klogging/io.klogging.config/-a-n-s-i_-s-t-d-e-r-r.html
-$dokka.location:io.klogging.config//AnsiConsole/#io.klogging.Level/PointingToDeclaration/-klogging/io.klogging.config/-ansi-console.html
-$dokka.location:io.klogging.config//AnsiStderr/#io.klogging.Level/PointingToDeclaration/-klogging/io.klogging.config/-ansi-stderr.html
 $dokka.location:io.klogging.config//DEFAULT_CONSOLE/#/PointingToDeclaration/-klogging/io.klogging.config/-d-e-f-a-u-l-t_-c-o-n-s-o-l-e.html
 $dokka.location:io.klogging.config//DEFAULT_STDERR/#/PointingToDeclaration/-klogging/io.klogging.config/-d-e-f-a-u-l-t_-s-t-d-e-r-r.html
 $dokka.location:io.klogging.config//STDERR_ANSI/#/PointingToDeclaration/-klogging/io.klogging.config/-s-t-d-e-r-r_-a-n-s-i.html
