@@ -62,10 +62,6 @@ public class NoCoLoggerImpl(
         event: Any?,
         contextItems: EventItems,
     ) {
-        if (event is Unit) {
-            return
-        }
-
         val eventToLog =
             eventFrom(threadContext(), level, throwable, event, loggerContextItems + contextItems + otherItems())
         if (eventToLog.level < KloggingEngine.minDirectLogLevel()) {
