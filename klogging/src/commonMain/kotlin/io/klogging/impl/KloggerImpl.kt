@@ -54,6 +54,10 @@ public class KloggerImpl(
         event: Any?,
         items: EventItems,
     ) {
+        if (event is Unit) {
+            return
+        }
+
         val eventToLog =
             eventFrom(contextName(), level, throwable, event, loggerContextItems + items + contextItems())
         if (eventToLog.level < KloggingEngine.minDirectLogLevel()) {
