@@ -14,7 +14,7 @@ and [using Klogging with Spring Boot via SLF4J](https://klogging.io/docs/java/sp
 Specify this library as the dependency. Gradle:
 
 ```kotlin
-    implementation("io.klogging:slf4j-klogging:0.11.1")
+    implementation("io.klogging:slf4j-klogging:0.11.2")
 ```
 
 Maven:
@@ -24,7 +24,7 @@ Maven:
     <dependency>
         <groupId>io.klogging</groupId>
         <artifactId>slf4j-klogging</artifactId>
-        <version>0.11.1</version>
+        <version>0.11.2</version>
     </dependency>
 </dependencies>
 ```

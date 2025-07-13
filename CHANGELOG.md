@@ -1,5 +1,9 @@
 # Klogging changes
 
+## Version 0.11.2
+- Dependency updates
+- Minimum Android SDK version now 24
+
 ## Version 0.11.1
 - Safer fetch of hostname on JVM
 - Clearer names for built-in complete configurations
