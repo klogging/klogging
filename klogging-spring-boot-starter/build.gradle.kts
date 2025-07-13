@@ -16,8 +16,6 @@
 
 */
 
-import com.vanniktech.maven.publish.SonatypeHost
-
 plugins {
     `java-library`
     id("com.vanniktech.maven.publish")
@@ -40,7 +38,7 @@ dependencies {
 
 mavenPublishing {
 
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
+    publishToMavenCentral(automaticRelease = true)
     signAllPublications()
 
     pom {
