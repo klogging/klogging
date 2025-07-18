@@ -18,5 +18,4 @@
 
 package io.klogging.internal
 
-internal actual val hostname: String
-    get() = TODO("Not yet implemented")
+internal actual val hostname: String = "ios"
