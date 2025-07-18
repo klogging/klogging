@@ -1,5 +1,8 @@
 # Klogging changes
 
+## Version 0.11.3
+- Fix for hostname exception on iOS and JS – [issue 371](https://github.com/klogging/klogging/issues/371)
+
 ## Version 0.11.2
 - Dependency updates
 - Minimum Android SDK version now 24
