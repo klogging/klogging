@@ -18,4 +18,9 @@
 
 package io.klogging.internal
 
-internal actual val hostname: String = "ios"
+import platform.UIKit.UIDevice
+
+internal actual val hostname: String =
+    with(UIDevice.currentDevice) {
+        identifierForVendor?.UUIDString ?: "$systemName-$systemVersion"
+    }
