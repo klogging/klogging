@@ -22,5 +22,9 @@ import platform.UIKit.UIDevice
 
 internal actual val hostname: String =
     with(UIDevice.currentDevice) {
-        identifierForVendor?.UUIDString ?: "$systemName-$systemVersion"
+        listOfNotNull(
+            identifierForVendor?.UUIDString,
+            systemName,
+            systemVersion,
+        ).joinToString("-")
     }
