@@ -48,7 +48,7 @@ Klogging supports JVM versions 8 and above, and Kotlin versions 1.8 and above.
 1. Include Klogging in your project with Gradle:
 
    ```kotlin
-   implementation("io.klogging:klogging-jvm:0.11.3")
+   implementation("io.klogging:klogging-jvm:0.11.4")
    ```
 
    or Maven:
@@ -57,7 +57,7 @@ Klogging supports JVM versions 8 and above, and Kotlin versions 1.8 and above.
    <dependency>
      <groupId>io.klogging</groupId>
      <artifactId>klogging-jvm</artifactId>
-     <version>0.11.3</version>
+     <version>0.11.4</version>
    </dependency>
    ```
 

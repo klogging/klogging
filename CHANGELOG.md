@@ -1,5 +1,9 @@
 # Klogging changes
 
+## Version 0.11.4
+- Return `identifierForVendor` and device information for `hostname` on iOS – [issue 371](https://github.com/klogging/klogging/issues/371)
+- Dependency updates
+
 ## Version 0.11.3
 - Fix for hostname exception on iOS and JS – [issue 371](https://github.com/klogging/klogging/issues/371)
 
