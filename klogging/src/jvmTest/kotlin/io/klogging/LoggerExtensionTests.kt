@@ -1,5 +1,6 @@
 package io.klogging
 
+import io.klogging.context.withLogContext
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.shouldBe
@@ -19,15 +20,55 @@ class LoggerExtensionTests :
                 sourceLogger.toNoCoLogger(newName).name shouldBe newName
                 sourceLogger.toNoCoLogger(newName, randomString() to randomString()).name shouldBe newName
             }
+            it("copies context items from the source logger") {
+                val sourceContext = randomString() to randomString()
+                logger(randomString(), sourceContext).toNoCoLogger().loggerContextItems shouldContain sourceContext
+            }
             it("adds new logger context items if specified") {
-                val events = savedEvents()
                 val contextItems = randomString() to randomString()
 
-                logger(randomString()).toNoCoLogger(contextItems).info(randomString())
-                logger(randomString()).toNoCoLogger(randomString(), contextItems).info(randomString())
+                logger(randomString()).toNoCoLogger(contextItems).loggerContextItems shouldContain contextItems
+                logger(randomString())
+                    .toNoCoLogger(
+                        randomString(),
+                        contextItems,
+                    ).loggerContextItems shouldContain contextItems
+            }
+        }
+        describe("`Klogger.toNoCoLoggerWithScopeContext()` extension function") {
+            it("behaves as `toNoCoLogger()` if there is no context in scope") {
+                val sourceName = randomString()
+                val sourceContext = randomString() to randomString()
+                val extraContext = randomString() to randomString()
 
-                events.first().items shouldContain contextItems
-                events.last().items shouldContain contextItems
+                val noCoLogger = logger(sourceName, sourceContext).toNoCoLoggerWithScopeContext(extraContext)
+
+                noCoLogger.name shouldBe sourceName
+                noCoLogger.loggerContextItems shouldContain extraContext
+                noCoLogger.loggerContextItems shouldContain sourceContext
+            }
+
+            it("adds scope context items if present") {
+                val scopeContext = randomString() to randomString()
+                withLogContext(scopeContext) {
+                    logger(randomString()).toNoCoLoggerWithScopeContext().loggerContextItems shouldContain scopeContext
+                }
+            }
+            it("copies context items from the source logger") {
+                val sourceContext = randomString() to randomString()
+                logger(
+                    randomString(),
+                    sourceContext,
+                ).toNoCoLoggerWithScopeContext().loggerContextItems shouldContain sourceContext
+                logger(
+                    randomString(),
+                    sourceContext,
+                ).toNoCoLoggerWithScopeContext(randomString()).loggerContextItems shouldContain sourceContext
+            }
+            it("uses a new name if specified") {
+                val sourceName = randomString()
+                val newName = randomString()
+                logger(sourceName).toNoCoLoggerWithScopeContext(newName).name shouldBe newName
             }
         }
         describe("`NoCoLogger.toKlogger()` extension function") {
@@ -43,15 +84,26 @@ class LoggerExtensionTests :
                 sourceLogger.toKlogger(newName).name shouldBe newName
                 sourceLogger.toKlogger(newName, randomString() to randomString()).name shouldBe newName
             }
+            it("copies context items from the source logger") {
+                val sourceContext = randomString() to randomString()
+                noCoLogger(
+                    randomString(),
+                    sourceContext,
+                ).toKlogger().loggerContextItems shouldContain sourceContext
+                noCoLogger(
+                    randomString(),
+                    sourceContext,
+                ).toKlogger(randomString()).loggerContextItems shouldContain sourceContext
+            }
             it("adds new logger context items if specified") {
-                val events = savedEvents()
                 val contextItems = randomString() to randomString()
 
-                noCoLogger(randomString()).toKlogger(contextItems).info(randomString())
-                noCoLogger(randomString()).toKlogger(randomString(), contextItems).info(randomString())
-
-                events.first().items shouldContain contextItems
-                events.last().items shouldContain contextItems
+                noCoLogger(randomString()).toKlogger(contextItems).loggerContextItems shouldContain contextItems
+                noCoLogger(randomString())
+                    .toKlogger(
+                        randomString(),
+                        contextItems,
+                    ).loggerContextItems shouldContain contextItems
             }
         }
     })

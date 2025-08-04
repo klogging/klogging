@@ -199,6 +199,8 @@ public final class io/klogging/LoggerExtensionsKt {
 	public static final fun toKlogger (Lio/klogging/NoCoLogger;[Lkotlin/Pair;)Lio/klogging/Klogger;
 	public static final fun toNoCoLogger (Lio/klogging/Klogger;Ljava/lang/String;[Lkotlin/Pair;)Lio/klogging/NoCoLogger;
 	public static final fun toNoCoLogger (Lio/klogging/Klogger;[Lkotlin/Pair;)Lio/klogging/NoCoLogger;
+	public static final fun toNoCoLoggerWithScopeContext (Lio/klogging/Klogger;Ljava/lang/String;[Lkotlin/Pair;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun toNoCoLoggerWithScopeContext (Lio/klogging/Klogger;[Lkotlin/Pair;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public abstract interface class io/klogging/NoCoLogger : io/klogging/BaseLogger {

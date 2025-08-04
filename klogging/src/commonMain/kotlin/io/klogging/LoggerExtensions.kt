@@ -19,6 +19,10 @@
 package io.klogging
 
 import io.klogging.context.ContextItem
+import io.klogging.context.LogContext
+import io.klogging.impl.KloggerImpl
+import io.klogging.impl.NoCoLoggerImpl
+import kotlin.coroutines.coroutineContext
 
 /**
  * Creates a [NoCoLogger] from this [Klogger] using the same name.
@@ -26,7 +30,7 @@ import io.klogging.context.ContextItem
  * @param loggerContextItems zero or more pairs of context items
  */
 public fun Klogger.toNoCoLogger(vararg loggerContextItems: ContextItem): NoCoLogger =
-    noCoLogger(this.name, this, *loggerContextItems)
+    NoCoLoggerImpl(this.name, mapOf(*loggerContextItems) + this.loggerContextItems)
 
 /**
  * Creates a [NoCoLogger] from this [Klogger] using a different name.
@@ -37,7 +41,35 @@ public fun Klogger.toNoCoLogger(vararg loggerContextItems: ContextItem): NoCoLog
 public fun Klogger.toNoCoLogger(
     name: String,
     vararg loggerContextItems: ContextItem,
-): NoCoLogger = noCoLogger(name, this, *loggerContextItems)
+): NoCoLogger = NoCoLoggerImpl(name, mapOf(*loggerContextItems) + this.loggerContextItems)
+
+/**
+ * Creates a [NoCoLogger] from this [Klogger] using the same name and including any [LogContext] items
+ * in current coroutine scope.
+ *
+ * @param loggerContextItems zero or more pairs of context items
+ */
+public suspend fun Klogger.toNoCoLoggerWithScopeContext(vararg loggerContextItems: ContextItem): NoCoLogger =
+    NoCoLoggerImpl(
+        this.name,
+        mapOf(*loggerContextItems) + (coroutineContext[LogContext]?.getAll() ?: emptyMap()) + this.loggerContextItems,
+    )
+
+/**
+ * Creates a [NoCoLogger] from this [Klogger] using a different name and including any [LogContext] items
+ *  * in current coroutine scope.
+ *
+ * @param name Name of the new logger
+ * @param loggerContextItems zero or more pairs of context items
+ */
+public suspend fun Klogger.toNoCoLoggerWithScopeContext(
+    name: String,
+    vararg loggerContextItems: ContextItem,
+): NoCoLogger =
+    NoCoLoggerImpl(
+        name,
+        mapOf(*loggerContextItems) + (coroutineContext[LogContext]?.getAll() ?: emptyMap()) + this.loggerContextItems,
+    )
 
 /**
  * Creates a [Klogger] from this [NoCoLogger] using the same name.
@@ -45,7 +77,7 @@ public fun Klogger.toNoCoLogger(
  * @param loggerContextItems zero or more pairs of context items
  */
 public fun NoCoLogger.toKlogger(vararg loggerContextItems: ContextItem): Klogger =
-    logger(this.name, this, *loggerContextItems)
+    KloggerImpl(this.name, mapOf(*loggerContextItems) + this.loggerContextItems)
 
 /**
  * Creates a [Klogger] from this [NoCoLogger] using a different name.
@@ -56,4 +88,4 @@ public fun NoCoLogger.toKlogger(vararg loggerContextItems: ContextItem): Klogger
 public fun NoCoLogger.toKlogger(
     name: String,
     vararg loggerContextItems: ContextItem,
-): Klogger = logger(name, this, *loggerContextItems)
+): Klogger = KloggerImpl(name, mapOf(*loggerContextItems) + this.loggerContextItems)
