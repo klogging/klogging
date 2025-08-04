@@ -34,41 +34,11 @@ class LoggerExtensionTests :
                         contextItems,
                     ).loggerContextItems shouldContain contextItems
             }
-        }
-        describe("`Klogger.toNoCoLoggerWithScopeContext()` extension function") {
-            it("behaves as `toNoCoLogger()` if there is no context in scope") {
-                val sourceName = randomString()
-                val sourceContext = randomString() to randomString()
-                val extraContext = randomString() to randomString()
-
-                val noCoLogger = logger(sourceName, sourceContext).toNoCoLoggerWithScopeContext(extraContext)
-
-                noCoLogger.name shouldBe sourceName
-                noCoLogger.loggerContextItems shouldContain extraContext
-                noCoLogger.loggerContextItems shouldContain sourceContext
-            }
-
             it("adds scope context items if present") {
                 val scopeContext = randomString() to randomString()
                 withLogContext(scopeContext) {
-                    logger(randomString()).toNoCoLoggerWithScopeContext().loggerContextItems shouldContain scopeContext
+                    logger(randomString()).toNoCoLogger().loggerContextItems shouldContain scopeContext
                 }
-            }
-            it("copies context items from the source logger") {
-                val sourceContext = randomString() to randomString()
-                logger(
-                    randomString(),
-                    sourceContext,
-                ).toNoCoLoggerWithScopeContext().loggerContextItems shouldContain sourceContext
-                logger(
-                    randomString(),
-                    sourceContext,
-                ).toNoCoLoggerWithScopeContext(randomString()).loggerContextItems shouldContain sourceContext
-            }
-            it("uses a new name if specified") {
-                val sourceName = randomString()
-                val newName = randomString()
-                logger(sourceName).toNoCoLoggerWithScopeContext(newName).name shouldBe newName
             }
         }
         describe("`NoCoLogger.toKlogger()` extension function") {
