@@ -1,6 +1,7 @@
 .kotlin
 .gradle
 build
+out
 !buildSrc/src/main/kotlin/io/klogging/build
 .idea
 .DS_Store
