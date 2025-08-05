@@ -20,10 +20,10 @@ package io.klogging.context
 
 import io.klogging.events.EventItems
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.AbstractCoroutineContextElement
 import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.coroutineContext
 
 /**
  * Container for objects to be stored in coroutine contexts and used in logging.
@@ -79,7 +79,7 @@ public class LogContext internal constructor(
  */
 public suspend fun logContext(vararg items: ContextItem): CoroutineContext {
     val allItems =
-        coroutineContext[LogContext]
+        currentCoroutineContext()[LogContext]
             ?.getAll()
             ?.toMutableMap()
             ?: mutableMapOf()
@@ -108,7 +108,7 @@ public suspend fun <R> withLogContext(
  * @param items context items to add
  */
 public suspend fun addToContext(vararg items: ContextItem) {
-    coroutineContext[LogContext]?.putItems(*items)
+    currentCoroutineContext()[LogContext]?.putItems(*items)
 }
 
 /**
@@ -116,5 +116,5 @@ public suspend fun addToContext(vararg items: ContextItem) {
  * @param keys keys of the items to remove
  */
 public suspend fun removeFromContext(vararg keys: String) {
-    coroutineContext[LogContext]?.removeItem(*keys)
+    currentCoroutineContext()[LogContext]?.removeItem(*keys)
 }

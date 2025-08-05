@@ -21,8 +21,8 @@ package io.klogging.events
 import io.klogging.Level
 import io.klogging.internal.hostname
 import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.datetime.Instant
-import kotlin.coroutines.coroutineContext
 import kotlin.random.Random
 import kotlin.random.nextUInt
 
@@ -98,7 +98,7 @@ public data class LogEvent(
  * Random ID for a [LogEvent].
  *
  * This implementation generates identifiers that are _compact_ for when they
- * are printed by the internal logger and random enough (64 bits).
+ * are printed by the internal logger and random enough (32 bits).
  *
  * @return a short, random string
  */
@@ -112,4 +112,4 @@ internal expect fun threadContext(): String?
  * @return name to use for the context
  */
 internal suspend fun contextName(): String =
-    listOfNotNull(threadContext(), coroutineContext[CoroutineName]?.name).joinToString("+")
+    listOfNotNull(threadContext(), currentCoroutineContext()[CoroutineName]?.name).joinToString("+")

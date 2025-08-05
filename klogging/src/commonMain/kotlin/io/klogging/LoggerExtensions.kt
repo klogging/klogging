@@ -22,7 +22,7 @@ import io.klogging.context.ContextItem
 import io.klogging.context.LogContext
 import io.klogging.impl.KloggerImpl
 import io.klogging.impl.NoCoLoggerImpl
-import kotlin.coroutines.coroutineContext
+import kotlinx.coroutines.currentCoroutineContext
 
 /**
  * Creates a [NoCoLogger] from this [Klogger] using the same name and including any [LogContext] items
@@ -33,7 +33,9 @@ import kotlin.coroutines.coroutineContext
 public suspend fun Klogger.toNoCoLogger(vararg loggerContextItems: ContextItem): NoCoLogger =
     NoCoLoggerImpl(
         this.name,
-        mapOf(*loggerContextItems) + (coroutineContext[LogContext]?.getAll() ?: emptyMap()) + this.loggerContextItems,
+        mapOf(*loggerContextItems) + (
+            currentCoroutineContext()[LogContext]?.getAll() ?: emptyMap()
+        ) + this.loggerContextItems,
     )
 
 /**
@@ -49,7 +51,9 @@ public suspend fun Klogger.toNoCoLogger(
 ): NoCoLogger =
     NoCoLoggerImpl(
         name,
-        mapOf(*loggerContextItems) + (coroutineContext[LogContext]?.getAll() ?: emptyMap()) + this.loggerContextItems,
+        mapOf(*loggerContextItems) + (
+            currentCoroutineContext()[LogContext]?.getAll() ?: emptyMap()
+        ) + this.loggerContextItems,
     )
 
 /**

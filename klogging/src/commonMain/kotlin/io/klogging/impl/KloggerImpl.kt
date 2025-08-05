@@ -30,7 +30,6 @@ import io.klogging.internal.Emitter
 import io.klogging.internal.KloggingEngine
 import io.klogging.templating.templateItems
 import kotlinx.coroutines.currentCoroutineContext
-import kotlin.coroutines.coroutineContext
 
 /**
  * Standard implementation of [Klogger].
@@ -65,7 +64,7 @@ public class KloggerImpl(
 
     private suspend inline fun contextItems(): EventItems {
         val kloggingContextItems =
-            coroutineContext[LogContext]?.getAll()?.toMutableMap()
+            currentCoroutineContext()[LogContext]?.getAll()?.toMutableMap()
                 ?: mutableMapOf()
         val coroutineItems =
             KloggingEngine.otherContextExtractors.entries
