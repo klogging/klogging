@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+
 /*
 
    Copyright 2021-2025 Michael Strasser.
@@ -20,31 +23,30 @@ plugins {
     kotlin("jvm")
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
-}
-
 kotlin {
     explicitApi()
 
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of("8"))
-    }
-
-    sourceSets.all {
-        languageSettings.apply {
-            languageVersion = "2.2"
-            apiVersion = "1.8"
-        }
+    compilerOptions {
+        apiVersion.set(KotlinVersion.KOTLIN_1_8)
+        languageVersion.set(KotlinVersion.KOTLIN_2_2)
     }
 
     java {
         compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_1_8)
+
+            // Generate default methods for implementations in interfaces.
+            // Not needed from Kotlin 2.2? See https://youtrack.jetbrains.com/issue/KT-71768
             freeCompilerArgs.add("-Xjvm-default=all-compatibility")
+            // From https://www.liutikas.net/2025/01/10/Conservative-Librarian.html
+            // Needed due to https://youtrack.jetbrains.com/issue/KT-49746
+            freeCompilerArgs.add("-Xjdk-release=1.8")
         }
     }
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    options.release.set(8)
 }
 
 tasks.register<Jar>("sourcesJar") {

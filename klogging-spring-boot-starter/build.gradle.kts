@@ -25,12 +25,6 @@ plugins {
 group = "io.klogging"
 description = "Starter for using Klogging for logging. An alternative to spring-boot-starter-logging"
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
-}
-
 dependencies {
     api(project(":klogging"))
     api(project(":slf4j-klogging"))

@@ -16,33 +16,32 @@
 
 */
 
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+
 plugins {
     kotlin("multiplatform")
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
 }
 
 kotlin {
     explicitApi()
 
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of("8"))
+    compilerOptions {
+        apiVersion.set(KotlinVersion.KOTLIN_1_8)
+        languageVersion.set(KotlinVersion.KOTLIN_2_2)
     }
 
     jvm {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_1_8)
+        }
         testRuns["test"].executionTask.configure {
             useJUnitPlatform()
         }
     }
+}
 
-    sourceSets.all {
-        languageSettings.apply {
-            languageVersion = "2.2"
-            apiVersion = "1.8"
-        }
-    }
+// Not sure if this is needed here.
+tasks.withType<JavaCompile>().configureEach {
+    options.release.set(8)
 }
