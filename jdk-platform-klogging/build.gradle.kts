@@ -1,6 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
-
 /*
 
    Copyright 2021-2025 Michael Strasser.
@@ -18,6 +15,9 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
    limitations under the License.
 
 */
+
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     id("klogging-kotlin-jvm")
