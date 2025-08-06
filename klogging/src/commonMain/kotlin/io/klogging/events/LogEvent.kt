@@ -102,7 +102,7 @@ public data class LogEvent(
  *
  * @return a short, random string
  */
-private fun randomId(): String = Random.nextUInt().toString(16)
+private fun randomId(): String = Random.nextUInt().toString(16).padStart(8, '0')
 
 /** Thread name or similar current context identifier. */
 internal expect fun threadContext(): String?
