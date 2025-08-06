@@ -42,7 +42,7 @@ $licenceText
 
 """
 
-val ktlintVersion = "1.5.0"
+val ktlintVersion = "1.7.1"
 
 spotless {
     format("markdown") {
