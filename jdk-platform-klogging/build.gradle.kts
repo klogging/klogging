@@ -44,7 +44,8 @@ kotlin {
 }
 
 tasks.withType<JavaCompile>().configureEach {
-    options.release.set(8)
+    sourceCompatibility = "1.8"
+    targetCompatibility = "1.8"
 }
 
 dependencies {
