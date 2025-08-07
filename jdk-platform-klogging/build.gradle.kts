@@ -38,14 +38,15 @@ kotlin {
 
     java {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_1_8)
+            // JDK Platform logging was introduced in JDK 9
+            jvmTarget.set(JvmTarget.JVM_11)
         }
     }
 }
 
 tasks.withType<JavaCompile>().configureEach {
-    sourceCompatibility = "1.8"
-    targetCompatibility = "1.8"
+    sourceCompatibility = "11"
+    targetCompatibility = "11"
 }
 
 dependencies {
