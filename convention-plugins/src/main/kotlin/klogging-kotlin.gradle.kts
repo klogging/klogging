@@ -46,3 +46,8 @@ tasks.withType<JavaCompile>().configureEach {
     sourceCompatibility = "1.8"
     targetCompatibility = "1.8"
 }
+
+tasks.withType<Test>().configureEach {
+    // Open java.util classes so we can test environment changes
+    jvmArgs("--add-opens=java.base/java.util=ALL-UNNAMED")
+}
