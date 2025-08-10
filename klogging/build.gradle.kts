@@ -91,7 +91,11 @@ kotlin {
         val jsTest by getting
         val wasmJsMain by getting
         val wasmJsTest by getting
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation(kotlin("reflect"))
+            }
+        }
     }
 }
 
