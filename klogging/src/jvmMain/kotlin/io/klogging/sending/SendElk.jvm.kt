@@ -23,7 +23,7 @@ import io.klogging.internal.trace
 import io.klogging.internal.warn
 import java.io.IOException
 import java.net.HttpURLConnection
-import java.net.URL
+import java.net.URI
 import javax.net.ssl.HttpsURLConnection
 
 internal actual fun sendToElk(
@@ -44,7 +44,7 @@ internal actual fun sendToElk(
 }
 
 private fun elkConnection(endpoint: ElkEndpoint): HttpURLConnection {
-    val conn = URL(endpoint.url).openConnection() as HttpsURLConnection
+    val conn = URI(endpoint.url).toURL().openConnection() as HttpsURLConnection
     if (!endpoint.checkCertificate) {
         Certificates.relaxHostChecking(conn)
     }

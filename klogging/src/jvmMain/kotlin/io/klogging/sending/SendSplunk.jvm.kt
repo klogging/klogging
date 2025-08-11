@@ -24,7 +24,7 @@ import io.klogging.internal.warn
 import io.klogging.rendering.RenderString
 import java.io.IOException
 import java.net.HttpURLConnection
-import java.net.URL
+import java.net.URI
 import javax.net.ssl.HttpsURLConnection
 
 internal actual fun sendToSplunk(
@@ -51,7 +51,7 @@ private fun hecConnection(
     checkCertificate: Boolean,
 ): HttpURLConnection {
     val conn =
-        URL("$hecUrl/services/collector/event").openConnection() as HttpsURLConnection
+        URI("$hecUrl/services/collector/event").toURL().openConnection() as HttpsURLConnection
     if (!checkCertificate) {
         Certificates.relaxHostChecking(conn)
     }

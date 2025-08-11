@@ -22,7 +22,7 @@ import io.klogging.internal.trace
 import io.klogging.internal.warn
 import java.io.IOException
 import java.net.HttpURLConnection
-import java.net.URL
+import java.net.URI
 import javax.net.ssl.HttpsURLConnection
 
 /**
@@ -56,7 +56,7 @@ private fun seqConnection(
     apiKey: String?,
     checkCertificate: Boolean,
 ): HttpURLConnection {
-    val url = URL("$serverUrl/api/events/raw")
+    val url = URI("$serverUrl/api/events/raw").toURL()
     val conn =
         if (serverUrl.startsWith("https://")) {
             (url.openConnection() as HttpsURLConnection).also {
