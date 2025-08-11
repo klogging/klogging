@@ -999,16 +999,12 @@ public final class io/klogging/sending/EventSenderKt {
 	public static final fun senderFrom (Lio/klogging/rendering/RenderString;Lio/klogging/sending/SendString;)Lio/klogging/sending/EventSender;
 }
 
-public final class io/klogging/sending/STDERRKt {
-	public static final fun getSTDERR ()Lio/klogging/sending/SendString;
-}
-
-public final class io/klogging/sending/SendAndroidKt {
-	public static final fun getANDROID ()Lio/klogging/sending/EventSender;
-}
-
 public final class io/klogging/sending/SendConsoleKt {
 	public static final fun getSTDOUT ()Lio/klogging/sending/SendString;
+}
+
+public final class io/klogging/sending/SendConsole_androidKt {
+	public static final fun getSTDERR ()Lio/klogging/sending/SendString;
 }
 
 public final class io/klogging/sending/SendElk : io/klogging/sending/EventSender {
@@ -1027,6 +1023,10 @@ public final class io/klogging/sending/SendSplunkKt {
 
 public abstract interface class io/klogging/sending/SendString {
 	public abstract fun invoke (Ljava/lang/String;)V
+}
+
+public final class io/klogging/sending/Send_androidKt {
+	public static final fun getANDROID ()Lio/klogging/sending/EventSender;
 }
 
 public final class io/klogging/sending/SplunkEndpoint {

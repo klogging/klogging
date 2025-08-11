@@ -1010,12 +1010,12 @@ public final class io/klogging/sending/EventSenderKt {
 	public static final fun senderFrom (Lio/klogging/rendering/RenderString;Lio/klogging/sending/SendString;)Lio/klogging/sending/EventSender;
 }
 
-public final class io/klogging/sending/STDERRKt {
-	public static final fun getSTDERR ()Lio/klogging/sending/SendString;
-}
-
 public final class io/klogging/sending/SendConsoleKt {
 	public static final fun getSTDOUT ()Lio/klogging/sending/SendString;
+}
+
+public final class io/klogging/sending/SendConsole_jvmKt {
+	public static final fun getSTDERR ()Lio/klogging/sending/SendString;
 }
 
 public final class io/klogging/sending/SendElk : io/klogging/sending/EventSender {
