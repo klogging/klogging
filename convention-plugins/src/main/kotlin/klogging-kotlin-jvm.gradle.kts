@@ -38,9 +38,6 @@ kotlin {
             // Generate default methods for implementations in interfaces.
             // Not needed from Kotlin 2.2? See https://youtrack.jetbrains.com/issue/KT-71768
             freeCompilerArgs.add("-Xjvm-default=all-compatibility")
-            // From https://www.liutikas.net/2025/01/10/Conservative-Librarian.html
-            // Needed due to https://youtrack.jetbrains.com/issue/KT-49746
-            freeCompilerArgs.add("-Xjdk-release=1.8")
         }
     }
 }
