@@ -17,10 +17,15 @@
 */
 package io.klogging.internal
 
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlin.coroutines.CoroutineContext
 
 internal actual fun sendingContext(): CoroutineContext {
     debug("Coroutines", "Creating sending context for Klogging using Dispatchers.Unconfined")
     return Dispatchers.Unconfined
 }
+
+@OptIn(DelicateCoroutinesApi::class)
+internal actual fun parentContext(): CoroutineContext = GlobalScope.coroutineContext

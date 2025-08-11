@@ -16,11 +16,7 @@
 
 */
 
-package io.klogging.internal
+package io.klogging.sending
 
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlin.coroutines.CoroutineContext
-
-@OptIn(DelicateCoroutinesApi::class)
-internal actual fun parentContext(): CoroutineContext = GlobalScope.coroutineContext
+public actual val STDERR: SendString =
+    SendString { eventString -> console.error(eventString) }
