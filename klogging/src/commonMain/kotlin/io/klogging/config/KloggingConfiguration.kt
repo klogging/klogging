@@ -206,8 +206,7 @@ public class KloggingConfiguration {
      * @return calculated level
      */
     public fun minimumLevelOf(loggerName: String): Level =
-        configs
-            .filter { it.nameMatcher(loggerName) }
+        matchingConfigurationsOf(loggerName)
             .flatMap { it.ranges }
             .minOfOrNull { it.minLevel } ?: NONE
 
