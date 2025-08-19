@@ -242,7 +242,6 @@ public class KloggingConfiguration {
         }
     }
 
-
     /**
      * Return the [LoggingConfig]s that are matching the given [loggerName]
      * @param loggerName name of the logger
