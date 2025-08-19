@@ -1,6 +1,6 @@
 /*
 
-   Copyright 2021-2025 Victor Kuzmin and Michael Strasser.
+   Copyright 2021-2025 Viktor Kuzmin and Michael Strasser.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
