@@ -103,19 +103,11 @@ internal object Dispatcher {
         loggerName: String,
         level: Level,
     ): List<Sink> {
-        var keepMatching = true
-        val sinkNames =
-            KloggingEngine
-                .configs()
-                .filter { config ->
-                    val matches = config.nameMatcher(loggerName)
-                    (keepMatching && matches).also {
-                        keepMatching = keepMatching && !(matches && config.stopOnMatch)
-                    }
-                }.flatMap { config -> config.ranges }
-                .filter { range -> level in range }
-                .flatMap { range -> range.sinkNames }
-                .distinct()
+        val sinkNames = KloggingEngine.matchingConfigurationsOf(loggerName)
+            .flatMap { config -> config.ranges }
+            .filter { range -> level in range }
+            .flatMap { range -> range.sinkNames }
+            .distinct()
         return KloggingEngine
             .sinks()
             .filterKeys { key -> key in sinkNames }

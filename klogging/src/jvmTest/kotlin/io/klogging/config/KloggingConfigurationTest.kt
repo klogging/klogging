@@ -202,6 +202,22 @@ internal class KloggingConfigurationTest :
                             }
                         }
                         KloggingEngine.minimumLevelOf(name) shouldBe INFO
+                        KloggingEngine.minimumLevelOf("$name$name") shouldBe WARN
+                    }
+                }
+                it("returns the minimum level of configurations considering stopOnMatch") {
+                    checkAll(genLoggerName) { name ->
+                        loggingConfiguration {
+                            sink("stdout", RENDER_SIMPLE, STDOUT)
+                            logging {
+                                exactLogger(name, stopOnMatch = true)
+                                atLevel(WARN) { toSink("stdout") }
+                            }
+                            logging { atLevel(INFO) { toSink("stdout") } }
+                        }
+                        // Note: INFO is not taken into account because of stopOnMatch = true
+                        KloggingEngine.minimumLevelOf(name) shouldBe WARN
+                        KloggingEngine.minimumLevelOf("$name$name") shouldBe INFO
                     }
                 }
                 it("returns NONE if no configurations match the event name") {

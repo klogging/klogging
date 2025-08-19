@@ -206,8 +206,7 @@ public class KloggingConfiguration {
      * @return calculated level
      */
     public fun minimumLevelOf(loggerName: String): Level =
-        configs
-            .filter { it.nameMatcher(loggerName) }
+        matchingConfigurationsOf(loggerName)
             .flatMap { it.ranges }
             .minOfOrNull { it.minLevel } ?: NONE
 
@@ -241,5 +240,24 @@ public class KloggingConfiguration {
         if (kloggingMinLogLevel > other.kloggingMinLogLevel) {
             kloggingMinLogLevel = other.kloggingMinLogLevel
         }
+    }
+
+
+    /**
+     * Return the [LoggingConfig]s that are matching the given [loggerName]
+     * @param loggerName name of the logger
+     * @return list of filtered configurations
+     */
+    internal fun matchingConfigurationsOf(loggerName: String): List<LoggingConfig> {
+        var keepMatching = true
+
+        return KloggingEngine
+            .configs()
+            .filter { config ->
+                val matches = config.nameMatcher(loggerName)
+                (keepMatching && matches).also {
+                    keepMatching = keepMatching && !(matches && config.stopOnMatch)
+                }
+            }
     }
 }
