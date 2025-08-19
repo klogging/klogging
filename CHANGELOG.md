@@ -1,5 +1,14 @@
 # Klogging changes
 
+## Version 0.11.5
+
+- Behavior: `minimumLevelOf` now respects `stopOnMatch`. Only the first matching configuration is considered when
+  `stopOnMatch = true` – [issue 375](https://github.com/klogging/klogging/issues/375).
+- Refactoring/Formatting: Applied ktlint formatting and minor tidy-ups; general JVM/JS cleanups.
+- Build/Tooling: Updated Kotlin to 2.2.10; GitHub Actions actions/checkout bumped from v4 to v5.
+- Source-set housekeeping: Consistent file renames across Android, JVM, JS, iOS, and wasm JS source sets; corrected
+  Android contributor name attribution; minor JS hostname file fix.
+
 ## Version 0.11.4
 - Return `identifierForVendor` and device information for `hostname` on iOS – [issue 371](https://github.com/klogging/klogging/issues/371)
 - Dependency updates
