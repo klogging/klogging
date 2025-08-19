@@ -248,16 +248,16 @@ public class KloggingConfiguration {
      * @param loggerName name of the logger
      * @return list of filtered configurations
      */
-    internal fun matchingConfigurationsOf(loggerName:String) :List<LoggingConfig>{
+    internal fun matchingConfigurationsOf(loggerName: String): List<LoggingConfig> {
         var keepMatching = true
 
         return KloggingEngine
-                .configs()
-                .filter { config ->
-                    val matches = config.nameMatcher(loggerName)
-                    (keepMatching && matches).also {
-                        keepMatching = keepMatching && !(matches && config.stopOnMatch)
-                    }
+            .configs()
+            .filter { config ->
+                val matches = config.nameMatcher(loggerName)
+                (keepMatching && matches).also {
+                    keepMatching = keepMatching && !(matches && config.stopOnMatch)
                 }
+            }
     }
 }

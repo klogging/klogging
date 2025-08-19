@@ -141,7 +141,8 @@ internal object KloggingEngine {
      * @param loggerName name of the logger
      * @return list of filtered configurations
      */
-    internal fun matchingConfigurationsOf(loggerName: String): List<LoggingConfig> = currentConfig.matchingConfigurationsOf(loggerName)
+    internal fun matchingConfigurationsOf(loggerName: String): List<LoggingConfig> =
+        currentConfig.matchingConfigurationsOf(loggerName)
 
     /**
      * Return the current minimum Klogging internal log [Level].

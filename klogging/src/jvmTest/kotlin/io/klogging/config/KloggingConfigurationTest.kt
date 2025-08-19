@@ -232,7 +232,6 @@ internal class KloggingConfigurationTest :
                         KloggingEngine.minimumLevelOf("$name$name") shouldBe NONE
                     }
                 }
-
             }
             describe("append() function") {
                 it("combines sinks") {

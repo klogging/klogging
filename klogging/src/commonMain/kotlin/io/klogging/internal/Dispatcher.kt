@@ -104,10 +104,10 @@ internal object Dispatcher {
         level: Level,
     ): List<Sink> {
         val sinkNames = KloggingEngine.matchingConfigurationsOf(loggerName)
-                .flatMap { config -> config.ranges }
-                .filter { range -> level in range }
-                .flatMap { range -> range.sinkNames }
-                .distinct()
+            .flatMap { config -> config.ranges }
+            .filter { range -> level in range }
+            .flatMap { range -> range.sinkNames }
+            .distinct()
         return KloggingEngine
             .sinks()
             .filterKeys { key -> key in sinkNames }
