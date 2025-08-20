@@ -60,7 +60,7 @@ internal class JsonConfigurationTest :
 
                     config?.apply {
                         sinks shouldHaveSize 0
-                        configs shouldHaveSize 0
+                        loggingConfigs shouldHaveSize 0
                     }
                 }
             }
@@ -187,8 +187,8 @@ internal class JsonConfigurationTest :
 
                     config shouldNotBe null
                     config?.apply {
-                        configs shouldHaveSize 1
-                        with(configs.first()) {
+                        loggingConfigs shouldHaveSize 1
+                        with(loggingConfigs.first()) {
                             ranges shouldHaveSize 1
                             with(ranges.first()) {
                                 minLevel shouldBe INFO

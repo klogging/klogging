@@ -78,7 +78,7 @@ public object JsonConfiguration {
 
                     logging.forEach {
                         debug("JSON Configuration", "Adding logging config $it")
-                        config.configs.add(it.toLoggingConfig())
+                        config.loggingConfigs.add(it.toLoggingConfig())
                     }
                 }
                 config

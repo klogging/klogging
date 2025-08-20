@@ -49,7 +49,7 @@ internal class KloggingConfigurationTest :
                 it("has no sinks and no logging") {
                     with(KloggingConfiguration()) {
                         sinks shouldHaveSize 0
-                        configs shouldHaveSize 0
+                        loggingConfigs shouldHaveSize 0
                     }
                 }
             }
@@ -68,8 +68,8 @@ internal class KloggingConfigurationTest :
 
                     with(KloggingEngine) {
                         sinkConfigs() shouldContain ("console" to STDOUT_SIMPLE)
-                        configs() shouldHaveSize 1
-                        with(configs().first()) {
+                        loggingConfigs() shouldHaveSize 1
+                        with(loggingConfigs().first()) {
                             nameMatcher shouldBe matchAll
                             ranges shouldHaveSize 1
                             with(ranges.first()) {
@@ -129,8 +129,8 @@ internal class KloggingConfigurationTest :
                                 RENDER_CLEF,
                             )
 
-                        configs() shouldHaveSize 2
-                        with(configs().first()) {
+                        loggingConfigs() shouldHaveSize 2
+                        with(loggingConfigs().first()) {
                             ranges shouldHaveSize 2
                             ranges.first() shouldBe LevelRange(INFO, INFO)
                             with(ranges.first()) {
@@ -145,7 +145,7 @@ internal class KloggingConfigurationTest :
                                 sinkNames.last() shouldBe "seq"
                             }
                         }
-                        with(configs().last()) {
+                        with(loggingConfigs().last()) {
                             ranges shouldHaveSize 1
                             ranges.first() shouldBe LevelRange(DEBUG, FATAL)
                             with(ranges.first()) {
@@ -167,7 +167,7 @@ internal class KloggingConfigurationTest :
 
                     with(KloggingEngine) {
                         sinks() shouldHaveSize 2
-                        configs() shouldHaveSize 2
+                        loggingConfigs() shouldHaveSize 2
                     }
                 }
             }
@@ -258,7 +258,7 @@ internal class KloggingConfigurationTest :
                     )
 
                     with(config) {
-                        configs shouldHaveSize 2
+                        loggingConfigs shouldHaveSize 2
                     }
                 }
                 it("selects the lower minimum level logging level") {

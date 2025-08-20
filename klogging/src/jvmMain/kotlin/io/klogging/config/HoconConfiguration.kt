@@ -70,7 +70,7 @@ public object HoconConfiguration {
 
                     logging.forEach {
                         debug("HOCON Configuration", "Adding logging config $it")
-                        config.configs.add(it.toLoggingConfig())
+                        config.loggingConfigs.add(it.toLoggingConfig())
                     }
                 }
                 config

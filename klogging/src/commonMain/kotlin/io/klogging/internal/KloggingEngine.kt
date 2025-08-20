@@ -134,7 +134,7 @@ internal object KloggingEngine {
      * Return the current [LoggingConfig]s.
      * @return list configurations
      */
-    internal fun configs(): List<LoggingConfig> = currentConfig.configs
+    internal fun loggingConfigs(): List<LoggingConfig> = currentConfig.loggingConfigs
 
     /**
      * Return the [LoggingConfig]s that are matching the given [loggerName]

@@ -101,7 +101,7 @@ public class KloggingConfiguration {
     internal val sinks: AtomicMutableMap<String, SinkConfiguration> = AtomicMutableMap()
 
     /** Logging configurations in this configuration. */
-    internal val configs: AtomicMutableList<LoggingConfig> = AtomicMutableList()
+    internal val loggingConfigs: AtomicMutableList<LoggingConfig> = AtomicMutableList()
 
     /** Path of logging configuration file. */
     internal var loggingConfigPath: String? = null
@@ -196,7 +196,7 @@ public class KloggingConfiguration {
     public fun logging(configBlock: LoggingConfig.() -> Unit) {
         val loggingConfig = LoggingConfig()
         loggingConfig.apply(configBlock)
-        configs.add(loggingConfig)
+        loggingConfigs.add(loggingConfig)
     }
 
     /**
@@ -213,7 +213,7 @@ public class KloggingConfiguration {
     /** Validate that sinks referred to in logging configurations have been defined. */
     internal fun validateSinks() {
         val loggingSinks =
-            configs
+            loggingConfigs
                 .flatMap { it.ranges }
                 .flatMap { it.sinkNames }
                 .toSet()
@@ -236,7 +236,7 @@ public class KloggingConfiguration {
      */
     internal fun append(other: KloggingConfiguration) {
         sinks.putAll(other.sinks)
-        configs.addAll(other.configs)
+        loggingConfigs.addAll(other.loggingConfigs)
         if (kloggingMinLogLevel > other.kloggingMinLogLevel) {
             kloggingMinLogLevel = other.kloggingMinLogLevel
         }
@@ -251,7 +251,7 @@ public class KloggingConfiguration {
         var keepMatching = true
 
         return KloggingEngine
-            .configs()
+            .loggingConfigs()
             .filter { config ->
                 val matches = config.nameMatcher(loggerName)
                 (keepMatching && matches).also {
