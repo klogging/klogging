@@ -19,7 +19,32 @@
 package io.klogging.rendering
 
 import io.klogging.events.EventItems
+import kotlin.reflect.KClass
+import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.isAccessible
 
-internal actual fun destructure(obj: Any): EventItems {
-    TODO("Not yet implemented")
-}
+internal actual fun destructure(obj: Any): EventItems =
+    buildMap {
+        obj::class.memberProperties.forEach { property ->
+            property.isAccessible = true
+            val objClass = property.returnType.classifier as? KClass<*> ?: return@forEach
+            val name = property.name
+            val value = property.getter.call(obj)
+            if (value == null) put(name, null)
+            when (objClass) {
+                String::class,
+                Int::class,
+                Long::class,
+                Float::class,
+                Double::class,
+                List::class,
+                Set::class,
+                Map::class,
+                Boolean::class,
+                -> put(name, value)
+
+                else -> put(name, destructure(value!!))
+            }
+        }
+        put(TYPE_KEY, obj::class.simpleName)
+    }

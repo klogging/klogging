@@ -66,6 +66,7 @@ kotlin {
             dependencies {
                 api(libs.kotlin.coroutines)
                 api(libs.kotlin.datetime)
+                implementation(kotlin("reflect"))
                 implementation(libs.kotlin.serialisation.json)
                 implementation(libs.kotlin.atomicfu)
             }
@@ -73,7 +74,6 @@ kotlin {
         val commonTest by getting
         val jvmMain by getting {
             dependencies {
-                implementation(kotlin("reflect"))
                 implementation(libs.kotlin.serialisation.hocon)
             }
         }
@@ -91,11 +91,7 @@ kotlin {
         val jsTest by getting
         val wasmJsMain by getting
         val wasmJsTest by getting
-        val androidMain by getting {
-            dependencies {
-                implementation(kotlin("reflect"))
-            }
-        }
+        val androidMain by getting
     }
 }
 

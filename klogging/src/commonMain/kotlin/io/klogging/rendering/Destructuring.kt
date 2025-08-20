@@ -20,6 +20,8 @@ package io.klogging.rendering
 
 import io.klogging.events.EventItems
 
+internal const val TYPE_KEY = $$"$type"
+
 internal expect fun destructure(obj: Any): EventItems
 
 internal val EventItems.destructured: EventItems
