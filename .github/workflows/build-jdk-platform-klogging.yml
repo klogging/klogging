@@ -63,4 +63,4 @@ jobs:
         if: steps.check_test_output.outputs.files_exists == 'true'
 
       - name: Publish Klogging JPL implementation to Maven Central
-        run: ./gradlew :jdk-platform-klogging:publishJvmPublicationToMavenCentralRepository
+        run: ./gradlew :jdk-platform-klogging:publishJvmPublicationToMavenCentralRepository --no-configuration-cache

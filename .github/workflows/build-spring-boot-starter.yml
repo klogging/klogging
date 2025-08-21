@@ -32,4 +32,4 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Publish Spring Boot starter to Maven Central
-        run: ./gradlew :klogging-spring-boot-starter:publishAllPublicationsToMavenCentralRepository
+        run: ./gradlew :klogging-spring-boot-starter:publishAllPublicationsToMavenCentralRepository --no-configuration-cache

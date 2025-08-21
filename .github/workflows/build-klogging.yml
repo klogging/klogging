@@ -72,7 +72,7 @@ jobs:
         if: steps.check_test_output.outputs.files_exists == 'true'
 
       - name: Publish to Maven Central
-        run: ./gradlew :klogging:publishAllPublicationsToMavenCentralRepository
+        run: ./gradlew :klogging:publishAllPublicationsToMavenCentralRepository --no-configuration-cache
 
   build-klogging-apple:
     name: Build apple versions of Klogging library
@@ -109,4 +109,4 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Publish to Maven Central
-        run: ./gradlew :klogging:publishIosArm64PublicationToMavenCentralRepository :klogging:publishIosX64PublicationToMavenCentralRepository :klogging:publishIosSimulatorArm64PublicationToMavenCentralRepository
+        run: ./gradlew :klogging:publishIosArm64PublicationToMavenCentralRepository :klogging:publishIosX64PublicationToMavenCentralRepository :klogging:publishIosSimulatorArm64PublicationToMavenCentralRepository  --no-configuration-cache
