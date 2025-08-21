@@ -1,5 +1,10 @@
 # Klogging changes
 
+## Version 0.11.6
+
+- Android code is JVM 1.8 – [issue 376](https://github.com/klogging/klogging/issues/376)
+- Message template destructuring in Android
+
 ## Version 0.11.5
 
 - Behavior: `minimumLevelOf` now respects `stopOnMatch`. Only the first matching configuration is considered when
@@ -10,89 +15,119 @@
   Android contributor name attribution; minor JS hostname file fix.
 
 ## Version 0.11.4
-- Return `identifierForVendor` and device information for `hostname` on iOS – [issue 371](https://github.com/klogging/klogging/issues/371)
+
+- Return `identifierForVendor` and device information for `hostname` on
+  iOS – [issue 371](https://github.com/klogging/klogging/issues/371)
 - Dependency updates
 
 ## Version 0.11.3
+
 - Fix for hostname exception on iOS and JS – [issue 371](https://github.com/klogging/klogging/issues/371)
 
 ## Version 0.11.2
+
 - Dependency updates
 - Minimum Android SDK version now 24
 
 ## Version 0.11.1
+
 - Safer fetch of hostname on JVM
 - Clearer names for built-in complete configurations
 
 ## Version 0.11.0
+
 - Updated Ktlint formatting
 - Extension functions for creating new loggers from existing ones
 - Dependency updates, especially Kotlin 2.2.0. This means minimum supported Kotlin version is 1.8.
 
 ## Version 0.10.1
+
 - Fixed configuration of Klogging Spring Boot Starter
 
 ## Version 0.10.0
+
 - No more Hexagon toolkit adapter
 - Publishing fixes
 - Dependency updates
 
 ## Version 0.9.5
+
 - Minor updates
 - Publish to the new Maven Central Publishing portal
 
 ## Version 0.9.4
-- Fix bug where collection classes cannot be destructured [JVM] – [issue 343](https://github.com/klogging/klogging/issues/343)
+
+- Fix bug where collection classes cannot be
+  destructured [JVM] – [issue 343](https://github.com/klogging/klogging/issues/343)
 - Gradle 8.13
 
 ## Version 0.9.3
+
 - Support SLF4J 2.0.17 – [issue 340](https://github.com/klogging/klogging/issues/340) - Thanks @gavvvr!
 
 ## Version 0.9.2
+
 - KotlinX Serialization 1.8.0
-- Object destructuring used in all JSON-generating renderers [JVM] - [issue 328](https://github.com/klogging/klogging/issues/328)
+- Object destructuring used in all JSON-generating
+  renderers [JVM] - [issue 328](https://github.com/klogging/klogging/issues/328)
 
 ## Version 0.9.1
+
 - Non-strict version of Kotlin Serialization - [issue 337](https://github.com/klogging/klogging/issues/337)
 - Gradle 8.12.1
 
 ## Version 0.9.0
-- Object destructuring in message templates with `@` operator [JVM] - [issue 328](https://github.com/klogging/klogging/issues/328)
-- Use non-blocking coroutine dispatcher for sending to sinks [JVM] - [issue 320](https://github.com/klogging/klogging/issues/320)
+
+- Object destructuring in message templates with `@`
+  operator [JVM] - [issue 328](https://github.com/klogging/klogging/issues/328)
+- Use non-blocking coroutine dispatcher for sending to
+  sinks [JVM] - [issue 320](https://github.com/klogging/klogging/issues/320)
 - Many dependency updates
 
 ## Version 0.8.0
+
 - String pattern-based rendering definitions - [issue 306](https://github.com/klogging/klogging/issues/306)
 - Dependency updates
 
 ## Version 0.7.3
+
 - Gradle version update to 8.10.2
 - Dependency updates
 - KMP updates
 - Improvements to Splunk and ELK sending
 
 ## Version 0.7.2
+
 - `RenderString` and `SendString` are specified using `fun interface`.
 - Kotlin version update to 2.0.20
 - Gradle version update to 8.10.
 - Other dependency updates.
 
 ## Version 0.7.1
+
 - Extracted extensions for creating custom renderers - [issue 145](https://github.com/klogging/klogging/issues/145)
 
 ## Version 0.7.0
-- From [Baris](https://github.com/peacecwz): RENDER_STANDARD: standard rendering of log events to JSON - [PR 282](https://github.com/klogging/klogging/pull/282)
+
+- From [Baris](https://github.com/peacecwz): RENDER_STANDARD: standard rendering of log events to
+  JSON - [PR 282](https://github.com/klogging/klogging/pull/282)
 
 ## Version 0.6.1
-- Replace loggers defined with the same name so their attached contexts change – [issue 274](https://github.com/klogging/klogging/issues/274)
+
+- Replace loggers defined with the same name so their attached contexts
+  change – [issue 274](https://github.com/klogging/klogging/issues/274)
 
 ## Version 0.6.0
-- Klogger and NoCoLogger instances can have their own context items – [issue 274](https://github.com/klogging/klogging/issues/274)
+
+- Klogger and NoCoLogger instances can have their own context
+  items – [issue 274](https://github.com/klogging/klogging/issues/274)
 
 ## Version 0.5.14
+
 - RENDER_ECS_DOTNET renderer
 
 ## Version 0.5.13
+
 - JVM: load configuration files from current thread classpath
 
 ## Version 0.5.12
@@ -186,7 +221,8 @@ A number of bug fixes and improvements.
 - [Stop on match for logger names in configuration](https://klogging.io/docs/configuration/dsl#short-circuit-matching-with-stoponmatch)
 - [One-line renderer with ISO8601 timestamps](https://klogging.io/docs/configuration/built-ins#render_iso8601)
 - [Env var for setting built-in renderer for a sink](https://klogging.io/docs/internals/environment-variables)
-- [`toMaxLevel` function for defining loggers](https://klogging.io/docs/configuration/dsl#fromminlevel-tomaxlevel-atlevel-and-inlevelrange)
+- [
+  `toMaxLevel` function for defining loggers](https://klogging.io/docs/configuration/dsl#fromminlevel-tomaxlevel-atlevel-and-inlevelrange)
 
 ## Version 0.4.0
 
