@@ -19,6 +19,7 @@
 @file:Suppress("UNUSED_VARIABLE")
 
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("klogging-kotlin")
@@ -49,6 +50,9 @@ kotlin {
 
     androidTarget {
         publishLibraryVariants("release", "debug")
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_1_8)
+        }
     }
 
     listOf(
