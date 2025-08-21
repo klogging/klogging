@@ -1,0 +1,29 @@
+name: release-components-on-tag
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  checks: write
+  statuses: write
+  pull-requests: write
+
+jobs:
+  slf4j-klogging:
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v')
+    uses: ./.github/workflows/build-slf4j-klogging.yml
+    secrets: inherit
+
+  jdk-platform-klogging:
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v')
+    uses: ./.github/workflows/build-jdk-platform-klogging.yml
+    secrets: inherit
+
+  spring-boot-starter:
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v')
+    uses: ./.github/workflows/build-spring-boot-starter.yml
+    secrets: inherit

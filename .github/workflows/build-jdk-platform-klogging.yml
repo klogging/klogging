@@ -2,6 +2,7 @@ name: build-publish-jdk-platform-klogging
 
 on:
   workflow_dispatch:
+  workflow_call:
 
 jobs:
 

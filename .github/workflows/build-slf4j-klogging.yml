@@ -2,6 +2,7 @@ name: build-publish-slf4j-klogging
 
 on:
   workflow_dispatch:
+  workflow_call:
 
 jobs:
 
