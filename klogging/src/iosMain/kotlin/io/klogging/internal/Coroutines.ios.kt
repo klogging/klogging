@@ -19,8 +19,8 @@
 package io.klogging.internal
 
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
 @OptIn(DelicateCoroutinesApi::class)
-internal actual fun parentContext(): CoroutineContext = GlobalScope.coroutineContext
+internal actual fun parentContext(): CoroutineContext = Job()
