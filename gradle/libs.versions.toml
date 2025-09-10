@@ -2,7 +2,7 @@
 atomicfu = "0.29.0"
 binary-compatibility-validator = "0.18.1"
 dokka = "2.0.0"
-kotlin = "2.2.10"
+kotlin = "2.2.20"
 kotest = { strictly = "[5.+, 6.0)" }
 kotest-html-reporter = { strictly = "[0.7.3, 0.8.0)" } # Version 0.8.0+ supports Kotest 6.0+
 kover = "0.9.1"
