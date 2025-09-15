@@ -18,7 +18,6 @@
 
 package io.klogging.internal
 
-@JsFun("(output) => console.error(output)")
 private external fun consoleErr(output: String)
 
 internal actual fun printErr(message: String): Unit = consoleErr(message)
