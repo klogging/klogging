@@ -35,10 +35,10 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build
-        run: ./gradlew clean assemble
+        run: ./gradlew clean assemble --no-configuration-cache
 
       - name: Run tests
-        run: ./gradlew check
+        run: ./gradlew check --no-configuration-cache
 
       - name: Code coverage
         run: ./gradlew koverHtmlReport
