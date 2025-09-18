@@ -81,9 +81,9 @@ internal class KloggingConfigurationTest :
                 }
                 it("allows for complex logging configuration") {
                     loggingConfiguration {
-                        // Dispatch to standout output stream with simple message rendering.
+                        // Dispatch to standard output stream with simple message rendering.
                         sink("stdout", RENDER_SIMPLE, STDOUT)
-                        // Dispatch to standout error stream with simple message rendering.
+                        // Dispatch to standard error stream with simple message rendering.
                         sink("stderr", RENDER_SIMPLE, STDERR)
                         // Dispatch to a Seq server with CLEF rendering by default.
                         sink("seq", seq("http://localhost:5341"))
