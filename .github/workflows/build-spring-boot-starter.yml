@@ -30,7 +30,7 @@ jobs:
           fetch-depth: 0 # Check out everything including tags
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v5
 
       - name: Publish Spring Boot starter to Maven Central
         run: ./gradlew :klogging-spring-boot-starter:publishAllPublicationsToMavenCentralRepository --no-configuration-cache
