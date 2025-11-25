@@ -11,7 +11,7 @@ kotlin-datetime = "0.7.1-0.6.x-compat"
 kotlin-serialisation = "1.9.0"
 reckon = "1.0.1"
 slf4j = "2.0.17"
-spotless = "8.0.0"
+spotless = "8.1.0"
 test-logger = "4.0.0"
 vanniktech = "0.35.0"
 android-library = { strictly = "[8.7, 8.8)" }
