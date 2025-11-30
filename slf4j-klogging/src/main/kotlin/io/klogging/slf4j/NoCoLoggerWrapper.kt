@@ -498,13 +498,13 @@ public class NoCoLoggerWrapper(
     ): Pair<String, Array<Any?>> {
         val formatted = MessageFormatter.arrayFormat(template, arguments).message
         val numAnchors = template?.let { Regex("\\{\\}").findAll(it).count() } ?: 0
-        return formatted to (
-                if (arguments.size > numAnchors) {
-                    arguments.slice(numAnchors until arguments.size).toTypedArray()
-                } else {
-                    emptyArray()
-                }
-        )
+        val remainingArgs =
+            if (arguments.size > numAnchors) {
+                arguments.slice(numAnchors until arguments.size).toTypedArray()
+            } else {
+                emptyArray()
+            }
+        return formatted to remainingArgs
     }
 }
 
