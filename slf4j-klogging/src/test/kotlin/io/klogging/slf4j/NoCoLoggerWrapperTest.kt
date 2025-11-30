@@ -31,6 +31,7 @@ import io.kotest.datatest.withData
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.maps.shouldHaveSize
+import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -161,19 +162,19 @@ class NoCoLoggerWrapperTest :
                 }
             }
 
-            describe("works with SLF4J placeholders") {
-                it("replaces SLF4J placeholders with provided values") {
+            describe("works with SLF4J anchors") {
+                it("replaces SLF4J anchors with provided values") {
                     val saved = savedEvents()
                     val id = randomString()
                     LoggerFactory.getLogger(randomString()).info("User {} logged in", id)
 
                     saved shouldHaveSize 1
                     with(saved.first()) {
-                        template shouldBe "User $id logged in"
+                        template.shouldBeNull()
                         message shouldBe "User $id logged in"
                     }
                 }
-                it("replaces SLF4J placeholders but does not add items") {
+                it("replaces SLF4J anchors but does not add items") {
                     val saved = savedEvents()
                     val id = randomString()
                     LoggerFactory.getLogger(randomString()).info("User {} logged in", id)
@@ -181,14 +182,14 @@ class NoCoLoggerWrapperTest :
                     saved shouldHaveSize 1
                     saved.first().items shouldHaveSize 0
                 }
-                it("ignores SLF4J placeholders without provided values") {
+                it("ignores SLF4J anchors without provided values") {
                     val saved = savedEvents()
                     LoggerFactory.getLogger(randomString()).debug("User {} logged out")
 
                     saved shouldHaveSize 1
                     saved.first().message shouldBe "User {} logged out"
                 }
-                it("does not work with SLF4J placeholder and message template hole") {
+                it("replaces SLF4J anchors if they precede message template holes") {
                     val saved = savedEvents()
                     val id = randomString()
                     val name = randomString()
@@ -198,11 +199,10 @@ class NoCoLoggerWrapperTest :
                     with(saved.first()) {
                         template shouldBe "User [$id] {name}"
                         message shouldBe "User [$id] {name}"
-                        // First arg goes in items:
-                        items shouldContainExactly mapOf("name" to id)
+                        items shouldContainExactly mapOf("name" to name)
                     }
                 }
-                it("does not work with message template hole and SLF4J placeholder") {
+                it("does not work with message template holes that precede and SLF4J anchors") {
                     val saved = savedEvents()
                     val id = randomString()
                     val name = randomString()
@@ -213,7 +213,7 @@ class NoCoLoggerWrapperTest :
                         template shouldBe "User {name} [$name]"
                         message shouldBe "User {name} [$name]"
                         // First arg goes in items:
-                        items shouldContainExactly mapOf("name" to name)
+                        items shouldContainExactly mapOf("name" to id)
                     }
                 }
             }

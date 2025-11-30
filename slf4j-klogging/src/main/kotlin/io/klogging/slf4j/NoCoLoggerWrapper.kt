@@ -466,11 +466,11 @@ public class NoCoLoggerWrapper(
         format: String?,
         vararg arguments: Any?,
     ) {
-        val formatted = MessageFormatter.arrayFormat(format, arguments).message
-        if (format == null || arguments.isEmpty()) {
+        val (formatted, remainingArgs) = formatSlf4j(format, *arguments)
+        if (format == null || remainingArgs.isEmpty()) {
             noCoLogger.emitEvent(level, null, formatted)
         } else {
-            noCoLogger.emitEvent(level, null, noCoLogger.e(formatted, *arguments))
+            noCoLogger.emitEvent(level, null, noCoLogger.e(formatted, *remainingArgs))
         }
     }
 
@@ -484,12 +484,27 @@ public class NoCoLoggerWrapper(
         format: String? = null,
         vararg arguments: Any?,
     ) {
-        val formatted = MessageFormatter.arrayFormat(format, arguments).message
-        if (format == null || arguments.isEmpty()) {
+        val (formatted, remainingArgs) = formatSlf4j(format, *arguments)
+        if (format == null || remainingArgs.isEmpty()) {
             noCoLogger.emitEvent(level, throwable, formatted)
         } else {
-            noCoLogger.emitEvent(level, null, noCoLogger.e(formatted, *arguments))
+            noCoLogger.emitEvent(level, throwable, noCoLogger.e(formatted, *remainingArgs))
         }
+    }
+
+    private fun formatSlf4j(
+        template: String?,
+        vararg arguments: Any?,
+    ): Pair<String, Array<Any?>> {
+        val formatted = MessageFormatter.arrayFormat(template, arguments).message
+        val numAnchors = template?.let { Regex("\\{\\}").findAll(it).count() } ?: 0
+        return formatted to (
+            if (arguments.size > numAnchors) {
+                arguments.slice(numAnchors until arguments.size).toTypedArray()
+            } else {
+                emptyArray()
+            }
+        )
     }
 }
 
