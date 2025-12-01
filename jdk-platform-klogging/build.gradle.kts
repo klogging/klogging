@@ -74,7 +74,7 @@ java {
 
 val javadocJar =
     tasks.named<Jar>("javadocJar") {
-        from(tasks.named("dokkaHtml"))
+        from(tasks.named("dokkaGenerateHtml"))
     }
 
 // Create a publication to sign to publish.

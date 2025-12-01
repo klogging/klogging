@@ -52,7 +52,7 @@ mavenPublishing {
     }
 }
 
-tasks.dokkaHtml.configure {
+tasks.dokkaGenerateHtml.configure {
     moduleName.set("Klogging")
 //    dokkaSourceSets {
 //        configureEach {
