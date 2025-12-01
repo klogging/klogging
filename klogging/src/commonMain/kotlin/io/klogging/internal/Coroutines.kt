@@ -19,6 +19,7 @@
 package io.klogging.internal
 
 import io.klogging.impl.NoCoLoggerImpl
+import io.klogging.sending.SendingLauncher
 import kotlin.coroutines.CoroutineContext
 
 /**
