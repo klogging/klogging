@@ -1,5 +1,11 @@
 # Klogging changes
 
+## Version 0.11.7
+
+- SLF4J: Improved handling of SLF4J templating anchors – [issue 391](https://github.com/klogging/klogging/issues/391)
+- Simplified workflow for publishing libraries to Maven Central
+- Multiple version updates
+
 ## Version 0.11.6
 
 - Android code is JVM 1.8 – [issue 376](https://github.com/klogging/klogging/issues/376)
