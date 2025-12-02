@@ -52,12 +52,6 @@ mavenPublishing {
     }
 }
 
-tasks.dokkaGenerateHtml.configure {
+dokka {
     moduleName.set("Klogging")
-//    dokkaSourceSets {
-//        configureEach {
-//            includeNonPublic.set(true)
-//            includes.from("src/commonMain/kotlin/packages.md")
-//        }
-//    }
 }
