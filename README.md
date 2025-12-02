@@ -166,7 +166,16 @@ dependencies {
 
 ## Building Klogging
 
-Clone this repository and run `./gradlew clean build`
+Klogging supports Android so it requires Android SDK version 24 or above. Install the Android SDK
+and either:
+
+- set the `ANDROID_HOME` environment variable to point to the installation directory; or
+- create a `local.properties` file in the root directory of the project with the following line:
+  `sdk.dir=/path/to/android/sdk`
+
+> NB: `local.properties` is not committed to the repository and may also contain sensitive information.
+
+Run `./gradlew clean build`
 
 ## Why another logging library?
 
