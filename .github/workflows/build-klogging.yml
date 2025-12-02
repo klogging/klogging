@@ -74,39 +74,40 @@ jobs:
       - name: Publish to Maven Central
         run: ./gradlew :klogging:publishAllPublicationsToMavenCentralRepository --no-configuration-cache
 
-  build-klogging-apple:
-    name: Build apple versions of Klogging library
-    runs-on: macos-latest
-    needs: build-klogging
-    env:
-      ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVENCENTRALUSERNAME }}
-      ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVENCENTRALPASSWORD }}
-      ORG_GRADLE_PROJECT_signingInMemoryKeyId: 40D4E7C6
-      ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
-      ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
-      TERM: xterm-256color
-      KLOGGING_MIN_LOG_LEVEL: WARN # Reduce noise in test output
-
-    permissions:
-      contents: write # Required to be able to publish releases, see https://docs.github.com/en/rest/reference/permissions-required-for-github-apps#permission-on-contents
-      checks: write # Required to write test reports.
-      statuses: write
-      pull-requests: write
-
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0 # Check out everything including tags
-
-      - name: Set up Java
-        uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: 21
-
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v5
-
-      - name: Publish to Maven Central
-        run: ./gradlew :klogging:publishIosArm64PublicationToMavenCentralRepository :klogging:publishIosX64PublicationToMavenCentralRepository :klogging:publishIosSimulatorArm64PublicationToMavenCentralRepository  --no-configuration-cache
+# I think this is no longer needed, as Apple libraries are now published as part of the main job.
+#  build-klogging-apple:
+#    name: Build apple versions of Klogging library
+#    runs-on: macos-latest
+#    needs: build-klogging
+#    env:
+#      ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVENCENTRALUSERNAME }}
+#      ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVENCENTRALPASSWORD }}
+#      ORG_GRADLE_PROJECT_signingInMemoryKeyId: 40D4E7C6
+#      ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
+#      ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
+#      TERM: xterm-256color
+#      KLOGGING_MIN_LOG_LEVEL: WARN # Reduce noise in test output
+#
+#    permissions:
+#      contents: write # Required to be able to publish releases, see https://docs.github.com/en/rest/reference/permissions-required-for-github-apps#permission-on-contents
+#      checks: write # Required to write test reports.
+#      statuses: write
+#      pull-requests: write
+#
+#    steps:
+#      - name: Check out code
+#        uses: actions/checkout@v6
+#        with:
+#          fetch-depth: 0 # Check out everything including tags
+#
+#      - name: Set up Java
+#        uses: actions/setup-java@v5
+#        with:
+#          distribution: temurin
+#          java-version: 21
+#
+#      - name: Set up Gradle
+#        uses: gradle/actions/setup-gradle@v5
+#
+#      - name: Publish to Maven Central
+#        run: ./gradlew :klogging:publishIosArm64PublicationToMavenCentralRepository :klogging:publishIosX64PublicationToMavenCentralRepository :klogging:publishIosSimulatorArm64PublicationToMavenCentralRepository  --no-configuration-cache
