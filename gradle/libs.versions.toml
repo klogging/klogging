@@ -5,7 +5,7 @@ dokka = "2.1.0"
 kotlin = "2.2.21"
 kotest = { strictly = "[5.+, 6.0)" }
 kotest-html-reporter = { strictly = "[0.7.3, 0.8.0)" } # Version 0.8.0+ supports Kotest 6.0+
-kover = "0.9.3"
+kover = "0.9.4"
 kotlin-coroutines = "1.10.2"
 kotlin-datetime = "0.7.1-0.6.x-compat"
 kotlin-serialisation = "1.9.0"
