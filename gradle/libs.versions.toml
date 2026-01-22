@@ -1,5 +1,5 @@
 [versions]
-atomicfu = "0.29.0"
+atomicfu = "0.30.0"
 binary-compatibility-validator = "0.18.1"
 dokka = "2.1.0"
 kotlin = "2.2.21"
