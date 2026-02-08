@@ -20,6 +20,7 @@ package io.klogging.events
 
 import io.klogging.Level
 import io.klogging.internal.hostname
+import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.datetime.Instant
@@ -46,7 +47,7 @@ public typealias EventItems = Map<String, Any?>
  *                 hole in the template
  */
 public data class LogEvent(
-    val id: String = randomId(),
+    val id: String = nextId(),
     val timestamp: Instant = timestampNow(),
     val host: String = hostname,
     val logger: String,
@@ -103,6 +104,10 @@ public data class LogEvent(
  * @return a short, random string
  */
 private fun randomId(): String = Random.nextUInt().toString(16).padStart(8, '0')
+
+private val counter = atomic(1L)
+
+private fun nextId(): String = counter.incrementAndGet().toString().padStart(8, '0')
 
 /** Thread name or similar current context identifier. */
 internal expect fun threadContext(): String?
