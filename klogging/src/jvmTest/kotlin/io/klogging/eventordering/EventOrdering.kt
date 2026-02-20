@@ -3,14 +3,12 @@ package io.klogging.eventordering
 import io.klogging.Level
 import io.klogging.config.loggingConfiguration
 import io.klogging.logger
-import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.selects.select
 import kotlin.random.Random
 
-val counter = atomic(0L)
 val logger = logger("io.klogging.internal.EventOrdering")
 
 suspend fun main() {
@@ -24,19 +22,18 @@ suspend fun main() {
         }
     }
     coroutineScope {
-        select {
-            List(10) {
-                async { doThing() }.onAwait { it }
-            }
-        }
-
+        logger.info("Starting")
+        (1..50)
+            .map { counter ->
+                async { doThing(counter) }
+            }.awaitAll()
+        logger.info("Finished")
         delay(500)
     }
 }
 
-private suspend fun doThing(): String {
-    delay(Random.nextLong(20, 100))
-    val count = counter.incrementAndGet()
-    logger.info("Count: {count}", count)
-    return count.toString()
+private suspend fun doThing(counter: Int): Int {
+    delay(Random.nextLong(40, 100))
+    logger.info("Counter: {counter}", counter)
+    return counter
 }

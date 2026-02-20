@@ -105,7 +105,10 @@ public data class LogEvent(
  */
 private fun randomId(): String = Random.nextUInt().toString(16).padStart(8, '0')
 
-private val counter = atomic(1L)
+/**
+ * Incrementing ID generator for [LogEvent]s.
+ */
+private val counter = atomic(0L)
 
 private fun nextId(): String = counter.incrementAndGet().toString().padStart(8, '0')
 
