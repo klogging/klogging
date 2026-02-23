@@ -1,4 +1,4 @@
-package io.klogging.eventordering
+package io.klogging.eventorder
 
 import io.klogging.sending.SendString
 import kotlinx.datetime.Clock

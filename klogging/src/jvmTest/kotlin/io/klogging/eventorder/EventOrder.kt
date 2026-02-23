@@ -1,4 +1,4 @@
-package io.klogging.eventordering
+package io.klogging.eventorder
 
 import io.klogging.Level
 import io.klogging.config.loggingConfiguration
@@ -9,7 +9,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
-val logger = logger("io.klogging.internal.EventOrdering")
+val logger = logger("io.klogging.eventorder.EventOrder")
 
 suspend fun main() {
     loggingConfiguration(append = false) {
@@ -23,7 +23,7 @@ suspend fun main() {
     }
     coroutineScope {
         logger.info("Starting")
-        (1..50)
+        (1..20)
             .map { counter ->
                 async { doThing(counter) }
             }.awaitAll()
