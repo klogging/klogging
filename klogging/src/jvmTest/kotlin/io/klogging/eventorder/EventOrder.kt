@@ -13,7 +13,7 @@ val logger = logger("io.klogging.eventorder.EventOrder")
 
 suspend fun main() {
     loggingConfiguration(append = false) {
-        kloggingMinLogLevel = Level.TRACE
+        kloggingMinLogLevel = Level.FATAL
         sink("console", TimestampString(), FileSink())
         logging {
             fromMinLevel(Level.INFO) {
@@ -22,12 +22,11 @@ suspend fun main() {
         }
     }
     coroutineScope {
-        logger.info("Starting")
-        (1..20)
+        (1..10)
             .map { counter ->
                 async { doThing(counter) }
             }.awaitAll()
-        logger.info("Finished")
+        // Ensure all events are processed before exiting
         delay(500)
     }
 }
