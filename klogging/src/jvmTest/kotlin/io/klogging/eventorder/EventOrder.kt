@@ -14,6 +14,7 @@ val logger = logger("io.klogging.eventorder.EventOrder")
 suspend fun main() {
     loggingConfiguration(append = false) {
         kloggingMinLogLevel = Level.FATAL
+        minDirectLogLevel = Level.TRACE
         sink("console", TimestampString(), FileSink())
         logging {
             fromMinLevel(Level.INFO) {
