@@ -45,7 +45,7 @@ jobs:
           java-version: 21
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v5
+        uses: gradle/actions/setup-gradle@v6
 
       - name: Build
         run: ./gradlew :klogging:assemble
@@ -107,7 +107,7 @@ jobs:
 #          java-version: 21
 #
 #      - name: Set up Gradle
-#        uses: gradle/actions/setup-gradle@v5
+#        uses: gradle/actions/setup-gradle@v6
 #
 #      - name: Publish to Maven Central
 #        run: ./gradlew :klogging:publishIosArm64PublicationToMavenCentralRepository :klogging:publishIosX64PublicationToMavenCentralRepository :klogging:publishIosSimulatorArm64PublicationToMavenCentralRepository  --no-configuration-cache
