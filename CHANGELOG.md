@@ -1,5 +1,10 @@
 # Klogging changes
 
+## Version 0.11.8
+
+- Support for kotlinx-datetime version 0.8.0 – [issue 408](https://github.com/klogging/klogging/issues/408)
+- Other dependency updates
+
 ## Version 0.11.7
 
 - SLF4J: Improved handling of SLF4J templating anchors – [issue 391](https://github.com/klogging/klogging/issues/391)
