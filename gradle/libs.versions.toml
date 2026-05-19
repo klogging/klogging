@@ -1,19 +1,19 @@
 [versions]
-atomicfu = "0.29.0"
+atomicfu = "0.32.1"
 binary-compatibility-validator = "0.18.1"
-dokka = "2.1.0"
+dokka = "2.2.0"
 kotlin = "2.2.21"
 kotest = { strictly = "[5.+, 6.0)" }
 kotest-html-reporter = { strictly = "[0.7.3, 0.8.0)" } # Version 0.8.0+ supports Kotest 6.0+
-kover = "0.9.4"
-kotlin-coroutines = "1.10.2"
+kover = "0.9.8"
+kotlin-coroutines = "1.11.0"
 kotlinx-datetime = "0.8.0-0.6.x-compat" # Use this version while still using KotlinX library
-kotlin-serialisation = "1.9.0"
-reckon = "1.0.1"
-slf4j = "2.0.17"
-spotless = "8.1.0"
+kotlin-serialisation = "1.11.0"
+reckon = "2.0.0"
+slf4j = "2.0.18"
+spotless = "8.5.1"
 test-logger = "4.0.0"
-vanniktech = "0.35.0"
+vanniktech = { strictly = "0.35.0" } # Requires Gradle 9
 android-library = { strictly = "[8.7, 8.8)" }
 
 [libraries]
