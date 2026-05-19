@@ -8,7 +8,7 @@ kotest-html-reporter = { strictly = "[0.7.3, 0.8.0)" } # Version 0.8.0+ supports
 kover = "0.9.8"
 kotlin-coroutines = "1.11.0"
 kotlinx-datetime = "0.8.0-0.6.x-compat" # Use this version while still using KotlinX library
-kotlin-serialisation = "1.11.0"
+kotlin-serialisation = "1.9.0"
 reckon = "2.0.0"
 slf4j = "2.0.18"
 spotless = "8.5.1"
