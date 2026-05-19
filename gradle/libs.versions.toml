@@ -7,7 +7,7 @@ kotest = { strictly = "[5.+, 6.0)" }
 kotest-html-reporter = { strictly = "[0.7.3, 0.8.0)" } # Version 0.8.0+ supports Kotest 6.0+
 kover = "0.9.4"
 kotlin-coroutines = "1.10.2"
-kotlin-datetime = "0.7.1-0.6.x-compat"
+kotlinx-datetime = "0.8.0-0.6.x-compat" # Use this version while still using KotlinX library
 kotlin-serialisation = "1.9.0"
 reckon = "1.0.1"
 slf4j = "2.0.17"
@@ -25,7 +25,7 @@ kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest"
 kotest-xml = { module = "io.kotest:kotest-extensions-junitxml-jvm", version.ref = "kotest" }
 kotlin-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu" }
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
-kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-datetime" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlin-serialisation-hocon = { module = "org.jetbrains.kotlinx:kotlinx-serialization-hocon", version.ref = "kotlin-serialisation" }
 kotlin-serialisation-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialisation" }
 slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
